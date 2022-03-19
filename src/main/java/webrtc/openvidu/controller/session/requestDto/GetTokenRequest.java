@@ -1,4 +1,4 @@
-package webrtc.openvidu.controller.requestDto;
+package webrtc.openvidu.controller.session.requestDto;
 
 import lombok.Getter;
 

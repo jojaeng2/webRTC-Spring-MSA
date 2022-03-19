@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b1ad2f7-90b4-4a64-b3bb-87158aa88611" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/SessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/SessionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/responseDto/GetTokenResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/responseDto/GetTokenResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/openvidu.iml" beforeDir="false" afterPath="$PROJECT_DIR$/openvidu.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/SessionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/session/SessionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/requestDto/GetTokenRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/session/requestDto/GetTokenRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/responseDto/GetTokenResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/session/responseDto/GetTokenResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,7 +36,9 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="26Y8u1ODI4pQzQ90PiPl2RFNFG7" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -45,6 +58,18 @@
       <updated>1647589381284</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

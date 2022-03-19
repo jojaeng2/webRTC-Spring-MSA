@@ -1,7 +1,6 @@
-package webrtc.openvidu.controller;
+package webrtc.openvidu.controller.session;
 
 import io.openvidu.java.client.*;
-import lombok.Data;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,8 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import webrtc.openvidu.controller.requestDto.GetTokenRequest;
-import webrtc.openvidu.controller.responseDto.GetTokenResponse;
+import webrtc.openvidu.controller.session.responseDto.GetTokenResponse;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
