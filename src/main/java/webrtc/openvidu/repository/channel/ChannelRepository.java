@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
+import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.channel.Channel;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
@@ -76,6 +77,11 @@ public class ChannelRepository {
      */
     public Channel updateChannel(Channel channel) {
         opsHashChannel.put(TOPIC, channel.getId(), channel);
+        return channel;
+    }
+
+    public Channel enterChannel(Channel channel, User user) {
+        channel.enterUser(user);
         return channel;
     }
 

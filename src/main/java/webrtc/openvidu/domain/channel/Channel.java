@@ -16,6 +16,7 @@ public class Channel implements Serializable {
     private Long channelNum;
     private String channelName;
     private Long limitParticipants;
+    private Long  currentParticipants;
     private Map<Long, User> users = new HashMap<>();
 
     public Channel(String channelName, Long limitParticipants, Long channelNum) {
@@ -23,5 +24,10 @@ public class Channel implements Serializable {
         this.channelNum = channelNum;
         this.channelName = channelName;
         this.limitParticipants = limitParticipants;
+        this.currentParticipants = 1L;
+    }
+
+    public void enterUser(User user) {
+        this.users.put(user.getUserId(), user);
     }
 }

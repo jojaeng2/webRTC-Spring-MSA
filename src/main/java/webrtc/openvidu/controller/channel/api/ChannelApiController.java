@@ -5,13 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.openvidu.domain.channel.Channel;
-import webrtc.openvidu.domain.channel.dto.CreateChannelRequest;
-import webrtc.openvidu.domain.channel.dto.CreateChannelResponse;
-import webrtc.openvidu.domain.channel.dto.EnterChannelRequest;
-import webrtc.openvidu.domain.channel.dto.FindAllChannelResponse;
+import webrtc.openvidu.domain.channel.dto.*;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.List;
+
+import static webrtc.openvidu.domain.channel.dto.EnterChannelResponse.ResponseType.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,10 +39,22 @@ public class ChannelApiController {
         return channel;
     }
 
-//    @PostMapping("/channel/enter/{id}")
-//    public ResponseEntity<> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
-//
-//    }
+    @PostMapping("/channel/enter/{id}")
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
+        int result = channelService.enterChannel(channelId, request.getUserId());
+
+        switch (result) {
+            case 0 :
+                EnterChannelResponse failResponse = new EnterChannelResponse(ENTERFAIL, "인원이 가득찼습니다.");
+                return new ResponseEntity<>(failResponse, HttpStatus.OK);
+            case 1 :
+                EnterChannelResponse successResponse = new EnterChannelResponse(ENTERSUCCESS, "채널 입장에 성공했습니다.");
+                return new ResponseEntity<>(successResponse, HttpStatus.OK);
+        }
+        EnterChannelResponse serverErrorResponse = new EnterChannelResponse(SERVERERROR, "Server ");
+        return new ResponseEntity<>(serverErrorResponse, HttpStatus.OK);
+    }
+
 
 
 }
