@@ -90,7 +90,7 @@ public class ChannelRepository {
      * 특정 채널을 ID로 찾기
      *
      */
-    public Channel findChannelOneById(String id) {
+    public Channel findOneChannelById(String id) {
         return opsHashChannel.get(TOPIC, id);
     }
 

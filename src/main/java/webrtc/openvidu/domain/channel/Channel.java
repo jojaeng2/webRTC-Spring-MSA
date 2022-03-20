@@ -18,10 +18,10 @@ public class Channel implements Serializable {
     private Long limitParticipants;
     private Map<Long, User> users = new HashMap<>();
 
-    public static Channel create(String channelName) {
-        Channel channel = new Channel();
-        channel.channelName = channelName;
-        channel.id = UUID.randomUUID().toString();
-        return channel;
+    public Channel(String channelName, Long limitParticipants, Long channelNum) {
+        this.id = UUID.randomUUID().toString();
+        this.channelNum = channelNum;
+        this.channelName = channelName;
+        this.limitParticipants = limitParticipants;
     }
 }
