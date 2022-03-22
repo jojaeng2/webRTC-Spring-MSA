@@ -27,7 +27,13 @@ public class Channel implements Serializable {
         this.currentParticipants = 1L;
     }
 
-    public void enterUser(User user) {
+    public void addUser(User user) {
         this.users.put(user.getUserId(), user);
     }
+
+    public void delUser(User user) {
+        this.users.remove(user.getUserId());
+    }
+
+
 }

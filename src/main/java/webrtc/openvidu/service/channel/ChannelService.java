@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.channel.Channel;
-import webrtc.openvidu.domain.channel.dto.CreateChannelRequest;
+import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.repository.channel.ChannelRepository;
 
 import java.util.List;
@@ -44,8 +44,10 @@ public class ChannelService {
             return 0;
         }
         else {
+            // User 정보 찾아와야함.
             User user = new User();
             channelRepository.enterChannel(channel, user);
+            channelRepository.updateChannel(channel);
             return 1;
         }
     }
@@ -54,11 +56,20 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
+    public void leaveChannel(String channelId, Long userId) {
+        Channel channel = channelRepository.findOneChannelById(channelId);
+        // userRepository 만들면 변경할것
+        User user = new User();
+        channelRepository.leaveChannel(channel, user);
+    }
 
     /*
      * 비즈니스 로직 - 채널 삭제
      *
      */
+    public void deleteChannel() {
+
+    }
 
     /*
      * 비즈니스 로직 - 채널 업데이트

@@ -1,4 +1,4 @@
-package webrtc.openvidu.domain.chat.dto;
+package webrtc.openvidu.dto.chat;
 
 import lombok.Getter;
 

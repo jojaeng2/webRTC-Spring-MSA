@@ -80,8 +80,19 @@ public class ChannelRepository {
         return channel;
     }
 
+    /*
+    * 유저 채널 입장
+    */
     public Channel enterChannel(Channel channel, User user) {
-        channel.enterUser(user);
+        channel.addUser(user);
+        return channel;
+    }
+
+    /**
+     * 유저 채널 퇴장
+     */
+    public Channel leaveChannel(Channel channel, User user) {
+        channel.delUser(user);
         return channel;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
-import webrtc.openvidu.domain.chat.dto.ServerMessage;
+import webrtc.openvidu.dto.chat.ServerMessage;
 
 @RequiredArgsConstructor
 @Service

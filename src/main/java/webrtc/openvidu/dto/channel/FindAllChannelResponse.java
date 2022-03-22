@@ -1,4 +1,4 @@
-package webrtc.openvidu.domain.channel.dto;
+package webrtc.openvidu.dto.channel;
 
 import lombok.Getter;
 import webrtc.openvidu.domain.channel.Channel;
