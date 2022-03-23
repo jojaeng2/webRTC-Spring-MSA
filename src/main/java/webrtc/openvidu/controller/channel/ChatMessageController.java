@@ -4,15 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import webrtc.openvidu.domain.channel.Channel;
-import webrtc.openvidu.dto.channel.EnterChannelResponse;
 import webrtc.openvidu.dto.channel.LeaveChannelResponse;
 import webrtc.openvidu.dto.chat.ClientMessage;
 import webrtc.openvidu.dto.chat.ClientMessageType;
+import webrtc.openvidu.dto.chat.ServerMessage;
+import webrtc.openvidu.enums.SocketServerMessageType;
 import webrtc.openvidu.repository.channel.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.pubsub.RedisPublisher;
 
-import static webrtc.openvidu.dto.channel.EnterChannelResponse.ResponseType.*;
+import static webrtc.openvidu.enums.SocketServerMessageType.RENEWAL;
+
 
 @RequiredArgsConstructor
 @Controller
@@ -22,6 +24,9 @@ public class ChatMessageController {
     private final RedisPublisher redisPublisher;
     private final ChannelRepository channelRepository;
 
+    /**
+     * /pub/chat/room 으로 오는 메시지 반환
+     */
     @MessageMapping("/chat/room")
     public void message(ClientMessage message) {
         ClientMessageType clientMessageType = message.getType();
@@ -29,23 +34,13 @@ public class ChatMessageController {
         Long userId = message.getUserId();
         switch(clientMessageType) {
             case ENTER:
-                int result = channelService.enterChannel(channelId, userId);
                 Channel enterChannel = channelService.findOneChannelById(channelId);
-
-                switch (result) {
-                    case 0 :
-                        EnterChannelResponse failResponse = new EnterChannelResponse(ENTERFAIL, "인원이 가득찼습니다.", enterChannel);
-                        redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), failResponse);
-                    case 1 :
-                        EnterChannelResponse successResponse = new EnterChannelResponse(ENTERSUCCESS, "채널 입장에 성공했습니다.", enterChannel);
-                        redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), successResponse);
-                    default:
-                        EnterChannelResponse serverErrorResponse = new EnterChannelResponse(SERVERERROR, "Server ERROR 500", enterChannel);
-                        redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), serverErrorResponse);
-                 }
+                ServerMessage enterServerMessage = new ServerMessage(RENEWAL, channelId, enterChannel.getUsers());
+                redisPublisher.publish(channelRepository.getTopic(channelId), enterServerMessage);
             case LEAVE:
                 Channel leaveChannel = channelService.leaveChannel(channelId, userId);
-                LeaveChannelResponse leaveChannelResponse = new LeaveChannelResponse();
+                ServerMessage leaveServerMessage = new ServerMessage(RENEWAL, channelId, leaveChannel.getUsers());
+                redisPublisher.publish(channelRepository.getTopic(channelId), leaveServerMessage);
         }
     }
 }

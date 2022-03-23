@@ -1,22 +1,16 @@
 package webrtc.openvidu.dto.channel;
 
 import lombok.Getter;
-import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.enums.HttpReturnType;
 
 @Getter
 public class EnterChannelResponse {
 
-    public enum ResponseType {
-        ENTERFAIL, ENTERSUCCESS, SERVERERROR
-    };
-
-    private ResponseType type;
+    private HttpReturnType type;
     private String message;
-    private Channel channel;
 
-    public EnterChannelResponse(ResponseType type, String message, Channel channel) {
+    public EnterChannelResponse(HttpReturnType type, String message) {
         this.type = type;
         this.message = message;
-        this.channel = channel;
     }
 }

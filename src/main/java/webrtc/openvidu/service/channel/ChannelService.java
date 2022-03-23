@@ -5,9 +5,13 @@ import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.channel.Channel;
 import webrtc.openvidu.dto.channel.CreateChannelRequest;
+import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.repository.channel.ChannelRepository;
 
 import java.util.List;
+
+import static webrtc.openvidu.enums.ChannelServiceReturnType.FULLCHANNEL;
+import static webrtc.openvidu.enums.ChannelServiceReturnType.SUCCESS;
 
 @RequiredArgsConstructor
 @Service
@@ -36,19 +40,19 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 입장
      *
      */
-    public int enterChannel(String channelId, Long userId) {
+    public ChannelServiceReturnType enterChannel(String channelId, Long userId) {
         Channel channel = channelRepository.findOneChannelById(channelId);
         Long limitParticipants = channel.getLimitParticipants();
         Long currentParticipants = channel.getCurrentParticipants();
         if(limitParticipants.equals(currentParticipants)) {
-            return 0;
+            return FULLCHANNEL;
         }
         else {
             // User 정보 찾아와야함.
             User user = new User();
             channelRepository.enterChannel(channel, user);
             channelRepository.updateChannel(channel);
-            return 1;
+            return SUCCESS;
         }
     }
 
@@ -61,8 +65,7 @@ public class ChannelService {
         // userRepository 만들면 변경할것
         User user = new User();
         channelRepository.leaveChannel(channel, user);
-        Channel updateChannel = channelRepository.updateChannel(channel);
-        return updateChannel;
+        return channelRepository.updateChannel(channel);
     }
 
     /*

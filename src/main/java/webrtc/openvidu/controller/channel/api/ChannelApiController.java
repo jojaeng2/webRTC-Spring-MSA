@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.openvidu.domain.channel.Channel;
 import webrtc.openvidu.dto.channel.*;
+import webrtc.openvidu.enums.ChannelServiceReturnType;
+import webrtc.openvidu.enums.HttpReturnType;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.List;
@@ -34,8 +36,21 @@ public class ChannelApiController {
 
     @GetMapping("/channel/{id}")
     public Channel findOneChannel(@PathVariable("id") String channelId) {
-        Channel channel = channelService.findOneChannelById(channelId);
-        return channel;
+        return channelService.findOneChannelById(channelId);
+    }
+
+    @PostMapping("/channel/enter/{id}")
+    public EnterChannelResponse enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
+        Long userId = request.getUserId();
+        ChannelServiceReturnType result = channelService.enterChannel(channelId, userId);
+        switch (result) {
+            case SUCCESS:
+                return new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다.");
+            case FULLCHANNEL:
+                return new EnterChannelResponse(HttpReturnType.FAIL, "채널 입장에 성공했습니다.");
+            default:
+                return new EnterChannelResponse(HttpReturnType.SERVERERROR, "채널 입장에 성공했습니다.");
+        }
     }
 
 }
