@@ -56,11 +56,13 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public void leaveChannel(String channelId, Long userId) {
+    public Channel leaveChannel(String channelId, Long userId) {
         Channel channel = channelRepository.findOneChannelById(channelId);
         // userRepository 만들면 변경할것
         User user = new User();
         channelRepository.leaveChannel(channel, user);
+        Channel updateChannel = channelRepository.updateChannel(channel);
+        return updateChannel;
     }
 
     /*

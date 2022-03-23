@@ -1,5 +1,10 @@
 package webrtc.openvidu.dto.channel;
 
-public class LeaveChannelResponse {
+import lombok.Getter;
 
+@Getter
+public class LeaveChannelResponse {
+    public enum ResponseType {
+
+    }
 }

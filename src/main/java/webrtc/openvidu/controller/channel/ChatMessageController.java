@@ -1,13 +1,11 @@
 package webrtc.openvidu.controller.channel;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import webrtc.openvidu.domain.channel.Channel;
 import webrtc.openvidu.dto.channel.EnterChannelResponse;
+import webrtc.openvidu.dto.channel.LeaveChannelResponse;
 import webrtc.openvidu.dto.chat.ClientMessage;
 import webrtc.openvidu.dto.chat.ClientMessageType;
 import webrtc.openvidu.repository.channel.ChannelRepository;
@@ -32,20 +30,22 @@ public class ChatMessageController {
         switch(clientMessageType) {
             case ENTER:
                 int result = channelService.enterChannel(channelId, userId);
-                Channel channel = channelService.findOneChannelById(channelId);
+                Channel enterChannel = channelService.findOneChannelById(channelId);
+
                 switch (result) {
                     case 0 :
-                        EnterChannelResponse failResponse = new EnterChannelResponse(ENTERFAIL, "인원이 가득찼습니다.", channel);
+                        EnterChannelResponse failResponse = new EnterChannelResponse(ENTERFAIL, "인원이 가득찼습니다.", enterChannel);
                         redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), failResponse);
                     case 1 :
-                        EnterChannelResponse successResponse = new EnterChannelResponse(ENTERSUCCESS, "채널 입장에 성공했습니다.", channel);
+                        EnterChannelResponse successResponse = new EnterChannelResponse(ENTERSUCCESS, "채널 입장에 성공했습니다.", enterChannel);
                         redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), successResponse);
                     default:
-                        EnterChannelResponse serverErrorResponse = new EnterChannelResponse(SERVERERROR, "Server ERROR 500", channel);
+                        EnterChannelResponse serverErrorResponse = new EnterChannelResponse(SERVERERROR, "Server ERROR 500", enterChannel);
                         redisPublisher.publishEnterChannelResponse(channelRepository.getTopic(channelId), serverErrorResponse);
                  }
             case LEAVE:
-                channelService.leaveChannel(channelId, userId);
+                Channel leaveChannel = channelService.leaveChannel(channelId, userId);
+                LeaveChannelResponse leaveChannelResponse = new LeaveChannelResponse();
         }
     }
 }

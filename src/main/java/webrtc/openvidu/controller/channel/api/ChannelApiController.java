@@ -38,12 +38,4 @@ public class ChannelApiController {
         return channel;
     }
 
-    @PostMapping("/channel/leave/{id}")
-    public ResponseEntity<LeaveChannelResponse> leaveChannel(@PathVariable("id") String channelId, @RequestBody LeaveChannelRequest request) {
-
-        channelService.leaveChannel(channelId, request.getUserId());
-        LeaveChannelResponse response = new LeaveChannelResponse();
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
 }
