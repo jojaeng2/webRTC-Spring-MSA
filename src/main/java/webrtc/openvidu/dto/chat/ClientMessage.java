@@ -8,4 +8,5 @@ public class ClientMessage {
     private String channelId;
     private Long userId;
     private Long userName;
+    private String message;
 }

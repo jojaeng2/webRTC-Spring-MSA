@@ -10,11 +10,13 @@ import java.util.Map;
 @Getter
 public class ServerMessage extends PublishMessage{
     private String channelId;
+    private String message;
     private Map<Long, User> users = new HashMap<>();
 
-    public ServerMessage(SocketServerMessageType type, String channelId, Map<Long, User> users) {
+    public ServerMessage(SocketServerMessageType type, String channelId, String message, Map<Long, User> users) {
         super(type);
         this.channelId = channelId;
+        this.message = message;
         this.users = users;
     }
 }

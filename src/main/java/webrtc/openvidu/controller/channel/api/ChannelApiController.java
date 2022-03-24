@@ -49,7 +49,7 @@ public class ChannelApiController {
             case FULLCHANNEL:
                 return new EnterChannelResponse(HttpReturnType.FAIL, "채널 입장에 성공했습니다.");
             default:
-                return new EnterChannelResponse(HttpReturnType.SERVERERROR, "채널 입장에 성공했습니다.");
+                return new EnterChannelResponse(HttpReturnType.SERVERERROR, "Server Error 500");
         }
     }
 
