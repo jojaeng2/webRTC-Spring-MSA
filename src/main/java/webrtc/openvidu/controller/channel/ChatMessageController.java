@@ -45,6 +45,7 @@ public class ChatMessageController {
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);
                 ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, "userName", clientChatMessage);
+                redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
         }
     }
 }
