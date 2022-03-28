@@ -24,15 +24,16 @@ public class ChannelApiController {
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request) {
         Channel channel = channelService.createChannel(request);
         CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants());
+        System.out.println("channel.getId() = " + channel.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/channels")
-    public ResponseEntity<FindAllChannelResponse> findAllChannel() {
-        List<Channel> channels = channelService.findAllChannel();
-        FindAllChannelResponse response = new FindAllChannelResponse(channels);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @GetMapping("/channels")
+//    public ResponseEntity<FindAllChannelResponse> findAllChannel() {
+//        List<Channel> channels = channelService.findAllChannel();
+//        FindAllChannelResponse response = new FindAllChannelResponse(channels);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
     @GetMapping("/channel/{id}")
     public Channel findOneChannel(@PathVariable("id") String channelId) {

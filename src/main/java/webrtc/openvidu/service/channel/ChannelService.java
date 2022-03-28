@@ -51,7 +51,7 @@ public class ChannelService {
             // User 정보 찾아와야함.
             User user = new User();
             channelRepository.enterChannel(channel, user);
-            channelRepository.updateChannel(channel);
+//            channelRepository.updateChannel(channel);
             return SUCCESS;
         }
     }
@@ -60,13 +60,13 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public Channel leaveChannel(String channelId, Long userId) {
-        Channel channel = channelRepository.findOneChannelById(channelId);
-        // userRepository 만들면 변경할것
-        User user = new User();
-        channelRepository.leaveChannel(channel, user);
-        return channelRepository.updateChannel(channel);
-    }
+//    public Channel leaveChannel(String channelId, Long userId) {
+//        Channel channel = channelRepository.findOneChannelById(channelId);
+//        // userRepository 만들면 변경할것
+//        User user = new User();
+//        channelRepository.leaveChannel(channel, user);
+//        return channelRepository.updateChannel(channel);
+//    }
 
     /*
      * 비즈니스 로직 - 채널 삭제
@@ -81,23 +81,24 @@ public class ChannelService {
      *
      * 채널 인원 추가, 인원 삭제, 남은 시간 등 업데이트
      */
-    public void updateChannel(Channel channel) {
-        channelRepository.updateChannel(channel);
-    }
+//    public void updateChannel(Channel channel) {
+//        channelRepository.updateChannel(channel);
+//    }
 
     /*
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
-    public List<Channel> findAllChannel() {
-        return channelRepository.findAllChannel();
-    }
+//    public List<Channel> findAllChannel() {
+//        return channelRepository.findAllChannel();
+//    }
 
     /*
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
         Channel findChannel = channelRepository.findOneChannelById(channelId);
+        System.out.println("findChannel = " + findChannel.getId());
         return findChannel;
     }
 
