@@ -10,6 +10,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,7 @@ public class ChannelRepository {
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
 
+
     /*
      * 채널에 메시지를 발행하기 위한 redis topic 정보
      * 서버별로 topic에 매치되는 topic 정보를 Map에 넣어 관리
@@ -54,9 +56,13 @@ public class ChannelRepository {
      * 서버간 채널 공유를 위해 redis hash에 채널 저장
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
-    public Channel createChannel(Channel channel) {
+    public Channel createChannel(CreateChannelRequest request) {
+        String channelName = request.getChannelName();
+        Long limitParticipants = request.getLimitParticipants();
+        Channel channel = new Channel(channelName, limitParticipants);
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
+
         ChannelTopic topic = topics.get(channel.getId());
         if(topic == null) {
             topic = new ChannelTopic(channel.getId());
@@ -118,6 +124,13 @@ public class ChannelRepository {
      */
     public Channel findOneChannelById(String id) {
         return (Channel) opsValueOperation.get(id);
+    }
+
+    /*
+     * 특정 채널의 TTL 반환
+     */
+    public Long findChannelExpired(String channelId) {
+        return redisTemplate.getExpire(channelId);
     }
 
     /*

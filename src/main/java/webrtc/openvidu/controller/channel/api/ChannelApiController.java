@@ -25,8 +25,8 @@ public class ChannelApiController {
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request) {
         Channel channel = channelService.createChannel(request);
-        CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants());
-        System.out.println("channel.getId() = " + channel.getId());
+        System.out.println("channel = " + channel.getId());
+        CreateChannelResponse response = new CreateChannelResponse(HttpReturnType.SUCCESS, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -38,8 +38,11 @@ public class ChannelApiController {
 //    }
 
     @GetMapping("/channel/{id}")
-    public Channel findOneChannel(@PathVariable("id") String channelId) {
-        return channelService.findOneChannelById(channelId);
+    public ResponseEntity<FindOneChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
+
+        Channel channel = channelService.findOneChannelById(channelId);
+        FindOneChannelResponse response = new FindOneChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+        return new ResponseEntity<>(response, OK);
     }
 
     @PostMapping("/channel/enter/{id}")

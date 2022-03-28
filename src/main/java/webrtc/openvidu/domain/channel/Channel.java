@@ -13,18 +13,19 @@ public class Channel implements Serializable {
 
     private static final Long serialVersionUID = 1L;
     private String id;
-    private Long channelNum;
     private String channelName;
     private Long limitParticipants;
-    private Long  currentParticipants;
-    private Map<Long, User> users = new HashMap<>();
+    private Long currentParticipants;
+    private Long timeToLive;
+    private Map<Long, User> users;
 
-    public Channel(String channelName, Long limitParticipants, Long channelNum) {
+    public Channel(String channelName, Long limitParticipants) {
         this.id = UUID.randomUUID().toString();
-        this.channelNum = channelNum;
         this.channelName = channelName;
         this.limitParticipants = limitParticipants;
         this.currentParticipants = 1L;
+        this.timeToLive = 24*60*60L;
+        this.users = new HashMap<>();
     }
 
     public void addUser(User user) {
@@ -35,5 +36,8 @@ public class Channel implements Serializable {
         this.users.remove(user.getUserId());
     }
 
+    public void setTimeToLive(Long timeToLive) {
+        this.timeToLive = timeToLive;
+    }
 
 }

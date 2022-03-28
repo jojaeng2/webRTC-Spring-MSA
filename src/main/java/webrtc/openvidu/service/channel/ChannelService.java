@@ -18,7 +18,6 @@ import static webrtc.openvidu.enums.ChannelServiceReturnType.SUCCESS;
 public class ChannelService {
 
     private final ChannelRepository channelRepository;
-    private Long channelNum = 1L;
     private final Long limitParticipants = 15L;
 
     /**
@@ -29,11 +28,7 @@ public class ChannelService {
      * @return Channel
      */
     public Channel createChannel(CreateChannelRequest request) {
-        String channelName = request.getChannelName();
-        Long limitParticipants = request.getLimitParticipants();
-        Channel channel = new Channel(channelName, limitParticipants, channelNum++);
-        channelRepository.createChannel(channel);
-        return channel;
+        return channelRepository.createChannel(request);
     }
 
     /*
@@ -98,7 +93,8 @@ public class ChannelService {
      */
     public Channel findOneChannelById(String channelId) {
         Channel findChannel = channelRepository.findOneChannelById(channelId);
-        System.out.println("findChannel = " + findChannel.getId());
+        Long timeToLive = channelRepository.findChannelExpired(channelId);
+        findChannel.setTimeToLive(timeToLive);
         return findChannel;
     }
 
