@@ -38,14 +38,17 @@ public class ChatMessageController {
                 Channel enterChannel = channelService.findOneChannelById(channelId);
                 ServerMessage enterServerMessage = new ServerMessage(RENEWAL, "입장",channelId, enterChannel.getUsers());
                 redisPublisher.publish(channelRepository.getTopic(channelId), enterServerMessage);
+                break;
             case LEAVE:
                 Channel leaveChannel = channelService.leaveChannel(channelId, userId);
                 ServerMessage leaveServerMessage = new ServerMessage(RENEWAL, "퇴장", channelId, leaveChannel.getUsers());
                 redisPublisher.publish(channelRepository.getTopic(channelId), leaveServerMessage);
+                break;
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);
                 ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, "userName", clientChatMessage);
                 redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
+                break;
         }
     }
 }

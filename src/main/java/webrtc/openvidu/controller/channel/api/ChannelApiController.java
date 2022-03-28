@@ -12,6 +12,8 @@ import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.OK;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -24,14 +26,14 @@ public class ChannelApiController {
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request) {
         Channel channel = channelService.createChannel(request);
         CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, OK);
     }
 
     @GetMapping("/channels")
     public ResponseEntity<FindAllChannelResponse> findAllChannel() {
         List<Channel> channels = channelService.findAllChannel();
         FindAllChannelResponse response = new FindAllChannelResponse(channels);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, OK);
     }
 
     @GetMapping("/channel/{id}")
@@ -47,7 +49,7 @@ public class ChannelApiController {
             case SUCCESS:
                 return new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다.");
             case FULLCHANNEL:
-                return new EnterChannelResponse(HttpReturnType.FAIL, "채널 입장에 성공했습니다.");
+                return new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다.");
             default:
                 return new EnterChannelResponse(HttpReturnType.SERVERERROR, "Server Error 500");
         }
