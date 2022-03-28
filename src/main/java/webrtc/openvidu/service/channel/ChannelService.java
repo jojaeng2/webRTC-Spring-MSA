@@ -84,16 +84,16 @@ public class ChannelService {
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
-//    public List<Channel> findAllChannel() {
-//        return channelRepository.findAllChannel();
-//    }
+    public List<Channel> findAllChannel() {
+        return channelRepository.findAllChannel();
+    }
 
     /*
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
         Channel findChannel = channelRepository.findOneChannelById(channelId);
-        Long timeToLive = channelRepository.findChannelExpired(channelId);
+        Long timeToLive = channelRepository.findChannelTTL(channelId);
         findChannel.setTimeToLive(timeToLive);
         return findChannel;
     }

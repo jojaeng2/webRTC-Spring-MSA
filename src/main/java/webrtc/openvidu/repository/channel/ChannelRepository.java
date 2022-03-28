@@ -14,10 +14,7 @@ import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -109,14 +106,15 @@ public class ChannelRepository {
     /*
      * 모든 채널 불러오기
      */
-//    public List<Channel> findAllChannel() {
-//        List<Channel> channels = new ArrayList<>();
-//        opsValueOperation.getOperations();
-//        for(String key: opsValueOperation.valu()) {
-//
-//        }
-//        return ;
-//    }
+    public List<Channel> findAllChannel() {
+        List<Channel> channels = new ArrayList<>();
+        Set<String> keys = redisTemplate.keys("*");
+        Iterator<String> iter = keys.iterator();
+        while(iter.hasNext()) {
+            channels.add((Channel) opsValueOperation.get(iter.next()));
+        }
+        return channels;
+    }
 
     /*
      * 특정 채널을 ID로 찾기
@@ -129,7 +127,7 @@ public class ChannelRepository {
     /*
      * 특정 채널의 TTL 반환
      */
-    public Long findChannelExpired(String channelId) {
+    public Long findChannelTTL(String channelId) {
         return redisTemplate.getExpire(channelId);
     }
 

@@ -30,12 +30,12 @@ public class ChannelApiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/channels")
-//    public ResponseEntity<FindAllChannelResponse> findAllChannel() {
-//        List<Channel> channels = channelService.findAllChannel();
-//        FindAllChannelResponse response = new FindAllChannelResponse(channels);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @GetMapping("/channels")
+    public ResponseEntity<FindAllChannelResponse> findAllChannel() {
+        List<Channel> channels = channelService.findAllChannel();
+        FindAllChannelResponse response = new FindAllChannelResponse(channels);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @GetMapping("/channel/{id}")
     public ResponseEntity<FindOneChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
