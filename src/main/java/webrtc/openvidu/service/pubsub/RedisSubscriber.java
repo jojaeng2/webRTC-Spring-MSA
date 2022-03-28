@@ -31,7 +31,7 @@ public class RedisSubscriber implements MessageListener {
 
             // ServerMessage 객체로 매핑
             ServerMessage serverMessage = objectMapper.readValue(publishMessage, ServerMessage.class);
-            messagingTemplate.convertAndSend("/sub/", serverMessage);
+            messagingTemplate.convertAndSend("/sub/chat/room", serverMessage);
         } catch (Exception e) {
             System.out.println("error in onMessage = " + e);
         }
