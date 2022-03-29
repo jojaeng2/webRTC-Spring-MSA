@@ -46,7 +46,7 @@ public class ChannelService {
             // User 정보 찾아와야함.
             User user = new User();
             channelRepository.enterChannel(channel, user);
-//            channelRepository.updateChannel(channel);
+            channelRepository.updateChannel(channel);
             return SUCCESS;
         }
     }

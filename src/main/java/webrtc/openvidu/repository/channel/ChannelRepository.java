@@ -82,10 +82,11 @@ public class ChannelRepository {
     /*
      * 채널 업데이트
      */
-//    public Channel updateChannel(Channel channel) {
-//        opsValueOperation.set(channel.getId(), channel, "timeout");
-//        return channel;
-//    }
+    public Channel updateChannel(Channel channel) {
+        String channelId = channel.getId();
+        opsValueOperation.set(channelId, channel, redisTemplate.getExpire(channelId));
+        return channel;
+    }
 
     /*
     * 유저 채널 입장
@@ -111,7 +112,10 @@ public class ChannelRepository {
         Set<String> keys = redisTemplate.keys("*");
         Iterator<String> iter = keys.iterator();
         while(iter.hasNext()) {
-            channels.add((Channel) opsValueOperation.get(iter.next()));
+            String channelId = iter.next();
+            Channel channel = (Channel) opsValueOperation.get(channelId);
+            channel.setTimeToLive(findChannelTTL(channelId));
+            channels.add(channel);
         }
         return channels;
     }
