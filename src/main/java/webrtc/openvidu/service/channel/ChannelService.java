@@ -2,10 +2,13 @@ package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import webrtc.openvidu.domain.ChannelHashTag;
+import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
+import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import static webrtc.openvidu.enums.ChannelServiceReturnType.SUCCESS;
 public class ChannelService {
 
     private final ChannelRepository channelRepository;
+    private final ChannelHashTagRepository channelHashTagRepository;
     private final Long limitParticipants = 15L;
 
     /**

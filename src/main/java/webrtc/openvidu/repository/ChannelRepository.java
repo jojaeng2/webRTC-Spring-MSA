@@ -6,6 +6,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
+import webrtc.openvidu.domain.ChannelHashTag;
+import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.channel.CreateChannelRequest;
@@ -23,6 +25,8 @@ public class ChannelRepository {
 
     @PersistenceContext
     private EntityManager em;
+
+    private final ChannelHashTagRepository channelHashTagRepository;
 
     // 채널(==topic)에 발행되는 메시지 처리
     private final RedisMessageListenerContainer redisMessageListenerContainer;
@@ -57,9 +61,23 @@ public class ChannelRepository {
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
     public Channel createChannel(CreateChannelRequest request) {
+        // 변수
         String channelName = request.getChannelName();
         Long limitParticipants = request.getLimitParticipants();
+
+        // 채널 생성
         Channel channel = new Channel(channelName, limitParticipants);
+        List<String> hashTags = request.getHashTags();
+        for(String tagName : hashTags) {
+            HashTag hashTag = new HashTag(tagName);
+            ChannelHashTag channelHashTag = new ChannelHashTag();
+            channelHashTag.CreateChannelHashTag(channel, hashTag);
+            hashTag.addChannelHashTag(channelHashTag);
+            channel.addChannelHashTag(channelHashTag);
+            channelHashTagRepository.save(channelHashTag);
+        }
+
+        // redis 설정
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
 
@@ -69,7 +87,6 @@ public class ChannelRepository {
             redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
             topics.put(channel.getId(), topic);
         }
-        em.persist(channel);
         return channel;
     }
 
@@ -121,7 +138,7 @@ public class ChannelRepository {
             String channelId = iter.next();
             Channel channel = (Channel) opsValueOperation.get(channelId);
             channel.setTimeToLive(findChannelTTL(channelId));
-                channels.add(channel);
+            channels.add(channel);
         }
         return channels;
     }

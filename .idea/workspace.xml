@@ -6,24 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/RedisConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/ChannelApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/ChannelApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/channel/Channel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/channel/FindAllChannelResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/channel/FindAllChannelResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/ChannelHashTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/ChannelHashTag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/HashTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/HashTag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/channel/CreateChannelRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/channel/CreateChannelRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelHashTagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelHashTagRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/pubsub/RedisPublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/pubsub/RedisPublisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/pubsub/RedisSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/pubsub/RedisSubscriber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/ChannelApiController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/ChannelApiController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/RedisConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/RedisConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/ChannelApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/ChannelApiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/channel/Channel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/channel/Channel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/channel/Channel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/channel/FindAllChannelResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/channel/FindAllChannelResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/user/UserRepository.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/pubsub/RedisSubscriber.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/pubsub/RedisSubscriber.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/pubsub/RedisPublisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/pubsub/RedisPublisher.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +103,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

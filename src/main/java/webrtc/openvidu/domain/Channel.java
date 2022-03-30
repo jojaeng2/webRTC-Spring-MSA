@@ -1,5 +1,6 @@
 package webrtc.openvidu.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import webrtc.openvidu.domain.User;
 
@@ -19,6 +20,7 @@ public class Channel implements Serializable {
     private Long timeToLive;
 //    private Map<Long, User> users;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<ChannelHashTag> channelHashTags = new ArrayList<ChannelHashTag>();
     private static final Long serialVersionUID = 1L;
@@ -44,4 +46,7 @@ public class Channel implements Serializable {
         this.timeToLive = timeToLive;
     }
 
+    public void addChannelHashTag(ChannelHashTag channelHashTag) {
+        this.channelHashTags.add(channelHashTag);
+    }
 }
