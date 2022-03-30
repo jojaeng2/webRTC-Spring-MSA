@@ -7,10 +7,12 @@ spring:
     username: ds4ouj
     password: hong971220!
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  #    generate-ddl: true
-  #    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   session:
     storage-type: redis
   redis:

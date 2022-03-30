@@ -3,12 +3,12 @@
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.messaging.handler.annotation.MessageMapping;
 //import org.springframework.stereotype.Controller;
-//import webrtc.openvidu.domain.channel.Channel;
+//import webrtc.openvidu.domain.Channel;
 //import webrtc.openvidu.dto.chat.ChatServerMessage;
 //import webrtc.openvidu.dto.chat.ClientMessage;
 //import webrtc.openvidu.dto.chat.ClientMessageType;
 //import webrtc.openvidu.dto.chat.ServerMessage;
-//import webrtc.openvidu.repository.channel.ChannelRepository;
+//import webrtc.openvidu.repository.ChannelRepository;
 //import webrtc.openvidu.service.channel.ChannelService;
 //import webrtc.openvidu.service.pubsub.RedisPublisher;
 //
@@ -38,14 +38,17 @@
 //                Channel enterChannel = channelService.findOneChannelById(channelId);
 //                ServerMessage enterServerMessage = new ServerMessage(RENEWAL, "입장",channelId, enterChannel.getUsers());
 //                redisPublisher.publish(channelRepository.getTopic(channelId), enterServerMessage);
+//                break;
 //            case LEAVE:
 //                Channel leaveChannel = channelService.leaveChannel(channelId, userId);
 //                ServerMessage leaveServerMessage = new ServerMessage(RENEWAL, "퇴장", channelId, leaveChannel.getUsers());
 //                redisPublisher.publish(channelRepository.getTopic(channelId), leaveServerMessage);
+//                break;
 //            case CHAT:
 //                Channel chatChannel = channelService.findOneChannelById(channelId);
 //                ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, "userName", clientChatMessage);
 //                redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
+//                break;
 //        }
 //    }
 //}

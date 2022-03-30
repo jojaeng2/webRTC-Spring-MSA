@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository.user;
+package webrtc.openvidu.repository;
 
 import lombok.Getter;
 import org.springframework.stereotype.Repository;

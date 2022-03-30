@@ -1,7 +1,7 @@
 package webrtc.openvidu.dto.channel;
 
 import lombok.Getter;
-import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.domain.Channel;
 
 import java.util.List;
 

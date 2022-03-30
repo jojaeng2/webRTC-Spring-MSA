@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.channel.*;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.enums.HttpReturnType;
@@ -39,7 +39,6 @@ public class ChannelApiController {
 
     @GetMapping("/channel/{id}")
     public ResponseEntity<FindOneChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
-
         Channel channel = channelService.findOneChannelById(channelId);
         FindOneChannelResponse response = new FindOneChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, OK);

@@ -1,25 +1,28 @@
-package webrtc.openvidu.repository.channel;
+package webrtc.openvidu.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Repository
 public class ChannelRepository {
+
+    @PersistenceContext
+    private EntityManager em;
 
     // 채널(==topic)에 발행되는 메시지 처리
     private final RedisMessageListenerContainer redisMessageListenerContainer;
@@ -66,6 +69,7 @@ public class ChannelRepository {
             redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
             topics.put(channel.getId(), topic);
         }
+        em.persist(channel);
         return channel;
     }
 
@@ -77,6 +81,7 @@ public class ChannelRepository {
         redisMessageListenerContainer.removeMessageListener(redisSubscriber, topic);
         topics.remove(channel.getId());
         opsValueOperation.getOperations().delete(channel.getId());
+        em.remove(channel);
     }
 
     /*
@@ -85,6 +90,7 @@ public class ChannelRepository {
     public Channel updateChannel(Channel channel) {
         String channelId = channel.getId();
         opsValueOperation.set(channelId, channel, redisTemplate.getExpire(channelId));
+        em.persist(channel);
         return channel;
     }
 
@@ -115,7 +121,7 @@ public class ChannelRepository {
             String channelId = iter.next();
             Channel channel = (Channel) opsValueOperation.get(channelId);
             channel.setTimeToLive(findChannelTTL(channelId));
-            channels.add(channel);
+                channels.add(channel);
         }
         return channels;
     }

@@ -3,10 +3,10 @@ package webrtc.openvidu.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.domain.channel.Channel;
+import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.channel.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
-import webrtc.openvidu.repository.channel.ChannelRepository;
+import webrtc.openvidu.repository.ChannelRepository;
 
 import java.util.List;
 
@@ -55,13 +55,13 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-//    public Channel leaveChannel(String channelId, Long userId) {
-//        Channel channel = channelRepository.findOneChannelById(channelId);
-//        // userRepository 만들면 변경할것
-//        User user = new User();
-//        channelRepository.leaveChannel(channel, user);
-//        return channelRepository.updateChannel(channel);
-//    }
+    public Channel leaveChannel(String channelId, Long userId) {
+        Channel channel = channelRepository.findOneChannelById(channelId);
+        // userRepository 만들면 변경할것
+        User user = new User();
+        channelRepository.leaveChannel(channel, user);
+        return channelRepository.updateChannel(channel);
+    }
 
     /*
      * 비즈니스 로직 - 채널 삭제
