@@ -6,6 +6,7 @@ import webrtc.openvidu.domain.HashTag;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class HashTagRepository {
@@ -20,5 +21,12 @@ public class HashTagRepository {
 
     public HashTag findOne(Long id) {
         return em.find(HashTag.class, id);
+    }
+
+    public List<HashTag> findOneByTagName(String tagName) {
+        return em.createQuery("select h from HashTag h where h.tagName = :tagName", HashTag.class)
+                .setParameter("tagName", tagName)
+                .getResultList();
+
     }
 }

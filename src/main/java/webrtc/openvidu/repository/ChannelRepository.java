@@ -27,6 +27,7 @@ public class ChannelRepository {
     private EntityManager em;
 
     private final ChannelHashTagRepository channelHashTagRepository;
+    private final HashTagRepository hashTagRepository;
 
     // 채널(==topic)에 발행되는 메시지 처리
     private final RedisMessageListenerContainer redisMessageListenerContainer;
@@ -69,7 +70,10 @@ public class ChannelRepository {
         Channel channel = new Channel(channelName, limitParticipants);
         List<String> hashTags = request.getHashTags();
         for(String tagName : hashTags) {
-            HashTag hashTag = new HashTag(tagName);
+            HashTag hashTag;
+            List<HashTag> tags = hashTagRepository.findOneByTagName(tagName);
+            if(tags.isEmpty()) hashTag = new HashTag(tagName);
+            else hashTag = tags.get(0);
             ChannelHashTag channelHashTag = new ChannelHashTag();
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
