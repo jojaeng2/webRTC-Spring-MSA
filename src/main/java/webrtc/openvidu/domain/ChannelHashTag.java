@@ -1,6 +1,7 @@
 package webrtc.openvidu.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 
@@ -22,7 +23,7 @@ public class ChannelHashTag implements Serializable {
     private Channel channel;
 
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
 

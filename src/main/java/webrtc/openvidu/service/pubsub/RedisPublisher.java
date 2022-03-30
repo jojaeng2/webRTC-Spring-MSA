@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
-import webrtc.openvidu.dto.chat.PublishMessage;
+import webrtc.openvidu.dto.ChatDto.PublishMessage;
 
 @RequiredArgsConstructor
 @Service

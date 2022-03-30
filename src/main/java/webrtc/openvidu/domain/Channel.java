@@ -2,7 +2,7 @@ package webrtc.openvidu.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
-import webrtc.openvidu.domain.User;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +10,7 @@ import java.util.*;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class Channel implements Serializable {
     @Id
     @Column(name = "channel_id")
@@ -24,6 +25,7 @@ public class Channel implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<ChannelHashTag> channelHashTags = new ArrayList<ChannelHashTag>();
     private static final Long serialVersionUID = 1L;
+
 
     public Channel(String channelName, Long limitParticipants) {
         this.id = UUID.randomUUID().toString();
@@ -49,4 +51,5 @@ public class Channel implements Serializable {
     public void addChannelHashTag(ChannelHashTag channelHashTag) {
         this.channelHashTags.add(channelHashTag);
     }
+
 }

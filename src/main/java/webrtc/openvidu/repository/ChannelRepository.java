@@ -10,7 +10,8 @@ import webrtc.openvidu.domain.ChannelHashTag;
 import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.channel.CreateChannelRequest;
+import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
 import javax.annotation.PostConstruct;
@@ -71,9 +72,9 @@ public class ChannelRepository {
         List<String> hashTags = request.getHashTags();
         for(String tagName : hashTags) {
             HashTag hashTag;
-            List<HashTag> tags = hashTagRepository.findOneByTagName(tagName);
-            if(tags.isEmpty()) hashTag = new HashTag(tagName);
-            else hashTag = tags.get(0);
+            HashTag tags = hashTagRepository.findHashTagByName(tagName);
+            if(tags == null) hashTag = new HashTag(tagName);
+            else hashTag = tags;
             ChannelHashTag channelHashTag = new ChannelHashTag();
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
@@ -153,6 +154,20 @@ public class ChannelRepository {
      */
     public Channel findOneChannelById(String id) {
         return (Channel) opsValueOperation.get(id);
+    }
+
+    /*
+     * 특정 채널을 hashName으로 찾기
+     *
+     */
+    public List<Channel> findOneChannelByHashName(String tagName) {
+        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
+        return em.createQuery(
+                "select c from Channel c " +
+                        "join c.channelHashTags " +
+                        "where hashtag_id = :hashtag_id", Channel.class)
+                .setParameter("hashtag_id", hashTag.getId())
+                .getResultList();
     }
 
     /*

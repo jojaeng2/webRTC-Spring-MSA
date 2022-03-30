@@ -1,4 +1,4 @@
-package webrtc.openvidu.dto.chat;
+package webrtc.openvidu.enums;
 
 public enum ClientMessageType {
     ENTER, LEAVE, CHAT

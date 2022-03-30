@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.channel.*;
+import webrtc.openvidu.dto.ChannelDto.*;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.enums.HttpReturnType;
 import webrtc.openvidu.service.channel.ChannelService;

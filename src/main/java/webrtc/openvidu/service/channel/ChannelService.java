@@ -2,11 +2,10 @@ package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import webrtc.openvidu.domain.ChannelHashTag;
-import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.channel.CreateChannelRequest;
+import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
@@ -102,4 +101,8 @@ public class ChannelService {
         return findChannel;
     }
 
+
+    public List<Channel> findChannelByHashName(String tagName) {
+        return channelRepository.findOneChannelByHashName(tagName);
+    }
 }
