@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.HashTagDto.HashTagResponse;
-import webrtc.openvidu.repository.HashTagRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/v1/webrtc")
 public class HashTagApiController {
 
-    private final HashTagRepository hashTagRepository;
     private final ChannelService channelService;
 
     @PostMapping("/hashtag/{tagName}")
