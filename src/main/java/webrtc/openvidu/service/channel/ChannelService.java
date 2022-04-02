@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
@@ -12,8 +11,7 @@ import webrtc.openvidu.repository.ChannelRepository;
 
 import java.util.List;
 
-import static webrtc.openvidu.enums.ChannelServiceReturnType.FULLCHANNEL;
-import static webrtc.openvidu.enums.ChannelServiceReturnType.SUCCESS;
+import static webrtc.openvidu.enums.ChannelServiceReturnType.*;
 
 @RequiredArgsConstructor
 @Service
@@ -42,7 +40,10 @@ public class ChannelService {
         Channel channel = channelRepository.findOneChannelById(channelId);
         Long limitParticipants = channel.getLimitParticipants();
         Long currentParticipants = channel.getCurrentParticipants();
-        if(limitParticipants.equals(currentParticipants)) {
+        if(channel.getUsers().get(userId) != null) {
+            return EXIST;
+        }
+        else if(limitParticipants.equals(currentParticipants)) {
             return FULLCHANNEL;
         }
         else {

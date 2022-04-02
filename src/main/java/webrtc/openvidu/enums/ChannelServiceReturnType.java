@@ -1,5 +1,5 @@
 package webrtc.openvidu.enums;
 
 public enum ChannelServiceReturnType {
-    SUCCESS, FULLCHANNEL
+    SUCCESS, FULLCHANNEL, EXIST
 }

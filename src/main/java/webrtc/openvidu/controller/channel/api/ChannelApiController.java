@@ -18,6 +18,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/webrtc")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChannelApiController {
 
     private final ChannelService channelService;
@@ -48,7 +49,9 @@ public class ChannelApiController {
     public EnterChannelResponse enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
         Long userId = request.getUserId();
         ChannelServiceReturnType result = channelService.enterChannel(channelId, userId);
+        System.out.println("result = " + result);
         switch (result) {
+            case EXIST:
             case SUCCESS:
                 return new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다.");
             case FULLCHANNEL:

@@ -19,7 +19,8 @@ public class Channel implements Serializable {
     private Long limitParticipants;
     private Long currentParticipants;
     private Long timeToLive;
-//    private Map<Long, User> users;
+    @Transient
+    private Map<Long, User> users;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
@@ -33,15 +34,15 @@ public class Channel implements Serializable {
         this.limitParticipants = limitParticipants;
         this.currentParticipants = 1L;
         this.timeToLive = 24*60*60L;
-//        this.users = new HashMap<>();
+        this.users = new HashMap<>();
     }
 
     public void addUser(User user) {
-//        this.users.put(user.getUserId(), user);
+        this.users.put(user.getUserId(), user);
     }
 
     public void delUser(User user) {
-//        this.users.remove(user.getUserId());
+        this.users.remove(user.getUserId());
     }
 
     public void setTimeToLive(Long timeToLive) {

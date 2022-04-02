@@ -10,7 +10,6 @@ import webrtc.openvidu.domain.ChannelHashTag;
 import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
@@ -112,7 +111,7 @@ public class ChannelRepository {
     public Channel updateChannel(Channel channel) {
         String channelId = channel.getId();
         opsValueOperation.set(channelId, channel, redisTemplate.getExpire(channelId));
-        em.persist(channel);
+//        em.persist(channel);
         return channel;
     }
 
