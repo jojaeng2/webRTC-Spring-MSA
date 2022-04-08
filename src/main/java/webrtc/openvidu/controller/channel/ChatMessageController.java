@@ -32,18 +32,7 @@ public class ChatMessageController {
         ClientMessageType clientMessageType = message.getType();
         String channelId = message.getChannelId();
         String clientChatMessage = message.getMessage();
-        Long userId = message.getUserId();
         switch(clientMessageType) {
-            case ENTER:
-                Channel enterChannel = channelService.findOneChannelById(channelId);
-                ServerMessage enterServerMessage = new ServerMessage(RENEWAL, "입장",channelId, enterChannel.getUsers());
-                redisPublisher.publish(channelRepository.getTopic(channelId), enterServerMessage);
-                break;
-            case LEAVE:
-                Channel leaveChannel = channelService.leaveChannel(channelId, userId);
-                ServerMessage leaveServerMessage = new ServerMessage(RENEWAL, "퇴장", channelId, leaveChannel.getUsers());
-                redisPublisher.publish(channelRepository.getTopic(channelId), leaveServerMessage);
-                break;
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);
                 ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, "userName", clientChatMessage);

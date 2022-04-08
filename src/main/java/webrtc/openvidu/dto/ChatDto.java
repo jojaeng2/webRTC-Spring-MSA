@@ -1,6 +1,7 @@
 package webrtc.openvidu.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
@@ -24,12 +25,19 @@ public class ChatDto {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ClientMessage {
         private ClientMessageType type;
         private String channelId;
-        private Long userId;
-        private Long userName;
+        private String senderName;
         private String message;
+
+        public ClientMessage(ClientMessageType type, String channelId, String senderName) {
+            this.type = type;
+            this.channelId = channelId;
+            this.senderName = senderName;
+            this.message = "";
+        }
     }
 
     @Getter
@@ -44,14 +52,41 @@ public class ChatDto {
     @Getter
     public static class ServerMessage extends PublishMessage {
         private String channelId;
+        private String senderName;
         private String message;
+        private Long userCount;
         private Map<Long, User> users = new HashMap<>();
 
-        public ServerMessage(SocketServerMessageType type, String channelId, String message, Map<Long, User> users) {
+        public void setSenderName(String senderName) {
+            this.senderName = senderName;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public ServerMessage(SocketServerMessageType type, String channelId, Long userCount) {
             super(type);
             this.channelId = channelId;
+            this.senderName = senderName;
             this.message = message;
+            this.userCount = userCount;
+        }
+
+        public ServerMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount, Map<Long, User> users) {
+            super(type);
+            this.channelId = channelId;
+            this.senderName = senderName;
+            this.message = message;
+            this.userCount = userCount;
             this.users = users;
+        }
+        public ServerMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
+            super(type);
+            this.channelId = channelId;
+            this.senderName = senderName;
+            this.message = message;
+            this.userCount = userCount;
         }
     }
 
