@@ -47,9 +47,8 @@ public class ChannelApiController {
 
     @PostMapping("/channel/enter/{id}")
     public EnterChannelResponse enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
-        Long userId = request.getUserId();
+        String userId = request.getUserId();
         ChannelServiceReturnType result = channelService.enterChannel(channelId, userId);
-        System.out.println("result = " + result);
         switch (result) {
             case EXIST:
             case SUCCESS:

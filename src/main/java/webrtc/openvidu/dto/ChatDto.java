@@ -65,21 +65,11 @@ public class ChatDto {
             this.message = message;
         }
 
-        public ServerMessage(SocketServerMessageType type, String channelId, Long userCount) {
+        public ServerMessage(SocketServerMessageType type, String message, String channelId, Long userCount) {
             super(type);
             this.channelId = channelId;
-            this.senderName = senderName;
             this.message = message;
             this.userCount = userCount;
-        }
-
-        public ServerMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount, Map<Long, User> users) {
-            super(type);
-            this.channelId = channelId;
-            this.senderName = senderName;
-            this.message = message;
-            this.userCount = userCount;
-            this.users = users;
         }
         public ServerMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
             super(type);

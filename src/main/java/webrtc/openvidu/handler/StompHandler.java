@@ -9,6 +9,8 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 import webrtc.openvidu.dto.ChatDto;
 import webrtc.openvidu.dto.ChatDto.ClientMessage;
+import webrtc.openvidu.repository.ChannelRepository;
+import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
 import webrtc.openvidu.service.jwt.JwtTokenProvider;
 
@@ -24,6 +26,8 @@ public class StompHandler implements ChannelInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ChatService chatService;
+    private final ChannelService channelService;
+    private final ChannelRepository channelRepository;
 
     // websocket을 통해 들어온 요청이 처리 되기전 실행
     @Override
@@ -33,18 +37,6 @@ public class StompHandler implements ChannelInterceptor {
             case CONNECT:
                 String jwtToken = accessor.getFirstNativeHeader("jwt");
                 jwtTokenProvider.validateToken(jwtToken);
-                break;
-            case SUBSCRIBE:
-                //Header에서 subscribe destination info를 얻고, roomId를 추출
-                String roomId = chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
-
-                // Client 입장 메시지를 채팅방에 발송한다. (redis publish)
-                String senderName = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknownUser");
-                ClientMessage clientMessage = new ClientMessage(ENTER, roomId, senderName);
-                chatService.sendChatMessage(clientMessage);
-                break;
-            case DISCONNECT:
-
                 break;
         }
         return message;

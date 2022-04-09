@@ -12,6 +12,10 @@ import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.pubsub.RedisPublisher;
 
+import java.security.Principal;
+import java.util.Optional;
+
+import static webrtc.openvidu.enums.ClientMessageType.ENTER;
 import static webrtc.openvidu.enums.SocketServerMessageType.CHAT;
 import static webrtc.openvidu.enums.SocketServerMessageType.RENEWAL;
 
@@ -32,11 +36,23 @@ public class ChatMessageController {
         ClientMessageType clientMessageType = message.getType();
         String channelId = message.getChannelId();
         String clientChatMessage = message.getMessage();
+        String senderName = message.getSenderName();
         switch(clientMessageType) {
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);
                 ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, "userName", clientChatMessage);
                 redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
+                break;
+            case ENTER:
+                Channel enterChannel = channelService.findOneChannelById(channelId);
+                channelService.enterChannel(channelId, senderName);
+                ServerMessage enterServerMessage = new ServerMessage(RENEWAL, senderName + "님이 입장했습니다.", channelId, enterChannel.getCurrentParticipants());
+                redisPublisher.publish(channelRepository.getTopic(channelId), enterServerMessage);
+                break;
+            case EXIT:
+                Channel leaveChannel = channelService.leaveChannel(channelId, senderName);
+                ServerMessage leaveServerMessage = new ServerMessage(RENEWAL, senderName + "님이 퇴장했습니다.", channelId, leaveChannel.getCurrentParticipants());
+                redisPublisher.publish(channelRepository.getTopic(channelId), leaveServerMessage);
                 break;
         }
     }

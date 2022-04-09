@@ -177,6 +177,21 @@ public class ChannelRepository {
     }
 
     /*
+     * 특정 채널의 현재 참가자 수 반환
+     */
+    public Long getCurrentParticipants(Channel channel) {
+        return channel.getCurrentParticipants();
+    }
+
+    /*
+     * 특정 채널의 현재 참가자 수 갱신
+     */
+    public Long updateCurrentParticipants(Channel channel) {
+        return channel.getCurrentParticipants();
+    }
+
+
+    /*
      * 특정 topic 찾기
      *
      */

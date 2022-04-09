@@ -36,7 +36,7 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 입장
      *
      */
-    public ChannelServiceReturnType enterChannel(String channelId, Long userId) {
+    public ChannelServiceReturnType enterChannel(String channelId, String userId) {
         Channel channel = channelRepository.findOneChannelById(channelId);
         Long limitParticipants = channel.getLimitParticipants();
         Long currentParticipants = channel.getCurrentParticipants();
@@ -59,7 +59,7 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public Channel leaveChannel(String channelId, Long userId) {
+    public Channel leaveChannel(String channelId, String userName) {
         Channel channel = channelRepository.findOneChannelById(channelId);
         // userRepository 만들면 변경할것
         User user = new User();

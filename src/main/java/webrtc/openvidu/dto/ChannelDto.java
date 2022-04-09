@@ -57,7 +57,7 @@ public class ChannelDto {
 
     @Getter
     public static class EnterChannelRequest {
-        private Long userId;
+        private String userId;
     }
 
     @Getter
