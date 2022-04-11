@@ -29,11 +29,7 @@ public class ChannelRepository {
     private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
 
-    // 채널(==topic)에 발행되는 메시지 처리
-    private final RedisMessageListenerContainer redisMessageListenerContainer;
 
-    // topic 구독 처리 서비스
-    private final RedisSubscriber redisSubscriber;
 
     // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
@@ -85,12 +81,7 @@ public class ChannelRepository {
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
 
-        ChannelTopic topic = topics.get(channel.getId());
-        if(topic == null) {
-            topic = new ChannelTopic(channel.getId());
-            redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-            topics.put(channel.getId(), topic);
-        }
+
         return channel;
     }
 
@@ -99,7 +90,6 @@ public class ChannelRepository {
      */
     public void deleteChannel(Channel channel) {
         ChannelTopic topic = topics.get(channel.getId());
-        redisMessageListenerContainer.removeMessageListener(redisSubscriber, topic);
         topics.remove(channel.getId());
         opsValueOperation.getOperations().delete(channel.getId());
         em.remove(channel);
@@ -141,7 +131,7 @@ public class ChannelRepository {
         while(iter.hasNext()) {
             String channelId = iter.next();
             Channel channel = (Channel) opsValueOperation.get(channelId);
-            channel.setTimeToLive(findChannelTTL(channelId));
+            System.out.println(channelId);
             channels.add(channel);
         }
         return channels;

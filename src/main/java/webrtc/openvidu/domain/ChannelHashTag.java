@@ -17,12 +17,11 @@ public class ChannelHashTag implements Serializable {
     @Column(name = "channel_hashtag_id")
     private Long id;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "channel_id")
     private Channel channel;
 
-    @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
@@ -32,3 +31,4 @@ public class ChannelHashTag implements Serializable {
         this.hashTag = hashTag;
     }
 }
+

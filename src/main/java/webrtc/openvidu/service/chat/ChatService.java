@@ -15,7 +15,6 @@ import static webrtc.openvidu.enums.SocketServerMessageType.*;
 @Service
 public class ChatService {
 
-    private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
     private final ChannelRepository channelRepository;
 

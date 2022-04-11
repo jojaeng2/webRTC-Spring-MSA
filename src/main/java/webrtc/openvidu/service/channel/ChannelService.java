@@ -40,7 +40,10 @@ public class ChannelService {
         Channel channel = channelRepository.findOneChannelById(channelId);
         Long limitParticipants = channel.getLimitParticipants();
         Long currentParticipants = channel.getCurrentParticipants();
-        if(channel.getUsers().get(userId) != null) {
+//        if(channel.getChannelUsers().get(userId) != null) {
+//            return EXIST;
+//        }
+        if(channel.getChannelUsers().get(123) != null) {
             return EXIST;
         }
         else if(limitParticipants.equals(currentParticipants)) {

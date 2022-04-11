@@ -28,9 +28,15 @@ public class RedisSubscriber implements MessageListener {
             //redis에서 발행된 데이터를 받아 deserialize
 
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-
+            System.out.println("subscriber");
+            System.out.println(message);
             // ServerMessage 객체로 매핑
             ServerMessage serverMessage = objectMapper.readValue(publishMessage, ServerMessage.class);
+            System.out.println(serverMessage);
+            System.out.println(serverMessage.getType());
+            System.out.println("serverMessage.getMessage() = " + serverMessage.getMessage());
+            System.out.println("serverMessage.getChannelId() = " + serverMessage.getChannelId());
+            System.out.println("serverMessage.getUsers().size() = " + serverMessage.getUsers().size());
             messagingTemplate.convertAndSend("/sub/chat/room" + serverMessage.getChannelId(), serverMessage);
         } catch (Exception e) {
             System.out.println("error in onMessage = " + e);

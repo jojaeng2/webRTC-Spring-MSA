@@ -46,13 +46,11 @@ public class ChannelDto {
     }
 
     @Getter
+    @AllArgsConstructor
     public static class FindAllChannelResponse {
 
         private List<Channel> channels;
 
-        public FindAllChannelResponse(List<Channel> channels) {
-            this.channels = channels;
-        }
     }
 
     @Getter
@@ -73,3 +71,4 @@ public class ChannelDto {
     }
 
 }
+

@@ -24,7 +24,6 @@ public class Channel implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<ChannelUser> channelUsers;
 
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<ChannelHashTag> channelHashTags = new ArrayList<ChannelHashTag>();
     private static final Long serialVersionUID = 1L;
@@ -36,15 +35,15 @@ public class Channel implements Serializable {
         this.limitParticipants = limitParticipants;
         this.currentParticipants = 1L;
         this.timeToLive = 24*60*60L;
-        this.users = new HashMap<>();
+        this.channelUsers = new ArrayList<>();
     }
 
     public void addUser(User user) {
-        this.users.put(user.getId(), user);
+//        this.channelUsers.add(user);
     }
 
     public void delUser(User user) {
-        this.users.remove(user.getId());
+//        this.users.remove(user.getUserId());
     }
 
     public void setTimeToLive(Long timeToLive) {

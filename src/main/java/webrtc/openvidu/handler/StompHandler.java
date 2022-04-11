@@ -32,6 +32,7 @@ public class StompHandler implements ChannelInterceptor {
     // websocket을 통해 들어온 요청이 처리 되기전 실행
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         switch (accessor.getCommand()) {
             case CONNECT:
