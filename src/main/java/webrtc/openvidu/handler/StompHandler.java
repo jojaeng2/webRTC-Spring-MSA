@@ -12,7 +12,6 @@ import webrtc.openvidu.dto.ChatDto.ClientMessage;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
-import webrtc.openvidu.service.jwt.JwtTokenProvider;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -24,7 +23,6 @@ import static webrtc.openvidu.enums.ClientMessageType.ENTER;
 @Component
 public class StompHandler implements ChannelInterceptor {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final ChatService chatService;
     private final ChannelService channelService;
     private final ChannelRepository channelRepository;
@@ -37,7 +35,7 @@ public class StompHandler implements ChannelInterceptor {
         switch (accessor.getCommand()) {
             case CONNECT:
                 String jwtToken = accessor.getFirstNativeHeader("jwt");
-                jwtTokenProvider.validateToken(jwtToken);
+//                jwtTokenProvider.validateToken(jwtToken);
                 break;
         }
         return message;
