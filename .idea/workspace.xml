@@ -6,16 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/jwt/JwtTokenProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/jwt/JwtAuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/jwt/JwtAuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/ChannelUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/ChannelUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/JwtDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/JwtDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/jwt/JwtUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/JwtRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/JwtRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/JwtTokenUtil.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/WebSockConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/WebSockConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/jwt/JwtTokenProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/RedisConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/RedisConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/ChannelUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/ChannelUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/User.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +107,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -6,10 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
-import webrtc.openvidu.domain.ChannelHashTag;
-import webrtc.openvidu.domain.HashTag;
-import webrtc.openvidu.domain.User;
-import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.*;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
@@ -109,7 +106,8 @@ public class ChannelRepository {
     * 유저 채널 입장
     */
     public Channel enterChannel(Channel channel, User user) {
-        channel.addUser(user);
+        ChannelUser channelUser = new ChannelUser(channel, user);
+        channel.addUser(channelUser);
         return channel;
     }
 
