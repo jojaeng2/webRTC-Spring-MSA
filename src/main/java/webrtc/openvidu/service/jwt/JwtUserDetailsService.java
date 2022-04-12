@@ -1,23 +1,30 @@
 package webrtc.openvidu.service.jwt;
 
-import org.springframework.security.core.userdetails.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import webrtc.openvidu.domain.User;
+import webrtc.openvidu.repository.UserRepository;
 
 import java.util.ArrayList;
 
+@RequiredArgsConstructor
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
+    private final UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("javainuse".equals(username)) {
-            return new User("javainuse", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
-                    new ArrayList<>());
-        } else {
+        User user = userRepository.findUserByName(username);
+        System.out.println("loadUserByUsername Success!!");
+
+        if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
+        } else {
+            return new org.springframework.security.core.userdetails.User(user.getNickname(), user.getPassword(), new ArrayList<>());
         }
     }
 }

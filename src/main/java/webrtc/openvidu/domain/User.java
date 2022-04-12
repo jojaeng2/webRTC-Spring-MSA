@@ -34,10 +34,11 @@ public class User implements Serializable {
     @JsonIgnore
     private List<ChannelUser> channelUsers;
 
-    public User(String password, String nickname) {
+    public User(String nickname, String password) {
         this.id = UUID.randomUUID().toString();
-        this.password = password;
+
         this.nickname = nickname;
+        this.password = password;
 
         // 임시
         this.created_at = null;
