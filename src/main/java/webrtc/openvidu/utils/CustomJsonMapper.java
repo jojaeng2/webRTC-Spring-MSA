@@ -12,7 +12,7 @@ public class CustomJsonMapper {
         try {
             obj = gson.fromJson(jsonStr, className);
         } catch (Exception e) {
-            throw new RuntimeException("JSON 형식이 잘못되었습니다.");
+            throw new RuntimeException("JSON 형식이 잘못 되었습니다. 필드명이 없거나 올바르지 않습니다.");
         }
         return obj;
     }
