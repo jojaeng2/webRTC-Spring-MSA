@@ -11,18 +11,7 @@ import java.util.Map;
 
 public class ChatDto {
 
-    @Getter
-    public static class ChatServerMessage extends PublishMessage {
 
-        private String userName;
-        private String chatMessage;
-
-        public ChatServerMessage(SocketServerMessageType type, String userName, String chatMessage) {
-            super(type);
-            this.userName = userName;
-            this.chatMessage = chatMessage;
-        }
-    }
 
     @Getter
     @NoArgsConstructor
@@ -41,17 +30,40 @@ public class ChatDto {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class PublishMessage {
         private SocketServerMessageType type;
+        private String channelId;
 
         public PublishMessage(SocketServerMessageType type) {
             this.type = type;
         }
+
+        public PublishMessage(String channelId) {
+            this.channelId = channelId;
+        }
+
+        public PublishMessage(SocketServerMessageType type, String channelId) {
+            this.type = type;
+            this.channelId = channelId;
+        }
     }
 
     @Getter
-    public static class ServerMessage extends PublishMessage {
-        private String channelId;
+    public static class ChatServerMessage extends PublishMessage {
+
+        private String userName;
+        private String chatMessage;
+
+        public ChatServerMessage(SocketServerMessageType type, String channelId, String userName, String chatMessage) {
+            super(type, channelId);
+            this.userName = userName;
+            this.chatMessage = chatMessage;
+        }
+    }
+
+    @Getter
+    public static class ServerNoticeMessage extends PublishMessage {
         private String senderName;
         private String message;
         private Long userCount;
@@ -65,15 +77,13 @@ public class ChatDto {
             this.message = message;
         }
 
-        public ServerMessage(SocketServerMessageType type, String message, String channelId, Long userCount) {
-            super(type);
-            this.channelId = channelId;
+        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String message, Long userCount) {
+            super(type, channelId);
             this.message = message;
             this.userCount = userCount;
         }
-        public ServerMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
-            super(type);
-            this.channelId = channelId;
+        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
+            super(type, channelId);
             this.senderName = senderName;
             this.message = message;
             this.userCount = userCount;

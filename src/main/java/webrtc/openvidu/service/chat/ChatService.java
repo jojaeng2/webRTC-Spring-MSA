@@ -5,8 +5,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.dto.ChatDto;
 import webrtc.openvidu.dto.ChatDto.ClientMessage;
-import webrtc.openvidu.dto.ChatDto.ServerMessage;
+import webrtc.openvidu.dto.ChatDto.ServerNoticeMessage;
 import webrtc.openvidu.repository.ChannelRepository;
 
 import static webrtc.openvidu.enums.SocketServerMessageType.*;
@@ -36,7 +37,7 @@ public class ChatService {
         String channelId = message.getChannelId();
         String senderName = message.getSenderName();
         Channel channel = channelRepository.findOneChannelById(channelId);
-        ServerMessage serverMessage = new ServerMessage(CHAT, channelId, message.getSenderName(), message.getMessage(), channel.getCurrentParticipants());
+        ServerNoticeMessage serverMessage = new ServerNoticeMessage(CHAT, channelId, message.getSenderName(), message.getMessage(), channel.getCurrentParticipants());
         switch (message.getType()) {
             case ENTER:
                 serverMessage.setSenderName("[알림] ");

@@ -15,8 +15,6 @@ import webrtc.openvidu.handler.StompHandler;
 @EnableWebSocketMessageBroker
 public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final StompHandler stompHandler;
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/sub");
@@ -27,10 +25,7 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-stomp").setAllowedOriginPatterns("*")
                 .withSockJS();
+        registry.addEndpoint("/ws-stomp").setAllowedOriginPatterns("*");
     }
 
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(stompHandler);
-    }
 }

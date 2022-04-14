@@ -26,6 +26,11 @@ public class ChannelRepository {
     private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
 
+    // 채널(topic)에 발행되는 메시지 처리
+    private final RedisMessageListenerContainer redisMessageListenerContainer;
+
+    // topic 구독 처리 서비스
+    private final RedisSubscriber redisSubscriber;
 
 
     // Redis 설정
@@ -78,6 +83,13 @@ public class ChannelRepository {
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
 
+        // message subscriber를 위해 redisMessageListenerContainer 추가
+        ChannelTopic topic = topics.get(channel.getId());
+        if(topic == null) {
+            topic = new ChannelTopic(channel.getId());
+            redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
+            topics.put(channel.getId(), topic);
+        }
 
         return channel;
     }
@@ -87,6 +99,7 @@ public class ChannelRepository {
      */
     public void deleteChannel(Channel channel) {
         ChannelTopic topic = topics.get(channel.getId());
+        redisMessageListenerContainer.removeMessageListener(redisSubscriber, topic);
         topics.remove(channel.getId());
         opsValueOperation.getOperations().delete(channel.getId());
         em.remove(channel);

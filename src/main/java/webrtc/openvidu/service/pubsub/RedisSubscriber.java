@@ -7,7 +7,11 @@ import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
-import webrtc.openvidu.dto.ChatDto.ServerMessage;
+import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
+import webrtc.openvidu.dto.ChatDto.PublishMessage;
+import webrtc.openvidu.dto.ChatDto.ServerNoticeMessage;
+import webrtc.openvidu.enums.SocketServerMessageType;
+import webrtc.openvidu.utils.CustomJsonMapper;
 
 @RequiredArgsConstructor
 @Service
@@ -26,18 +30,32 @@ public class RedisSubscriber implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         try {
             //redis에서 발행된 데이터를 받아 deserialize
-
+            System.out.println("RedisSubscriber onMessage Method");
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-            System.out.println("subscriber");
-            System.out.println(message);
-            // ServerMessage 객체로 매핑
-            ServerMessage serverMessage = objectMapper.readValue(publishMessage, ServerMessage.class);
-            System.out.println(serverMessage);
-            System.out.println(serverMessage.getType());
-            System.out.println("serverMessage.getMessage() = " + serverMessage.getMessage());
-            System.out.println("serverMessage.getChannelId() = " + serverMessage.getChannelId());
-            System.out.println("serverMessage.getUsers().size() = " + serverMessage.getUsers().size());
-            messagingTemplate.convertAndSend("/sub/chat/room" + serverMessage.getChannelId(), serverMessage);
+            System.out.println("RedisSubscriber onMessage publishMessage = " + publishMessage);
+
+            // String type message parsing to PublishMessage Object
+            Object obj = CustomJsonMapper.jsonParse(publishMessage, PublishMessage.class);
+            PublishMessage psmg = PublishMessage.class.cast(obj);
+
+            PublishMessage serverMessage = new PublishMessage();
+            SocketServerMessageType type = psmg.getType();
+            if(type == null) {
+                throw new NullPointerException("Not PublishMessage. \n 잘못된 형식의 메시지가 입력됨.");
+            }
+            switch(type) {
+                case CHAT:
+                    serverMessage = objectMapper.readValue(publishMessage, ChatServerMessage.class);
+                    break;
+                case RENEWAL:
+                    serverMessage = objectMapper.readValue(publishMessage, ServerNoticeMessage.class);
+                    break;
+                case CLOSE:
+                    break;
+            }
+
+            // WebSocket Subscriber들에게 message send
+            messagingTemplate.convertAndSend("/sub/chat/room/" + serverMessage.getChannelId(), serverMessage);
         } catch (Exception e) {
             System.out.println("error in onMessage = " + e);
         }
