@@ -33,5 +33,4 @@ public class JwtDto {
             return this.jwttoken;
         }
     }
-
 }

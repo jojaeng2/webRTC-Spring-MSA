@@ -52,12 +52,12 @@ public class ChatDto {
     @Getter
     public static class ChatServerMessage extends PublishMessage {
 
-        private String userName;
+        private String senderName;
         private String chatMessage;
 
-        public ChatServerMessage(SocketServerMessageType type, String channelId, String userName, String chatMessage) {
+        public ChatServerMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage) {
             super(type, channelId);
-            this.userName = userName;
+            this.senderName = senderName;
             this.chatMessage = chatMessage;
         }
     }
