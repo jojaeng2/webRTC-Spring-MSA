@@ -7,13 +7,14 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import webrtc.openvidu.handler.StompHandler;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
 
-//    private final StompHandler stompHandler
+    private final StompHandler stompHandler;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -27,8 +28,9 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(stompHandler); // 핸들러 등록
-//    }
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(stompHandler); // 핸들러 등록
+    }
+
 }
