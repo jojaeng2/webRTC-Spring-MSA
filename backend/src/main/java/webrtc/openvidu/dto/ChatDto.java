@@ -64,14 +64,14 @@ public class ChatDto {
     @NoArgsConstructor
     public static class ServerNoticeMessage extends PublishMessage {
         private String senderName;
-        private String message;
+        private String chatMessage;
         private Long userCount;
         private Map<Long, User> users = new HashMap<>();
 
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
+        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage, Long userCount) {
             super(type, channelId);
             this.senderName = senderName;
-            this.message = message;
+            this.chatMessage = chatMessage;
             this.userCount = userCount;
         }
     }
