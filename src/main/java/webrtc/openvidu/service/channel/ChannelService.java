@@ -43,10 +43,10 @@ public class ChannelService {
 //        if(channel.getChannelUsers().get(userId) != null) {
 //            return EXIST;
 //        }
-        if(channel.getChannelUsers().get(123) != null) {
-            return EXIST;
-        }
-        else if(limitParticipants.equals(currentParticipants)) {
+//        if(channel.getChannelUsers().get(123) != null) {
+//            return EXIST;
+//        }
+        if(limitParticipants.equals(currentParticipants)) {
             return FULLCHANNEL;
         }
         else {

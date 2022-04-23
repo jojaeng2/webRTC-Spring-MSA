@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class ChatDto {
 
-
-
     @Getter
     @NoArgsConstructor
     public static class ClientMessage {
@@ -63,29 +61,17 @@ public class ChatDto {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ServerNoticeMessage extends PublishMessage {
         private String senderName;
-        private String message;
+        private String chatMessage;
         private Long userCount;
         private Map<Long, User> users = new HashMap<>();
 
-        public void setSenderName(String senderName) {
-            this.senderName = senderName;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String message, Long userCount) {
-            super(type, channelId);
-            this.message = message;
-            this.userCount = userCount;
-        }
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
+        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage, Long userCount) {
             super(type, channelId);
             this.senderName = senderName;
-            this.message = message;
+            this.chatMessage = chatMessage;
             this.userCount = userCount;
         }
     }

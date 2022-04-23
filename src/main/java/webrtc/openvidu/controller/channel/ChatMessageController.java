@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.ChatDto.*;
+import webrtc.openvidu.dto.ChatDto;
+import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
+import webrtc.openvidu.dto.ChatDto.ClientMessage;
+import webrtc.openvidu.dto.ChatDto.ServerNoticeMessage;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
@@ -32,6 +35,7 @@ public class ChatMessageController {
         String channelId = message.getChannelId();
         String chatMessage = message.getMessage();
         String senderName = message.getSenderName();
+        System.out.println("senderName = " + senderName);
         switch(clientMessageType) {
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);
@@ -41,12 +45,12 @@ public class ChatMessageController {
             case ENTER:
                 Channel enterChannel = channelService.findOneChannelById(channelId);
                 channelService.enterChannel(channelId, senderName);
-                ServerNoticeMessage enterNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 입장했습니다.", enterChannel.getCurrentParticipants());
+                ServerNoticeMessage enterNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, "[알림] ", senderName + "님이 입장했습니다.", enterChannel.getCurrentParticipants());
                 redisPublisher.publish(channelRepository.getTopic(channelId), enterNoticeMessage);
                 break;
             case EXIT:
                 Channel exitChannel = channelService.leaveChannel(channelId, senderName);
-                ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
+                ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, "[알림] ", senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
                 redisPublisher.publish(channelRepository.getTopic(channelId), exitNoticeMessage);
                 break;
         }

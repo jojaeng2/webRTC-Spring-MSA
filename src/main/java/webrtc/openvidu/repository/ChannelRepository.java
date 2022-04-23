@@ -116,8 +116,8 @@ public class ChannelRepository {
     }
 
     /*
-    * 유저 채널 입장
-    */
+     * 유저 채널 입장
+     */
     public Channel enterChannel(Channel channel, User user) {
         ChannelUser channelUser = new ChannelUser(channel, user);
         channel.addUser(channelUser);
@@ -163,9 +163,9 @@ public class ChannelRepository {
     public List<Channel> findOneChannelByHashName(String tagName) {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
-                "select c from Channel c " +
-                        "join c.channelHashTags " +
-                        "where hashtag_id = :hashtag_id", Channel.class)
+                        "select c from Channel c " +
+                                "join c.channelHashTags " +
+                                "where hashtag_id = :hashtag_id", Channel.class)
                 .setParameter("hashtag_id", hashTag.getId())
                 .getResultList();
     }
