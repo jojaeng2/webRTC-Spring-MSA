@@ -12,6 +12,7 @@ import webrtc.openvidu.dto.ChatDto.ClientMessage;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
+import webrtc.openvidu.utils.JwtTokenUtil;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -26,16 +27,19 @@ public class StompHandler implements ChannelInterceptor {
     private final ChatService chatService;
     private final ChannelService channelService;
     private final ChannelRepository channelRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     // websocket을 통해 들어온 요청이 처리 되기전 실행
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        System.out.println("accessor = " + accessor);
         switch (accessor.getCommand()) {
             case CONNECT:
                 String jwtToken = accessor.getFirstNativeHeader("jwt");
-//                jwtTokenProvider.validateToken(jwtToken);
+                String username = accessor.getFirstNativeHeader("username");
+//                jwtTokenUtil.validateToken(jwtToken, username);
                 break;
         }
         return message;

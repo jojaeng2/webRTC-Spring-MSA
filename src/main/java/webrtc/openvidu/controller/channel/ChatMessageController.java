@@ -32,6 +32,9 @@ public class ChatMessageController {
         String channelId = message.getChannelId();
         String chatMessage = message.getMessage();
         String senderName = message.getSenderName();
+        System.out.println("senderName = " + senderName);
+        System.out.println("chatMessage = " + chatMessage);
+        System.out.println("channelId = " + channelId);
         switch(clientMessageType) {
             case CHAT:
                 Channel chatChannel = channelService.findOneChannelById(channelId);

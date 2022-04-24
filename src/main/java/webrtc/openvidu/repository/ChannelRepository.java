@@ -157,6 +157,21 @@ public class ChannelRepository {
     }
 
     /*
+     * 특정 채널을 user_id로 찾기
+     */
+    public List<Channel> findChannelsByUserId(String channelId, String userId) {
+        return em.createQuery(
+                "select c from Channel c " +
+                        "join c.channelUsers " +
+                        "where user_id = :user_id " +
+                        "and " +
+                        "channel_id = :channel_id", Channel.class)
+                .setParameter("user_id", userId)
+                .setParameter("channel_id", channelId)
+                .getResultList();
+    }
+
+    /*
      * 특정 채널을 hashName으로 찾기
      *
      */

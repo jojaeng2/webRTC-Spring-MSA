@@ -9,6 +9,7 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -18,11 +19,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByName(username);
+        List<User> users = userRepository.findUserByName(username);
 
-        if (user == null) {
+        if (users.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         } else {
+            User user = users.get(0);
             return new org.springframework.security.core.userdetails.User(user.getNickname(), user.getPassword(), new ArrayList<>());
         }
     }

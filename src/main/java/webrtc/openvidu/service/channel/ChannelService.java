@@ -8,6 +8,7 @@ import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
+import webrtc.openvidu.repository.UserRepository;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import static webrtc.openvidu.enums.ChannelServiceReturnType.*;
 public class ChannelService {
 
     private final ChannelRepository channelRepository;
+    private final UserRepository userRepository;
     private final ChannelHashTagRepository channelHashTagRepository;
     private final Long limitParticipants = 15L;
 
@@ -36,14 +38,12 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 입장
      *
      */
-    public ChannelServiceReturnType enterChannel(String channelId, String userId) {
-        Channel channel = channelRepository.findOneChannelById(channelId);
-        Long limitParticipants = channel.getLimitParticipants();
-        Long currentParticipants = channel.getCurrentParticipants();
-//        if(channel.getChannelUsers().get(userId) != null) {
-//            return EXIST;
-//        }
-        if(channel.getChannelUsers().get(123) != null) {
+    public ChannelServiceReturnType enterChannel(String channelId, String userName) {
+        List<User> users = userRepository.findUserByName(userName);
+        List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, users.get(0).getId());
+        Long limitParticipants = findEnterChannels.get(0).getLimitParticipants();
+        Long currentParticipants = findEnterChannels.get(0).getCurrentParticipants();
+        if(findEnterChannels.isEmpty()) {
             return EXIST;
         }
         else if(limitParticipants.equals(currentParticipants)) {
@@ -51,9 +51,8 @@ public class ChannelService {
         }
         else {
             // User 정보 찾아와야함.
-            User user = new User();
-            channelRepository.enterChannel(channel, user);
-            channelRepository.updateChannel(channel);
+            channelRepository.enterChannel(findEnterChannels.get(0), users.get(0));
+            channelRepository.updateChannel(findEnterChannels.get(0));
             return SUCCESS;
         }
     }

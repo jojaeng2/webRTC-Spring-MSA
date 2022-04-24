@@ -7,6 +7,7 @@ import webrtc.openvidu.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 @Getter
@@ -20,13 +21,13 @@ public class UserRepository {
         em.persist(user);
     }
 
-    public User findUserByName(String name) {
+    public List<User> findUserByName(String name) {
         return em.createQuery(
                 "select u from User u " +
                         "where u.nickname = :nickname"
                 , User.class)
                 .setParameter("nickname", name)
-                .getSingleResult();
+                .getResultList();
     }
 
 }

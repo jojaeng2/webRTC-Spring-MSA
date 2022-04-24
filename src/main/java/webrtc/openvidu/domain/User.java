@@ -18,6 +18,7 @@ import java.util.UUID;
 public class User implements Serializable {
 
     @Id
+    @Column(name = "user_id")
     private String id;
     private Timestamp created_at;
     private Timestamp updated_at;
