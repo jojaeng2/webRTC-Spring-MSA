@@ -12,7 +12,6 @@ import java.util.Map;
 public class ChatDto {
 
 
-
     @Getter
     @NoArgsConstructor
     public static class ClientMessage {
@@ -63,6 +62,7 @@ public class ChatDto {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class ServerNoticeMessage extends PublishMessage {
         private String senderName;
         private String message;
@@ -76,6 +76,8 @@ public class ChatDto {
         public void setMessage(String message) {
             this.message = message;
         }
+
+
 
         public ServerNoticeMessage(SocketServerMessageType type, String channelId, String message, Long userCount) {
             super(type, channelId);

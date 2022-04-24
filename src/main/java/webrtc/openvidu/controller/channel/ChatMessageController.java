@@ -48,7 +48,7 @@ public class ChatMessageController {
                 redisPublisher.publish(channelRepository.getTopic(channelId), enterNoticeMessage);
                 break;
             case EXIT:
-                Channel exitChannel = channelService.leaveChannel(channelId, senderName);
+                Channel exitChannel = channelService.exitChannel(channelId, senderName);
                 ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
                 redisPublisher.publish(channelRepository.getTopic(channelId), exitNoticeMessage);
                 break;

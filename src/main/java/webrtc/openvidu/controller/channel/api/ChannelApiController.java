@@ -46,17 +46,17 @@ public class ChannelApiController {
     }
 
     @PostMapping("/channel/enter/{id}")
-    public EnterChannelResponse enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
-        String userId = request.getUserId();
-        ChannelServiceReturnType result = channelService.enterChannel(channelId, userId);
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
+        String username = request.getUsername();
+        ChannelServiceReturnType result = channelService.enterChannel(channelId, username);
         switch (result) {
             case EXIST:
             case SUCCESS:
-                return new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다.");
+                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다."), OK);
             case FULLCHANNEL:
-                return new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다.");
+                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다."), OK);
             default:
-                return new EnterChannelResponse(HttpReturnType.SERVERERROR, "Server Error 500");
+                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "Server Error 500"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

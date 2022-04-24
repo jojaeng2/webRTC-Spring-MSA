@@ -25,6 +25,7 @@ public class ChannelRepository {
 
     private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
+    private final UserRepository userRepository;
 
     // 채널(topic)에 발행되는 메시지 처리
     private final RedisMessageListenerContainer redisMessageListenerContainer;
@@ -62,10 +63,9 @@ public class ChannelRepository {
     public Channel createChannel(CreateChannelRequest request) {
         // 변수
         String channelName = request.getChannelName();
-        Long limitParticipants = request.getLimitParticipants();
 
         // 채널 생성
-        Channel channel = new Channel(channelName, limitParticipants);
+        Channel channel = new Channel(channelName);
         List<String> hashTags = request.getHashTags();
         for(String tagName : hashTags) {
             HashTag hashTag;
@@ -127,9 +127,8 @@ public class ChannelRepository {
     /**
      * 유저 채널 퇴장
      */
-    public Channel leaveChannel(Channel channel, User user) {
-        channel.delUser(user);
-        return channel;
+    public void exitChannel(Channel channel, User user) {
+        userRepository.deleteChannel(channel, user);
     }
 
     /*
@@ -164,10 +163,9 @@ public class ChannelRepository {
                 "select c from Channel c " +
                         "join c.channelUsers " +
                         "where user_id = :user_id " +
-                        "and " +
-                        "channel_id = :channel_id", Channel.class)
-                .setParameter("user_id", userId)
+                        "and c.id = :channel_id", Channel.class)
                 .setParameter("channel_id", channelId)
+                .setParameter("user_id", userId)
                 .getResultList();
     }
 

@@ -2,6 +2,7 @@ package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
@@ -41,19 +42,23 @@ public class ChannelService {
     public ChannelServiceReturnType enterChannel(String channelId, String userName) {
         List<User> users = userRepository.findUserByName(userName);
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, users.get(0).getId());
-        Long limitParticipants = findEnterChannels.get(0).getLimitParticipants();
-        Long currentParticipants = findEnterChannels.get(0).getCurrentParticipants();
+
         if(findEnterChannels.isEmpty()) {
             return EXIST;
         }
-        else if(limitParticipants.equals(currentParticipants)) {
-            return FULLCHANNEL;
-        }
         else {
-            // User 정보 찾아와야함.
-            channelRepository.enterChannel(findEnterChannels.get(0), users.get(0));
-            channelRepository.updateChannel(findEnterChannels.get(0));
-            return SUCCESS;
+            Channel channel = findEnterChannels.get(0);
+            User user = users.get(0);
+            Long limitParticipants = channel.getLimitParticipants();
+            Long currentParticipants = channel.getCurrentParticipants();
+            if(limitParticipants.equals(currentParticipants)) {
+                return FULLCHANNEL;
+            }
+            else {
+                channelRepository.enterChannel(channel, user);
+                channelRepository.updateChannel(channel);
+                return SUCCESS;
+            }
         }
     }
 
@@ -61,12 +66,11 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public Channel leaveChannel(String channelId, String userName) {
+    public void exitChannel(String channelId, String userName) {
         Channel channel = channelRepository.findOneChannelById(channelId);
-        // userRepository 만들면 변경할것
-        User user = new User();
-        channelRepository.leaveChannel(channel, user);
-        return channelRepository.updateChannel(channel);
+        List<User> users = userRepository.findUserByName(userName);
+        User user = users.get(0);
+        channelRepository.exitChannel(channel, user);
     }
 
     /*

@@ -3,6 +3,7 @@ package webrtc.openvidu.repository;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.User;
 
 import javax.persistence.EntityManager;
@@ -28,6 +29,13 @@ public class UserRepository {
                 , User.class)
                 .setParameter("nickname", name)
                 .getResultList();
+    }
+
+    public void deleteChannel(Channel channel, User user) {
+        String userId = user.getId();
+        em.createQuery(
+                "delete "
+        );
     }
 
 }

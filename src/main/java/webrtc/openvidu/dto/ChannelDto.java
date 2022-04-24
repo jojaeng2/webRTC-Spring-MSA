@@ -12,7 +12,6 @@ public class ChannelDto {
     @Getter
     public static class CreateChannelRequest {
         private String channelName;
-        private Long limitParticipants;
         private List<String> hashTags;
     }
 
@@ -55,7 +54,7 @@ public class ChannelDto {
 
     @Getter
     public static class EnterChannelRequest {
-        private String userId;
+        private String username;
     }
 
     @Getter

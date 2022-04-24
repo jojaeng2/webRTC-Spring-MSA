@@ -23,7 +23,7 @@ public class ChannelUser implements Serializable {
     private Channel channel;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_d")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public ChannelUser(Channel channel, User user) {
