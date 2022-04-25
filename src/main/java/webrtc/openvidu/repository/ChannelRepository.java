@@ -116,22 +116,6 @@ public class ChannelRepository {
     }
 
     /*
-    * 유저 채널 입장
-    */
-    public Channel enterChannel(Channel channel, User user) {
-        ChannelUser channelUser = new ChannelUser(channel, user);
-        channel.addUser(channelUser);
-        return channel;
-    }
-
-    /**
-     * 유저 채널 퇴장
-     */
-    public void exitChannel(Channel channel, User user) {
-        userRepository.deleteChannel(channel, user);
-    }
-
-    /*
      * 모든 채널 불러오기
      */
     public List<Channel> findAllChannel() {

@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@Getter
 public class UserRepository {
 
     @PersistenceContext

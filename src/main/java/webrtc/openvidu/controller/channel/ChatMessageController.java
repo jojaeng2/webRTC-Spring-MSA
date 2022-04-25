@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChatDto.*;
+import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
@@ -37,21 +38,28 @@ public class ChatMessageController {
         System.out.println("channelId = " + channelId);
         switch(clientMessageType) {
             case CHAT:
-                Channel chatChannel = channelService.findOneChannelById(channelId);
-                ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, channelId, senderName, chatMessage);
-                redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
+//                Channel chatChannel = channelService.findOneChannelById(channelId);
+//                ChatServerMessage chatServerMessage = new ChatServerMessage(CHAT, channelId, senderName, chatMessage);
+//                redisPublisher.publish(channelRepository.getTopic(channelId), chatServerMessage);
+//                break;
+                channelService.exitChannel(channelId, senderName);
+                Channel exitChannel = channelService.findOneChannelById(channelId);
+                ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
+                redisPublisher.publish(channelRepository.getTopic(channelId), exitNoticeMessage);
                 break;
             case ENTER:
                 Channel enterChannel = channelService.findOneChannelById(channelId);
-                channelService.enterChannel(channelId, senderName);
+                ChannelServiceReturnType type = channelService.enterChannel(channelId, senderName);
+                System.out.println("type = " + type);
                 ServerNoticeMessage enterNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 입장했습니다.", enterChannel.getCurrentParticipants());
                 redisPublisher.publish(channelRepository.getTopic(channelId), enterNoticeMessage);
                 break;
             case EXIT:
-                Channel exitChannel = channelService.exitChannel(channelId, senderName);
-                ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
-                redisPublisher.publish(channelRepository.getTopic(channelId), exitNoticeMessage);
-                break;
+//                channelService.exitChannel(channelId, senderName);
+//                Channel exitChannel = channelService.findOneChannelById(channelId);
+//                ServerNoticeMessage exitNoticeMessage = new ServerNoticeMessage(RENEWAL, channelId, senderName + "님이 퇴장했습니다.", exitChannel.getCurrentParticipants());
+//                redisPublisher.publish(channelRepository.getTopic(channelId), exitNoticeMessage);
+//                break;
         }
     }
 }

@@ -9,6 +9,7 @@ import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
+import webrtc.openvidu.repository.ChannelUserRepository;
 import webrtc.openvidu.repository.UserRepository;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ChannelService {
     private final ChannelRepository channelRepository;
     private final UserRepository userRepository;
     private final ChannelHashTagRepository channelHashTagRepository;
+    private final ChannelUserRepository channelUserRepository;
     private final Long limitParticipants = 15L;
 
     /**
@@ -42,12 +44,11 @@ public class ChannelService {
     public ChannelServiceReturnType enterChannel(String channelId, String userName) {
         List<User> users = userRepository.findUserByName(userName);
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, users.get(0).getId());
-
-        if(findEnterChannels.isEmpty()) {
+        if(!findEnterChannels.isEmpty()) {
             return EXIST;
         }
         else {
-            Channel channel = findEnterChannels.get(0);
+            Channel channel = channelRepository.findOneChannelById(channelId);
             User user = users.get(0);
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
@@ -55,7 +56,7 @@ public class ChannelService {
                 return FULLCHANNEL;
             }
             else {
-                channelRepository.enterChannel(channel, user);
+                channelUserRepository.enterChannel(channel, user);
                 channelRepository.updateChannel(channel);
                 return SUCCESS;
             }
@@ -67,10 +68,9 @@ public class ChannelService {
      *
      */
     public void exitChannel(String channelId, String userName) {
-        Channel channel = channelRepository.findOneChannelById(channelId);
         List<User> users = userRepository.findUserByName(userName);
         User user = users.get(0);
-        channelRepository.exitChannel(channel, user);
+        channelUserRepository.exitChannel(channelId, user.getId());
     }
 
     /*
