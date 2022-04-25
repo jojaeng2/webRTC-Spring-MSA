@@ -6,7 +6,9 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChatDto {
@@ -25,6 +27,10 @@ public class ChatDto {
             this.channelId = channelId;
             this.senderName = senderName;
             this.message = "";
+        }
+
+        public void setSenderName(String senderName) {
+            this.senderName = senderName;
         }
     }
 
@@ -46,50 +52,47 @@ public class ChatDto {
             this.type = type;
             this.channelId = channelId;
         }
-    }
 
-    @Getter
-    public static class ChatServerMessage extends PublishMessage {
-
-        private String senderName;
-        private String chatMessage;
-
-        public ChatServerMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage) {
-            super(type, channelId);
-            this.senderName = senderName;
-            this.chatMessage = chatMessage;
+        public void setType(SocketServerMessageType type) {
+            this.type = type;
         }
     }
 
     @Getter
     @NoArgsConstructor
-    public static class ServerNoticeMessage extends PublishMessage {
+    public static class ChatServerMessage extends PublishMessage {
+
         private String senderName;
-        private String message;
-        private Long userCount;
-        private Map<Long, User> users = new HashMap<>();
+        private String chatMessage;
+        private Long currentParticipants;
+        private List<User> users = new ArrayList<>();
 
-        public void setSenderName(String senderName) {
+        public ChatServerMessage(String channelId) {
+            super(channelId);
+        }
+
+        public void setChatType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
+            this.setType(type);
             this.senderName = senderName;
+            this.chatMessage = chatMessage;
+            this.currentParticipants = currentParticipants;
+            this.users = users;
         }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-
-
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String message, Long userCount) {
-            super(type, channelId);
-            this.message = message;
-            this.userCount = userCount;
-        }
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String message, Long userCount) {
-            super(type, channelId);
+        public void setEnterType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
+            this.setType(type);
             this.senderName = senderName;
-            this.message = message;
-            this.userCount = userCount;
+            this.chatMessage = chatMessage;
+            this.currentParticipants = currentParticipants;
+            this.users = users;
+        }
+
+        public void setExitType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
+            this.setType(type);
+            this.senderName = senderName;
+            this.chatMessage = chatMessage;
+            this.currentParticipants = currentParticipants;
+            this.users = users;
         }
     }
-
 }

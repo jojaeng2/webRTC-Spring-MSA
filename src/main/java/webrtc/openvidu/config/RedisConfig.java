@@ -1,5 +1,6 @@
 package webrtc.openvidu.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,17 +15,26 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
+@RequiredArgsConstructor
 @Configuration
 public class RedisConfig {
+
+    @Bean
+    public ChannelTopic channelTopic() {
+        return new ChannelTopic("Chat");
+    }
 
     /**
      * redis pub/sub 메시지를 처리하는 listener 설정
      */
     @Bean
     @Primary
-    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
+    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory,
+                                                              MessageListenerAdapter listenerAdapter,
+                                                              ChannelTopic channelTopic) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(listenerAdapter, channelTopic);
         return container;
     }
 
@@ -38,5 +48,11 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Channel.class));
         return redisTemplate;
+    }
+
+
+    @Bean
+    public MessageListenerAdapter listenerAdapter(RedisSubscriber subscriber) {
+        return new MessageListenerAdapter(subscriber, "sendMessage");
     }
 }

@@ -25,25 +25,10 @@ public class ChannelRepository {
 
     private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
-    private final UserRepository userRepository;
-
-    // 채널(topic)에 발행되는 메시지 처리
-    private final RedisMessageListenerContainer redisMessageListenerContainer;
-
-    // topic 구독 처리 서비스
-    private final RedisSubscriber redisSubscriber;
-
 
     // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
-
-
-    /*
-     * 채널에 메시지를 발행하기 위한 redis topic 정보
-     * 서버별로 topic에 매치되는 topic 정보를 Map에 넣어 관리
-     */
-    private static Map<String, ChannelTopic> topics;
 
     /*
      * 초깃값 설정, Test Code에서도 자동으로 실행됨
@@ -51,7 +36,6 @@ public class ChannelRepository {
     @PostConstruct
     private void init() {
         opsValueOperation = redisTemplate.opsForValue();
-        topics = new HashMap<>();
     }
 
     /*
@@ -83,14 +67,6 @@ public class ChannelRepository {
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
 
-        // message subscriber를 위해 redisMessageListenerContainer 추가
-        ChannelTopic topic = topics.get(channel.getId());
-        if(topic == null) {
-            topic = new ChannelTopic(channel.getId());
-            redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-            topics.put(channel.getId(), topic);
-        }
-
         return channel;
     }
 
@@ -98,9 +74,6 @@ public class ChannelRepository {
      * 채널 삭제
      */
     public void deleteChannel(Channel channel) {
-        ChannelTopic topic = topics.get(channel.getId());
-        redisMessageListenerContainer.removeMessageListener(redisSubscriber, topic);
-        topics.remove(channel.getId());
         opsValueOperation.getOperations().delete(channel.getId());
         em.remove(channel);
     }
@@ -189,13 +162,6 @@ public class ChannelRepository {
     }
 
 
-    /*
-     * 특정 topic 찾기
-     *
-     */
-    public ChannelTopic getTopic(String channelId) {
-        return topics.get(channelId);
-    }
 
 
 

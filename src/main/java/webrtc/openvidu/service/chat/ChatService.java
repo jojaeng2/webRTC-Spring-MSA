@@ -5,10 +5,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto;
+import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.dto.ChatDto.ClientMessage;
-import webrtc.openvidu.dto.ChatDto.ServerNoticeMessage;
+import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.repository.ChannelRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static webrtc.openvidu.enums.SocketServerMessageType.*;
 
@@ -16,38 +21,31 @@ import static webrtc.openvidu.enums.SocketServerMessageType.*;
 @Service
 public class ChatService {
 
+    private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
     private final ChannelRepository channelRepository;
 
     /**
-     * destination 정보에서 roomId 추출
-     */
-    public String getRoomId(String destination) {
-        int lastIndex = destination.lastIndexOf("/");
-        if(lastIndex != -1) {
-            return destination.substring(lastIndex+1);
-        }
-        return "";
-    }
-
-    /**
      * Chatting Room에 message 발송
      */
-    public void sendChatMessage(ClientMessage message) {
-        String channelId = message.getChannelId();
-        String senderName = message.getSenderName();
+    public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage) {
         Channel channel = channelRepository.findOneChannelById(channelId);
-        ServerNoticeMessage serverMessage = new ServerNoticeMessage(CHAT, channelId, message.getSenderName(), message.getMessage(), channel.getCurrentParticipants());
-        switch (message.getType()) {
+        Long currentParticipants = channel.getCurrentParticipants();
+        ChatServerMessage serverMessage = new ChatServerMessage(channelId);
+        switch (type) {
+            case CHAT:
+                List<User> currentUsers = new ArrayList<>();
+                serverMessage.setChatType(CHAT, senderName, chatMessage, currentParticipants, currentUsers);
+                break;
             case ENTER:
-                serverMessage.setSenderName("[알림] ");
-                serverMessage.setMessage(senderName + " 님이 입장했습니다.");
+                List<User> enterUsers = new ArrayList<>();
+                serverMessage.setEnterType(RENEWAL, "[알림] ", "님이 채팅방에 입장했습니다.", currentParticipants+1, enterUsers);
                 break;
             case EXIT:
-                serverMessage.setSenderName("[알림] ");
-                serverMessage.setMessage(senderName + "님이 나갔습니다.");
+                List<User> exitUsers = new ArrayList<>();
+                serverMessage.setExitType(RENEWAL, "[알림] ", "님이 채팅방에서 퇴장했습니다.", currentParticipants-1, exitUsers);
                 break;
         }
-        redisTemplate.convertAndSend("/sub/chat/room" + channelId, serverMessage);
+        redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 }
