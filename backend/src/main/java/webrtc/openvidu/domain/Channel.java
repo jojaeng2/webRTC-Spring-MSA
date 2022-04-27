@@ -28,10 +28,10 @@ public class Channel implements Serializable {
     private static final Long serialVersionUID = 1L;
 
 
-    public Channel(String channelName, Long limitParticipants) {
+    public Channel(String channelName) {
         this.id = UUID.randomUUID().toString();
         this.channelName = channelName;
-        this.limitParticipants = limitParticipants;
+        this.limitParticipants = 15L;
         this.currentParticipants = 1L;
         this.timeToLive = 24*60*60L;
         this.channelUsers = new ArrayList<>();
@@ -39,10 +39,6 @@ public class Channel implements Serializable {
 
     public void addUser(ChannelUser user) {
         this.channelUsers.add(user);
-    }
-
-    public void delUser(User user) {
-//        this.users.remove(user.getUserId());
     }
 
     public void addChannelUser(ChannelUser channelUser) {

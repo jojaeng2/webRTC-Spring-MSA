@@ -26,23 +26,9 @@ public class ChannelRepository {
     private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
 
-    // 채널(topic)에 발행되는 메시지 처리
-    private final RedisMessageListenerContainer redisMessageListenerContainer;
-
-    // topic 구독 처리 서비스
-    private final RedisSubscriber redisSubscriber;
-
-
     // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
-
-
-    /*
-     * 채널에 메시지를 발행하기 위한 redis topic 정보
-     * 서버별로 topic에 매치되는 topic 정보를 Map에 넣어 관리
-     */
-    private static Map<String, ChannelTopic> topics;
 
     /*
      * 초깃값 설정, Test Code에서도 자동으로 실행됨
@@ -50,7 +36,6 @@ public class ChannelRepository {
     @PostConstruct
     private void init() {
         opsValueOperation = redisTemplate.opsForValue();
-        topics = new HashMap<>();
     }
 
     /*
@@ -62,10 +47,9 @@ public class ChannelRepository {
     public Channel createChannel(CreateChannelRequest request) {
         // 변수
         String channelName = request.getChannelName();
-        Long limitParticipants = request.getLimitParticipants();
 
         // 채널 생성
-        Channel channel = new Channel(channelName, limitParticipants);
+        Channel channel = new Channel(channelName);
         List<String> hashTags = request.getHashTags();
         for(String tagName : hashTags) {
             HashTag hashTag;
@@ -83,14 +67,6 @@ public class ChannelRepository {
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
 
-        // message subscriber를 위해 redisMessageListenerContainer 추가
-        ChannelTopic topic = topics.get(channel.getId());
-        if(topic == null) {
-            topic = new ChannelTopic(channel.getId());
-            redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-            topics.put(channel.getId(), topic);
-        }
-
         return channel;
     }
 
@@ -98,9 +74,6 @@ public class ChannelRepository {
      * 채널 삭제
      */
     public void deleteChannel(Channel channel) {
-        ChannelTopic topic = topics.get(channel.getId());
-        redisMessageListenerContainer.removeMessageListener(redisSubscriber, topic);
-        topics.remove(channel.getId());
         opsValueOperation.getOperations().delete(channel.getId());
         em.remove(channel);
     }
@@ -116,6 +89,7 @@ public class ChannelRepository {
     }
 
     /*
+<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/repository/ChannelRepository.java
      * 유저 채널 입장
      */
     public Channel enterChannel(Channel channel, User user) {
@@ -133,6 +107,8 @@ public class ChannelRepository {
     }
 
     /*
+=======
+>>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/repository/ChannelRepository.java
      * 모든 채널 불러오기
      */
     public List<Channel> findAllChannel() {
@@ -154,6 +130,20 @@ public class ChannelRepository {
      */
     public Channel findOneChannelById(String id) {
         return (Channel) opsValueOperation.get(id);
+    }
+
+    /*
+     * 특정 채널을 user_id로 찾기
+     */
+    public List<Channel> findChannelsByUserId(String channelId, String userId) {
+        return em.createQuery(
+                "select c from Channel c " +
+                        "join c.channelUsers " +
+                        "where user_id = :user_id " +
+                        "and c.id = :channel_id", Channel.class)
+                .setParameter("channel_id", channelId)
+                .setParameter("user_id", userId)
+                .getResultList();
     }
 
     /*
@@ -192,13 +182,6 @@ public class ChannelRepository {
     }
 
 
-    /*
-     * 특정 topic 찾기
-     *
-     */
-    public ChannelTopic getTopic(String channelId) {
-        return topics.get(channelId);
-    }
 
 
 
