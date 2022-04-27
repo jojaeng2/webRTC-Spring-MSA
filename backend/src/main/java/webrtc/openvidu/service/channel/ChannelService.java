@@ -43,26 +43,11 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 입장
      *
      */
-<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/service/channel/ChannelService.java
-    public ChannelServiceReturnType enterChannel(String channelId, String userId) {
-        Channel channel = channelRepository.findOneChannelById(channelId);
-        Long limitParticipants = channel.getLimitParticipants();
-        Long currentParticipants = channel.getCurrentParticipants();
-//        if(channel.getChannelUsers().get(userId) != null) {
-//            return EXIST;
-//        }
-//        if(channel.getChannelUsers().get(123) != null) {
-//            return EXIST;
-//        }
-        if(limitParticipants.equals(currentParticipants)) {
-            return FULLCHANNEL;
-=======
     public ChannelServiceReturnType enterChannel(String channelId, String userName) {
         List<User> users = userRepository.findUserByName(userName);
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, users.get(0).getId());
         if(!findEnterChannels.isEmpty()) {
             return EXIST;
->>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/service/channel/ChannelService.java
         }
         else {
             Channel channel = channelRepository.findOneChannelById(channelId);

@@ -13,10 +13,7 @@ import java.util.Map;
 
 public class ChatDto {
 
-<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/dto/ChatDto.java
-=======
 
->>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/dto/ChatDto.java
     @Getter
     @NoArgsConstructor
     public static class ClientMessage {
@@ -70,32 +67,10 @@ public class ChatDto {
         private Long currentParticipants;
         private List<User> users = new ArrayList<>();
 
-<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/dto/ChatDto.java
-        public ChatServerMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage) {
-            super(type, channelId);
-            this.senderName = senderName;
-            this.chatMessage = chatMessage;
-=======
         public ChatServerMessage(String channelId) {
             super(channelId);
->>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/dto/ChatDto.java
         }
 
-<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/dto/ChatDto.java
-    @Getter
-    @NoArgsConstructor
-    public static class ServerNoticeMessage extends PublishMessage {
-        private String senderName;
-        private String chatMessage;
-        private Long userCount;
-        private Map<Long, User> users = new HashMap<>();
-
-        public ServerNoticeMessage(SocketServerMessageType type, String channelId, String senderName, String chatMessage, Long userCount) {
-            super(type, channelId);
-            this.senderName = senderName;
-            this.chatMessage = chatMessage;
-            this.userCount = userCount;
-=======
         public void setChatType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
             this.setType(type);
             this.senderName = senderName;
@@ -118,7 +93,6 @@ public class ChatDto {
             this.chatMessage = chatMessage;
             this.currentParticipants = currentParticipants;
             this.users = users;
->>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/dto/ChatDto.java
         }
     }
 }

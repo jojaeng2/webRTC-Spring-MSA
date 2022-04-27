@@ -31,3 +31,4 @@ public class ChannelHashTag implements Serializable {
         this.hashTag = hashTag;
     }
 }
+

@@ -1,6 +1,8 @@
 package webrtc.openvidu.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -30,4 +32,3 @@ public class ChannelUser implements Serializable {
     }
 
 }
-

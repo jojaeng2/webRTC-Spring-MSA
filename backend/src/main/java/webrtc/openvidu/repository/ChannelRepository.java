@@ -89,26 +89,6 @@ public class ChannelRepository {
     }
 
     /*
-<<<<<<< HEAD:backend/src/main/java/webrtc/openvidu/repository/ChannelRepository.java
-     * 유저 채널 입장
-     */
-    public Channel enterChannel(Channel channel, User user) {
-        ChannelUser channelUser = new ChannelUser(channel, user);
-        channel.addUser(channelUser);
-        return channel;
-    }
-
-    /**
-     * 유저 채널 퇴장
-     */
-    public Channel leaveChannel(Channel channel, User user) {
-        channel.delUser(user);
-        return channel;
-    }
-
-    /*
-=======
->>>>>>> 18cdb6bb39d5ef24329da9b5e0f6d53d239ef993:src/main/java/webrtc/openvidu/repository/ChannelRepository.java
      * 모든 채널 불러오기
      */
     public List<Channel> findAllChannel() {
@@ -153,9 +133,9 @@ public class ChannelRepository {
     public List<Channel> findOneChannelByHashName(String tagName) {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
-                        "select c from Channel c " +
-                                "join c.channelHashTags " +
-                                "where hashtag_id = :hashtag_id", Channel.class)
+                "select c from Channel c " +
+                        "join c.channelHashTags " +
+                        "where hashtag_id = :hashtag_id", Channel.class)
                 .setParameter("hashtag_id", hashTag.getId())
                 .getResultList();
     }
