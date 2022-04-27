@@ -1,7 +1,7 @@
 # WebRTC v0.5 API Specifications and Usage
 
 ## Summary  
-Version that allows socket connection without JWTtoken  
+How to use the chat application with jwt access token in webrtc v0.5  
 
 ## WebSocket Stomp API Preview
 |Method|URL|Purpose|
@@ -9,13 +9,18 @@ Version that allows socket connection without JWTtoken
 |ws|http://localhost:8080/ws-stomp|Stomp Endpoint URL|
 |ws|http://localhost:8080/sub/chat/room/{channelId}|Subscription to a specific channel to receive messages.|
 |ws|http://localhost:8080/pub/chat/room|Publish messages to specific channels|
+|POST|http://localhost:8080/register|register user|
+|POST|localhost:8080/api/v1/webrtc/authenticate|Be issued Jwt Access Token|
 
 ## Request and Response
 
 > http://localhost:8080/ws-stomp  
 >> Request Body  
->> ```
->> null
+>> ```JavaScript
+>> {
+>>      jwt : "jwt-token",
+>>      username : "username"   
+>> }
 >> ``` 
 >> Response Body  
 >> ```
@@ -50,8 +55,8 @@ Version that allows socket connection without JWTtoken
 >>     type : "RENEWAL",
 >>     channelId : "channelId",
 >>     senderName : "[알림] ",
->>     message : "님이 입장했습니다.",
->>     userCount : userNum,
+>>     chatMessage : "님이 입장했습니다.",
+>>     currentParticipants : "userNum",
 >>     users : []
 >> }
 >> ```  
@@ -71,7 +76,9 @@ Version that allows socket connection without JWTtoken
 >>     type : "CHAT",
 >>     channelId : "channelId",
 >>     senderName : "username",
->>     chatMessage : "message"
+>>     chatMessage : "chatMessage",
+>>     currentParticipants : "userNum",
+>>     users : []
 >> }
 >> ```  
 >  Situation EXIT  
@@ -90,11 +97,50 @@ Version that allows socket connection without JWTtoken
 >>     type : "RENEWAL",
 >>     channelId : "channelId",
 >>     senderName : "[알림] ",
->>     message : "님이 퇴장했습니다.",
->>     userCount : userNum,
+>>     chatMessage : "님이 퇴장했습니다.",
+>>     currentParticipants : "userNum",
 >>     users : []
 >> }
+>> ```   
+> http://localhost:8080/register  
+>> Request Body  
+>> ```JavaScript
+>> {
+>>    "nickname" : "user",
+>>    "password" : "password"
+>> }
 >> ``` 
+>> Response Body  
+>> ```JavaScript
+>> {
+>>    "id": "0df06625-ae43-44f1-a8b0-cf59d781acb0",
+>>    "created_at": null,
+>>    "updated_at": null,
+>>    "email": null,
+>>    "password": "null",
+>>    "birthdate": null,
+>>    "phone_number": null,
+>>    "school": null,
+>>    "company": null,
+>>    "nickname": "user",
+>>    "nickname_expire_at": null
+>> }
+>> ```  
+>> http://localhost:8080/authenticate  
+>> Request Body  
+>> ```JavaScript
+>> {
+>>    "nickname" : "user",
+>>    "password" : "password"
+>> }
+>> ``` 
+>> Response Body  
+>> ```JavaScript
+>>{
+>>    "jwttoken": "token"
+>> }
+>> ```    
+
   
 ## Instruction for use  
     Order each time the spring server is switched off and on  
@@ -104,10 +150,62 @@ Version that allows socket connection without JWTtoken
 > Initialize the redis repository
 >> ![image](https://user-images.githubusercontent.com/76645095/163328655-2bbee0bf-b6f0-4f40-b6d8-bff12e7db565.png)   
   
-> Create Channel
+> Create User
+>> <img width="1015" alt="image" src="https://user-images.githubusercontent.com/76645095/165495648-1d7fa864-7e47-4995-bd11-50a320cd7adf.png"> 
+>> 
 >> Request URL
 >> ```
->> http://localhost:8080/api/v1/webrtc/channel
+>> http://localhost:8080/api/v1/webrtc/register
+>> ```
+>> Request Body Example
+>> ```JavaScript
+>> {
+>>    "nickname" : "user",
+>>    "password" : "user"
+>> }
+>>```
+>> Response Body Example
+>> ```JavaScript
+>> {
+>>    "id": "0df06625-ae43-44f1-a8b0-cf59d781acb0",
+>>    "created_at": null,
+>>    "updated_at": null,
+>>    "email": null,
+>>   "password": "$2a$10$rZc38bL1.6TLk.AYb6zp/OBq8quqsgyJdGgJkCyVVe7OFrbUIO9S.",
+>>    "birthdate": null,
+>>    "phone_number": null,
+>>    "school": null,
+>>    "company": null,
+>>    "nickname": "user",
+>>    "nickname_expire_at": null
+>> }
+>>```
+
+> Issuing jwt access token  
+>> ![image](https://user-images.githubusercontent.com/76645095/165495907-19020122-05bc-486f-9896-bd439550d640.png)
+>> Request URL
+>> ```
+>> http://localhost:8080/api/v1/webrtc/authenticate
+>> ```
+>> Request Body Example
+>> ```JavaScript
+>> {
+>>    "nickname" : "user",
+>>    "password" : "user"
+>> }
+>> ```
+>> Response Body Example
+>> ```JavaScript
+>> {
+>>     "jwttoken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDcyMjU2LCJpYXQiOjE2NTEwNTQyNTZ9.zNLPBDKKK2v5uDG3mQE_sNjMEGrgDzM2ds0-_Pm08PcnoI6z2RfDBqKql0bV7ra57ynLAPmrY8i8JC04OwIgKw"
+>> }
+>> ```
+> Create a channel
+>> <img width="1010" alt="image" src="https://user-images.githubusercontent.com/76645095/165496715-756df71d-a3c9-4aad-afa1-20d527cc934a.png">
+
+>> Request URL
+>> ```
+>> localhost:8080/api/v1/webrtc/channel
 >> ```
 >> Request Body Example
 >> ```JavaScript
@@ -116,7 +214,9 @@ Version that allows socket connection without JWTtoken
 >>    "limitParticipants" : 15,
 >>    "hashTags" : ["hello", "나도", "다니고싶다"]
 >> }
->>```
+>> ```
+>> Insert issued token into request header
+>> <img width="1011" alt="image" src="https://user-images.githubusercontent.com/76645095/165496994-e30084cb-51f7-4269-b079-1434fb46f9e4.png">  
 >> Response Body Example
 >> ```JavaScript
 >> {
@@ -126,71 +226,36 @@ Version that allows socket connection without JWTtoken
 >>    "currentParticipants": 1,
 >>    "timeToLive": 86400
 >> }
->>```
-> Check channelId output from spring server 
->> <img width="556" alt="image" src="https://user-images.githubusercontent.com/76645095/163330824-f6f1862d-e4d1-4d97-8a4b-bed7ebc5d776.png">
-> Use channelId in React Code
+>> ```
+> Put jwtoken and channelId in front end
 >> ```JavaScript
->> import React, { useEffect, useState } from 'react'
->> import {over} from 'stompjs';
->> import SockJS from 'sockjs-client';
->> 
->> var stompClient =null;
->> const ChatRoom = () => {
->>    const [privateChats, setPrivateChats] = useState(new Map());     
->>    const [publicChats, setPublicChats] = useState([]); 
->>    const [tab,setTab] =useState("CHATROOM");
->>    const [userData, setUserData] = useState({
->>        username: '',
->>        receivername: '',
->>        connected: false,
->>        message: ''
->>      });
->>    useEffect(() => {
->>      console.log(userData);
->>    }, [userData]);
->>
 >>    const connect =()=>{
 >>        let Sock = new SockJS('http://localhost:8080/ws-stomp');
 >>        stompClient = over(Sock);
->>        stompClient.connect({},onConnected, onError);
+>>        stompClient.connect({jwt : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDcyODQ4LCJpYXQiOjE2NTEwNTQ4NDh9.-vUBaZXdJJvCLe95DeBBfZRcvX7V3Zv8QD3SUX_qx7VtwYrUS7Q9ILb28LMQPQF8FdZFAK1qfcW6AsnS5bDoiw", username : "user"}, onConnected, onError);
+>>        console.log(stompClient);
 >>    }
 >>
 >>    const onConnected = () => {
 >>        setUserData({...userData,"connected": true});
->>        stompClient.subscribe('/sub/chat/room/' + "bece0c1e-36aa-4b07-9121-27b94bb8e2e2", onMessageReceived);
->>        userJoin();
->>    }
+>>        stompClient.subscribe('/sub/chat/room/' + "291e3ac0-d01a-4c2d-9a76-a64e3f9b0101", onMessageReceived);
+>>        
+>>      userJoin();
 >>
+>>    }
 >>    const userJoin=()=>{
 >>          var chatMessage = {
 >>            type:"ENTER",
->>            channelId : "bece0c1e-36aa-4b07-9121-27b94bb8e2e2",
->>            senderName : "123",
->>            message : "message"
+>>            channelId : "291e3ac0-d01a-4c2d-9a76-a64e3f9b0101",
+>>            senderName : userData.username,
+>>            message : "Enter" + userData.username,
 >>          };
->>          stompClient.send("/pub/chat/room", {}, JSON.stringify(chatMessage));
+>>          stompClient.send("/pub/chat/room", {jwt : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDcyODQ4LCJpYXQiOjE2NTEwNTQ4NDh9.-vUBaZXdJJvCLe95DeBBfZRcvX7V3Zv8QD3SUX_qx7VtwYrUS7Q9ILb28LMQPQF8FdZFAK1qfcW6AsnS5bDoiw", username : "user"}, JSON.stringify(chatMessage));
 >>    }
 >>
->>    const onMessageReceived = (payload)=>{
->>        var payloadData = JSON.parse(payload.body);
->>        console.log(payload)
->>        // switch(payloadData.status){
->>        //     case "JOIN":
->>        //         if(!privateChats.get(payloadData.senderName)){
->>        //             privateChats.set(payloadData.senderName,[]);
->>        //             setPrivateChats(new Map(privateChats));
->>        //         }
->>        //         break;
->>        //     case "MESSAGE":
->>        //         publicChats.push(payloadData);
->>        //         setPublicChats([...publicChats]);
->>        //         break;
->>        // }
->>    }
->>    
 >>    const onError = (err) => {
->>        console.log(err);        
+>>        console.log(err);
+>>        
 >>    }
 >>
 >>    const handleMessage =(event)=>{
@@ -201,23 +266,21 @@ Version that allows socket connection without JWTtoken
 >>            if (stompClient) {
 >>              var chatMessage = {
 >>                type: "CHAT",
->>                channelId: "bece0c1e-36aa-4b07-9121-27b94bb8e2e2",
->>                senderName: userData.senderName,
+>>                channelId: "291e3ac0-d01a-4c2d-9a76-a64e3f9b0101",
+>>                senderName: userData.username,
 >>                message:userData.message
 >>              };
 >>              console.log(chatMessage);
->>              stompClient.send("/pub/chat/room", {}, JSON.stringify(chatMessage));
+>>              stompClient.send("/pub/chat/room", {jwt : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDY0MTY4LCJpYXQiOjE2NTEwNDYxNjh9.5OhDgCnkkeq685FjTeIhkZ-wBSP-vnIy1bLz-Pnb4v78DR5ZDiWab0WKbu6935gIYuUbrKCDO0LgJjf29C0Sjw", username : "user"}, JSON.stringify(chatMessage));
 >>              setUserData({...userData,"message": ""});
 >>            }
 >>    }
->>
->>
->>    const registerUser=()=>{
->>        connect();
->>    }
+>> }
 >> ```
-> React code execution
->> ![image](https://user-images.githubusercontent.com/76645095/163331943-a9535c50-4b3b-481b-aeb2-2b01157182a1.png)
-> Put a temporary value in input and click connect button
+> put a username in input and click connect button
+>> <img width="1054" alt="image" src="https://user-images.githubusercontent.com/76645095/165498564-99a35ef1-3d49-4675-a98b-1c8ba872dd76.png">
+
 > Open the Network tab in the Developer window to see if you receive messages from the server
->> ![image](https://user-images.githubusercontent.com/76645095/163332242-e9fcc83c-a2dd-4537-9dee-049695effbad.png)
+>> <img width="765" alt="image" src="https://user-images.githubusercontent.com/76645095/165498569-bd3d1861-9e8a-4ca1-a2b8-f0c4e480be66.png">
+>>  
+

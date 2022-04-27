@@ -15,60 +15,78 @@ const ChatRoom = () => {
       });
     useEffect(() => {
       console.log(userData);
-    }, [userData]);
+      console.log(publicChats);
+    }, [userData,publicChats]);
 
     const connect =()=>{
         let Sock = new SockJS('http://localhost:8080/ws-stomp');
         stompClient = over(Sock);
-        stompClient.connect({},onConnected, onError);
+        stompClient.connect({jwt : "eyJhbGciOiJIUzXhwIjoxNjUxMDY0MTY4LCJpYXQiOjE2NTEwNDYxNjh9.5OhDgCnkkeq685FjTeIhkZ-wBSP-vnIy1bLz-Pnb4v78DR5ZDiWab0WKbu6935gIYuUbrKCDO0LgJjf29C0Sjw", username : "user"}, onConnected, onError);
+        console.log(stompClient);
     }
 
     const onConnected = () => {
         setUserData({...userData,"connected": true});
-        stompClient.subscribe('/sub/chat/room/' + "bece0c1e-36aa-4b07-9121-27b94bb8e2e2", onMessageReceived);
-        userJoin();
+        stompClient.subscribe('/sub/chat/room/' + "ad791243-9de9-4be6-ad47-0e939f933419", onMessageReceived);
+        try {
+            userJoin();
+
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const userJoin=()=>{
           var chatMessage = {
             type:"ENTER",
-            channelId : "bece0c1e-36aa-4b07-9121-27b94bb8e2e2",
-            senderName : "123",
-            message : "message"
+            channelId : "ad791243-9de9-4be6-ad47-0e939f933419",
+            senderName : userData.username,
+            message : "Enter" + userData.username,
           };
-          stompClient.send("/pub/chat/room", {}, JSON.stringify(chatMessage));
+          stompClient.send("/pub/chat/room", {jwt : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDYzODQyLCJpYXQiOjE2NTEwNDU4NDJ9._hQ-lHmf8sYaQK4UQQh0e3x0ocar1Wgb_EijFTUmsjqMET1ob_vyCaXUPL7icNTNxn7WaP-HCUTiXEuHnELftg", username : "user"}, JSON.stringify(chatMessage));
     }
 
     const onMessageReceived = (payload)=>{
         var payloadData = JSON.parse(payload.body);
-        console.log(payload)
-        // switch(payloadData.status){
-        //     case "JOIN":
-        //         if(!privateChats.get(payloadData.senderName)){
-        //             privateChats.set(payloadData.senderName,[]);
-        //             setPrivateChats(new Map(privateChats));
-        //         }
-        //         break;
-        //     case "MESSAGE":
-        //         publicChats.push(payloadData);
-        //         setPublicChats([...publicChats]);
-        //         break;
-        // }
-    }
-    
-    const onPrivateMessage = (payload)=>{
-        console.log(payload);
-        var payloadData = JSON.parse(payload.body);
-        if(privateChats.get(payloadData.senderName)){
-            privateChats.get(payloadData.senderName).push(payloadData);
-            setPrivateChats(new Map(privateChats));
-        }else{
-            let list =[];
-            list.push(payloadData);
-            privateChats.set(payloadData.senderName,list);
-            setPrivateChats(new Map(privateChats));
+        console.log(payloadData.type) 
+        // eslint-disable-next-line default-case
+        switch(payloadData.type){
+            case "RENEWAL":
+                console.log("1111111111111111")
+                publicChats.push(payloadData);
+                setPublicChats([...publicChats]);
+                break;
+            case "CHAT":
+                console.log("2222222222222")
+                publicChats.push(payloadData);
+                setPublicChats([...publicChats]);
+                break;
+            // case "JOIN":
+            //     if(!privateChats.get(payloadData.senderName)){
+            //         privateChats.set(payloadData.senderName,[]);
+            //         setPrivateChats(new Map(privateChats));
+            //     }
+            //     break;
+            // case "MESSAGE":
+            //     publicChats.push(payloadData);
+            //     setPublicChats([...publicChats]);
+            //     break;
         }
     }
+    
+    // const onPrivateMessage = (payload)=>{
+    //     console.log(payload);
+    //     var payloadData = JSON.parse(payload.body);
+    //     if(privateChats.get(payloadData.senderName)){
+    //         privateChats.get(payloadData.senderName).push(payloadData);
+    //         setPrivateChats(new Map(privateChats));
+    //     }else{
+    //         let list =[];
+    //         list.push(payloadData);
+    //         privateChats.set(payloadData.senderName,list);
+    //         setPrivateChats(new Map(privateChats));
+    //     }
+    // }
 
     const onError = (err) => {
         console.log(err);
@@ -83,12 +101,12 @@ const ChatRoom = () => {
             if (stompClient) {
               var chatMessage = {
                 type: "CHAT",
-                channelId: "bece0c1e-36aa-4b07-9121-27b94bb8e2e2",
-                senderName: userData.senderName,
+                channelId: "ad791243-9de9-4be6-ad47-0e939f933419",
+                senderName: userData.username,
                 message:userData.message
               };
               console.log(chatMessage);
-              stompClient.send("/pub/chat/room", {}, JSON.stringify(chatMessage));
+              stompClient.send("/pub/chat/room", {jwt : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNjUxMDY0MTY4LCJpYXQiOjE2NTEwNDYxNjh9.5OhDgCnkkeq685FjTeIhkZ-wBSP-vnIy1bLz-Pnb4v78DR5ZDiWab0WKbu6935gIYuUbrKCDO0LgJjf29C0Sjw", username : "user"}, JSON.stringify(chatMessage));
               setUserData({...userData,"message": ""});
             }
     }
@@ -183,3 +201,4 @@ const ChatRoom = () => {
 }
 
 export default ChatRoom
+

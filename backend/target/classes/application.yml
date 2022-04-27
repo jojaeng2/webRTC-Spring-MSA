@@ -19,6 +19,8 @@ spring:
     timeout: 600
     host: 127.0.0.1
     port: 6379
+  jwt:
+    secret: govlepel@$&
 
 server:
   port: 8080
