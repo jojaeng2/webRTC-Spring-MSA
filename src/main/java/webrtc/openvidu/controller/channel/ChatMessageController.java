@@ -31,7 +31,7 @@ public class ChatMessageController {
      * /pub/chat/room 으로 오는 메시지 반환
      */
     @MessageMapping("/chat/room")
-    public void message(ClientMessage message, @Header("jwt") String jwtToken) {
+    public void message(ClientMessage message, @Header("jwt") String jwtToken) throws Exception {
         System.out.println(jwtToken);
         System.out.println("ChatMessageController message Method");
         ClientMessageType clientMessageType = message.getType();

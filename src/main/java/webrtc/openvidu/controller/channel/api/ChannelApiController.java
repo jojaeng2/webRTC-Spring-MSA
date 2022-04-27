@@ -8,6 +8,8 @@ import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.*;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.enums.HttpReturnType;
+import webrtc.openvidu.exception.ChannelException;
+import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.List;
@@ -46,18 +48,11 @@ public class ChannelApiController {
     }
 
     @PostMapping("/channel/enter/{id}")
-    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) {
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) throws Exception{
         String username = request.getUsername();
         ChannelServiceReturnType result = channelService.enterChannel(channelId, username);
-        switch (result) {
-            case EXIST:
-            case SUCCESS:
-                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널 입장에 성공했습니다."), OK);
-            case FULLCHANNEL:
-                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다."), OK);
-            default:
-                return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "Server Error 500"), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다."), OK);
     }
 
 }

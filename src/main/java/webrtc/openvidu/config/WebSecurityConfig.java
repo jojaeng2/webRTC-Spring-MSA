@@ -69,11 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/*").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
-                .antMatchers("/chat/**").permitAll()
-                .antMatchers("/ws-stomp").permitAll()
-                .
+                .antMatchers("/ws-stomp/**").permitAll()
                 // all other requests need to be authenticated
-                        anyRequest().permitAll();
+                .anyRequest().authenticated().and()
+                        .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

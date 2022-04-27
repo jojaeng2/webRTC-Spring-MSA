@@ -7,6 +7,8 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
+import webrtc.openvidu.exception.ChannelException;
+import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.repository.ChannelUserRepository;
