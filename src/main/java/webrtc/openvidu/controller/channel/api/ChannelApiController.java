@@ -28,7 +28,6 @@ public class ChannelApiController {
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request) {
         Channel channel = channelService.createChannel(request);
-        System.out.println("channel = " + channel.getId());
         CreateChannelResponse response = new CreateChannelResponse(HttpReturnType.SUCCESS, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

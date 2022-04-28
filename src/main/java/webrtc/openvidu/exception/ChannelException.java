@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class ChannelException {
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Success")
+    @ResponseStatus(code = HttpStatus.CONFLICT)
     public static class AlreadyExistChannelException extends RuntimeException {
-        private static final String MESSAGE = "채널에 입장합니다.";
 
-        public AlreadyExistChannelException() {
-            super(MESSAGE);
-        }
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public static class NotExistChannelException extends RuntimeException {
+
     }
 }

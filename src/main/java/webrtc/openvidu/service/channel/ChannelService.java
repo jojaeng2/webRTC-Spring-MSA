@@ -2,6 +2,7 @@ package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.DispatcherServlet;
 import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
@@ -9,6 +10,7 @@ import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.ChannelHashTagRepository;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.repository.ChannelUserRepository;
@@ -21,6 +23,7 @@ import static webrtc.openvidu.enums.ChannelServiceReturnType.*;
 @RequiredArgsConstructor
 @Service
 public class ChannelService {
+
 
     private final ChannelRepository channelRepository;
     private final UserRepository userRepository;
@@ -36,6 +39,10 @@ public class ChannelService {
      * @return Channel
      */
     public Channel createChannel(CreateChannelRequest request) {
+        List<Channel> channels = channelRepository.findOneChannelByChannelName(request.getChannelName());
+        if(!channels.isEmpty()) {
+            throw new AlreadyExistChannelException();
+        }
         return channelRepository.createChannel(request);
     }
 
@@ -50,8 +57,10 @@ public class ChannelService {
             return EXIST;
         }
         else {
-            Channel channel = channelRepository.findOneChannelById(channelId);
             User user = users.get(0);
+            Channel channel = findOneChannelById(channelId);
+            System.out.println("channelId = " + channelId);
+            System.out.println("channel.getId() = " + channel.getId());
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) {
@@ -59,6 +68,7 @@ public class ChannelService {
             }
             else {
                 channelUserRepository.enterChannel(channel, user);
+
                 channelRepository.updateChannel(channel);
                 return SUCCESS;
             }
@@ -104,7 +114,9 @@ public class ChannelService {
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
-        Channel findChannel = channelRepository.findOneChannelById(channelId);
+        List<Channel> channels = channelRepository.findOneChannelById(channelId);
+        if(channels.isEmpty()) throw new NotExistChannelException();
+        Channel findChannel = channels.get(0);
         Long timeToLive = channelRepository.findChannelTTL(channelId);
         findChannel.setTimeToLive(timeToLive);
         return findChannel;

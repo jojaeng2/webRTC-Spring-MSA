@@ -17,8 +17,13 @@ public class ChannelUserRepository {
 
     @Transactional
     public void enterChannel(Channel channel, User user) {
-        System.out.println("enterChannel");
+        System.out.println("ChannelUserRepository enterChannel");
         ChannelUser channelUser = new ChannelUser(channel, user);
+        System.out.println("channel.getId() = " + channel.getId());
+        System.out.println("channelUser.getId() = " + channelUser.getId());
+        System.out.println("channelUser.getUser() = " + channelUser.getUser());
+        System.out.println("channelUser.getChannel() = " + channelUser.getChannel());
+        System.out.println("user = " + user.getId());
         channel.addUser(channelUser);
         em.persist(channelUser);
     }

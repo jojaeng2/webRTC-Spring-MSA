@@ -6,11 +6,9 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.dto.ChatDto;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
-import webrtc.openvidu.dto.ChatDto.ClientMessage;
 import webrtc.openvidu.enums.ClientMessageType;
-import webrtc.openvidu.repository.ChannelRepository;
+import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +21,13 @@ public class ChatService {
 
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
-    private final ChannelRepository channelRepository;
+    private final ChannelService channelService;
 
     /**
      * Chatting Room에 message 발송
      */
     public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage) {
-        Channel channel = channelRepository.findOneChannelById(channelId);
+        Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         switch (type) {

@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.*;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.service.pubsub.RedisSubscriber;
@@ -92,24 +93,23 @@ public class ChannelRepository {
      * 모든 채널 불러오기
      */
     public List<Channel> findAllChannel() {
-        List<Channel> channels = new ArrayList<>();
-        Set<String> keys = redisTemplate.keys("*");
-        Iterator<String> iter = keys.iterator();
-        while(iter.hasNext()) {
-            String channelId = iter.next();
-            Channel channel = (Channel) opsValueOperation.get(channelId);
-            System.out.println(channelId);
-            channels.add(channel);
-        }
-        return channels;
+        return em.createQuery(
+                        "select c from Channel c "
+                                , Channel.class)
+                .getResultList();
     }
 
     /*
      * 특정 채널을 ID로 찾기
      *
      */
-    public Channel findOneChannelById(String id) {
-        return (Channel) opsValueOperation.get(id);
+    public List<Channel> findOneChannelById(String id) {
+        return em.createQuery(
+                        "select c from Channel c " +
+                                "where c.id = :id"
+                        , Channel.class)
+                .setParameter("id", id)
+                .getResultList();
     }
 
     /*
@@ -139,6 +139,20 @@ public class ChannelRepository {
                 .setParameter("hashtag_id", hashTag.getId())
                 .getResultList();
     }
+    /*
+     * 특정 채널을 channelName으로 찾기
+     *
+     */
+    public List<Channel> findOneChannelByChannelName(String channelName) {
+        return em.createQuery(
+                "select c from Channel c " +
+                "where c.channelName = :channelName"
+                , Channel.class)
+                .setParameter("channelName", channelName)
+                .getResultList();
+
+    }
+
 
     /*
      * 특정 채널의 TTL 반환
