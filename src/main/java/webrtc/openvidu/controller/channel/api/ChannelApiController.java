@@ -47,11 +47,11 @@ public class ChannelApiController {
     }
 
     @PostMapping("/channel/enter/{id}")
-    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) throws Exception{
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) throws Exception {
         String username = request.getUsername();
-        ChannelServiceReturnType result = channelService.enterChannel(channelId, username);
+        channelService.enterChannel(channelId, username);
 
-        return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.FAIL, "채널에 인원이 가득차 입장할 수없습니다."), OK);
+        return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널에 입장합니다."), OK);
     }
 
 }

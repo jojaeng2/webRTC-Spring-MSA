@@ -17,23 +17,12 @@ public class ChannelUserRepository {
 
     @Transactional
     public void enterChannel(Channel channel, User user) {
-        System.out.println("ChannelUserRepository enterChannel");
         ChannelUser channelUser = new ChannelUser(channel, user);
-        System.out.println("channel.getId() = " + channel.getId());
-        System.out.println("channelUser.getId() = " + channelUser.getId());
-        System.out.println("channelUser.getUser() = " + channelUser.getUser());
-        System.out.println("channelUser.getChannel() = " + channelUser.getChannel());
-        System.out.println("user = " + user.getId());
-        channel.addUser(channelUser);
         em.persist(channelUser);
     }
 
     @Transactional
     public void exitChannel(String channelId, String userId) {
-        System.out.println("exitChannel Method");
-        System.out.println("channelId = " + channelId);
-        System.out.println("userId = " + userId);
-        System.out.println("exitChannel Method");
         em.createQuery(
                 "delete from ChannelUser cu " +
                 "where channel_id = :channel_id " +

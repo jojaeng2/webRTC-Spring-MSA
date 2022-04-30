@@ -85,7 +85,7 @@ public class ChannelRepository {
     public Channel updateChannel(Channel channel) {
         String channelId = channel.getId();
         opsValueOperation.set(channelId, channel, redisTemplate.getExpire(channelId));
-//        em.persist(channel);
+        em.persist(channel);
         return channel;
     }
 
@@ -130,7 +130,7 @@ public class ChannelRepository {
      * 특정 채널을 hashName으로 찾기
      *
      */
-    public List<Channel> findOneChannelByHashName(String tagName) {
+    public List<Channel> findChannelsByHashName(String tagName) {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +

@@ -14,4 +14,14 @@ public class ChannelException {
     public static class NotExistChannelException extends RuntimeException {
 
     }
+
+    @ResponseStatus(code = HttpStatus.ALREADY_REPORTED)
+    public static class AlreadyExistUserEnterChannelException extends RuntimeException {
+
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
+    public static class ChannelParticipantsFullException extends RuntimeException {
+
+    }
 }

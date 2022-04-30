@@ -39,7 +39,10 @@ public class Channel implements Serializable {
 
     public void addUser(ChannelUser channelUser) {
         System.out.println(channelUser.getId());
+        System.out.println(channelUsers.size());
         this.channelUsers.add(channelUser);
+        System.out.println(channelUsers.size());
+
     }
 
     public void addChannelUser(ChannelUser channelUser) {
