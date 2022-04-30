@@ -15,7 +15,11 @@ public class ChannelUserService {
         channelUserRepository.save(channelUser);
     }
 
-    public void exitChannel(String channelId, String userId) {
-        channelUserRepository.exitChannel(channelId, userId);
+    public void delete(ChannelUser channelUser) {
+        channelUserRepository.delete(channelUser);
+    }
+
+    public ChannelUser findOneChannelUser(String channelId, String userId) {
+        return channelUserRepository.findOneChannelUser(channelId, userId);
     }
 }

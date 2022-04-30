@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -35,7 +37,7 @@ public class User implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
-    private List<ChannelUser> channelUsers;
+    private Set<ChannelUser> channelUsers = new HashSet<>();
 
     public User(String nickname, String password) {
         this.id = UUID.randomUUID().toString();
@@ -56,5 +58,9 @@ public class User implements Serializable {
 
     public void addChannelUser(ChannelUser channelUser) {
         this.channelUsers.add(channelUser);
+    }
+
+    public void removeChannelUser(ChannelUser channelUser) {
+        this.channelUsers.remove(channelUser);
     }
 }

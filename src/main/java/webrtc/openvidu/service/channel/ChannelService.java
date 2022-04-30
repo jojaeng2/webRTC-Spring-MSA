@@ -3,7 +3,6 @@ package webrtc.openvidu.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.ChannelUser;
-import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
@@ -35,10 +34,11 @@ public class ChannelService {
      * @return Channel
      */
     public Channel createChannel(CreateChannelRequest request, String userName) {
-        List<Channel> channels = channelRepository.findOneChannelByChannelName(request.getChannelName());
+        List<Channel> channels = channelRepository.findChannelsByChannelName(request.getChannelName());
         if(!channels.isEmpty()) {
             throw new AlreadyExistChannelException();
         }
+
         Channel channel = new Channel(request.getChannelName());
         User user = userService.findUserByName(userName);
         List<String> hashTags = request.getHashTags();
@@ -71,6 +71,7 @@ public class ChannelService {
             }
             else {
                 ChannelUser channelUser = new ChannelUser(requestEnterChannel, user);
+                requestEnterChannel.plusCurrentParticipants();
                 requestEnterChannel.addChannelUser(channelUser);
                 user.addChannelUser(channelUser);
                 channelUserService.save(channelUser);
@@ -84,7 +85,12 @@ public class ChannelService {
      */
     public void exitChannel(String channelId, String userName) {
         User user = userService.findUserByName(userName);
-        channelUserService.exitChannel(channelId, user.getId());
+        Channel channel = findOneChannelById(channelId);
+        ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
+        user.removeChannelUser(channelUser);
+        channel.removeChannelUser(channelUser);
+        channel.minusCurrentParticipants();
+        channelUserService.delete(channelUser);
     }
 
     /*
@@ -95,14 +101,6 @@ public class ChannelService {
 
     }
 
-    /*
-     * 비즈니스 로직 - 채널 업데이트
-     *
-     * 채널 인원 추가, 인원 삭제, 남은 시간 등 업데이트
-     */
-//    public void updateChannel(Channel channel) {
-//        channelRepository.updateChannel(channel);
-//    }
 
     /*
      * 비즈니스 로직 - 모든 채널 불러오기

@@ -51,10 +51,17 @@ public class ChannelApiController {
     }
 
     @PostMapping("/channel/enter/{id}")
-    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
         String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
         channelService.enterChannel(channelId, userName);
         return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널에 입장합니다."), OK);
+    }
+
+    @PostMapping("/channel/exit/{id}")
+    public ResponseEntity<?> exitChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
+        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+        channelService.exitChannel(channelId, userName);
+        return new ResponseEntity<>(OK);
     }
 
 }

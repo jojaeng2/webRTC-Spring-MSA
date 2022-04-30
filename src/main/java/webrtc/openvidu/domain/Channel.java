@@ -21,10 +21,10 @@ public class Channel implements Serializable {
     private Long timeToLive;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
-    private List<ChannelUser> channelUsers;
+    private Set<ChannelUser> channelUsers;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
-    private List<ChannelHashTag> channelHashTags = new ArrayList<ChannelHashTag>();
+    private Set<ChannelHashTag> channelHashTags = new HashSet<>();
     private static final Long serialVersionUID = 1L;
 
 
@@ -34,11 +34,15 @@ public class Channel implements Serializable {
         this.limitParticipants = 15L;
         this.currentParticipants = 1L;
         this.timeToLive = 24*60*60L;
-        this.channelUsers = new ArrayList<>();
+        this.channelUsers = new HashSet<>();
     }
 
     public void addChannelUser(ChannelUser channelUser) {
         this.channelUsers.add(channelUser);
+    }
+
+    public void removeChannelUser(ChannelUser channelUser) {
+        this.channelUsers.remove(channelUser);
     }
 
     public void setTimeToLive(Long timeToLive) {
@@ -49,7 +53,11 @@ public class Channel implements Serializable {
         this.channelHashTags.add(channelHashTag);
     }
 
-    public void AddCurrentParticipants(){
+    public void plusCurrentParticipants(){
         this.currentParticipants++;
+    }
+
+    public void minusCurrentParticipants() {
+        this.currentParticipants--;
     }
 }

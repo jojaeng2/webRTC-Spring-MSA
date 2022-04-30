@@ -75,12 +75,6 @@ public class ChannelRepository {
         em.remove(channel);
     }
 
-
-    public void enterChannel(Channel channel) {
-        channel.AddCurrentParticipants();
-        this.updateChannel(channel);
-    }
-
     /*
      * 채널 업데이트
      */
@@ -145,7 +139,7 @@ public class ChannelRepository {
      * 특정 채널을 channelName으로 찾기
      *
      */
-    public List<Channel> findOneChannelByChannelName(String channelName) {
+    public List<Channel> findChannelsByChannelName(String channelName) {
         return em.createQuery(
                 "select c from Channel c " +
                 "where c.channelName = :channelName"
