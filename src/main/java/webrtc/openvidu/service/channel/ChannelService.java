@@ -39,7 +39,6 @@ public class ChannelService {
         if(!channels.isEmpty()) {
             throw new AlreadyExistChannelException();
         }
-
         Channel channel = new Channel(request.getChannelName());
         User user = userService.findUserByName(userName);
         List<String> hashTags = request.getHashTags();
