@@ -2,6 +2,8 @@ package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import webrtc.openvidu.domain.ChannelUser;
+import webrtc.openvidu.domain.HashTag;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
@@ -32,12 +34,22 @@ public class ChannelService {
      *
      * @return Channel
      */
-    public Channel createChannel(CreateChannelRequest request) {
+    public Channel createChannel(CreateChannelRequest request, String userName) {
         List<Channel> channels = channelRepository.findOneChannelByChannelName(request.getChannelName());
         if(!channels.isEmpty()) {
             throw new AlreadyExistChannelException();
         }
-        return channelRepository.createChannel(request);
+
+        Channel channel = new Channel(request.getChannelName());
+        User user = userService.findUserByName(userName);
+        List<String> hashTags = request.getHashTags();
+        channelRepository.createChannel(channel, hashTags);
+
+        ChannelUser channelUser = new ChannelUser(channel, user);
+        channel.addChannelUser(channelUser);
+        user.addChannelUser(channelUser);
+        channelUserService.save(channelUser);
+        return channel;
     }
 
     /*
@@ -46,19 +58,23 @@ public class ChannelService {
      */
     public void enterChannel(String channelId, String userName) {
         User user = userService.findUserByName(userName);
+
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
+        Channel requestEnterChannel = findOneChannelById(channelId);
         if(!findEnterChannels.isEmpty()) {
             throw new AlreadyExistUserEnterChannelException();
         }
         else {
-            Channel channel = findEnterChannels.get(0);
-            Long limitParticipants = channel.getLimitParticipants();
-            Long currentParticipants = channel.getCurrentParticipants();
+            Long limitParticipants = requestEnterChannel.getLimitParticipants();
+            Long currentParticipants = requestEnterChannel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) {
                 throw new ChannelParticipantsFullException();
             }
             else {
-                channelUserService.enterChannel(channel, user);
+                ChannelUser channelUser = new ChannelUser(requestEnterChannel, user);
+                requestEnterChannel.addChannelUser(channelUser);
+                user.addChannelUser(channelUser);
+                channelUserService.save(channelUser);
             }
         }
     }
@@ -94,6 +110,10 @@ public class ChannelService {
      *
      */
     public List<Channel> findAllChannel() {
+        List<Channel> channels = channelRepository.findAllChannel();
+        for (Channel channel : channels) {
+            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+        }
         return channelRepository.findAllChannel();
     }
 

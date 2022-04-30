@@ -16,10 +16,10 @@ public class ChannelUserRepository {
     private EntityManager em;
 
     @Transactional
-    public void enterChannel(Channel channel, User user) {
-        ChannelUser channelUser = new ChannelUser(channel, user);
+    public void save(ChannelUser channelUser) {
         em.persist(channelUser);
     }
+
 
     @Transactional
     public void exitChannel(String channelId, String userId) {

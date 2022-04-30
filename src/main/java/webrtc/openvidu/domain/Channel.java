@@ -37,14 +37,6 @@ public class Channel implements Serializable {
         this.channelUsers = new ArrayList<>();
     }
 
-    public void addUser(ChannelUser channelUser) {
-        System.out.println(channelUser.getId());
-        System.out.println(channelUsers.size());
-        this.channelUsers.add(channelUser);
-        System.out.println(channelUsers.size());
-
-    }
-
     public void addChannelUser(ChannelUser channelUser) {
         this.channelUsers.add(channelUser);
     }
@@ -57,5 +49,7 @@ public class Channel implements Serializable {
         this.channelHashTags.add(channelHashTag);
     }
 
-
+    public void AddCurrentParticipants(){
+        this.currentParticipants++;
+    }
 }

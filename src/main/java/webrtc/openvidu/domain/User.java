@@ -19,10 +19,12 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "user_id")
+    @JsonIgnore
     private String id;
     private Timestamp created_at;
     private Timestamp updated_at;
     private String email;
+    @JsonIgnore
     private String password;
     private Date birthdate;
     private String phone_number;

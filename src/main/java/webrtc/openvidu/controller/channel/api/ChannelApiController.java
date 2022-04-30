@@ -11,6 +11,7 @@ import webrtc.openvidu.enums.HttpReturnType;
 import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.service.channel.ChannelService;
+import webrtc.openvidu.utils.JwtTokenUtil;
 
 import java.util.List;
 
@@ -25,9 +26,12 @@ public class ChannelApiController {
 
     private final ChannelService channelService;
 
+    private final JwtTokenUtil jwtTokenUtil;
+
     @PostMapping("/channel")
-    public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request) {
-        Channel channel = channelService.createChannel(request);
+    public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
+        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+        Channel channel = channelService.createChannel(request, userName);
         CreateChannelResponse response = new CreateChannelResponse(HttpReturnType.SUCCESS, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -47,10 +51,9 @@ public class ChannelApiController {
     }
 
     @PostMapping("/channel/enter/{id}")
-    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request) throws Exception {
-        String username = request.getUsername();
-        channelService.enterChannel(channelId, username);
-
+    public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestBody EnterChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
+        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+        channelService.enterChannel(channelId, userName);
         return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널에 입장합니다."), OK);
     }
 

@@ -45,13 +45,9 @@ public class ChannelRepository {
      * 서버간 채널 공유를 위해 redis hash에 채널 저장
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
-    public Channel createChannel(CreateChannelRequest request) {
-        // 변수
-        String channelName = request.getChannelName();
+    public Channel createChannel(Channel channel, List<String> hashTags) {
 
         // 채널 생성
-        Channel channel = new Channel(channelName);
-        List<String> hashTags = request.getHashTags();
         for(String tagName : hashTags) {
             HashTag hashTag;
             HashTag tags = hashTagRepository.findHashTagByName(tagName);
@@ -79,13 +75,19 @@ public class ChannelRepository {
         em.remove(channel);
     }
 
+
+    public void enterChannel(Channel channel) {
+        channel.AddCurrentParticipants();
+        this.updateChannel(channel);
+    }
+
     /*
      * 채널 업데이트
      */
     public Channel updateChannel(Channel channel) {
         String channelId = channel.getId();
-        opsValueOperation.set(channelId, channel, redisTemplate.getExpire(channelId));
-        em.persist(channel);
+        channel.setTimeToLive(redisTemplate.getExpire(channelId));
+//        em.persist(channel);
         return channel;
     }
 
@@ -150,7 +152,6 @@ public class ChannelRepository {
                 , Channel.class)
                 .setParameter("channelName", channelName)
                 .getResultList();
-
     }
 
 

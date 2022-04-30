@@ -32,7 +32,5 @@ public class HashTagRepository {
         } catch(NoResultException e) {
             return null;
         }
-
-
     }
 }

@@ -37,11 +37,11 @@ public class ChatService {
                 break;
             case ENTER:
                 List<User> enterUsers = new ArrayList<>();
-                serverMessage.setEnterType(RENEWAL, "[알림] ", "님이 채팅방에 입장했습니다.", currentParticipants, enterUsers);
+                serverMessage.setEnterType(RENEWAL, "[알림] ", senderName+ " 님이 채팅방에 입장했습니다.", currentParticipants, enterUsers);
                 break;
             case EXIT:
                 List<User> exitUsers = new ArrayList<>();
-                serverMessage.setExitType(RENEWAL, "[알림] ", "님이 채팅방에서 퇴장했습니다.", currentParticipants, exitUsers);
+                serverMessage.setExitType(RENEWAL, "[알림] ", senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, exitUsers);
                 break;
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);

@@ -6,15 +6,11 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChatDto.*;
-import webrtc.openvidu.enums.ChannelServiceReturnType;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
-
-import static webrtc.openvidu.enums.SocketServerMessageType.RENEWAL;
 
 
 @RequiredArgsConstructor
@@ -33,14 +29,10 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken) throws Exception {
         System.out.println(jwtToken);
-        System.out.println("ChatMessageController message Method");
         ClientMessageType clientMessageType = message.getType();
         String channelId = message.getChannelId();
         String senderName = message.getSenderName();
         String chatMessage = message.getMessage();
-        System.out.println("senderName = " + senderName);
-        System.out.println("chatMessage = " + chatMessage);
-        System.out.println("channelId = " + channelId);
         switch(clientMessageType) {
             case CHAT:
                 message.setSenderName(senderName);
