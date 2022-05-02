@@ -8,6 +8,8 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import webrtc.openvidu.exception.JwtException;
+import webrtc.openvidu.exception.UserException;
 import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
@@ -20,9 +22,6 @@ import webrtc.openvidu.utils.JwtTokenUtil;
 @Component
 public class StompHandler implements ChannelInterceptor {
 
-    private final ChatService chatService;
-    private final ChannelService channelService;
-    private final ChannelRepository channelRepository;
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -31,15 +30,17 @@ public class StompHandler implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         System.out.println("accessor = " + accessor);
-        switch (accessor.getCommand()) {
-            case CONNECT:
-            case SEND:
-                String jwtToken = accessor.getFirstNativeHeader("jwt");
-                String username = accessor.getFirstNativeHeader("username");
-                UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
-                jwtTokenUtil.validateToken(jwtToken, userDetails);
-                break;
-        }
-        return message;
+
+        throw new JwtException.CustomExpiredJwtException();
+//        switch (accessor.getCommand()) {
+//            case CONNECT:
+//            case SEND:
+//                String jwtToken = accessor.getFirstNativeHeader("jwt");
+//                String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+//                UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+//                jwtTokenUtil.validateToken(jwtToken, userDetails);
+//                break;
+//        }
+//        return message;
     }
 }

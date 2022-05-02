@@ -2,10 +2,11 @@ package webrtc.openvidu.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import webrtc.openvidu.dto.HttpStatusResponse;
-import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistUserEnterChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;

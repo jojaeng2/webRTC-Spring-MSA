@@ -59,6 +59,7 @@ public class ChannelService {
         User user = userService.findUserByName(userName);
 
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
+        System.out.println("findEnterChannels = " + findEnterChannels.size());
         Channel requestEnterChannel = findOneChannelById(channelId);
         if(!findEnterChannels.isEmpty()) {
             throw new AlreadyExistUserEnterChannelException();
