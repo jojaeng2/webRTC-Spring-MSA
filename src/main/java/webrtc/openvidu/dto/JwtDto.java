@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import webrtc.openvidu.enums.SocketInterceptorErrorType;
 
 import java.io.Serializable;
 
@@ -32,5 +33,12 @@ public class JwtDto {
         public String getJwttoken() {
             return this.jwttoken;
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class CustomExpiredJwtExceptionDto {
+        private SocketInterceptorErrorType type;
+        private String exception;
     }
 }

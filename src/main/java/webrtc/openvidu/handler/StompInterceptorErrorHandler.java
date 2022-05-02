@@ -2,7 +2,6 @@ package webrtc.openvidu.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageDeliveryException;
@@ -11,7 +10,10 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
+import webrtc.openvidu.dto.JwtDto.CustomExpiredJwtExceptionDto;
 import webrtc.openvidu.exception.JwtException.CustomExpiredJwtException;
+
+import static webrtc.openvidu.enums.SocketInterceptorErrorType.JWT_EXPIRED;
 
 @Component
 
@@ -32,31 +34,25 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
         return super.handleClientMessageProcessingError(clientMessage, ex);
     }
 
-    private Message<byte[]> handleCustomExpiredJwtException(Message<byte[]> clientMessage, Throwable ex) {
-        TestDto testDto = new TestDto("OK", ex.getMessage());
 
-        return prepareErrorMessage(clientMessage, testDto, "OK");
+
+    private Message<byte[]> handleCustomExpiredJwtException(Message<byte[]> clientMessage, Throwable ex) {
+        CustomExpiredJwtExceptionDto customExpiredJwtExceptionDto = new CustomExpiredJwtExceptionDto(JWT_EXPIRED, "Jwt Token이 만료되었습니다.");
+        return prepareErrorMessage(clientMessage, customExpiredJwtExceptionDto, "OK");
     }
 
-    private Message<byte[]> prepareErrorMessage(Message<byte[]> clientMessage, TestDto testDto, String errorCode) {
+    private Message<byte[]> prepareErrorMessage(Message<byte[]> clientMessage, Object requestObject, String errorCode) {
         String message = new String();
         try {
-            message = objectMapper.writeValueAsString(testDto);
+            message = objectMapper.writeValueAsString(requestObject);
         } catch (JsonProcessingException e) {
-            System.out.println(e);
+            System.out.println("prepareErrorMessage = " + e);
         }
 
 
-        System.out.println("message = " + message);
         StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.ERROR);
         accessor.setMessage(errorCode);
         return MessageBuilder.createMessage(message.getBytes(), accessor.getMessageHeaders());
-    }
-
-    @AllArgsConstructor
-    private static class TestDto {
-        private String status;
-        private String error;
     }
 
 }

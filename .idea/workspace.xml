@@ -6,27 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/JwtAuthenticationEntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/config/WebSockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/GlobalChannelExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/GlobalChannelExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/GlobalUserExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/GlobalUserExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/JwtDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/dto/JwtDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/JwtRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/JwtRequestFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/CustomPasswordEncoder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/CustomPasswordEncoder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/JwtAuthenticationEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/JwtAuthenticationEntryPoint.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/PasswordEncoder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/WebSockConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/config/WebSockConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalChannelExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalChannelExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalUserExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalUserExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelUserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelUserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/utils/JwtRequestFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/utils/JwtRequestFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompInterceptorErrorHandler$TestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompInterceptorErrorHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompInterceptorErrorHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,11 +20,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="module-info" />
         <option value="Kotlin Class" />
         <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
