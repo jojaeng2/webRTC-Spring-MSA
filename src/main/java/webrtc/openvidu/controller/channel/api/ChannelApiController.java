@@ -54,7 +54,7 @@ public class ChannelApiController {
     public ResponseEntity<EnterChannelResponse> enterChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
         String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
         channelService.enterChannel(channelId, userName);
-        return new ResponseEntity<>(new EnterChannelResponse(HttpReturnType.SUCCESS, "채널에 입장합니다."), OK);
+        return new ResponseEntity<>(new EnterChannelResponse("SUCCESS", "채널에 입장합니다."), OK);
     }
 
     @PostMapping("/channel/exit/{id}")

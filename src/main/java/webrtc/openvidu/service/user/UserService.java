@@ -24,8 +24,8 @@ public class UserService {
         return user;
     }
 
-    public User findUserByName(String username) {
-        List<User> users = userRepository.findUserByName(username);
+    public User findOneUserByName(String username) {
+        List<User> users = userRepository.findUsersByName(username);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
     }

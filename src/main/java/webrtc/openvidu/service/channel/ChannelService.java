@@ -7,7 +7,6 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.openvidu.exception.ChannelException.AlreadyExistUserEnterChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.ChannelRepository;
@@ -40,7 +39,7 @@ public class ChannelService {
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userService.findUserByName(userName);
+        User user = userService.findOneUserByName(userName);
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
@@ -56,20 +55,16 @@ public class ChannelService {
      *
      */
     public void enterChannel(String channelId, String userName) {
-        User user = userService.findUserByName(userName);
-
-        List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
-        System.out.println("findEnterChannels = " + findEnterChannels.size());
+        User user = userService.findOneUserByName(userName);
         Channel requestEnterChannel = findOneChannelById(channelId);
-        if(!findEnterChannels.isEmpty()) {
-            throw new AlreadyExistUserEnterChannelException();
-        }
-        else {
+        List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
+
+        // !findEnterChannels.isEmpty() -> 이미 해당 user가 채널에 입장한 상태라는 의미
+
+        if(findEnterChannels.isEmpty()) {
             Long limitParticipants = requestEnterChannel.getLimitParticipants();
             Long currentParticipants = requestEnterChannel.getCurrentParticipants();
-            if(limitParticipants.equals(currentParticipants)) {
-                throw new ChannelParticipantsFullException();
-            }
+            if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
                 ChannelUser channelUser = new ChannelUser(requestEnterChannel, user);
                 requestEnterChannel.plusCurrentParticipants();
@@ -85,7 +80,7 @@ public class ChannelService {
      *
      */
     public void exitChannel(String channelId, String userName) {
-        User user = userService.findUserByName(userName);
+        User user = userService.findOneUserByName(userName);
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
         user.removeChannelUser(channelUser);
@@ -119,8 +114,8 @@ public class ChannelService {
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
-        List<Channel> channels = channelRepository.findOneChannelById(channelId);
-        if(channels.isEmpty()) throw new NotExistChannelException();
+        List<Channel> channels = channelRepository.findChannelsById(channelId);
+        if(channels.size() == 0) throw new NotExistChannelException();
         Channel findChannel = channels.get(0);
         Long timeToLive = channelRepository.findChannelTTL(channelId);
         findChannel.setTimeToLive(timeToLive);

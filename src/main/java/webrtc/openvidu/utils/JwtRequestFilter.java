@@ -53,7 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("123123123213");
             }
         } else {
-                logger.warn("JWT Token does not begin with jwt String");
+            logger.warn("JWT Token does not begin with jwt String");
         }
 
         // Once we get the token validate it.

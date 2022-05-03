@@ -21,7 +21,7 @@ public class UserRepository {
         em.persist(user);
     }
 
-    public List<User> findUserByName(String name) {
+    public List<User> findUsersByName(String name) {
         return em.createQuery(
                 "select u from User u " +
                         "where u.nickname = :nickname"

@@ -23,6 +23,14 @@ public class ChatService {
     private final RedisTemplate redisTemplate;
     private final ChannelService channelService;
 
+    public String getRoomId(String destination) {
+        int lastIndex = destination.lastIndexOf('/');
+        if(lastIndex != -1) {
+            return destination.substring(lastIndex+1);
+        }
+        return "";
+    }
+
     /**
      * Chatting Room에 message 발송
      */

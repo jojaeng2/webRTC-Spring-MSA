@@ -11,7 +11,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import webrtc.openvidu.handler.StompHandler;
 import webrtc.openvidu.handler.StompInterceptorErrorHandler;
-import webrtc.openvidu.service.pubsub.RedisSubscriber;
 
 @Configuration
 @RequiredArgsConstructor

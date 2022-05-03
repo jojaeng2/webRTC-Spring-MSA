@@ -99,7 +99,7 @@ public class ChannelRepository {
      * 특정 채널을 ID로 찾기
      *
      */
-    public List<Channel> findOneChannelById(String id) {
+    public List<Channel> findChannelsById(String id) {
         return em.createQuery(
                         "select c from Channel c " +
                                 "where c.id = :id"

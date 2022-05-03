@@ -47,24 +47,18 @@ public class ChannelDto {
     @Getter
     @AllArgsConstructor
     public static class FindAllChannelResponse {
-
         private List<Channel> channels;
 
     }
 
     @Getter
-    public static class EnterChannelRequest {
-        private String username;
-    }
-
-    @Getter
     public static class EnterChannelResponse {
 
-        private HttpReturnType type;
+        private String code;
         private String message;
 
-        public EnterChannelResponse(HttpReturnType type, String message) {
-            this.type = type;
+        public EnterChannelResponse(String code, String message) {
+            this.code = code;
             this.message = message;
         }
     }

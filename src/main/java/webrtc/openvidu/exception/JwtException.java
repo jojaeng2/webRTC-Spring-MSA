@@ -1,13 +1,22 @@
 package webrtc.openvidu.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import webrtc.openvidu.enums.SocketInterceptorErrorType;
 
 public class JwtException {
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public static class CustomExpiredJwtException extends RuntimeException {
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CustomJwtExceptionDto {
+        private SocketInterceptorErrorType type;
+        private String exception;
 
+        public void setField(SocketInterceptorErrorType type, String exception) {
+            this.type = type;
+            this.exception = exception;
+        }
     }
 }
