@@ -65,23 +65,7 @@ public class ChatDto {
             super(channelId);
         }
 
-        public void setChatType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
-            this.setType(type);
-            this.senderName = senderName;
-            this.chatMessage = chatMessage;
-            this.currentParticipants = currentParticipants;
-            this.users = users;
-        }
-
-        public void setEnterType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
-            this.setType(type);
-            this.senderName = senderName;
-            this.chatMessage = chatMessage;
-            this.currentParticipants = currentParticipants;
-            this.users = users;
-        }
-
-        public void setExitType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
+        public void setMessageType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
             this.setType(type);
             this.senderName = senderName;
             this.chatMessage = chatMessage;

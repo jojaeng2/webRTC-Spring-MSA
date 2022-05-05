@@ -9,6 +9,7 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.service.channel.ChannelService;
+import webrtc.openvidu.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ChatService {
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
     private final ChannelService channelService;
+    private final UserService userService;
 
     public String getRoomId(String destination) {
         int lastIndex = destination.lastIndexOf('/');
@@ -38,18 +40,16 @@ public class ChatService {
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
+        List<User> currentUsers = userService.findUsersByChannelId(channelId);
         switch (type) {
             case CHAT:
-                List<User> currentUsers = new ArrayList<>();
-                serverMessage.setChatType(CHAT, senderName, chatMessage, currentParticipants, currentUsers);
+                serverMessage.setMessageType(CHAT, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case ENTER:
-                List<User> enterUsers = new ArrayList<>();
-                serverMessage.setEnterType(RENEWAL, "[알림] ", senderName+ " 님이 채팅방에 입장했습니다.", currentParticipants, enterUsers);
+                serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에 입장했습니다.", currentParticipants, currentUsers);
                 break;
             case EXIT:
-                List<User> exitUsers = new ArrayList<>();
-                serverMessage.setExitType(RENEWAL, "[알림] ", senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, exitUsers);
+                serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, currentUsers);
                 break;
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);

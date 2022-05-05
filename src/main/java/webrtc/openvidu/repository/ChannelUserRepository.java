@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.exception.ChannelUserException;
+import webrtc.openvidu.exception.ChannelUserException.NotExistChannelUserException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -36,7 +37,7 @@ public class ChannelUserRepository {
                     .setParameter("user_id", userId)
                     .getSingleResult();
         } catch(NoResultException e) {
-            throw new ChannelUserException.NotExistChannelUserException();
+            throw new NotExistChannelUserException();
         }
     }
 }

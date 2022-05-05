@@ -10,6 +10,7 @@ import webrtc.openvidu.exception.UserException.NotExistUserException;
 import webrtc.openvidu.repository.UserRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,9 @@ public class UserService {
         List<User> users = userRepository.findUsersByName(username);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
+    }
+
+    public List<User> findUsersByChannelId(String channelId) {
+        return userRepository.findUsersByChannelId(channelId);
     }
 }

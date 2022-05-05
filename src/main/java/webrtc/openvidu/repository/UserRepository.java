@@ -37,4 +37,13 @@ public class UserRepository {
         );
     }
 
+    public List<User> findUsersByChannelId(String channelId) {
+        return em.createQuery(
+                "select u from User u " +
+                        "join u.channelUsers " +
+                        "where channel_id = :channel_id", User.class)
+                .setParameter("channel_id", channelId)
+                .getResultList();
+    }
+
 }
