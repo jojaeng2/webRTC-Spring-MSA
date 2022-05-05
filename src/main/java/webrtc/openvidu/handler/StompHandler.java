@@ -2,16 +2,13 @@ package webrtc.openvidu.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import webrtc.openvidu.exception.ChannelException;
-import webrtc.openvidu.exception.JwtException;
-import webrtc.openvidu.exception.UserException;
-import webrtc.openvidu.repository.ChannelRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.chat.ChatService;
 import webrtc.openvidu.service.jwt.JwtUserDetailsService;
@@ -43,14 +40,6 @@ public class StompHandler implements ChannelInterceptor {
                 UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
                 jwtTokenUtil.validateToken(jwtToken, userDetails);
                 break;
-            case SUBSCRIBE:
-                String roomId =chatService.getRoomId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId"));
-                String name = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknowUser");
-                System.out.println("name = " + name);
-                System.out.println("roomId = " + roomId);
-
-            case DISCONNECT:
-
         }
         return message;
     }

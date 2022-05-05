@@ -33,7 +33,6 @@ public class ChatMessageController {
      */
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken) {
-        System.out.println(jwtToken);
         ClientMessageType clientMessageType = message.getType();
         String channelId = message.getChannelId();
         String senderName = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -41,9 +40,6 @@ public class ChatMessageController {
         switch(clientMessageType) {
             case CHAT:
                 message.setSenderName(senderName);
-                break;
-            case ENTER:
-                channelService.enterChannel(channelId, senderName);
                 break;
             case EXIT:
                 channelService.exitChannel(channelId, senderName);

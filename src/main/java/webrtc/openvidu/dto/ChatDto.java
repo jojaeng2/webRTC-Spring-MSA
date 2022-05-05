@@ -22,12 +22,6 @@ public class ChatDto {
         private String senderName;
         private String message;
 
-        public ClientMessage(ClientMessageType type, String channelId, String senderName) {
-            this.type = type;
-            this.channelId = channelId;
-            this.senderName = senderName;
-            this.message = "";
-        }
 
         public void setSenderName(String senderName) {
             this.senderName = senderName;
