@@ -50,9 +50,9 @@ public class ChannelRepository {
         // 채널 생성
         for(String tagName : hashTags) {
             HashTag hashTag;
-            HashTag tags = hashTagRepository.findHashTagByName(tagName);
-            if(tags == null) hashTag = new HashTag(tagName);
-            else hashTag = tags;
+            List<HashTag> tags = hashTagRepository.findHashTagByName(tagName);
+            if(tags.isEmpty()) hashTag = new HashTag(tagName);
+            else hashTag = tags.get(0);
             ChannelHashTag channelHashTag = new ChannelHashTag();
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
@@ -127,12 +127,12 @@ public class ChannelRepository {
      *
      */
     public List<Channel> findChannelsByHashName(String tagName) {
-        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
+        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
                         "where hashtag_id = :hashtag_id", Channel.class)
-                .setParameter("hashtag_id", hashTag.getId())
+                .setParameter("hashtag_id", hashTags.get(0).getId())
                 .getResultList();
     }
     /*

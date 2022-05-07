@@ -23,10 +23,8 @@ import webrtc.openvidu.utils.JwtTokenUtil;
 @Controller
 public class ChatMessageController {
 
-    private final ChannelService channelService;
     private final ChatService chatService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final ObjectMapper objectMapper;
 
     /**
      * /pub/chat/room 으로 오는 메시지 반환

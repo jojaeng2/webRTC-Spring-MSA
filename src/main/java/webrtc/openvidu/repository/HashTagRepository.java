@@ -24,13 +24,9 @@ public class HashTagRepository {
         return em.find(HashTag.class, id);
     }
 
-    public HashTag findHashTagByName(String tagName) {
-        try {
-            return em.createQuery("select h from HashTag h where h.tagName = :tagName", HashTag.class)
+    public List<HashTag> findHashTagByName(String tagName) {
+        return em.createQuery("select h from HashTag h where h.tagName = :tagName", HashTag.class)
                     .setParameter("tagName", tagName)
-                    .getSingleResult();
-        } catch(NoResultException e) {
-            return null;
-        }
+                    .getResultList();
     }
 }

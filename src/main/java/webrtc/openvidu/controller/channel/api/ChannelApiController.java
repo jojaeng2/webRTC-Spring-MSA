@@ -32,7 +32,7 @@ public class ChannelApiController {
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
         String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
         Channel channel = channelService.createChannel(request, userName);
-        CreateChannelResponse response = new CreateChannelResponse(HttpReturnType.SUCCESS, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+        CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -50,6 +50,7 @@ public class ChannelApiController {
         return new ResponseEntity<>(response, OK);
     }
 
+    // 여기부터 확인
     @PostMapping("/channel/enter/{id}")
     public ResponseEntity enterChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
         String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));

@@ -34,13 +34,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
-        System.out.println(request.getRequestURI());
         String username = null;
         String jwtToken = null;
         // JWT Token is in the form "jwt token". Remove jwt word and get
         // only the Token
-        System.out.println("doFilterInternal = " + request.getRequestURL());
-        System.out.println("doFilterInternal = " + request.getRequestURI());
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);

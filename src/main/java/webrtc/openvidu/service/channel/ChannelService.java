@@ -107,7 +107,7 @@ public class ChannelService {
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
         }
-        return channelRepository.findAllChannel();
+        return channels;
     }
 
     /*
@@ -117,8 +117,7 @@ public class ChannelService {
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.size() == 0) throw new NotExistChannelException();
         Channel findChannel = channels.get(0);
-        Long timeToLive = channelRepository.findChannelTTL(channelId);
-        findChannel.setTimeToLive(timeToLive);
+        findChannel.setTimeToLive(channelRepository.findChannelTTL(channelId));
         return findChannel;
     }
 

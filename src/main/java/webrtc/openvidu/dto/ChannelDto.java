@@ -18,14 +18,12 @@ public class ChannelDto {
     @Getter
     public static class CreateChannelResponse {
 
-        private HttpReturnType type;
         private String channelName;
         private Long limitParticipants;
         private Long currentParticipants;
         private Long timeToLive;
 
-        public CreateChannelResponse(HttpReturnType type, String channelName, Long limitParticipants, Long currentParticipants, Long timeToLive) {
-            this.type = type;
+        public CreateChannelResponse(String channelName, Long limitParticipants, Long currentParticipants, Long timeToLive) {
             this.channelName = channelName;
             this.limitParticipants = limitParticipants;
             this.currentParticipants = currentParticipants;
