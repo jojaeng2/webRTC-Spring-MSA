@@ -32,10 +32,10 @@ public class RedisConfig {
     public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory,
                                                               MessageListenerAdapter listenerAdapter,
                                                               ChannelTopic channelTopic) {
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, channelTopic);
-        return container;
+        RedisMessageListenerContainer redisMessageListener = new RedisMessageListenerContainer();
+        redisMessageListener.setConnectionFactory(connectionFactory);
+        redisMessageListener.addMessageListener(listenerAdapter, channelTopic);
+        return redisMessageListener;
     }
 
     /**
