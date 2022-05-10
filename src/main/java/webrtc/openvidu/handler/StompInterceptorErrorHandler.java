@@ -42,7 +42,6 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
                 return handleAuthenticationException(clientMessage, exception);
             }
             if(exception instanceof ChannelException) {
-                System.out.println("handleClientMessageProcessingError  ChannelException= ");
                 return handleChannelException(clientMessage, exception);
             }
         }
@@ -71,16 +70,16 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
     private Message<byte[]> handleJwtException(Message<byte[]> clientMessage, Throwable exception) {
         CustomJwtExceptionDto customJwtExceptionDto = new CustomJwtExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
         if(ExpiredJwtException.class.isInstance(exception)) {
-            customJwtExceptionDto.setField(JWT_ACCESS_TOKEN_EXPIRED, "Jwt Access Token이 만료되었습니다.");
+            customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "Jwt Access Token이 만료되었습니다.");
         }
         else if(UnsupportedJwtException.class.isInstance(exception)) {
             customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "올바르지 않은 Jwt Access Token 형식입니다.");
         }
         else if(MalformedJwtException.class.isInstance(exception)) {
-            customJwtExceptionDto.setField(MALFORMED_JWT_ACCESS_TOKEN, "손상된 Jwt Access Token이 사용되었습니다.");
+            customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "손상된 Jwt Access Token이 사용되었습니다.");
         }
         else if(SignatureException.class.isInstance(exception)) {
-            customJwtExceptionDto.setField(SIGNATURE_EXCEPTION, "JWT Signature이 올바르지 않습니다.");
+            customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "JWT Signature이 올바르지 않습니다.");
         }
         return prepareErrorMessage(clientMessage, customJwtExceptionDto, "Exception");
     }

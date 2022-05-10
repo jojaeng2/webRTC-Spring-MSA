@@ -31,6 +31,8 @@ public class ChannelRepository {
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
 
+    private final Long channelTTL = 30L;
+
     /*
      * 초깃값 설정, Test Code에서도 자동으로 실행됨
      */
@@ -45,6 +47,7 @@ public class ChannelRepository {
      * 서버간 채널 공유를 위해 redis hash에 채널 저장
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
+    @Transactional
     public Channel createChannel(Channel channel, List<String> hashTags) {
 
         // 채널 생성
@@ -62,7 +65,7 @@ public class ChannelRepository {
 
         // redis 설정
         opsValueOperation.set(channel.getId(), channel);
-        redisTemplate.expire(channel.getId(), 24, TimeUnit.HOURS);
+        redisTemplate.expire(channel.getId(), channelTTL, TimeUnit.SECONDS);
 
         return channel;
     }
@@ -70,9 +73,11 @@ public class ChannelRepository {
     /*
      * 채널 삭제
      */
+    @Transactional
     public void deleteChannel(Channel channel) {
         opsValueOperation.getOperations().delete(channel.getId());
-        em.remove(channel);
+        Channel checkedChannel = em.find(Channel.class, channel.getId());
+        em.remove(checkedChannel);
     }
 
     /*

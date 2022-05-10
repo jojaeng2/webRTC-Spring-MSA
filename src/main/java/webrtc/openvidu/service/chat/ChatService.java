@@ -25,14 +25,6 @@ public class ChatService {
     private final ChannelService channelService;
     private final UserService userService;
 
-    public String getRoomId(String destination) {
-        int lastIndex = destination.lastIndexOf('/');
-        if(lastIndex != -1) {
-            return destination.substring(lastIndex+1);
-        }
-        return "";
-    }
-
     /**
      * Chatting Room에 message 발송
      */
@@ -41,6 +33,7 @@ public class ChatService {
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<User> currentUsers = userService.findUsersByChannelId(channelId);
+        System.out.println("type = " + type);
         switch (type) {
             case CHAT:
                 serverMessage.setMessageType(CHAT, senderName, chatMessage, currentParticipants, currentUsers);
@@ -51,6 +44,8 @@ public class ChatService {
             case EXIT:
                 serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, currentUsers);
                 break;
+            case CLOSE:
+                serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }

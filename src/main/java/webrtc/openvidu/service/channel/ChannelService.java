@@ -54,21 +54,21 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 입장
      *
      */
-    public void enterChannel(String channelId, String userName) {
+    public void enterChannel(Channel channel, String userName) {
         User user = userService.findOneUserByName(userName);
-        Channel requestEnterChannel = findOneChannelById(channelId);
+        String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
         // !findEnterChannels.isEmpty() -> 이미 해당 user가 채널에 입장한 상태라는 의미
 
         if(findEnterChannels.isEmpty()) {
-            Long limitParticipants = requestEnterChannel.getLimitParticipants();
-            Long currentParticipants = requestEnterChannel.getCurrentParticipants();
+            Long limitParticipants = channel.getLimitParticipants();
+            Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
-                ChannelUser channelUser = new ChannelUser(requestEnterChannel, user);
-                requestEnterChannel.plusCurrentParticipants();
-                requestEnterChannel.addChannelUser(channelUser);
+                ChannelUser channelUser = new ChannelUser(channel, user);
+                channel.plusCurrentParticipants();
+                channel.addChannelUser(channelUser);
                 user.addChannelUser(channelUser);
                 channelUserService.save(channelUser);
             }
@@ -93,8 +93,9 @@ public class ChannelService {
      * 비즈니스 로직 - 채널 삭제
      *
      */
-    public void deleteChannel() {
-
+    public void deleteChannel(String channelId) {
+        Channel channel = findOneChannelById(channelId);
+        channelRepository.deleteChannel(channel);
     }
 
 

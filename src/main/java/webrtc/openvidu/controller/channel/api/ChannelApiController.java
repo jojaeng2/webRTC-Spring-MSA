@@ -50,19 +50,19 @@ public class ChannelApiController {
         return new ResponseEntity<>(response, OK);
     }
 
-    // 여기부터 확인
-    @PostMapping("/channel/enter/{id}")
-    public ResponseEntity enterChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
-        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
-        channelService.enterChannel(channelId, userName);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @PostMapping("/channel/exit/{id}")
-    public ResponseEntity<?> exitChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
-        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
-        channelService.exitChannel(channelId, userName);
-        return new ResponseEntity<>(OK);
-    }
+//    // 여기부터 확인
+//    @PostMapping("/channel/enter/{id}")
+//    public ResponseEntity enterChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
+//        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+//        channelService.enterChannel(channelId, userName);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/channel/exit/{id}")
+//    public ResponseEntity<?> exitChannel(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
+//        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+//        channelService.exitChannel(channelId, userName);
+//        return new ResponseEntity<>(OK);
+//    }
 
 }
