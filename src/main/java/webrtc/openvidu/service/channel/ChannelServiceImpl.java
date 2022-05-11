@@ -87,8 +87,6 @@ public class ChannelServiceImpl implements ChannelService{
         User user = userServiceImpl.findOneUserByName(userName);
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserServiceImpl.findOneChannelUser(channelId, user.getId());
-        user.removeChannelUser(channelUser);
-        channel.removeChannelUser(channelUser);
         channel.minusCurrentParticipants();
         channelUserServiceImpl.delete(channelUser);
     }

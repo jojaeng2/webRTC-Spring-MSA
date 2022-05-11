@@ -25,7 +25,8 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
 
     @Transactional
     public void delete(ChannelUser channelUser) {
-        em.remove(channelUser);
+        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
+        em.remove(findChannelUser);
     }
 
     public ChannelUser findOneChannelUser(String channelId, String userId) {

@@ -33,7 +33,7 @@ public class Channel implements Serializable {
         this.id = UUID.randomUUID().toString();
         this.channelName = channelName;
         this.limitParticipants = 15L;
-        this.currentParticipants = 1L;
+        this.currentParticipants = 0L;
         this.timeToLive = 24*60*60L;
         this.channelUsers = new HashSet<>();
     }
