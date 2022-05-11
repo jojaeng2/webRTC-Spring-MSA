@@ -1,8 +1,8 @@
-package webrtc.openvidu.service.channel;
+package webrtc.openvidu.repository.channel;
 
 import webrtc.openvidu.domain.ChannelUser;
 
-public interface ChannelUserService {
+public interface ChannelUserRepository {
 
     void save(ChannelUser channelUser);
 

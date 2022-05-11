@@ -8,23 +8,20 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/ChatMessageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/ChannelApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/ChannelApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/enums/ClientMessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/enums/ClientMessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/HashTagApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/HashTagApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/listner/RedisKeyExpiredListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/listner/RedisKeyExpiredListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/chat/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/chat/ChatService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/enums/ClientMessageType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/enums/ClientMessageType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/listner/RedisKeyExpiredListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/listner/RedisKeyExpiredListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/ChannelRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelHashTagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelHashTagRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/ChannelUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelUserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/HashTagRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/hashtag/HashTagRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/user/UserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/HashTagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/HashTagServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/chat/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/chat/ChatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/jwt/JwtUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/jwt/JwtUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/user/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +36,7 @@
         <option value="JUnit4 Test Class" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>

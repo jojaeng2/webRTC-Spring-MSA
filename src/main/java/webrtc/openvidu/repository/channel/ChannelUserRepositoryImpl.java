@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.channel;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class ChannelUserRepository {
+public class ChannelUserRepositoryImpl implements ChannelUserRepository{
 
     @PersistenceContext
     private EntityManager em;

@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.user;
 
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserRepository {
+public class UserRepositoryImpl implements UserRepository{
 
     @PersistenceContext
     private EntityManager em;
@@ -30,12 +30,6 @@ public class UserRepository {
                 .getResultList();
     }
 
-    public void deleteChannel(Channel channel, User user) {
-        String userId = user.getId();
-        em.createQuery(
-                "delete "
-        );
-    }
 
     public List<User> findUsersByChannelId(String channelId) {
         return em.createQuery(

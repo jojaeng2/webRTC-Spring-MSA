@@ -9,7 +9,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.service.channel.ChannelService;
+import webrtc.openvidu.service.channel.ChannelServiceImpl;
 import webrtc.openvidu.service.jwt.JwtUserDetailsService;
 import webrtc.openvidu.utils.JwtTokenUtil;
 
@@ -20,7 +20,7 @@ public class StompHandler implements ChannelInterceptor {
 
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final ChannelService channelService;
+    private final ChannelServiceImpl channelServiceImpl;
 
     // websocket을 통해 들어온 요청이 처리 되기전 실행
     @Override
@@ -33,8 +33,8 @@ public class StompHandler implements ChannelInterceptor {
                 UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(connectUsername);
                 jwtTokenUtil.validateToken(connectJwtToken, connectUserDetails);
                 String connectChannelId = accessor.getFirstNativeHeader("channelId");
-                Channel connectCheckedExistChannel = channelService.findOneChannelById(connectChannelId);
-                channelService.enterChannel(connectCheckedExistChannel, connectUsername);
+                Channel connectCheckedExistChannel = channelServiceImpl.findOneChannelById(connectChannelId);
+                channelServiceImpl.enterChannel(connectCheckedExistChannel, connectUsername);
                 break;
             case SEND:
                 String sendJwtToken = accessor.getFirstNativeHeader("jwt");
@@ -42,7 +42,7 @@ public class StompHandler implements ChannelInterceptor {
                 UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUsername);
                 jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");
-                Channel sendCheckedExistChannel = channelService.findOneChannelById(sendChannelId);
+                Channel sendCheckedExistChannel = channelServiceImpl.findOneChannelById(sendChannelId);
                 break;
         }
         return message;

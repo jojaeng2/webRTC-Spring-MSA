@@ -1,15 +1,12 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.*;
-import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
-import webrtc.openvidu.service.pubsub.RedisSubscriber;
+import webrtc.openvidu.repository.hashtag.HashTagRepositoryImpl;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -19,19 +16,19 @@ import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Repository
-public class ChannelRepository {
+public class ChannelRepositoryImpl implements ChannelRepository{
 
     @PersistenceContext
     private EntityManager em;
 
-    private final ChannelHashTagRepository channelHashTagRepository;
-    private final HashTagRepository hashTagRepository;
+    private final ChannelHashTagRepositoryImpl channelHashTagRepositoryImpl;
+    private final HashTagRepositoryImpl hashTagRepositoryImpl;
 
     // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
 
-    private final Long channelTTL = 30L;
+    private final Long channelTTL = 10 * 60L;
 
     /*
      * 초깃값 설정, Test Code에서도 자동으로 실행됨
@@ -53,14 +50,14 @@ public class ChannelRepository {
         // 채널 생성
         for(String tagName : hashTags) {
             HashTag hashTag;
-            List<HashTag> tags = hashTagRepository.findHashTagByName(tagName);
+            List<HashTag> tags = hashTagRepositoryImpl.findHashTagByName(tagName);
             if(tags.isEmpty()) hashTag = new HashTag(tagName);
             else hashTag = tags.get(0);
             ChannelHashTag channelHashTag = new ChannelHashTag();
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
             channel.addChannelHashTag(channelHashTag);
-            channelHashTagRepository.save(channelHashTag);
+            channelHashTagRepositoryImpl.save(channelHashTag);
         }
 
         // redis 설정
@@ -132,7 +129,7 @@ public class ChannelRepository {
      *
      */
     public List<Channel> findChannelsByHashName(String tagName) {
-        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
+        List<HashTag> hashTags = hashTagRepositoryImpl.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +

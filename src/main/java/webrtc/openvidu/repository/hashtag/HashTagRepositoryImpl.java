@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.hashtag;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class HashTagRepository {
+public class HashTagRepositoryImpl implements HashTagRepository{
 
     @PersistenceContext
     private EntityManager em;

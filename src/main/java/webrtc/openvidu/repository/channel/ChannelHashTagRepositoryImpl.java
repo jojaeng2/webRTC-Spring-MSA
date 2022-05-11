@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository;
+package webrtc.openvidu.repository.channel;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 @RequiredArgsConstructor
-public class ChannelHashTagRepository {
+public class ChannelHashTagRepositoryImpl implements ChannelHashTagRepository{
 
     @PersistenceContext
     private final EntityManager em;

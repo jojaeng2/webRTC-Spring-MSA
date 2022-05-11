@@ -5,33 +5,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
-import webrtc.openvidu.exception.UserException;
 import webrtc.openvidu.exception.UserException.NotExistUserException;
-import webrtc.openvidu.repository.UserRepository;
+import webrtc.openvidu.repository.user.UserRepositoryImpl;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepositoryImpl;
     private final PasswordEncoder bcryptEncoder;
 
     public User saveUser(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()));
-        userRepository.saveUser(user);
+        userRepositoryImpl.saveUser(user);
         return user;
     }
 
     public User findOneUserByName(String username) {
-        List<User> users = userRepository.findUsersByName(username);
+        List<User> users = userRepositoryImpl.findUsersByName(username);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
     }
 
     public List<User> findUsersByChannelId(String channelId) {
-        return userRepository.findUsersByChannelId(channelId);
+        return userRepositoryImpl.findUsersByChannelId(channelId);
     }
 }
