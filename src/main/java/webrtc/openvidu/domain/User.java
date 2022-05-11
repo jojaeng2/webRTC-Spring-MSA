@@ -57,7 +57,7 @@ public class User implements Serializable {
     }
 
     public void addChannelUser(ChannelUser channelUser) {
-        this.channelUsers.add(channelUser);
+        channelUser.setUser(this);
     }
 
     public void removeChannelUser(ChannelUser channelUser) {

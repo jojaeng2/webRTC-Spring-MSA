@@ -9,7 +9,7 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.service.channel.ChannelServiceImpl;
-import webrtc.openvidu.service.user.UserService;
+import webrtc.openvidu.service.user.UserServiceImpl;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
     private final ChannelServiceImpl channelServiceImpl;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     /**
      * Chatting Room에 message 발송
@@ -31,7 +31,7 @@ public class ChatServiceImpl implements ChatService{
         Channel channel = channelServiceImpl.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        List<User> currentUsers = userService.findUsersByChannelId(channelId);
+        List<User> currentUsers = userServiceImpl.findUsersByChannelId(channelId);
         System.out.println("type = " + type);
         switch (type) {
             case CHAT:

@@ -3,6 +3,7 @@ package webrtc.openvidu.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,9 +39,11 @@ public class Channel implements Serializable {
     }
 
     public void addChannelUser(ChannelUser channelUser) {
-        this.channelUsers.add(channelUser);
+        this.currentParticipants++;
+        channelUser.setChannel(this);
     }
 
+    @Transactional
     public void removeChannelUser(ChannelUser channelUser) {
         this.channelUsers.remove(channelUser);
     }
@@ -51,10 +54,6 @@ public class Channel implements Serializable {
 
     public void addChannelHashTag(ChannelHashTag channelHashTag) {
         this.channelHashTags.add(channelHashTag);
-    }
-
-    public void plusCurrentParticipants(){
-        this.currentParticipants++;
     }
 
     public void minusCurrentParticipants() {

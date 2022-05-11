@@ -18,6 +18,7 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
 
     @Transactional
     public void save(ChannelUser channelUser) {
+        System.out.println("ChannelUserRepositoryImpl = " + channelUser.getChannel());
         em.persist(channelUser);
     }
 

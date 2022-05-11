@@ -28,7 +28,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
 
-    private final Long channelTTL = 10 * 60L;
+    private final Long channelTTL = 60 * 60L;
 
     /*
      * 초깃값 설정, Test Code에서도 자동으로 실행됨

@@ -8,7 +8,7 @@ import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 
 @RequiredArgsConstructor
 @Service
-public class RedisSubscriber {
+public class RedisSubscriberImpl {
     private final ObjectMapper objectMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
