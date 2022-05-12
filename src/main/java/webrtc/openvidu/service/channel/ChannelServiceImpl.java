@@ -10,7 +10,7 @@ import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
-import webrtc.openvidu.service.user.UserServiceImpl;
+import webrtc.openvidu.service.user.UserService;
 
 import java.util.List;
 
@@ -21,9 +21,8 @@ public class ChannelServiceImpl implements ChannelService{
 
 
     private final ChannelRepository channelRepository;
-    private final UserServiceImpl userServiceImpl;
-    private final ChannelUserServiceImpl channelUserServiceImpl;
-    private final Long limitParticipants = 15L;
+    private final UserService userService;
+    private final ChannelUserService channelUserService;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -39,14 +38,14 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userServiceImpl.findOneUserByName(userName);
+        User user = userService.findOneUserByName(userName);
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
         ChannelUser channelUser = new ChannelUser();
         channel.addChannelUser(channelUser);
         user.addChannelUser(channelUser);
-        channelUserServiceImpl.save(channelUser);
+        channelUserService.save(channelUser);
         return channel;
     }
 
@@ -55,7 +54,7 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     public void enterChannel(Channel channel, String userName) {
-        User user = userServiceImpl.findOneUserByName(userName);
+        User user = userService.findOneUserByName(userName);
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
@@ -74,7 +73,7 @@ public class ChannelServiceImpl implements ChannelService{
                 channel.addChannelUser(channelUser);
                 user.addChannelUser(channelUser);
                 System.out.println("channelUser = " + channelUser.getId());
-                channelUserServiceImpl.save(channelUser);
+                channelUserService.save(channelUser);
             }
         }
     }
@@ -84,11 +83,11 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     public void exitChannel(String channelId, String userName) {
-        User user = userServiceImpl.findOneUserByName(userName);
+        User user = userService.findOneUserByName(userName);
         Channel channel = findOneChannelById(channelId);
-        ChannelUser channelUser = channelUserServiceImpl.findOneChannelUser(channelId, user.getId());
+        ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
         channel.minusCurrentParticipants();
-        channelUserServiceImpl.delete(channelUser);
+        channelUserService.delete(channelUser);
     }
 
     /*

@@ -3,6 +3,7 @@ package webrtc.openvidu.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageDeliveryException;
@@ -23,11 +24,10 @@ import webrtc.openvidu.exception.UserException.NotExistUserExceptionDto;
 import static webrtc.openvidu.enums.SocketInterceptorErrorType.*;
 
 @Component
-
+@RequiredArgsConstructor
 public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {

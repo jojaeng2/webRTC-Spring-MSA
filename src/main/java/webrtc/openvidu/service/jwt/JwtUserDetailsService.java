@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.repository.user.UserRepositoryImpl;
+import webrtc.openvidu.repository.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final UserRepositoryImpl userRepositoryImpl;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> users = userRepositoryImpl.findUsersByName(username);
+        List<User> users = userRepository.findUsersByName(username);
 
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("User not found with username: " + username);

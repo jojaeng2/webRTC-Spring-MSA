@@ -13,7 +13,7 @@ import webrtc.openvidu.dto.JwtDto.JwtRequest;
 import webrtc.openvidu.dto.JwtDto.JwtResponse;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
 import webrtc.openvidu.service.jwt.JwtUserDetailsService;
-import webrtc.openvidu.service.user.UserServiceImpl;
+import webrtc.openvidu.service.user.UserService;
 import webrtc.openvidu.utils.JwtTokenUtil;
 
 
@@ -29,7 +29,7 @@ public class JwtAuthenticationController {
 
     private final JwtUserDetailsService userDetailsService;
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -44,7 +44,7 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        return new ResponseEntity(userServiceImpl.saveUser(request), HttpStatus.OK);
+        return new ResponseEntity(userService.saveUser(request), HttpStatus.OK);
     }
 
     private void authenticate(String username, String password) throws Exception {

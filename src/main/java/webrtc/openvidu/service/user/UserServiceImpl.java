@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
 import webrtc.openvidu.exception.UserException.NotExistUserException;
-import webrtc.openvidu.repository.user.UserRepositoryImpl;
+import webrtc.openvidu.repository.user.UserRepository;
 
 import java.util.List;
 
@@ -14,22 +14,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private final UserRepositoryImpl userRepositoryImpl;
+    private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
 
     public User saveUser(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()));
-        userRepositoryImpl.saveUser(user);
+        userRepository.saveUser(user);
         return user;
     }
 
     public User findOneUserByName(String username) {
-        List<User> users = userRepositoryImpl.findUsersByName(username);
+        List<User> users = userRepository.findUsersByName(username);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
     }
 
     public List<User> findUsersByChannelId(String channelId) {
-        return userRepositoryImpl.findUsersByChannelId(channelId);
+        return userRepository.findUsersByChannelId(channelId);
     }
 }

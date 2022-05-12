@@ -6,17 +6,16 @@ import org.springframework.data.redis.listener.KeyExpirationEventMessageListener
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
 import webrtc.openvidu.enums.ClientMessageType;
-import webrtc.openvidu.service.channel.ChannelServiceImpl;
-import webrtc.openvidu.service.chat.ChatServiceImpl;
+import webrtc.openvidu.service.channel.ChannelService;
+import webrtc.openvidu.service.chat.ChatService;
 
 @Component
-
 public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Autowired
-    private ChatServiceImpl chatService;
+    private ChatService chatService;
     @Autowired
-    private ChannelServiceImpl channelServiceImpl;
+    private ChannelService channelService;
 
     public RedisKeyExpiredListener(@Qualifier("redisMessageListener")RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);
@@ -25,6 +24,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
         chatService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "[알림]", "serverclose");
-        channelServiceImpl.deleteChannel(message.toString());
+        channelService.deleteChannel(message.toString());
     }
 }

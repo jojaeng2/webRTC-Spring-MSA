@@ -6,8 +6,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import webrtc.openvidu.dto.ChatDto.*;
 import webrtc.openvidu.enums.ClientMessageType;
-import webrtc.openvidu.service.channel.ChannelServiceImpl;
-import webrtc.openvidu.service.chat.ChatServiceImpl;
+import webrtc.openvidu.service.channel.ChannelService;
+import webrtc.openvidu.service.chat.ChatService;
 import webrtc.openvidu.utils.JwtTokenUtil;
 
 
@@ -15,8 +15,8 @@ import webrtc.openvidu.utils.JwtTokenUtil;
 @Controller
 public class ChatMessageController {
 
-    private final ChatServiceImpl chatService;
-    private final ChannelServiceImpl channelServiceImpl;
+    private final ChatService chatService;
+    private final ChannelService channelService;
     private final JwtTokenUtil jwtTokenUtil;
 
     /**
@@ -36,7 +36,7 @@ public class ChatMessageController {
                 message.setSenderName("[알림] ");
                 break;
             case EXIT:
-                channelServiceImpl.exitChannel(channelId, senderName);
+                channelService.exitChannel(channelId, senderName);
                 message.setSenderName("[알림] ");
                 break;
         }

@@ -3,7 +3,6 @@ package webrtc.openvidu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.enums.HttpReturnType;
 
 import java.util.List;
 
