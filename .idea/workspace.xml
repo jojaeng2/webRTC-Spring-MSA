@@ -6,29 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/CustomPasswordEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/utils/CustomPasswordEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/service/chat/ChatServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/ChatMessageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/HashTagApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/channel/api/HashTagApiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/jwt/JwtAuthenticationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/controller/jwt/JwtAuthenticationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$CreateChannelRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$CreateChannelRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$CreateChannelResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$CreateChannelResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$EnterChannelResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$EnterChannelResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$FindAllChannelResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$FindAllChannelResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$FindOneChannelResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto$FindOneChannelResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/dto/ChannelDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalChannelExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/GlobalChannelExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompInterceptorErrorHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompInterceptorErrorHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/listner/RedisKeyExpiredListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/listner/RedisKeyExpiredListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelUserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelUserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/HashTagServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/HashTagServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/jwt/JwtUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/jwt/JwtUserDetailsService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/user/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/user/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelUserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelUserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/domain/ChannelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/domain/ChannelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelUserRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelUserRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/domain/ChannelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/domain/ChannelTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +27,8 @@
         <option value="Kotlin Class" />
         <option value="JUnit4 Test Class" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -84,73 +69,84 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ChannelTest">
-    <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.OpenviduApplication" />
+  <component name="RunManager" selected="JUnit.All in openvidu">
+    <configuration name="All in openvidu" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChannelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChannelUserRepositoryImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.domain.*" />
+          <option name="PATTERN" value="webrtc.openvidu.repository.channel.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.domain" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.domain.ChannelTest" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.channel" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.channel.ChannelUserRepositoryImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChannelTest.addChannelHashTag" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChannelUserRepositoryImplTest.saveO_delO" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.domain.*" />
+          <option name="PATTERN" value="webrtc.openvidu.repository.channel.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.domain" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.domain.ChannelTest" />
-      <option name="METHOD_NAME" value="addChannelHashTag" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.channel" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.channel.ChannelUserRepositoryImplTest" />
+      <option name="METHOD_NAME" value="saveO_delO" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChannelTest.addChannelUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChannelUserRepositoryImplTest.saveO_findX" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.domain.*" />
+          <option name="PATTERN" value="webrtc.openvidu.repository.channel.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.domain" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.domain.ChannelTest" />
-      <option name="METHOD_NAME" value="addChannelUser" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.channel" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.channel.ChannelUserRepositoryImplTest" />
+      <option name="METHOD_NAME" value="saveO_findX" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserRepositoryImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="openvidu" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="webrtc.openvidu.repository.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.user" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.user.UserRepositoryImplTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ChannelTest" />
-        <item itemvalue="JUnit.ChannelTest.addChannelHashTag" />
-        <item itemvalue="JUnit.ChannelTest.addChannelUser" />
-        <item itemvalue="Application.OpenviduApplication" />
+        <item itemvalue="JUnit.All in openvidu" />
+        <item itemvalue="JUnit.UserRepositoryImplTest" />
+        <item itemvalue="JUnit.ChannelUserRepositoryImplTest" />
+        <item itemvalue="JUnit.ChannelUserRepositoryImplTest.saveO_delO" />
+        <item itemvalue="JUnit.ChannelUserRepositoryImplTest.saveO_findX" />
       </list>
     </recent_temporary>
   </component>

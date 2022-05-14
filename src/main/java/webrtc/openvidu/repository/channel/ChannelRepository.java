@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ChannelRepository {
 
+    void save(Channel channel);
+
     Channel createChannel(Channel channel, List<String> hashTags);
 
     void deleteChannel(Channel channel);

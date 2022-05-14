@@ -44,6 +44,12 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 서버간 채널 공유를 위해 redis hash에 채널 저장
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
+
+    @Transactional
+    public void save(Channel channel) {
+        em.persist(channel);
+    }
+
     @Transactional
     public Channel createChannel(Channel channel, List<String> hashTags) {
 
