@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.*;
+import webrtc.openvidu.repository.hashtag.HashTagRepository;
 import webrtc.openvidu.repository.hashtag.HashTagRepositoryImpl;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     private EntityManager em;
 
     private final ChannelHashTagRepositoryImpl channelHashTagRepositoryImpl;
-    private final HashTagRepositoryImpl hashTagRepositoryImpl;
+    private final HashTagRepository hashTagRepository;
 
     // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
@@ -56,7 +57,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
         // 채널 생성
         for(String tagName : hashTags) {
             HashTag hashTag;
-            List<HashTag> tags = hashTagRepositoryImpl.findHashTagByName(tagName);
+            List<HashTag> tags = hashTagRepository.findHashTagByName(tagName);
             if(tags.isEmpty()) hashTag = new HashTag(tagName);
             else hashTag = tags.get(0);
             ChannelHashTag channelHashTag = new ChannelHashTag();
@@ -135,7 +136,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      *
      */
     public List<Channel> findChannelsByHashName(String tagName) {
-        List<HashTag> hashTags = hashTagRepositoryImpl.findHashTagByName(tagName);
+        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
