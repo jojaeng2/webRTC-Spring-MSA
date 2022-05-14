@@ -59,11 +59,6 @@ public class ChannelServiceImpl implements ChannelService{
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
         // !findEnterChannels.isEmpty() -> 이미 해당 user가 채널에 입장한 상태라는 의미
-        System.out.println("channel.getId() = " + channel.getId());
-        System.out.println("userName = " + userName);
-        System.out.println("user.getId() = " + user.getId());
-        System.out.println("user.getId() = " + user.getNickname());
-        System.out.println("findEnterChannels.size() = " + findEnterChannels.size());
         if(findEnterChannels.isEmpty()) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();

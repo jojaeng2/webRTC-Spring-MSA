@@ -2,6 +2,7 @@ package webrtc.openvidu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import webrtc.openvidu.domain.Channel;
 
 import java.util.List;
@@ -9,9 +10,13 @@ import java.util.List;
 public class ChannelDto {
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CreateChannelRequest {
         private String channelName;
         private List<String> hashTags;
+
+
     }
 
     @Getter

@@ -56,4 +56,8 @@ public class Channel implements Serializable {
     public void minusCurrentParticipants() {
         this.currentParticipants--;
     }
+
+    public void setLimitParticipants(Long limitParticipants) {
+        this.limitParticipants = limitParticipants;
+    }
 }

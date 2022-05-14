@@ -12,7 +12,6 @@ public class ChannelUserServiceImpl implements ChannelUserService{
     private final ChannelUserRepository channelUserRepository;
 
     public void save(ChannelUser channelUser) {
-        System.out.println("ChannelUserServiceImpl save = " + channelUser.getId());
         channelUserRepository.save(channelUser);
     }
 
