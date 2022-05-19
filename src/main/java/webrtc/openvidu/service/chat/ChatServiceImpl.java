@@ -5,9 +5,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.enums.ClientMessageType;
+import webrtc.openvidu.repository.chat.ChatRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.user.UserService;
 
@@ -21,8 +23,17 @@ public class ChatServiceImpl implements ChatService{
 
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
+
+    private final ChatRepository chatRepository;
+
     private final ChannelService channelService;
     private final UserService userService;
+
+    public void saveChatMessage(String chatMessage, String username, Channel channel) {
+        ChatLog chatLog = new ChatLog(chatMessage, username);
+        chatLog.setChannel(channel);
+        chatRepository.save(chatLog);
+    }
 
     /**
      * Chatting Room에 message 발송
@@ -32,20 +43,26 @@ public class ChatServiceImpl implements ChatService{
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<User> currentUsers = userService.findUsersByChannelId(channelId);
-        System.out.println("type = " + type);
         switch (type) {
             case CHAT:
                 serverMessage.setMessageType(CHAT, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case ENTER:
-                serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에 입장했습니다.", currentParticipants, currentUsers);
+                chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case EXIT:
+                chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, currentUsers);
                 break;
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
+        saveChatMessage(chatMessage, senderName, channel);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+    }
+
+    public List<ChatLog> findTenChatLogsByIndex(String channelId, int idx) {
+        return chatRepository.findTenChatLogsByChannelId(channelId, idx);
     }
 }

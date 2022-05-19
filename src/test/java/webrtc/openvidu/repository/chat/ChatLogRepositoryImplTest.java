@@ -1,6 +1,5 @@
 package webrtc.openvidu.repository.chat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +16,14 @@ import webrtc.openvidu.service.channel.ChannelService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @Transactional
 public class ChatLogRepositoryImplTest {
 
     @Autowired
-    private ChatLogRepository chatLogRepository;
+    private ChatRepository chatLogRepository;
     @Autowired
     private ChannelService channelService;
     @Autowired
@@ -68,9 +69,37 @@ public class ChatLogRepositoryImplTest {
         chatLog2.setChannel(findChannel);
 
         // when
-        List<ChatLog> chatLogs = chatLogRepository.findAllChatLogsByChannelId();
+        List<ChatLog> chatLogs = chatLogRepository.findAllChatLogsByChannelId(findChannel.getId());
 
         // then
-        Assertions.assertThat(chatLogs.size()).isEqualTo(2);
+        assertThat(chatLogs.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("ChatLog 10개씩 불러오기")
+    public void LoadIdxChatLog() {
+        //given
+        Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
+        for(int i=0; i<23; i++) {
+            ChatLog chatLog = new ChatLog("testMessage" + i, "testUser2");
+            chatLog.setChannel(findChannel);
+        }
+
+        //when
+        List<ChatLog> chatLogs0 = chatLogRepository.findTenChatLogsByChannelId(findChannel.getId(), 0);
+        List<ChatLog> chatLogs1 = chatLogRepository.findTenChatLogsByChannelId(findChannel.getId(), 1);
+
+        //then
+        assertThat(chatLogs0.size()).isEqualTo(10);
+        assertThat(chatLogs1.size()).isEqualTo(10);
+        for (ChatLog chatLog : chatLogs0) {
+            System.out.println("chatLog = " + chatLog.getMessage());
+            System.out.println("chatLog = " + chatLog.getSendTime());
+        }
+        System.out.println("123 = " + 123);
+        for (ChatLog chatLog : chatLogs1) {
+            System.out.println("chatLog = " + chatLog.getMessage());
+            System.out.println("chatLog = " + chatLog.getSendTime());
+        }
     }
 }

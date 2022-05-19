@@ -1,7 +1,9 @@
 package webrtc.openvidu.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
@@ -72,5 +74,12 @@ public class ChatDto {
             this.currentParticipants = currentParticipants;
             this.users = users;
         }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FindChatLogsResponse {
+        private List<ChatLog> logs;
     }
 }
