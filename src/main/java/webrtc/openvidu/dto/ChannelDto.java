@@ -15,8 +15,6 @@ public class ChannelDto {
     public static class CreateChannelRequest {
         private String channelName;
         private List<String> hashTags;
-
-
     }
 
     @Getter

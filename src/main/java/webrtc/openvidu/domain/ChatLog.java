@@ -23,4 +23,15 @@ public class ChatLog {
     private String message;
     private String name;
     private Timestamp sendTime;
+
+    public ChatLog(String message, String name) {
+        this.message = message;
+        this.name = name;
+        this.sendTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+        channel.getChatLogs().add(this);
+    }
 }

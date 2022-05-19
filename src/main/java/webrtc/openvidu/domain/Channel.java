@@ -40,6 +40,7 @@ public class Channel implements Serializable {
         this.timeToLive = 24*60*60L;
         this.channelUsers = new HashSet<>();
         this.channelHashTags = new HashSet<>();
+        this.chatLogs = new ArrayList<>();
     }
 
     public void addChannelUser(ChannelUser channelUser) {
@@ -62,5 +63,10 @@ public class Channel implements Serializable {
 
     public void setLimitParticipants(Long limitParticipants) {
         this.limitParticipants = limitParticipants;
+    }
+
+    public void addChatLog(ChatLog chatLog) {
+        chatLog.setChannel(this);
+        this.chatLogs.add(chatLog);
     }
 }
