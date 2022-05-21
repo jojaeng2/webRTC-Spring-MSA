@@ -86,20 +86,11 @@ public class ChatLogRepositoryImplTest {
         }
 
         //when
-        List<ChatLog> chatLogs0 = chatLogRepository.findTenChatLogsByChannelId(findChannel.getId(), 0);
-        List<ChatLog> chatLogs1 = chatLogRepository.findTenChatLogsByChannelId(findChannel.getId(), 1);
+        List<ChatLog> chatLogs0 = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 0);
+        List<ChatLog> chatLogs1 = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 1);
 
         //then
-        assertThat(chatLogs0.size()).isEqualTo(10);
-        assertThat(chatLogs1.size()).isEqualTo(10);
-        for (ChatLog chatLog : chatLogs0) {
-            System.out.println("chatLog = " + chatLog.getMessage());
-            System.out.println("chatLog = " + chatLog.getSendTime());
-        }
-        System.out.println("123 = " + 123);
-        for (ChatLog chatLog : chatLogs1) {
-            System.out.println("chatLog = " + chatLog.getMessage());
-            System.out.println("chatLog = " + chatLog.getSendTime());
-        }
+        assertThat(chatLogs0.size()).isEqualTo(20);
+        assertThat(chatLogs1.size()).isEqualTo(3);
     }
 }

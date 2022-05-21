@@ -62,7 +62,7 @@ public class ChatServiceImpl implements ChatService{
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
-    public List<ChatLog> findTenChatLogsByIndex(String channelId, int idx) {
-        return chatRepository.findTenChatLogsByChannelId(channelId, idx);
+    public List<ChatLog> findChatLogsByIndex(String channelId, int idx) {
+        return chatRepository.findChatLogsByChannelId(channelId, idx);
     }
 }

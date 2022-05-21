@@ -12,5 +12,5 @@ public interface ChatService {
 
     void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage);
 
-    List<ChatLog> findTenChatLogsByIndex(String channelId, int idx);
+    List<ChatLog> findChatLogsByIndex(String channelId, int idx);
 }

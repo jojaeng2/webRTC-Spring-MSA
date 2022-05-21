@@ -19,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 @Repository
 public class ChannelRepositoryImpl implements ChannelRepository{
 
+    private final int LoadingChannel = 20;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -80,8 +82,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     @Transactional
     public void deleteChannel(Channel channel) {
         opsValueOperation.getOperations().delete(channel.getId());
-        Channel checkedChannel = em.find(Channel.class, channel.getId());
-        em.remove(checkedChannel);
+        em.remove(channel);
     }
 
     /*
@@ -97,22 +98,26 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     /*
      * 모든 채널 불러오기
      */
-    public List<Channel> findAllChannel() {
+    public List<Channel> findAnyChannel(int idx) {
         return em.createQuery(
                         "select c from Channel c "
                                 , Channel.class)
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
                 .getResultList();
     }
 
     /*
      * 모든 채널 불러오기
      */
-    public List<Channel> findMyAllChannel(String userId) {
+    public List<Channel> findMyChannel(String userId, int idx) {
         return em.createQuery(
                         "select c from Channel c " +
                                 "join c.channelUsers " +
                                 "where user_id = :user_id ", Channel.class)
                 .setParameter("user_id", userId)
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
                 .getResultList();
     }
 
@@ -131,7 +136,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     /*
-     * 특정 채널을 user_id로 찾기
+     * 특정 채널을 channel_id + user_id로 찾기
      */
     public List<Channel> findChannelsByUserId(String channelId, String userId) {
         return em.createQuery(
@@ -184,16 +189,5 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     public Long getCurrentParticipants(Channel channel) {
         return channel.getCurrentParticipants();
     }
-
-    /*
-     * 특정 채널의 현재 참가자 수 갱신
-     */
-    public Long updateCurrentParticipants(Channel channel) {
-        return channel.getCurrentParticipants();
-    }
-
-
-
-
 
 }

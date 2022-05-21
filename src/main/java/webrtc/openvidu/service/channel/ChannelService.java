@@ -17,9 +17,9 @@ public interface ChannelService {
 
     void deleteChannel(String channelId);
 
-    List<ChannelResponse> findAllChannel();
+    List<ChannelResponse> findAnyChannel(int idx);
 
-    List<ChannelResponse> findMyAllChannel(String userName);
+    List<ChannelResponse> findMyChannel(String userName, int idx);
 
     Channel findOneChannelById(String channelId);
 

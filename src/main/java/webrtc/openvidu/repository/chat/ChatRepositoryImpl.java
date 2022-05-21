@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public class ChatRepositoryImpl implements ChatRepository {
 
+    private final int LoadingChatCount = 20;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -27,14 +29,14 @@ public class ChatRepositoryImpl implements ChatRepository {
                 .getResultList();
     }
 
-    public List<ChatLog> findTenChatLogsByChannelId(String channelId, int idx) {
+    public List<ChatLog> findChatLogsByChannelId(String channelId, int idx) {
         return em.createQuery(
                 "select cl from ChatLog cl " +
                         "where channel_id = :channel_id " +
                         "order by sendTime DESC ", ChatLog.class).
                 setParameter("channel_id", channelId)
-                .setFirstResult(idx*10)
-                .setMaxResults(10)
+                .setFirstResult(idx*LoadingChatCount)
+                .setMaxResults(LoadingChatCount)
                 .getResultList();
     }
 }

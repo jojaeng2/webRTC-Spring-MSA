@@ -14,9 +14,9 @@ public interface ChannelRepository {
 
     Channel updateChannel(Channel channel);
 
-    List<Channel> findAllChannel();
+    List<Channel> findAnyChannel(int idx);
 
-    List<Channel> findMyAllChannel(String userId);
+    List<Channel> findMyChannel(String userId, int idx);
 
     List<Channel> findChannelsById(String id);
 
@@ -30,5 +30,4 @@ public interface ChannelRepository {
 
     Long getCurrentParticipants(Channel channel);
 
-    Long updateCurrentParticipants(Channel channel);
 }

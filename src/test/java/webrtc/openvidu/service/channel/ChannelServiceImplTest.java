@@ -169,7 +169,7 @@ public class ChannelServiceImplTest {
 
 
         // when
-        List<ChannelResponse> channels = channelService.findAllChannel();
+        List<ChannelResponse> channels = channelService.findAnyChannel(0);
 
         // then
         assertThat(channels.size()).isEqualTo(2);

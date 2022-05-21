@@ -102,8 +102,8 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
-    public List<ChannelResponse> findAllChannel() {
-        List<Channel> channels = channelRepository.findAllChannel();
+    public List<ChannelResponse> findAnyChannel(int idx) {
+        List<Channel> channels = channelRepository.findAnyChannel(idx);
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
@@ -117,9 +117,9 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 입장한 모든 채널 불러오기
      *
      */
-    public List<ChannelResponse> findMyAllChannel(String userName) {
+    public List<ChannelResponse> findMyChannel(String userName, int idx) {
         User user = userService.findOneUserByName(userName);
-        List<Channel> channels = channelRepository.findMyAllChannel(user.getId());
+        List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));

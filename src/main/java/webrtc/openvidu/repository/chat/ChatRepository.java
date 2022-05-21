@@ -10,5 +10,5 @@ public interface ChatRepository {
 
     List<ChatLog> findAllChatLogsByChannelId(String channelId);
 
-    List<ChatLog> findTenChatLogsByChannelId(String channelId, int idx);
+    List<ChatLog> findChatLogsByChannelId(String channelId, int idx);
 }
