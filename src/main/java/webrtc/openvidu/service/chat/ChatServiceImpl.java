@@ -46,24 +46,22 @@ public class ChatServiceImpl implements ChatService{
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        ChatEnumType enumType = CHAT;
+        ChatEnumType enumType = NOTICE;
         List<User> currentUsers = userService.findUsersByChannelId(channelId);
         switch (type) {
             case CHAT:
+                enumType = CHAT;
                 serverMessage.setMessageType(SocketServerMessageType.CHAT, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case ENTER:
-                enumType = NOTICE;
                 chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case EXIT:
-                enumType = NOTICE;
                 chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, currentUsers);
                 break;
             case CLOSE:
-                enumType = NOTICE;
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
         saveChatMessage(enumType, chatMessage, senderName, channel);
