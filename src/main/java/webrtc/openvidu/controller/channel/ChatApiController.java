@@ -20,7 +20,7 @@ public class ChatApiController {
     private final ChatService chatService;
 
     @GetMapping("/channel/{id}/{idx}")
-    public ResponseEntity<?> findChatLogs(@PathVariable("id") String channelId, @PathVariable("idx") String idx) {
+    public ResponseEntity<FindChatLogsResponse> findChatLogs(@PathVariable("id") String channelId, @PathVariable("idx") String idx) {
         FindChatLogsResponse response = new FindChatLogsResponse(chatService.findChatLogsByIndex(channelId, Integer.parseInt(idx)));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -35,6 +35,9 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
+    @OneToOne
+    private Point point;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private Set<ChannelUser> channelUsers = new HashSet<>();

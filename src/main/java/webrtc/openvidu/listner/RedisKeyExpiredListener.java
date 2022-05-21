@@ -23,7 +23,7 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
-        chatService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "[알림]", "serverclose");
+        chatService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "[알림]", "채팅방의 수명이 끝났습니다.");
         channelService.deleteChannel(message.toString());
     }
 }
