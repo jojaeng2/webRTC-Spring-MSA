@@ -15,6 +15,7 @@ public class ChannelHashTag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "channel_hashtag_id")
+    @JsonIgnore
     private Long id;
 
     @JsonIgnore

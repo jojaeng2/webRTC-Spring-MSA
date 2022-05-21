@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.ChannelHashTag;
+import webrtc.openvidu.domain.HashTag;
 
 import java.util.List;
+import java.util.Set;
 
 public class ChannelDto {
 
@@ -58,6 +61,7 @@ public class ChannelDto {
         private Long limitParticipants;
         private Long currentParticipants;
         private Long timeToLive;
+        private Set<ChannelHashTag> channelHashTags;
     }
 
     @Getter

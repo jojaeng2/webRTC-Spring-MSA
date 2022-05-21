@@ -8,7 +8,6 @@ import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
-import webrtc.openvidu.enums.ChatEnumType;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
 import webrtc.openvidu.repository.chat.ChatRepository;
@@ -16,9 +15,6 @@ import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.user.UserService;
 
 import java.util.List;
-
-import static webrtc.openvidu.enums.ChatEnumType.CHAT;
-import static webrtc.openvidu.enums.ChatEnumType.NOTICE;
 import static webrtc.openvidu.enums.SocketServerMessageType.*;
 
 @RequiredArgsConstructor
@@ -33,7 +29,7 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelService channelService;
     private final UserService userService;
 
-    public void saveChatMessage(ChatEnumType type, String chatMessage, String username, Channel channel) {
+    public void saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel) {
         ChatLog chatLog = new ChatLog(type, chatMessage, username);
         chatLog.setChannel(channel);
         chatRepository.save(chatLog);
@@ -46,11 +42,9 @@ public class ChatServiceImpl implements ChatService{
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        ChatEnumType enumType = NOTICE;
         List<User> currentUsers = userService.findUsersByChannelId(channelId);
         switch (type) {
             case CHAT:
-                enumType = CHAT;
                 serverMessage.setMessageType(SocketServerMessageType.CHAT, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case ENTER:
@@ -64,7 +58,7 @@ public class ChatServiceImpl implements ChatService{
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
-        saveChatMessage(enumType, chatMessage, senderName, channel);
+        saveChatMessage(type, chatMessage, senderName, channel);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 

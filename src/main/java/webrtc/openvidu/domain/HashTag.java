@@ -17,6 +17,7 @@ public class HashTag implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_id")
+    @JsonIgnore
     private Long id;
     private String tagName;
 

@@ -107,7 +107,7 @@ public class ChannelServiceImpl implements ChannelService{
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
             responses.add(response);
         }
         return responses;
@@ -123,7 +123,7 @@ public class ChannelServiceImpl implements ChannelService{
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
             responses.add(response);
         }
         return responses;

@@ -10,7 +10,6 @@ import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
-import webrtc.openvidu.enums.ChatEnumType;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static webrtc.openvidu.enums.ChatEnumType.CHAT;
+import static webrtc.openvidu.enums.ClientMessageType.ENTER;
 
 @SpringBootTest
 @Transactional
@@ -49,7 +48,7 @@ public class ChatLogRepositoryImplTest {
     public void saveChatLog() {
         //given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
-        ChatLog chatLog = new ChatLog(CHAT, "testMessage", "testUser2");
+        ChatLog chatLog = new ChatLog(ENTER, "testMessage", "testUser2");
         chatLog.setChannel(findChannel);
 
         //when
@@ -64,10 +63,10 @@ public class ChatLogRepositoryImplTest {
     public void LoadAllChatLog() {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
-        ChatLog chatLog1 = new ChatLog(CHAT, "testMessage1", "testUser2");
+        ChatLog chatLog1 = new ChatLog(ENTER, "testMessage1", "testUser2");
         chatLog1.setChannel(findChannel);
 
-        ChatLog chatLog2 = new ChatLog(CHAT, "testMessage2", "testUser2");
+        ChatLog chatLog2 = new ChatLog(ENTER, "testMessage2", "testUser2");
         chatLog2.setChannel(findChannel);
 
         // when
@@ -83,7 +82,7 @@ public class ChatLogRepositoryImplTest {
         //given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         for(int i=0; i<23; i++) {
-            ChatLog chatLog = new ChatLog(CHAT, "testMessage" + i, "testUser2");
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
             chatLog.setChannel(findChannel);
         }
 
