@@ -17,6 +17,8 @@ public interface ChannelService {
 
     List<Channel> findAllChannel();
 
+    List<Channel> findMyAllChannel(String userName);
+
     Channel findOneChannelById(String channelId);
 
     List<Channel> findChannelByHashName(String tagName);

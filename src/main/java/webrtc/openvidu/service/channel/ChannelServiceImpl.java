@@ -108,6 +108,19 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     /*
+     * 비즈니스 로직 - 입장한 모든 채널 불러오기
+     *
+     */
+    public List<Channel> findMyAllChannel(String userName) {
+        User user = userService.findOneUserByName(userName);
+        List<Channel> channels = channelRepository.findMyAllChannel(user.getId());
+        for (Channel channel : channels) {
+            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+        }
+        return channels;
+    }
+
+    /*
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {

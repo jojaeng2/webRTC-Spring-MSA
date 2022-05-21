@@ -105,6 +105,19 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     /*
+     * 모든 채널 불러오기
+     */
+    public List<Channel> findMyAllChannel(String userId) {
+        return em.createQuery(
+                        "select c from Channel c " +
+                                "join c.channelUsers " +
+                                "where user_id = :user_id ", Channel.class)
+                .setParameter("user_id", userId)
+                .getResultList();
+    }
+
+
+    /*
      * 특정 채널을 ID로 찾기
      *
      */

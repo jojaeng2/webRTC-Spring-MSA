@@ -39,6 +39,14 @@ public class ChannelApiController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/mychannels")
+    public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@RequestHeader("Authorization") String jwtAccessToken) {
+        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
+        List<Channel> channels = channelService.findMyAllChannel(userName);
+        FindAllChannelResponse response = new FindAllChannelResponse(channels);
+        return new ResponseEntity<>(response, OK);
+    }
+
     @GetMapping("/channel/{id}")
     public ResponseEntity<FindOneChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
         Channel channel = channelService.findOneChannelById(channelId);
