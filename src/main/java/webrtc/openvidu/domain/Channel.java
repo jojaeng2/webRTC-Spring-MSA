@@ -13,6 +13,7 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 public class Channel implements Serializable {
+
     @Id
     @Column(name = "channel_id")
     private String id;

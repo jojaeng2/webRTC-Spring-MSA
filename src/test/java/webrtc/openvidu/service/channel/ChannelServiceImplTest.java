@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.User;
+import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
@@ -167,7 +169,7 @@ public class ChannelServiceImplTest {
 
 
         // when
-        List<Channel> channels = channelService.findAllChannel();
+        List<ChannelResponse> channels = channelService.findAllChannel();
 
         // then
         assertThat(channels.size()).isEqualTo(2);

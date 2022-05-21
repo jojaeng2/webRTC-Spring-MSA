@@ -47,8 +47,17 @@ public class ChannelDto {
     @Getter
     @AllArgsConstructor
     public static class FindAllChannelResponse {
-        private List<Channel> channels;
+        private List<ChannelResponse> responses;
+    }
 
+    @Getter
+    @AllArgsConstructor
+    public static class ChannelResponse {
+        private String id;
+        private String channelName;
+        private Long limitParticipants;
+        private Long currentParticipants;
+        private Long timeToLive;
     }
 
     @Getter

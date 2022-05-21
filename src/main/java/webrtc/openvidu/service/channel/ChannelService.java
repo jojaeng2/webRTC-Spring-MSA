@@ -1,6 +1,8 @@
 package webrtc.openvidu.service.channel;
 
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 
 import java.util.List;
@@ -15,9 +17,9 @@ public interface ChannelService {
 
     void deleteChannel(String channelId);
 
-    List<Channel> findAllChannel();
+    List<ChannelResponse> findAllChannel();
 
-    List<Channel> findMyAllChannel(String userName);
+    List<ChannelResponse> findMyAllChannel(String userName);
 
     Channel findOneChannelById(String channelId);
 

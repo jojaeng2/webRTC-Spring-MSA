@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
@@ -12,6 +14,7 @@ import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
 import webrtc.openvidu.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -99,25 +102,31 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
-    public List<Channel> findAllChannel() {
+    public List<ChannelResponse> findAllChannel() {
         List<Channel> channels = channelRepository.findAllChannel();
+        List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+            responses.add(response);
         }
-        return channels;
+        return responses;
     }
 
     /*
      * 비즈니스 로직 - 입장한 모든 채널 불러오기
      *
      */
-    public List<Channel> findMyAllChannel(String userName) {
+    public List<ChannelResponse> findMyAllChannel(String userName) {
         User user = userService.findOneUserByName(userName);
         List<Channel> channels = channelRepository.findMyAllChannel(user.getId());
+        List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
+            responses.add(response);
         }
-        return channels;
+        return responses;
     }
 
     /*
