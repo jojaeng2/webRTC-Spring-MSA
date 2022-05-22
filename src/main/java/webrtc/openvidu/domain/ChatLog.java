@@ -16,7 +16,6 @@ public class ChatLog {
     @Id
     @Column(name = "chat_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     private Long id;
 
     @ManyToOne
@@ -41,6 +40,5 @@ public class ChatLog {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
-        channel.getChatLogs().add(this);
     }
 }

@@ -35,8 +35,9 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
-    @OneToOne
-    private Point point;
+//    @OneToOne
+//    @JsonIgnore
+//    private Point point;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
@@ -57,6 +58,10 @@ public class User implements Serializable {
         this.school = null;
         this.company = null;
         this.nickname_expire_at = null;
+
+//        Point point = new Point();
+//        point.setPoint(1000000L);
+//        this.point = point;
     }
 
     public void addChannelUser(ChannelUser channelUser) {

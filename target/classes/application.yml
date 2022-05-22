@@ -7,12 +7,12 @@ spring:
     username: ds4ouj
     password: hong971220!
   jpa:
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+    hibernate:
+      ddl-auto: create
   session:
     storage-type: redis
   redis:

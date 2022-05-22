@@ -1,14 +1,13 @@
 package webrtc.openvidu.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Point {
 
     @Id
@@ -18,5 +17,11 @@ public class Point {
 
     private Long point;
 
+//    @OneToOne(mappedBy = "point")
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
+    public void setPoint(Long point) {
+        this.point = point;
+    }
 }
