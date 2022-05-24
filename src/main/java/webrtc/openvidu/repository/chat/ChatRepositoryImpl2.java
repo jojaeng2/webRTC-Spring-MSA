@@ -6,10 +6,11 @@ import webrtc.openvidu.domain.ChatLog;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ChatRepositoryImpl implements ChatRepository {
-
+@Repository
+public class ChatRepositoryImpl2 implements ChatRepository{
     private final int LoadingChatCount = 20;
 
     @PersistenceContext
@@ -22,20 +23,32 @@ public class ChatRepositoryImpl implements ChatRepository {
 
     public List<ChatLog> findAllChatLogsByChannelId(String channelId) {
         return em.createQuery(
-                "select cl from ChatLog cl " +
-                        "where channel_id=:channel_id", ChatLog.class)
+                        "select cl from ChatLog cl " +
+                                "where channel_id=:channel_id", ChatLog.class)
                 .setParameter("channel_id", channelId)
                 .getResultList();
     }
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, int idx) {
-        return em.createQuery(
-                "select cl from ChatLog cl " +
-                        "where channel_id = :channel_id " +
-                        "order by sendTime DESC ", ChatLog.class).
+        if(idx - LoadingChatCount < 0) {
+            return em.createQuery(
+                        "select cl from ChatLog cl " +
+                                "where channel_id = :channel_id "
+                        , ChatLog.class).
                 setParameter("channel_id", channelId)
-                .setFirstResult(idx*LoadingChatCount)
+                .setFirstResult(0)
+                .setMaxResults(idx)
+                .getResultList();
+        }
+        else {
+            return em.createQuery(
+                        "select cl from ChatLog cl " +
+                                "where channel_id = :channel_id "
+                        , ChatLog.class).
+                setParameter("channel_id", channelId)
+                .setFirstResult(idx-LoadingChatCount)
                 .setMaxResults(LoadingChatCount)
                 .getResultList();
+        }
     }
 }
