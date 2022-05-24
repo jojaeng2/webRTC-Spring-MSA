@@ -18,7 +18,6 @@ public class Point {
     private Long point;
 
     @OneToOne(mappedBy = "point")
-    @JoinColumn(name = "user_id")
     private User user;
 
     public void setPoint(Long point) {

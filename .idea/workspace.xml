@@ -8,6 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Point.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/ChatLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/ChatLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Point.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/repository/chat/ChatLogRepositoryImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/repository/chat/ChatLogRepositoryImplTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,9 +26,9 @@
         <option value="module-info" />
         <option value="Kotlin Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -63,7 +69,7 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OpenviduApplication">
+  <component name="RunManager" selected="JUnit.All in openvidu">
     <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.OpenviduApplication" />
       <module name="openvidu" />
@@ -117,29 +123,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChannelRepositoryImplTest.findChannelsByUserIdFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChatLogRepositoryImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.repository.channel.*" />
+          <option name="PATTERN" value="webrtc.openvidu.repository.chat.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.channel" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.channel.ChannelRepositoryImplTest" />
-      <option name="METHOD_NAME" value="findChannelsByUserIdFail" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.chat" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.chat.ChatLogRepositoryImplTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.All in openvidu" />
+        <item itemvalue="JUnit.ChatLogRepositoryImplTest" />
+        <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.ChannelRepositoryImplTest.findChannelsByHashNameFail" />
         <item itemvalue="JUnit.ChannelRepositoryImplTest.findChannelsByHashNameSuccess" />
-        <item itemvalue="JUnit.ChannelRepositoryImplTest.findChannelsByUserIdFail" />
       </list>
     </recent_temporary>
   </component>

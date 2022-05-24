@@ -65,9 +65,10 @@ public class ChatLogRepositoryImplTest {
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         ChatLog chatLog1 = new ChatLog(ENTER, "testMessage1", "testUser2");
         chatLog1.setChannel(findChannel);
-
+        chatLogRepository.save(chatLog1);
         ChatLog chatLog2 = new ChatLog(ENTER, "testMessage2", "testUser2");
         chatLog2.setChannel(findChannel);
+        chatLogRepository.save(chatLog2);
 
         // when
         List<ChatLog> chatLogs = chatLogRepository.findAllChatLogsByChannelId(findChannel.getId());
@@ -77,13 +78,14 @@ public class ChatLogRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("ChatLog 10개씩 불러오기")
+    @DisplayName("ChatLog 20개씩 불러오기")
     public void LoadIdxChatLog() {
         //given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         for(int i=0; i<23; i++) {
             ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
             chatLog.setChannel(findChannel);
+            chatLogRepository.save(chatLog);
         }
 
         //when
