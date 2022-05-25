@@ -1,11 +1,11 @@
 package webrtc.openvidu.repository.chat;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.ChatLog;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatRepositoryImpl implements ChatRepository {
@@ -37,5 +37,9 @@ public class ChatRepositoryImpl implements ChatRepository {
                 .setFirstResult(idx*LoadingChatCount)
                 .setMaxResults(LoadingChatCount)
                 .getResultList();
+    }
+
+    public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
+        return new ArrayList<ChatLog>();
     }
 }

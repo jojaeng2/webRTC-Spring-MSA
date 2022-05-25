@@ -62,6 +62,7 @@ public class ChatDto {
         private String chatMessage;
         private Long currentParticipants;
         private List<User> users = new ArrayList<>();
+        private Long logId;
 
         public ChatServerMessage(String channelId) {
             super(channelId);
@@ -73,6 +74,10 @@ public class ChatDto {
             this.chatMessage = chatMessage;
             this.currentParticipants = currentParticipants;
             this.users = users;
+        }
+
+        public void setChatLogId(Long logId) {
+            this.logId = logId;
         }
     }
 

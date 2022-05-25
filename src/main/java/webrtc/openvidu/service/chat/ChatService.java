@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatService {
 
-    void saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel);
+    Long saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel);
 
     void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage);
 

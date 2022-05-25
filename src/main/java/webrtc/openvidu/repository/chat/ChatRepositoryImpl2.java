@@ -6,7 +6,6 @@ import webrtc.openvidu.domain.ChatLog;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -30,25 +29,24 @@ public class ChatRepositoryImpl2 implements ChatRepository{
     }
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, int idx) {
-        if(idx - LoadingChatCount < 0) {
-            return em.createQuery(
-                        "select cl from ChatLog cl " +
-                                "where channel_id = :channel_id "
-                        , ChatLog.class).
-                setParameter("channel_id", channelId)
+        return em.createQuery(
+                    "select cl from ChatLog cl " +
+                            "where channel_id = :channel_id "
+                    , ChatLog.class).
+            setParameter("channel_id", channelId)
+            .setFirstResult(idx-LoadingChatCount)
+            .setMaxResults(LoadingChatCount)
+            .getResultList();
+    }
+
+    public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
+        return em.createQuery(
+                "select cl from ChatLog cl " +
+                        "where channel_id = :channel_id " +
+                        "order by sendTime DESC ", ChatLog.class
+                ).setParameter("channel_id", channelId)
                 .setFirstResult(0)
-                .setMaxResults(idx)
+                .setMaxResults(1)
                 .getResultList();
-        }
-        else {
-            return em.createQuery(
-                        "select cl from ChatLog cl " +
-                                "where channel_id = :channel_id "
-                        , ChatLog.class).
-                setParameter("channel_id", channelId)
-                .setFirstResult(idx-LoadingChatCount)
-                .setMaxResults(LoadingChatCount)
-                .getResultList();
-        }
     }
 }

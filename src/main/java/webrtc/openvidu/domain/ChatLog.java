@@ -23,6 +23,8 @@ public class ChatLog {
     @JsonIgnore
     private Channel channel;
 
+    private Long idx;
+
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
 
@@ -36,6 +38,10 @@ public class ChatLog {
         this.message = message;
         this.name = name;
         this.sendTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void setChatLogIdx(Long idx) {
+        this.idx = idx;
     }
 
     public void setChannel(Channel channel) {

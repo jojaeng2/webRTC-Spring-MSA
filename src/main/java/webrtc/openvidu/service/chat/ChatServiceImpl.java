@@ -29,10 +29,16 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelService channelService;
     private final UserService userService;
 
-    public void saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel) {
+    public Long saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel) {
+        List<ChatLog> findChatLogs = chatRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, username);
+
+        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
+        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx());
+
         chatLog.setChannel(channel);
         chatRepository.save(chatLog);
+        return chatLog.getId();
     }
 
     /**
@@ -58,7 +64,8 @@ public class ChatServiceImpl implements ChatService{
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
-        saveChatMessage(type, chatMessage, senderName, channel);
+        Long logId = saveChatMessage(type, chatMessage, senderName, channel);
+        serverMessage.setChatLogId(logId);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
