@@ -10,7 +10,7 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
-import webrtc.openvidu.repository.chat.ChatRepository;
+import webrtc.openvidu.repository.chat.ChatLogRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.user.UserService;
 
@@ -24,21 +24,21 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
 
-    private final ChatRepository chatRepository;
+    private final ChatLogRepository chatRepository;
 
     private final ChannelService channelService;
     private final UserService userService;
 
-    public Long saveChatMessage(ClientMessageType type, String chatMessage, String username, Channel channel) {
+    public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel) {
         List<ChatLog> findChatLogs = chatRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, username);
 
         if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
-        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx());
+        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
 
         chatLog.setChannel(channel);
         chatRepository.save(chatLog);
-        return chatLog.getId();
+        return chatLog.getIdx();
     }
 
     /**
@@ -59,17 +59,17 @@ public class ChatServiceImpl implements ChatService{
                 break;
             case EXIT:
                 chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
-                serverMessage.setMessageType(RENEWAL, senderName, senderName+ " 님이 채팅방에서 퇴장했습니다.", currentParticipants, currentUsers);
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
                 break;
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
         }
-        Long logId = saveChatMessage(type, chatMessage, senderName, channel);
+        Long logId = saveChatLog(type, chatMessage, senderName, channel);
         serverMessage.setChatLogId(logId);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
-    public List<ChatLog> findChatLogsByIndex(String channelId, int idx) {
+    public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
         return chatRepository.findChatLogsByChannelId(channelId, idx);
     }
 }

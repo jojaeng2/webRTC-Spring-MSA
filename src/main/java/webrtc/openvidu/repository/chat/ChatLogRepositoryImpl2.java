@@ -8,8 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static java.lang.Math.max;
+
 @Repository
-public class ChatRepositoryImpl2 implements ChatRepository{
+public class ChatLogRepositoryImpl2 implements ChatLogRepository {
     private final int LoadingChatCount = 20;
 
     @PersistenceContext
@@ -28,15 +30,16 @@ public class ChatRepositoryImpl2 implements ChatRepository{
                 .getResultList();
     }
 
-    public List<ChatLog> findChatLogsByChannelId(String channelId, int idx) {
+    public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
         return em.createQuery(
                     "select cl from ChatLog cl " +
-                            "where channel_id = :channel_id "
-                    , ChatLog.class).
-            setParameter("channel_id", channelId)
-            .setFirstResult(idx-LoadingChatCount)
-            .setMaxResults(LoadingChatCount)
-            .getResultList();
+                            "where channel_id = :channel_id " +
+                            "and cl.idx BETWEEN :start AND :end"
+                    , ChatLog.class)
+                .setParameter("channel_id", channelId)
+                .setParameter("start", max(1L, idx-(LoadingChatCount)))
+                .setParameter("end", idx-1L)
+                .getResultList();
     }
 
     public List<ChatLog> findLastChatLogsByChannelId(String channelId) {

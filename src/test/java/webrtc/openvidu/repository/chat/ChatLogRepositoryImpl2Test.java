@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 
@@ -24,7 +24,7 @@ import static webrtc.openvidu.enums.ClientMessageType.ENTER;
 public class ChatLogRepositoryImpl2Test {
 
     @Autowired
-    private ChatRepository chatLogRepository;
+    private ChatLogRepository chatLogRepository;
     @Autowired
     private ChannelService channelService;
     @Autowired
@@ -37,7 +37,7 @@ public class ChatLogRepositoryImpl2Test {
         hashTags.add("tag2");
         hashTags.add("tag2");
 
-        ChannelDto.CreateChannelRequest request = new ChannelDto.CreateChannelRequest("testChannel", hashTags);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
         User user = new User("testUser", "testUser");
         userRepository.saveUser(user);
         channelService.createChannel(request, "testUser");
@@ -78,22 +78,78 @@ public class ChatLogRepositoryImpl2Test {
     }
 
     @Test
-    @DisplayName("ChatLog 20개씩 불러오기")
-    public void LoadIdxChatLog() {
-        //given
+    @DisplayName("ChannelId를 기준으로 마지막 ChatLog 불러오기 성공")
+    public void LastChatLogLoadByIdxSuccess() {
+        // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
-        for(int i=0; i<23; i++) {
+        for(Long i=0L; i<23L; i++) {
             ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            chatLog.setChatLogIdx(i);
             chatLog.setChannel(findChannel);
             chatLogRepository.save(chatLog);
         }
 
-        //when
-        List<ChatLog> chatLogs0 = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 23);
-        List<ChatLog> chatLogs1 = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 2);
+        // when
+        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(findChannel.getId());
 
-        //then
-        assertThat(chatLogs0.size()).isEqualTo(20);
-        assertThat(chatLogs1.size()).isEqualTo(2);
+        // then
+        assertThat(findChatLogs.get(0).getIdx()).isEqualTo(22L);
+    }
+
+    @Test
+    @DisplayName("ChannelId를 기준으로 마지막 ChatLog 불러오기 실패")
+    public void LastChatLogLoadByIdxFail() {
+        // given
+        Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
+
+        // when
+        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(findChannel.getId());
+
+        // then
+        assertThat(findChatLogs.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("channelId와 idx로 [idx-21 ~ idx-1] 로그 20개씩 불러오기")
+    public void LoadChatLogByChannelIdAndIdxSuccess() {
+        // given
+        Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
+        for(Long i=0L; i<100L; i++) {
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            chatLog.setChatLogIdx(i);
+            chatLog.setChannel(findChannel);
+            chatLogRepository.save(chatLog);
+        }
+
+        // when
+        List<ChatLog> chatLogs = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 30L);
+
+        // then
+        for (ChatLog chatLog : chatLogs) {
+            System.out.println("chatLog = " + chatLog.getIdx());
+        }
+        assertThat(chatLogs.size()).isEqualTo(20);
+    }
+
+    @Test
+    @DisplayName("channelId와 idx로 [idx-21 ~ 0] 로그 20개 이하씩 불러오기")
+    public void LoadChatLogByChannelIdAndIdxFromZeroSuccess() {
+        // given
+        Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
+        for(Long i=0L; i<20L; i++) {
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            chatLog.setChatLogIdx(i);
+            chatLog.setChannel(findChannel);
+            chatLogRepository.save(chatLog);
+        }
+
+        // when
+        List<ChatLog> chatLogs = chatLogRepository.findChatLogsByChannelId(findChannel.getId(), 15L);
+
+        // then
+        for (ChatLog chatLog : chatLogs) {
+            System.out.println("chatLog = " + chatLog.getIdx());
+        }
+        assertThat(chatLogs.size()).isEqualTo(14L);
     }
 }

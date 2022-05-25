@@ -4,13 +4,13 @@ import webrtc.openvidu.domain.ChatLog;
 
 import java.util.List;
 
-public interface ChatRepository {
+public interface ChatLogRepository {
 
     void save(ChatLog chatLog);
 
     List<ChatLog> findAllChatLogsByChannelId(String channelId);
 
-    List<ChatLog> findChatLogsByChannelId(String channelId, int idx);
+    List<ChatLog> findChatLogsByChannelId(String channelId, Long idx);
 
     List<ChatLog> findLastChatLogsByChannelId(String channelId);
 }

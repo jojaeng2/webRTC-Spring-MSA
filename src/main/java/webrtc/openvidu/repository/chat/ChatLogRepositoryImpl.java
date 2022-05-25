@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatRepositoryImpl implements ChatRepository {
+public class ChatLogRepositoryImpl implements ChatLogRepository {
 
     private final int LoadingChatCount = 20;
 
@@ -28,15 +28,8 @@ public class ChatRepositoryImpl implements ChatRepository {
                 .getResultList();
     }
 
-    public List<ChatLog> findChatLogsByChannelId(String channelId, int idx) {
-        return em.createQuery(
-                "select cl from ChatLog cl " +
-                        "where channel_id = :channel_id " +
-                        "order by sendTime DESC ", ChatLog.class).
-                setParameter("channel_id", channelId)
-                .setFirstResult(idx*LoadingChatCount)
-                .setMaxResults(LoadingChatCount)
-                .getResultList();
+    public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
+        return new ArrayList<ChatLog>();
     }
 
     public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
