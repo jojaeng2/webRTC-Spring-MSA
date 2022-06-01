@@ -12,6 +12,7 @@ import static java.lang.Math.max;
 
 @Repository
 public class ChatLogRepositoryImpl2 implements ChatLogRepository {
+
     private final int LoadingChatCount = 20;
 
     @PersistenceContext

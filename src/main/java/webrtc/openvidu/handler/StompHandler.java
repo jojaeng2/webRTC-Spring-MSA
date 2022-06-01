@@ -26,7 +26,6 @@ public class StompHandler implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-        System.out.println("accessor = " + accessor);
         switch (accessor.getCommand()) {
             case CONNECT:
                 String connectJwtToken = accessor.getFirstNativeHeader("jwt");

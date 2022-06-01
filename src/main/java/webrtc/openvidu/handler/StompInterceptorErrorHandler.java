@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
 import webrtc.openvidu.exception.ChannelException;
+import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelExceptionDto;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
@@ -56,6 +57,9 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
         }
         else if(NotExistChannelException.class.isInstance(exception)) {
             channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..");
+        }
+        else if(AlreadyExistUserInChannelException.class.isInstance(exception)) {
+            channelExceptionDto.setField(ALREADY_USER_IN_CHANNEL, "이미 채널에 존재하는 User입니다.");
         }
         return prepareErrorMessage(clientMessage, channelExceptionDto, "Exception");
     }

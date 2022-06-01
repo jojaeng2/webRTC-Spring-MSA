@@ -24,7 +24,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     @PersistenceContext
     private EntityManager em;
 
-    private final ChannelHashTagRepositoryImpl channelHashTagRepositoryImpl;
+    private final ChannelHashTagRepository channelHashTagRepository;
     private final HashTagRepository hashTagRepository;
 
     // Redis 설정
@@ -66,7 +66,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
             channel.addChannelHashTag(channelHashTag);
-            channelHashTagRepositoryImpl.save(channelHashTag);
+            channelHashTagRepository.save(channelHashTag);
         }
 
         // redis 설정

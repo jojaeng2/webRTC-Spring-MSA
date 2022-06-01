@@ -8,7 +8,9 @@ import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
+import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
@@ -70,9 +72,10 @@ public class ChannelServiceImpl implements ChannelService{
                 ChannelUser channelUser = new ChannelUser();
                 channel.addChannelUser(channelUser);
                 user.addChannelUser(channelUser);
-                System.out.println("channelUser = " + channelUser.getId());
                 channelUserService.save(channelUser);
             }
+        } else {
+            throw new AlreadyExistUserInChannelException();
         }
     }
 

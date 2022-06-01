@@ -34,7 +34,7 @@ public class ChannelException extends RuntimeException{
     }
 
     @ResponseStatus(code = HttpStatus.ALREADY_REPORTED)
-    public static class AlreadyExistUserEnterChannelException extends ChannelException {
+    public static class AlreadyExistUserInChannelException extends ChannelException {
 
     }
 
