@@ -23,7 +23,7 @@ public class ChannelHashTag implements Serializable {
     @JoinColumn(name = "channel_id")
     private Channel channel;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
 

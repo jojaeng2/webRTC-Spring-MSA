@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import webrtc.openvidu.dto.HttpStatusResponse;
+import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.openvidu.exception.ChannelException.AlreadyExistUserEnterChannelException;
+import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 
@@ -25,8 +26,8 @@ public class GlobalChannelExceptionHandler {
         return new ResponseEntity<>(httpStatusResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(AlreadyExistUserEnterChannelException.class)
-    protected ResponseEntity<?> handleAlreadyExistUserEnterChannelException(AlreadyExistUserEnterChannelException e) {
+    @ExceptionHandler(AlreadyExistUserInChannelException.class)
+    protected ResponseEntity<?> handleAlreadyExistUserEnterChannelException(AlreadyExistUserInChannelException e) {
         final HttpStatusResponse httpStatusResponse = new HttpStatusResponse("이미 참여중인 채널입니다.", e.getMessage());
         return new ResponseEntity<>(httpStatusResponse, HttpStatus.ALREADY_REPORTED);
     }
