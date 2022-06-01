@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/domain/Channel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/channel/ChannelRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/openvidu.iml" beforeDir="false" afterPath="$PROJECT_DIR$/openvidu.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/service/channel/ChannelServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/service/channel/ChannelServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/service/channel/ChannelServiceImplTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/service/channel/ChannelServiceImplTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +65,7 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OpenviduApplication">
+  <component name="RunManager" selected="JUnit.ChannelApiControllerTest">
     <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.OpenviduApplication" />
       <module name="openvidu" />
@@ -86,59 +87,59 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChatLogRepositoryImpl2Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChannelApiControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.repository.chat.*" />
+          <option name="PATTERN" value="webrtc.openvidu.controller.channel.api.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.chat" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.chat.ChatLogRepositoryImpl2Test" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.controller.channel.api" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.controller.channel.api.ChannelApiControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChatLogRepositoryImpl2Test.ChanLodIdxInDependency" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ChannelServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.repository.chat.*" />
+          <option name="PATTERN" value="webrtc.openvidu.service.channel.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.chat" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.chat.ChatLogRepositoryImpl2Test" />
-      <option name="METHOD_NAME" value="ChanLodIdxInDependency" />
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.service.channel" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.service.channel.ChannelServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChannelServiceImplTest.enterChannelAndChannelInfoSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="openvidu" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="webrtc.openvidu.service.channel.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.service.channel" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.service.channel.ChannelServiceImplTest" />
+      <option name="METHOD_NAME" value="enterChannelAndChannelInfoSuccess" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ChatServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="openvidu" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.service.chat.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.service.chat" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.service.chat.ChatServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ChannelApiControllerTest" />
+        <item itemvalue="JUnit.ChannelServiceImplTest.enterChannelAndChannelInfoSuccess" />
+        <item itemvalue="JUnit.ChannelServiceImplTest" />
         <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.All in openvidu" />
-        <item itemvalue="JUnit.ChatLogRepositoryImpl2Test" />
-        <item itemvalue="JUnit.ChatServiceImplTest" />
-        <item itemvalue="JUnit.ChatLogRepositoryImpl2Test.ChanLodIdxInDependency" />
       </list>
     </recent_temporary>
   </component>

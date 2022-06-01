@@ -36,6 +36,9 @@ public class ChannelServiceImplTest {
     public void saveTestUser() {
         User user = new User("user", "user");
         userRepository.saveUser(user);
+
+        User user1 = new User("user1", "user1");
+        userRepository.saveUser(user1);
     }
 
     @Test
@@ -88,10 +91,30 @@ public class ChannelServiceImplTest {
         Channel createChannel = channelService.createChannel(request, "user");
 
         // when
-        channelService.enterChannel(createChannel, "user");
+        channelService.enterChannel(createChannel, "user1");
 
         // then
     }
+
+    @Test
+    @DisplayName("채널에 입장 + 채널 정보 확인")
+    public void enterChannelAndChannelInfoSuccess() {
+        // given
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add("testTag1");
+        hashTags.add("testTag2");
+        hashTags.add("testTag3");
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
+        Channel createChannel = channelService.createChannel(request, "user");
+
+        // when
+        channelService.enterChannel(createChannel, "user1");
+        Channel findChannel = channelService.findOneChannelById(createChannel.getId());
+
+        // then
+        assertThat(findChannel.getCurrentParticipants()).isEqualTo(2);
+    }
+
 
     @Test
     @DisplayName("인원 제한으로 채널 입장 실패")
