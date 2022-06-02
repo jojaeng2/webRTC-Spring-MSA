@@ -3,14 +3,12 @@ package webrtc.openvidu.controller.channel.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -73,11 +71,10 @@ public class ChannelApiControllerTest {
     }
 
     @Test
-    @DisplayName("새로운 채널 생성")
-    @WithMockUser
-    public void createChannel() throws Exception{
+    @DisplayName("새로운 채널 생성 성공")
+    public void createChannelSuccess() throws Exception{
         // given
-        CreateChannelRequest request = createChannelRequest();
+        CreateChannelRequest request = createChannelRequest("testChannel");
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
@@ -86,6 +83,26 @@ public class ChannelApiControllerTest {
 
         // then
         resultActions.andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("중복된 채널 생성")
+    public void createDuplicateChannel() throws Exception{
+        // given
+        CreateChannelRequest request = createChannelRequest("testChannel");
+
+        ResultActions resultActions1 = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(APPLICATION_JSON));
+
+        // when
+        ResultActions resultActions2 = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(APPLICATION_JSON));
+
+        // then
+        resultActions1.andExpect(status().isOk());
+        resultActions2.andExpect(status().isConflict());
     }
 
     private JwtRequest CreateJwtAccessTokenRequest() {
@@ -97,11 +114,11 @@ public class ChannelApiControllerTest {
     }
 
 
-    private CreateChannelRequest createChannelRequest() {
+    private CreateChannelRequest createChannelRequest(String channelName) {
         List<String> hashTags = new ArrayList<>();
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        return new CreateChannelRequest("testChannel", hashTags);
+        return new CreateChannelRequest(channelName, hashTags);
     }
 }
