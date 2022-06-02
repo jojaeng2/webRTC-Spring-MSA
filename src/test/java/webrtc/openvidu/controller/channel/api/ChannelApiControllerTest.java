@@ -20,6 +20,7 @@ import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.dto.ChannelDto.FindAllChannelResponse;
+import webrtc.openvidu.dto.ChannelDto.FindOneChannelResponse;
 import webrtc.openvidu.dto.JwtDto.JwtRequest;
 import webrtc.openvidu.dto.JwtDto.JwtResponse;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -46,7 +46,7 @@ public class ChannelApiControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext ctx;
+    private WebApplicationContext wac;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -61,7 +61,7 @@ public class ChannelApiControllerTest {
 
     @Before
     public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx)
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .build();
 
@@ -86,7 +86,7 @@ public class ChannelApiControllerTest {
     @DisplayName("새로운 채널 생성 성공")
     public void createChannelSuccess() throws Exception{
         // given
-        CreateChannelRequest request = createChannelRequest("testChannel");
+        CreateChannelRequest request = CreateChannelRequest("testChannel");
 
         // when
         ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
@@ -101,7 +101,7 @@ public class ChannelApiControllerTest {
     @DisplayName("중복된 채널 생성")
     public void createDuplicateChannel() throws Exception{
         // given
-        CreateChannelRequest request = createChannelRequest("testChannel");
+        CreateChannelRequest request = CreateChannelRequest("testChannel");
 
         ResultActions resultActions1 = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                 .content(objectMapper.writeValueAsString(request))
@@ -123,7 +123,7 @@ public class ChannelApiControllerTest {
         // given
         int channelsSize = 15;
         for(int i=0; i<channelsSize; i++) {
-            CreateChannelRequest request = createChannelRequest("testChannel" + i);
+            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
             ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(APPLICATION_JSON));
@@ -145,7 +145,7 @@ public class ChannelApiControllerTest {
         // given
         int channelSize = 25;
         for(int i=0; i<channelSize; i++) {
-            CreateChannelRequest request = createChannelRequest("testChannel" + i);
+            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
             ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(APPLICATION_JSON));
@@ -176,7 +176,7 @@ public class ChannelApiControllerTest {
         // given
         int channelsSize = 15;
         for(int i=0; i<channelsSize; i++) {
-            CreateChannelRequest request = createChannelRequest("testChannel" + i);
+            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
             ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(APPLICATION_JSON));
@@ -199,7 +199,7 @@ public class ChannelApiControllerTest {
         // given
         int channelSize = 25;
         for(int i=0; i<channelSize; i++) {
-            CreateChannelRequest request = createChannelRequest("testChannel" + i);
+            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
             ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(APPLICATION_JSON));
@@ -228,7 +228,7 @@ public class ChannelApiControllerTest {
     @DisplayName("새로운 유저가 채널 입장 후 채널 정보 반환")
     public void enterNewUserReturnChannelInfo() throws Exception {
         // given
-        CreateChannelRequest request = createChannelRequest("testChannel");
+        CreateChannelRequest request = CreateChannelRequest("testChannel");
         mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON));
@@ -246,6 +246,29 @@ public class ChannelApiControllerTest {
         assertThat(response.getCurrentParticipants()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("channelId로 특정 채널 정보 반환")
+    public void findOneChannelByChannelId() throws Exception{
+        // given
+        CreateChannelRequest request = CreateChannelRequest("testChannel");
+        mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(APPLICATION_JSON));
+
+
+        // when
+        Channel findChannel = channelService.findChannelByHashName("testTag1").get(0);
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/channel/" + findChannel.getId()).header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
+        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindOneChannelResponse.class);
+        FindOneChannelResponse response = FindOneChannelResponse.class.cast(obj);
+
+        // then
+        resultActions.andExpect(status().isOk());
+        assertThat(response.getChannelId()).isEqualTo(findChannel.getId());
+        assertThat(response.getChannelName()).isEqualTo(findChannel.getChannelName());
+        assertThat(response.getCurrentParticipants()).isEqualTo(1L);
+    }
+
 
 
     private JwtRequest CreateJwtAccessTokenRequest() {
@@ -257,7 +280,7 @@ public class ChannelApiControllerTest {
     }
 
 
-    private CreateChannelRequest createChannelRequest(String channelName) {
+    private CreateChannelRequest CreateChannelRequest(String channelName) {
         List<String> hashTags = new ArrayList<>();
         hashTags.add("testTag1");
         hashTags.add("testTag2");

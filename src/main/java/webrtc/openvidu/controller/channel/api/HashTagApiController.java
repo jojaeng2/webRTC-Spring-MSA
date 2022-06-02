@@ -17,7 +17,7 @@ public class HashTagApiController {
 
     private final ChannelService channelService;
 
-    @PostMapping("/hashtag/{tagName}")
+    @GetMapping("/hashtag/{tagName}")
     public ResponseEntity<HashTagResponse> searchHashTag(@PathVariable String tagName) {
         List<Channel> channels = channelService.findChannelByHashName(tagName);
         HashTagResponse response = new HashTagResponse(channels);
