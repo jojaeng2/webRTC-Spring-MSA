@@ -14,18 +14,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.openvidu.domain.User;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
-import webrtc.openvidu.dto.JwtDto;
 import webrtc.openvidu.dto.JwtDto.JwtRequest;
 import webrtc.openvidu.dto.JwtDto.JwtResponse;
-import webrtc.openvidu.dto.UserDto;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.utils.CustomJsonMapper;
@@ -69,7 +64,6 @@ public class ChannelApiControllerTest {
         ResultActions ra = mockMvc.perform(post("/api/v1/webrtc/register")
                 .content(new ObjectMapper().writeValueAsString(CreateUserRequest()))
                 .contentType(APPLICATION_JSON));
-
         ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/authenticate")
                 .content(new ObjectMapper().writeValueAsString(CreateJwtAccessTokenRequest()))
                 .contentType(APPLICATION_JSON));
