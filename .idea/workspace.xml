@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/HashTagApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/controller/channel/api/HashTagApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/controller/channel/api/ChannelApiControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/controller/channel/api/ChannelApiControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/controller/channel/api/ChannelApiControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/webrtc/openvidu/controller/channel/api/ChannelApiControllerTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +62,15 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.HashTagApiControllerTest">
+  <component name="RunManager" selected="JUnit.All in openvidu">
+    <configuration name="All in openvidu" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="openvidu" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ChannelApiControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
@@ -92,21 +98,6 @@
       <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.controller.channel.api.ChannelApiControllerTest" />
       <option name="METHOD_NAME" value="loadAllChannels" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ChannelServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="openvidu" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.service.channel.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.service.channel" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.service.channel.ChannelServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -144,11 +135,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in openvidu" />
         <item itemvalue="JUnit.HashTagApiControllerTest" />
         <item itemvalue="JUnit.ChannelApiControllerTest" />
         <item itemvalue="JUnit.ChannelApiControllerTest.loadAllChannels" />
         <item itemvalue="JUnit.ChannelServiceImplTest.enterChannelAndChannelInfoSuccess" />
-        <item itemvalue="JUnit.ChannelServiceImplTest" />
       </list>
     </recent_temporary>
   </component>
