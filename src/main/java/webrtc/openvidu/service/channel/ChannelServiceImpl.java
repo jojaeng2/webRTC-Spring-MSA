@@ -75,9 +75,9 @@ public class ChannelServiceImpl implements ChannelService{
                 channelUserService.save(channelUser);
             }
         }
-//        else {
-//            throw new AlreadyExistUserInChannelException();
-//        }
+        else {
+            throw new AlreadyExistUserInChannelException();
+        }
     }
 
     /*
