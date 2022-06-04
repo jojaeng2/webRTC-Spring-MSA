@@ -83,6 +83,8 @@ public class ChatServiceImpl implements ChatService{
                 break;
             case REENTER:
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
+                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+                break;
         }
 
     }
