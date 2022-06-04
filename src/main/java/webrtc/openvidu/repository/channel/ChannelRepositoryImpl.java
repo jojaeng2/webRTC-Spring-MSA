@@ -15,6 +15,8 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 @RequiredArgsConstructor
 @Repository
 public class ChannelRepositoryImpl implements ChannelRepository{
@@ -71,7 +73,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
 
         // redis 설정
         opsValueOperation.set(channel.getId(), channel);
-        redisTemplate.expire(channel.getId(), channelTTL, TimeUnit.SECONDS);
+        redisTemplate.expire(channel.getId(), channelTTL, SECONDS);
 
         return channel;
     }
@@ -182,6 +184,16 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      */
     public Long findChannelTTL(String channelId) {
         return redisTemplate.getExpire(channelId);
+    }
+
+    /**
+     * 채널의 TTL 연장
+     */
+    public void extensionChannelTTL(Channel channel, Long addTTL) {
+        em.persist(channel);
+        Long newTTL = channel.getTimeToLive() + addTTL;
+        channel.setTimeToLive(newTTL);
+        redisTemplate.expire(channel.getId(), newTTL, SECONDS);
     }
 
     /*

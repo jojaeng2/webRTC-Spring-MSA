@@ -1,4 +1,4 @@
-package webrtc.openvidu.repository.point;
+package webrtc.openvidu.service.point;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,25 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Point;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChannelDto;
-import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @SpringBootTest
 @Transactional
-public class PointRepositoryImplTest {
+public class PointServiceImplTest {
+
+    @Autowired
+    private PointService pointService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ChannelService channelService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PointRepository pointRepository;
+
 
     @BeforeEach
     public void saveChannelAndUser() {
@@ -37,38 +37,22 @@ public class PointRepositoryImplTest {
         hashTags.add("tag2");
         hashTags.add("tag2");
 
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
+        ChannelDto.CreateChannelRequest request = new ChannelDto.CreateChannelRequest("testChannel", hashTags);
         User user = new User("testUser", "testUser");
         userRepository.saveUser(user);
         channelService.createChannel(request, "testUser");
     }
 
     @Test
-    @DisplayName("userName으로 Point 객체 찾기")
+    @DisplayName("UserName으로 Point 찾기")
     public void findPointByUserName() {
         // given
 
         // when
-        Point findPoint = pointRepository.findPointByUserName("testUser");
+        Point point = pointService.findPointByUserName("testUser");
 
         // then
-        assertThat(findPoint.getPoint()).isEqualTo(1000000);
+        Assertions.assertThat(point.getPoint()).isEqualTo(1000000L);
+
     }
-
-    @Test
-    @DisplayName("Point 객체 point 감소 성공")
-    public void decreasePointSuccess(){
-        // given
-        Point findPoint = pointRepository.findPointByUserName("testUser");
-
-        // when
-        pointRepository.decreasePoint(findPoint.getId(), 10000L);
-
-        Point reFindPoint = pointRepository.findPointByUserName("testUser");
-
-        // then
-        assertThat(findPoint.getPoint()).isEqualTo(990000L);
-        assertThat(reFindPoint.getPoint()).isEqualTo(990000L);
-    }
-
 }

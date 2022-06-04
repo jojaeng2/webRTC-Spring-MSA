@@ -148,4 +148,9 @@ public class ChannelServiceImpl implements ChannelService{
     public List<Channel> findChannelByHashName(String tagName) {
         return channelRepository.findChannelsByHashName(tagName);
     }
+
+    public void extensionChannelTTL(Channel channel, Long addTTL) {
+        channelRepository.extensionChannelTTL(channel, addTTL);
+    }
+
 }

@@ -49,23 +49,34 @@ public class ChatServiceImpl implements ChatService{
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<User> currentUsers = userService.findUsersByChannelId(channelId);
+        Long logId;
         switch (type) {
             case CHAT:
                 serverMessage.setMessageType(SocketServerMessageType.CHAT, senderName, chatMessage, currentParticipants, currentUsers);
+                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setChatLogId(logId);
                 break;
             case ENTER:
                 chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
+                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setChatLogId(logId);
                 break;
             case EXIT:
                 chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
+                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setChatLogId(logId);
                 break;
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
+                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setChatLogId(logId);
+                break;
+            case REENTER:
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
         }
-        Long logId = saveChatLog(type, chatMessage, senderName, channel);
-        serverMessage.setChatLogId(logId);
+
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 

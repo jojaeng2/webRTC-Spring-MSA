@@ -39,6 +39,7 @@ public class ChatMessageController {
                 channelService.exitChannel(channelId, senderName);
                 message.setSenderName("[알림] ");
                 break;
+
         }
         chatService.sendChatMessage(clientMessageType, channelId, senderName, chatMessage);
     }

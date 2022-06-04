@@ -1,8 +1,10 @@
 package webrtc.openvidu.service.point;
 
+import webrtc.openvidu.domain.Point;
+
 public interface PointService {
 
-    void decreasePoint();
+    void decreasePoint(String channelId, String userName, Long requestTTL);
 
-    Long findPointByUserName(String userName);
+    Point findPointByUserName(String userName);
 }

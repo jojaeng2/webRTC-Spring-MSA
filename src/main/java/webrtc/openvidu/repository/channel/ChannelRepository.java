@@ -28,6 +28,8 @@ public interface ChannelRepository {
 
     Long findChannelTTL(String channelId);
 
+    void extensionChannelTTL(Channel channel, Long addTTL);
+
     Long getCurrentParticipants(Channel channel);
 
 }
