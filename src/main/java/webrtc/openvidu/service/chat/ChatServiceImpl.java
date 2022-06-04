@@ -83,4 +83,8 @@ public class ChatServiceImpl implements ChatService{
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
         return chatRepository.findChatLogsByChannelId(channelId, idx);
     }
+
+    public ChatLog findLastChatLogsByChannelId(String channelId) {
+        return chatRepository.findLastChatLogsByChannelId(channelId).get(0);
+    }
 }

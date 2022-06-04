@@ -35,7 +35,11 @@ public class ChannelException extends RuntimeException{
 
     @ResponseStatus(code = HttpStatus.ALREADY_REPORTED)
     public static class AlreadyExistUserInChannelException extends ChannelException {
+        private Long idx;
 
+        public void setIdx(Long idx) {
+            this.idx = idx;
+        }
     }
 
     @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)

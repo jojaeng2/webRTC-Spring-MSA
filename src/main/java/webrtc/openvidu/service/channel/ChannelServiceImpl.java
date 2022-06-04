@@ -14,6 +14,7 @@ import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelExcep
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
+import webrtc.openvidu.service.chat.ChatService;
 import webrtc.openvidu.service.user.UserService;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChannelRepository channelRepository;
     private final UserService userService;
     private final ChannelUserService channelUserService;
+    private final ChatService chatService;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -76,7 +78,9 @@ public class ChannelServiceImpl implements ChannelService{
             }
         }
         else {
-            throw new AlreadyExistUserInChannelException();
+            AlreadyExistUserInChannelException e = new AlreadyExistUserInChannelException();
+            e.setIdx(chatService.findLastChatLogsByChannelId(channelId).getIdx());
+            throw e;
         }
     }
 
