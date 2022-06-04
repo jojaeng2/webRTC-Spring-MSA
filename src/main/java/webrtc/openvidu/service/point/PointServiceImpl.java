@@ -11,7 +11,7 @@ import webrtc.openvidu.service.channel.ChannelService;
 
 @Service
 @RequiredArgsConstructor
-public class PointServiceImpl {
+public class PointServiceImpl implements PointService{
 
     private final PointRepository pointRepository;
     private final ChannelService channelService;

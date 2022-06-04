@@ -7,14 +7,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.Point;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChannelDto;
+import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
+import webrtc.openvidu.exception.PointException;
+import webrtc.openvidu.exception.PointException.InsufficientPointException;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -37,7 +43,7 @@ public class PointServiceImplTest {
         hashTags.add("tag2");
         hashTags.add("tag2");
 
-        ChannelDto.CreateChannelRequest request = new ChannelDto.CreateChannelRequest("testChannel", hashTags);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
         User user = new User("testUser", "testUser");
         userRepository.saveUser(user);
         channelService.createChannel(request, "testUser");
@@ -53,6 +59,28 @@ public class PointServiceImplTest {
 
         // then
         Assertions.assertThat(point.getPoint()).isEqualTo(1000000L);
+    }
+
+    @Test
+    @DisplayName("User 보유 Point 감소 실패")
+    public void decreasePointFail() {
+        // given
+        Point point = pointService.findPointByUserName("testUser");
+        Channel channel = channelService.findChannelByHashName("tag1").get(0);
+        // when
+
+        // then
+        assertThrows(InsufficientPointException.class,
+                () -> pointService.decreasePoint(channel.getId(), "testUser", 10000000L));
+    }
+
+    @Test
+    @DisplayName("User 보유 Point 감소 성공")
+    public void decreasePointSuccess() {
+        // given
+
+        // when
+
 
     }
 }

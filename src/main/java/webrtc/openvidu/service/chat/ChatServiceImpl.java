@@ -55,29 +55,36 @@ public class ChatServiceImpl implements ChatService{
                 serverMessage.setMessageType(SocketServerMessageType.CHAT, senderName, chatMessage, currentParticipants, currentUsers);
                 logId = saveChatLog(type, chatMessage, senderName, channel);
                 serverMessage.setChatLogId(logId);
+                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+
                 break;
             case ENTER:
                 chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
                 logId = saveChatLog(type, chatMessage, senderName, channel);
                 serverMessage.setChatLogId(logId);
+                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+
                 break;
             case EXIT:
                 chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
                 logId = saveChatLog(type, chatMessage, senderName, channel);
                 serverMessage.setChatLogId(logId);
+                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+
                 break;
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
                 logId = saveChatLog(type, chatMessage, senderName, channel);
                 serverMessage.setChatLogId(logId);
+                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+
                 break;
             case REENTER:
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
         }
 
-        redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
