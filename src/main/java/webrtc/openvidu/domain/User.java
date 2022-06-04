@@ -21,7 +21,6 @@ public class User implements Serializable {
 
     @Id
     @Column(name = "user_id")
-    @JsonIgnore
     private String id;
     private Timestamp created_at;
     private Timestamp updated_at;
