@@ -22,4 +22,9 @@ public class PointRepositoryImpl implements PointRepository{
         User user = userRepository.findUsersByName(userName).get(0);
         return user.getPoint();
     }
+
+    public void decreasePoint(Long pointId, Long requiredPoint) {
+        Point findPoint = em.find(Point.class, pointId);
+        findPoint.setPoint(findPoint.getPoint() - requiredPoint);
+    }
 }

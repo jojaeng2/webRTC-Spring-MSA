@@ -1,11 +1,13 @@
 package webrtc.openvidu.repository.point;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.openvidu.domain.Point;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
@@ -45,9 +47,20 @@ public class PointRepositoryImplTest {
         // given
 
         // when
+        Point findPoint = pointRepository.findPointByUserName("testUser");
 
         // then
+        Assertions.assertThat(findPoint.getPoint()).isEqualTo(1000000);
+    }
 
+    @Test
+    @DisplayName("Point 객체 point 감소 성공")
+    public void decreasePointSuccess(){
+        // given
+
+        // when
+
+        // then
     }
 
 }

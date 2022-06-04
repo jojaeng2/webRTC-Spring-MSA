@@ -45,7 +45,7 @@ public class StompHandler implements ChannelInterceptor {
                 String sendJwtToken = accessor.getFirstNativeHeader("jwt");
                 String messageType = accessor.getFirstNativeHeader("type");
                 String sendUsername = jwtTokenUtil.getUsernameFromToken(sendJwtToken);
-                if(messageType.equals("ENTER")) {
+                if(messageType != null && messageType.equals("ENTER")) {
                     String connectChannelId = accessor.getFirstNativeHeader("channelId");
                     Channel connectCheckedExistChannel = channelService.findOneChannelById(connectChannelId);
                     channelService.enterChannel(connectCheckedExistChannel, sendUsername);

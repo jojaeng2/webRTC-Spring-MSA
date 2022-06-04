@@ -29,7 +29,7 @@ public class Channel implements Serializable {
     private Set<ChannelHashTag> channelHashTags;
     private static final Long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private List<ChatLog> chatLogs;
 
 

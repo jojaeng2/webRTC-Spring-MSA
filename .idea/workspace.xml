@@ -8,7 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/domain/Channel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/point/PointRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/point/PointRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/point/PointRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/point/PointRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/point/PointRepositoryImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/point/PointRepositoryImplTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +67,7 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OpenviduApplication">
+  <component name="RunManager" selected="JUnit.PointRepositoryImplTest">
     <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.OpenviduApplication" />
       <module name="openvidu" />
@@ -102,22 +104,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ChannelApiControllerTest.loadAllChannels" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="openvidu" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="webrtc.openvidu.controller.channel.api.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="webrtc.openvidu.controller.channel.api" />
-      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.controller.channel.api.ChannelApiControllerTest" />
-      <option name="METHOD_NAME" value="loadAllChannels" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="HashTagApiControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="openvidu" />
       <extension name="coverage">
@@ -133,13 +119,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PointRepositoryImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="openvidu" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="webrtc.openvidu.repository.point.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="webrtc.openvidu.repository.point" />
+      <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.repository.point.PointRepositoryImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PointRepositoryImplTest" />
         <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.All in openvidu" />
         <item itemvalue="JUnit.HashTagApiControllerTest" />
         <item itemvalue="JUnit.ChannelApiControllerTest" />
-        <item itemvalue="JUnit.ChannelApiControllerTest.loadAllChannels" />
       </list>
     </recent_temporary>
   </component>
