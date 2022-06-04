@@ -11,7 +11,7 @@ import java.util.List;
 import static java.lang.Math.max;
 
 @Repository
-public class ChatLogRepositoryImpl implements ChatLogRepository {
+public class ChatLogRepositoryImpl2 implements ChatLogRepository {
 
     private final int LoadingChatCount = 20;
 

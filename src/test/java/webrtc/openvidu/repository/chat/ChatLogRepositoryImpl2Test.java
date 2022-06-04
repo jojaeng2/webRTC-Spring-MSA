@@ -21,7 +21,7 @@ import static webrtc.openvidu.enums.ClientMessageType.ENTER;
 
 @SpringBootTest
 @Transactional
-public class ChatLogRepositoryImplTest {
+public class ChatLogRepositoryImpl2Test {
 
     @Autowired
     private ChatLogRepository chatLogRepository;
