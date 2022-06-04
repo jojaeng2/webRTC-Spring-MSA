@@ -6,15 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImpl2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/exception/ChannelException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/exception/ChannelException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/handler/StompInterceptorErrorHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/webrtc/openvidu/service/channel/ChannelServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImpl2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webrtc/openvidu/repository/chat/ChatLogRepositoryImpl2Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/exception/ChannelException$AlreadyExistUserInChannelException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/exception/ChannelException$AlreadyExistUserInChannelException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/exception/ChannelException$ChannelParticipantsFullException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/exception/ChannelException$ChannelParticipantsFullException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/repository/chat/ChatLogRepositoryImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/handler/StompHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/channel/ChannelServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/webrtc/openvidu/service/chat/ChatServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +70,7 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserServiceImplTest">
+  <component name="RunManager" selected="Application.OpenviduApplication">
     <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="webrtc.openvidu.OpenviduApplication" />
       <module name="openvidu" />
@@ -139,9 +139,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.UserServiceImplTest" />
         <item itemvalue="JUnit.All in openvidu" />
-        <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.PointServiceImplTest" />
         <item itemvalue="JUnit.PointRepositoryImplTest" />
       </list>

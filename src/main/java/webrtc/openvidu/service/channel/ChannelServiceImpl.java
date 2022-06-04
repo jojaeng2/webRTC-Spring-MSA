@@ -30,7 +30,6 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChannelRepository channelRepository;
     private final UserService userService;
     private final ChannelUserService channelUserService;
-    private final ChatLogRepository chatLogRepository;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -65,7 +64,7 @@ public class ChannelServiceImpl implements ChannelService{
         User user = userService.findOneUserByName(userName);
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
-
+        
         // !findEnterChannels.isEmpty() -> 이미 해당 user가 채널에 입장한 상태라는 의미
         if(findEnterChannels.isEmpty()) {
             Long limitParticipants = channel.getLimitParticipants();
@@ -79,9 +78,8 @@ public class ChannelServiceImpl implements ChannelService{
             }
         }
         else {
-            AlreadyExistUserInChannelException e = new AlreadyExistUserInChannelException();
-            e.setIdx(chatLogRepository.findLastChatLogsByChannelId(channelId).get(0).getIdx());
-            throw e;
+            System.out.println("channelServiceImpl2");
+            throw new AlreadyExistUserInChannelException();
         }
     }
 

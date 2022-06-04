@@ -21,6 +21,7 @@ import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullExcepti
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.exception.JwtException.CustomJwtExceptionDto;
 import webrtc.openvidu.exception.UserException.NotExistUserExceptionDto;
+import webrtc.openvidu.service.chat.ChatService;
 
 import static webrtc.openvidu.enums.SocketInterceptorErrorType.*;
 
@@ -29,6 +30,7 @@ import static webrtc.openvidu.enums.SocketInterceptorErrorType.*;
 public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private final ObjectMapper objectMapper;
+    private final ChatService chatService;
 
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {
@@ -53,13 +55,17 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
     private Message<byte[]> handleChannelException(Message<byte[]> clientMessage, Throwable exception) {
         ChannelExceptionDto channelExceptionDto = new ChannelExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
         if(ChannelParticipantsFullException.class.isInstance(exception)) {
-            channelExceptionDto.setField(ALREADY_FULL_CHANNEL, "채널에 인원이 가득차 입장할 수없습니다.");
+            channelExceptionDto.setField(ALREADY_FULL_CHANNEL, "채널에 인원이 가득차 입장할 수없습니다.", 0L);
         }
         else if(NotExistChannelException.class.isInstance(exception)) {
-            channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..");
+
+            channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..", 0L);
         }
         else if(AlreadyExistUserInChannelException.class.isInstance(exception)) {
-            channelExceptionDto.setField(ALREADY_USER_IN_CHANNEL, "이미 채널에 존재하는 User입니다.");
+            StompHeaderAccessor accessor = StompHeaderAccessor.wrap(clientMessage);
+            String connectChannelId = accessor.getFirstNativeHeader("channelId");
+            Long idx = chatService.findLastChatLogsByChannelId(connectChannelId).getIdx();
+            channelExceptionDto.setField(ALREADY_USER_IN_CHANNEL, "이미 채널에 존재하는 User입니다.", idx);
         }
         return prepareErrorMessage(clientMessage, channelExceptionDto, "Exception");
     }
