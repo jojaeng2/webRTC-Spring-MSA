@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface ChannelService {
 
-    Channel createChannel(CreateChannelRequest request, String userName);
+    Channel createChannel(CreateChannelRequest request, String email);
 
-    void enterChannel(Channel channel, String userName);
+    void enterChannel(Channel channel, String email);
 
-    void exitChannel(String channelId, String userName);
+    void exitChannel(String channelId, String email);
 
     void deleteChannel(String channelId);
 
     List<ChannelResponse> findAnyChannel(int idx);
 
-    List<ChannelResponse> findMyChannel(String userName, int idx);
+    List<ChannelResponse> findMyChannel(String email, int idx);
 
     Channel findOneChannelById(String channelId);
 

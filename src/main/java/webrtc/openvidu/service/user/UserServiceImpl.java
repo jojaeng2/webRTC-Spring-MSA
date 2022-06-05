@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-    public User findOneUserByName(String username) {
-        List<User> users = userRepository.findUsersByName(username);
+    public User findOneUserByEmail(String email) {
+        List<User> users = userRepository.findUsersByEmail(email);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
     }

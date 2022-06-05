@@ -32,32 +32,30 @@ public class JwtRequestFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        System.out.println("request = " + request.getRequestURI());
         System.out.println("request.getRequestURL() = " + request.getRequestURL());
         final String requestTokenHeader = request.getHeader("Authorization");
-        String username = null;
+        String userEmail = null;
         String jwtToken = null;
         // JWT Token is in the form "jwt token". Remove jwt word and get
         // only the Token
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);
-            System.out.println("jwtToken = " + jwtToken);
             try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                userEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
-                System.out.println("123123123213");
+                System.out.println("JwtToken Expired");
             }
         } else {
             logger.warn("JWT Token does not begin with jwt String");
         }
 
         // Once we get the token validate it.
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(userEmail);
 
             // if token is valid configure Spring Security to manually set
             // authentication

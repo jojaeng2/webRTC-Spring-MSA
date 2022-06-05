@@ -38,14 +38,14 @@ public class ChannelServiceImpl implements ChannelService{
      *
      * @return Channel
      */
-    public Channel createChannel(CreateChannelRequest request, String userName) {
+    public Channel createChannel(CreateChannelRequest request, String email) {
         List<Channel> channels = channelRepository.findChannelsByChannelName(request.getChannelName());
         if(!channels.isEmpty()) {
             throw new AlreadyExistChannelException();
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userService.findOneUserByName(userName);
+        User user = userService.findOneUserByEmail(email);
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
@@ -60,8 +60,8 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 입장
      *
      */
-    public void enterChannel(Channel channel, String userName) {
-        User user = userService.findOneUserByName(userName);
+    public void enterChannel(Channel channel, String email) {
+        User user = userService.findOneUserByEmail(email);
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
@@ -87,8 +87,8 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public void exitChannel(String channelId, String userName) {
-        User user = userService.findOneUserByName(userName);
+    public void exitChannel(String channelId, String email) {
+        User user = userService.findOneUserByEmail(email);
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
         channel.minusCurrentParticipants();
@@ -124,8 +124,8 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 입장한 모든 채널 불러오기
      *
      */
-    public List<ChannelResponse> findMyChannel(String userName, int idx) {
-        User user = userService.findOneUserByName(userName);
+    public List<ChannelResponse> findMyChannel(String email, int idx) {
+        User user = userService.findOneUserByEmail(email);
         List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {

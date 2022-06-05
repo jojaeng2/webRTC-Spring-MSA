@@ -10,7 +10,7 @@ public interface UserService {
 
     User saveUser(CreateUserRequest request);
 
-    User findOneUserByName(String username);
+    User findOneUserByEmail(String email);
 
     List<User> findUsersByChannelId(String channelId);
 }

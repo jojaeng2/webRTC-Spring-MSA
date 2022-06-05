@@ -26,8 +26,8 @@ public class ChannelApiController {
 
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
-        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
-        Channel channel = channelService.createChannel(request, userName);
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
+        Channel channel = channelService.createChannel(request, userEmail);
         CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -41,8 +41,8 @@ public class ChannelApiController {
 
     @GetMapping("/mychannel/{idx}")
     public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@RequestHeader("Authorization") String jwtAccessToken, @PathVariable("idx") String idx) {
-        String userName = jwtTokenUtil.getUsernameFromToken(jwtAccessToken.substring(4));
-        List<ChannelResponse> channels = channelService.findMyChannel(userName, Integer.parseInt(idx));
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
+        List<ChannelResponse> channels = channelService.findMyChannel(userEmail, Integer.parseInt(idx));
         FindAllChannelResponse response = new FindAllChannelResponse(channels);
         return new ResponseEntity<>(response, OK);
     }

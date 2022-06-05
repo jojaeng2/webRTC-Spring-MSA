@@ -1,6 +1,5 @@
 package webrtc.openvidu.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -43,16 +41,16 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<ChannelUser> channelUsers = new HashSet<>();
 
-    public User(String nickname, String password) {
+    public User(String email, String password) {
         this.id = UUID.randomUUID().toString();
 
-        this.nickname = nickname;
+        this.email = email;
         this.password = password;
 
         // 임시
+        this.nickname = null;
         this.created_at = null;
         this.updated_at = null;
-        this.email = null;
         this.birthdate = null;
         this.phone_number = null;
         this.school = null;

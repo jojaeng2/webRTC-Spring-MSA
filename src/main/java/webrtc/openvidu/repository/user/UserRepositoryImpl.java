@@ -21,12 +21,12 @@ public class UserRepositoryImpl implements UserRepository{
         em.persist(user);
     }
 
-    public List<User> findUsersByName(String name) {
+    public List<User> findUsersByEmail(String email) {
         return em.createQuery(
                 "select u from User u " +
-                        "where u.nickname = :nickname"
+                        "where u.email = :email"
                 , User.class)
-                .setParameter("nickname", name)
+                .setParameter("email", email)
                 .getResultList();
     }
 
