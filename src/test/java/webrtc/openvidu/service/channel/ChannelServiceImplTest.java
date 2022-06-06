@@ -16,6 +16,7 @@ import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.user.UserRepository;
+import webrtc.openvidu.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ public class ChannelServiceImplTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @BeforeEach
     public void saveTestUser() {
@@ -151,9 +155,10 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
         Channel createChannel = channelService.createChannel(request, "email");
+        User user = userService.findOneUserByEmail("email");
 
         // when
-        channelService.exitChannel(createChannel.getId(), "email");
+        channelService.exitChannel(createChannel.getId(), user);
 
         // then
         assertThat(createChannel.getChannelUsers().size()).isEqualTo(0);

@@ -35,7 +35,6 @@ public class StompHandler implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-        System.out.println("accessor = " + accessor);
         switch (accessor.getCommand()) {
             case CONNECT:
                 String connectJwtToken = accessor.getFirstNativeHeader("jwt");
@@ -49,12 +48,11 @@ public class StompHandler implements ChannelInterceptor {
                 String sendUserEmail = jwtTokenUtil.getUserEmailFromToken(sendJwtToken);
                 UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUserEmail);
                 jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
+                String sendChannelId = accessor.getFirstNativeHeader("channelId");
                 if(messageType != null && messageType.equals("ENTER")) {
-                    String connectChannelId = accessor.getFirstNativeHeader("channelId");
-                    Channel connectCheckedExistChannel = channelService.findOneChannelById(connectChannelId);
+                    Channel connectCheckedExistChannel = channelService.findOneChannelById(sendChannelId);
                     channelService.enterChannel(connectCheckedExistChannel, sendUserEmail);
                 }
-                String sendChannelId = accessor.getFirstNativeHeader("channelId");
                 channelService.findOneChannelById(sendChannelId);
                 break;
         }

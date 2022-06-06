@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.*;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.service.channel.ChannelService;
@@ -29,20 +30,20 @@ public class ChatMessageController {
         ClientMessageType clientMessageType = message.getType();
         String channelId = message.getChannelId();
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        String senderName = userService.findOneUserByEmail(senderEmail).getNickname();
+        User sender = userService.findOneUserByEmail(senderEmail);
         String chatMessage = message.getMessage();
         switch(clientMessageType) {
             case CHAT:
-                message.setSenderName(senderName);
+                message.setSenderName(sender.getNickname());
                 break;
             case ENTER:
                 message.setSenderName("[알림] ");
                 break;
             case EXIT:
-                channelService.exitChannel(channelId, senderName);
+                channelService.exitChannel(channelId, sender);
                 message.setSenderName("[알림] ");
                 break;
         }
-        chatService.sendChatMessage(clientMessageType, channelId, senderName, chatMessage, senderEmail);
+        chatService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);
     }
 }

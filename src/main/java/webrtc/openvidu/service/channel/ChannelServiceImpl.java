@@ -86,8 +86,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 퇴장
      *
      */
-    public void exitChannel(String channelId, String email) {
-        User user = userService.findOneUserByEmail(email);
+    public void exitChannel(String channelId, User user) {
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
         channel.minusCurrentParticipants();

@@ -1,6 +1,7 @@
 package webrtc.openvidu.service.channel;
 
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
@@ -13,7 +14,7 @@ public interface ChannelService {
 
     void enterChannel(Channel channel, String email);
 
-    void exitChannel(String channelId, String email);
+    void exitChannel(String channelId, User user);
 
     void deleteChannel(String channelId);
 
