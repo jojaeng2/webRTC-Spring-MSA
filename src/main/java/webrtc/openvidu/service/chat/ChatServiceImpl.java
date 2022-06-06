@@ -27,7 +27,7 @@ public class ChatServiceImpl implements ChatService{
     private final ChatLogRepository chatLogRepository;
 
     private final UserService userService;
-    private ChannelService channelService;
+    private final ChannelService channelService;
 
 
     public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel, String senderEmail) {
@@ -46,6 +46,7 @@ public class ChatServiceImpl implements ChatService{
      * Chatting Room에 message 발송
      */
     public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage, String senderEmail) {
+        System.out.println("channelId " + channelId);
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);

@@ -148,6 +148,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
+        System.out.println("channelService findOneChannelById channelId = " + channelId);
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.size() == 0) throw new NotExistChannelException();
         Channel findChannel = channels.get(0);
