@@ -26,8 +26,9 @@ public class ChatServiceImpl implements ChatService{
 
     private final ChatLogRepository chatLogRepository;
 
-    private final ChannelService channelService;
     private final UserService userService;
+    private ChannelService channelService;
+
 
     public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
@@ -76,7 +77,6 @@ public class ChatServiceImpl implements ChatService{
             case REENTER:
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
                 logId = findLastChatLogsByChannelId(channelId).getIdx();
-                serverMessage.setChatLogId(logId);
                 break;
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);

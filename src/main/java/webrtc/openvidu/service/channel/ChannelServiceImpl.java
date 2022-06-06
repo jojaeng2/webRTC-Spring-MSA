@@ -1,25 +1,27 @@
 package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
-import webrtc.openvidu.exception.ChannelException;
+import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
-import webrtc.openvidu.repository.chat.ChatLogRepository;
 import webrtc.openvidu.service.chat.ChatService;
 import webrtc.openvidu.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static webrtc.openvidu.enums.ClientMessageType.CREATE;
 
 
 @RequiredArgsConstructor
@@ -30,6 +32,12 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChannelRepository channelRepository;
     private final UserService userService;
     private final ChannelUserService channelUserService;
+    private ChatService chatService;
+
+    @Autowired
+    public void setChatService(@Lazy ChatService chatService) {
+        this.chatService = chatService;
+    }
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -53,6 +61,8 @@ public class ChannelServiceImpl implements ChannelService{
         channel.addChannelUser(channelUser);
         user.addChannelUser(channelUser);
         channelUserService.save(channelUser);
+
+        chatService.saveChatLog(CREATE, "[알림] 채팅방이 생성되었습니다.", "NOTICE", channel, "NOTICE");
         return channel;
     }
 

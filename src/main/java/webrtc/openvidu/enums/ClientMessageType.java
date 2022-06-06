@@ -1,5 +1,5 @@
 package webrtc.openvidu.enums;
 
 public enum ClientMessageType {
-    ENTER, EXIT, CHAT, CLOSE, REENTER
+    ENTER, EXIT, CHAT, CLOSE, REENTER, CREATE
 }
