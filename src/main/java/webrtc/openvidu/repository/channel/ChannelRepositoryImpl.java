@@ -88,6 +88,18 @@ public class ChannelRepositoryImpl implements ChannelRepository{
         em.remove(deleteChannel);
     }
 
+    @Transactional
+    public void enterChannelUserInChannel(Channel channel, ChannelUser channelUser) {
+        em.find(Channel.class, channel.getId());
+        channel.enterChannelUser(channelUser);
+    }
+
+    @Transactional
+    public void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
+        em.find(Channel.class, channel.getId());
+        channel.exitChannelUser(channelUser);
+    }
+
     /*
      * 채널 업데이트
      */

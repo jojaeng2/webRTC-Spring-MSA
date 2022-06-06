@@ -44,9 +44,10 @@ public class Channel implements Serializable {
         this.chatLogs = new ArrayList<>();
     }
 
-    public void addChannelUser(ChannelUser channelUser) {
+    public void enterChannelUser(ChannelUser channelUser) {
         this.currentParticipants++;
         channelUser.setChannel(this);
+        this.channelUsers.add(channelUser);
     }
 
 
@@ -58,8 +59,9 @@ public class Channel implements Serializable {
         this.channelHashTags.add(channelHashTag);
     }
 
-    public void minusCurrentParticipants() {
+    public void exitChannelUser(ChannelUser channelUser) {
         this.currentParticipants--;
+        this.channelUsers.remove(channelUser);
     }
 
     public void setLimitParticipants(Long limitParticipants) {

@@ -58,10 +58,9 @@ public class ChannelServiceImpl implements ChannelService{
         channelRepository.createChannel(channel, hashTags);
 
         ChannelUser channelUser = new ChannelUser();
-        channel.addChannelUser(channelUser);
+        channel.enterChannelUser(channelUser);
         user.addChannelUser(channelUser);
         channelUserService.save(channelUser);
-
         chatService.saveChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), channel, "NOTICE");
         return channel;
     }
@@ -82,9 +81,11 @@ public class ChannelServiceImpl implements ChannelService{
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
                 ChannelUser channelUser = new ChannelUser();
-                channel.addChannelUser(channelUser);
+                System.out.println("channelUser1 = " + channelUser.getId());
                 user.addChannelUser(channelUser);
-                channelUserService.save(channelUser);
+                System.out.println("channelUser2 = " + channelUser.getId());
+
+                channelRepository.enterChannelUserInChannel(channel, channelUser);
             }
         }
         else {
@@ -99,8 +100,7 @@ public class ChannelServiceImpl implements ChannelService{
     public void exitChannel(String channelId, User user) {
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
-        channel.minusCurrentParticipants();
-        channelUserService.delete(channelUser);
+        channelRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
     /*

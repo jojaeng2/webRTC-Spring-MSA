@@ -1,6 +1,7 @@
 package webrtc.openvidu.repository.channel;
 
 import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.ChannelUser;
 
 import java.util.List;
 
@@ -12,7 +13,9 @@ public interface ChannelRepository {
 
     void deleteChannel(Channel channel);
 
-    Channel updateChannel(Channel channel);
+    void enterChannelUserInChannel(Channel channel, ChannelUser channelUser);
+
+    void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
 
     List<Channel> findAnyChannel(int idx);
 

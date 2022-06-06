@@ -59,7 +59,7 @@ public class ChatServiceImplTest {
         Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel, "testEmail");
 
         // then
-        assertThat(chatId).isEqualTo(1L);
+        assertThat(chatId).isEqualTo(2L);
     }
 
     @Test
@@ -75,6 +75,6 @@ public class ChatServiceImplTest {
         Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel, "testEmail");
 
         // then
-        assertThat(chatId).isEqualTo(20L);
+        assertThat(chatId).isEqualTo(21L);
     }
 }

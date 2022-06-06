@@ -27,7 +27,7 @@ public class ChannelTest {
         ChannelUser channelUser = new ChannelUser();
 
         //when
-        channel.addChannelUser(channelUser);
+        channel.enterChannelUser(channelUser);
 
         //then
         Assertions.assertThat(channel.getCurrentParticipants()).isEqualTo(1);
@@ -57,9 +57,9 @@ public class ChannelTest {
         Channel channel = new Channel("TestChannel");
 
         //when
-        channel.minusCurrentParticipants();
+//        channel.exitChannelUser();
 
         //then
-        Assertions.assertThat(channel.getCurrentParticipants()).isEqualTo(-1);
+        Assertions.assertThat(channel.getCurrentParticipants()).isEqualTo(0);
     }
 }

@@ -74,7 +74,7 @@ public class ChatLogRepositoryImpl2Test {
         List<ChatLog> chatLogs = chatLogRepository.findAllChatLogsByChannelId(findChannel.getId());
 
         // then
-        assertThat(chatLogs.size()).isEqualTo(2);
+        assertThat(chatLogs.size()).isEqualTo(3);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ChatLogRepositoryImpl2Test {
     }
 
     @Test
-    @DisplayName("ChannelId를 기준으로 마지막 ChatLog 불러오기 실패")
+    @DisplayName("Channel  처음 생성했을때 chatLog 1개 정상적으로 생성")
     public void LastChatLogLoadByIdxFail() {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
@@ -106,7 +106,7 @@ public class ChatLogRepositoryImpl2Test {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(findChannel.getId());
 
         // then
-        assertThat(findChatLogs.size()).isEqualTo(0);
+        assertThat(findChatLogs.size()).isEqualTo(1);
     }
 
     @Test
@@ -150,6 +150,6 @@ public class ChatLogRepositoryImpl2Test {
         for (ChatLog chatLog : chatLogs) {
             System.out.println("chatLog = " + chatLog.getIdx());
         }
-        assertThat(chatLogs.size()).isEqualTo(14L);
+        assertThat(chatLogs.size()).isEqualTo(15L);
     }
 }
