@@ -75,10 +75,11 @@ public class ChatServiceImpl implements ChatService{
                 break;
             case REENTER:
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
+                logId = findLastChatLogsByChannelId(channelId).getIdx();
+                serverMessage.setChatLogId(logId);
                 break;
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
-
     }
 
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
