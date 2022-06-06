@@ -66,11 +66,11 @@ public class ChannelApiControllerTest {
                 .build();
 
         ResultActions resultActions0 = mockMvc.perform(post("/api/v1/webrtc/register")
-                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user")))
+                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user", "email")))
                 .contentType(APPLICATION_JSON));
 
         ResultActions resultActions1 = mockMvc.perform(post("/api/v1/webrtc/register")
-                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("enterUser")))
+                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("enterUser", "enterEmail")))
                 .contentType(APPLICATION_JSON));
 
 
@@ -235,7 +235,7 @@ public class ChannelApiControllerTest {
 
         // when
         Channel findChannel = channelService.findChannelByHashName("testTag1").get(0);
-        channelService.enterChannel(findChannel, "enterUser");
+        channelService.enterChannel(findChannel, "enterEmail");
         ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/channels/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
         Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
         FindAllChannelResponse allResponse = FindAllChannelResponse.class.cast(obj);
@@ -272,11 +272,11 @@ public class ChannelApiControllerTest {
 
 
     private JwtRequest CreateJwtAccessTokenRequest() {
-        return new JwtRequest("user", "user");
+        return new JwtRequest("email", "user");
     }
 
-    private CreateUserRequest CreateUserRequest(String userName) {
-        return new CreateUserRequest(userName, "user", "email");
+    private CreateUserRequest CreateUserRequest(String userName, String email) {
+        return new CreateUserRequest(userName, "user", email);
     }
 
 

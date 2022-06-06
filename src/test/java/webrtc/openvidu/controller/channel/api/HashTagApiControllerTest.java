@@ -101,7 +101,7 @@ public class HashTagApiControllerTest {
     }
 
     private JwtRequest CreateJwtAccessTokenRequest() {
-        return new JwtRequest("user", "user");
+        return new JwtRequest("email", "user");
     }
 
     private CreateUserRequest CreateUserRequest(String userName) {
