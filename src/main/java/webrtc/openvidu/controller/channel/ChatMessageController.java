@@ -36,12 +36,8 @@ public class ChatMessageController {
             case CHAT:
                 message.setSenderName(sender.getNickname());
                 break;
-            case ENTER:
-                message.setSenderName("[알림] ");
-                break;
             case EXIT:
                 channelService.exitChannel(channelId, sender);
-                message.setSenderName("[알림] ");
                 break;
         }
         chatService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);

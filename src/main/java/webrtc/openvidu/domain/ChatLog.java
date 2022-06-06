@@ -16,6 +16,7 @@ public class ChatLog {
     @Id
     @Column(name = "chat_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @ManyToOne

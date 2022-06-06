@@ -130,7 +130,6 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      *
      */
     public List<Channel> findChannelsById(String id) {
-        System.out.println(" = " + id);
         return em.createQuery(
                         "select c from Channel c " +
                                 "where c.id = :id"

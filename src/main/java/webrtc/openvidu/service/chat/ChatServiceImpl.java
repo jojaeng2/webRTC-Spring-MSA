@@ -46,7 +46,6 @@ public class ChatServiceImpl implements ChatService{
      * Chatting Room에 message 발송
      */
     public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage, String senderEmail) {
-        System.out.println("channelId " + channelId);
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
@@ -59,13 +58,13 @@ public class ChatServiceImpl implements ChatService{
                 serverMessage.setChatLogId(logId);
                 break;
             case ENTER:
-                chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
+                chatMessage = "[알림] " + senderName+ " 님이 채팅방에 입장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
                 logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
                 break;
             case EXIT:
-                chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
+                chatMessage = "[알림]" + senderName+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
                 logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
@@ -77,7 +76,6 @@ public class ChatServiceImpl implements ChatService{
                 break;
             case REENTER:
                 serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = findLastChatLogsByChannelId(channelId).getIdx();
                 break;
         }
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);

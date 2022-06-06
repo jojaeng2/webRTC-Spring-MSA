@@ -62,7 +62,7 @@ public class ChannelServiceImpl implements ChannelService{
         user.addChannelUser(channelUser);
         channelUserService.save(channelUser);
 
-        chatService.saveChatLog(CREATE, "[알림] 채팅방이 생성되었습니다.", "NOTICE", channel, "NOTICE");
+        chatService.saveChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), channel, "NOTICE");
         return channel;
     }
 
@@ -148,7 +148,6 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
     public Channel findOneChannelById(String channelId) {
-        System.out.println("channelService findOneChannelById channelId = " + channelId);
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.size() == 0) throw new NotExistChannelException();
         Channel findChannel = channels.get(0);
