@@ -31,7 +31,7 @@ public class ChannelUserRepositoryImplTest {
     public void channelUser_saveO_findO() {
         //given
         Channel channel = new Channel("TestChannel");
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 
         //when
@@ -54,7 +54,7 @@ public class ChannelUserRepositoryImplTest {
     public void channelUser_saveO_findX() {
         //given
         Channel channel = new Channel("TestChannel");
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 
         //when
@@ -76,7 +76,7 @@ public class ChannelUserRepositoryImplTest {
     public void channelUser_saveO_delO() {
         //given
         Channel channel = new Channel("TestChannel");
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 
         //when

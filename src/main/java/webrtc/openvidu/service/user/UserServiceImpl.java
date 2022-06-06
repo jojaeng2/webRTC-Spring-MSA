@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder bcryptEncoder;
 
     public User saveUser(CreateUserRequest request) {
-        User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()));
+        User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
         userRepository.saveUser(user);
         return user;
     }

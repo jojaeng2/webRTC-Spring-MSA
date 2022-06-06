@@ -41,14 +41,13 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<ChannelUser> channelUsers = new HashSet<>();
 
-    public User(String email, String password) {
+    public User(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
-
-        this.email = email;
+        this.nickname = nickname;
         this.password = password;
+        this.email = email;
 
         // 임시
-        this.nickname = null;
         this.created_at = null;
         this.updated_at = null;
         this.birthdate = null;

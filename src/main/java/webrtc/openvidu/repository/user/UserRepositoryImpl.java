@@ -1,9 +1,7 @@
 package webrtc.openvidu.repository.user;
 
-import lombok.Getter;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.User;
 
 import javax.persistence.EntityManager;

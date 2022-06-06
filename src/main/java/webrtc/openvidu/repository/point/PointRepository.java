@@ -4,7 +4,7 @@ import webrtc.openvidu.domain.Point;
 
 public interface PointRepository {
 
-    Point findPointByUserName(String userName);
+    Point findPointByUserEmail(String userEmail);
 
     void decreasePoint(Long pointId, Long requiredPoint);
 }

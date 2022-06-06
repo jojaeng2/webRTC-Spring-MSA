@@ -6,5 +6,5 @@ public interface PointService {
 
     void decreasePoint(String channelId, String userName, Long requestTTL);
 
-    Point findPointByUserName(String userName);
+    Point findPointByUserEmail(String userEmail);
 }

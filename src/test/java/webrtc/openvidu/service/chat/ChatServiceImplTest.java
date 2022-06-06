@@ -44,9 +44,9 @@ public class ChatServiceImplTest {
         hashTags.add("tag2");
 
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        User user = new User("testUser", "testUser");
+        User user = new User("testUser", "testUser", "testEmail");
         userRepository.saveUser(user);
-        channelService.createChannel(request, "testUser");
+        channelService.createChannel(request, "testEmail");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ChatServiceImplTest {
         Channel channel = channelRepository.findChannelsByChannelName("testChannel").get(0);
 
         // when
-        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel);
+        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel, "testEmail");
 
         // then
         assertThat(chatId).isEqualTo(1L);
@@ -68,11 +68,11 @@ public class ChatServiceImplTest {
         // given
         Channel channel = channelRepository.findChannelsByChannelName("testChannel").get(0);
         for(Long i=1L; i<20L; i++) {
-            chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel);
+            chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel, "testEmail");
         }
 
         // when
-        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel);
+        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", "testUser", channel, "testEmail");
 
         // then
         assertThat(chatId).isEqualTo(20L);

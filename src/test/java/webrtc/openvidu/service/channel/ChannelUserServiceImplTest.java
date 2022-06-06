@@ -32,7 +32,7 @@ public class ChannelUserServiceImplTest {
     @DisplayName("ChannelUser 저장")
     public void saveChannelUser() {
         // given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
@@ -52,7 +52,7 @@ public class ChannelUserServiceImplTest {
     @DisplayName("ChannelUser 삭제")
     public void deleteChannelUser() {
         // given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
@@ -72,7 +72,7 @@ public class ChannelUserServiceImplTest {
     @DisplayName("ChannelUser 조회 성공")
     public void findOneChannelUserO() {
         // given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
@@ -92,7 +92,7 @@ public class ChannelUserServiceImplTest {
     @DisplayName("ChannelUser 조회 실패")
     public void findOneChannelUserX() {
         // given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);

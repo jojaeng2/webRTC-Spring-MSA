@@ -14,6 +14,7 @@ import webrtc.openvidu.exception.ChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.jwt.JwtUserDetailsService;
+import webrtc.openvidu.service.user.UserService;
 import webrtc.openvidu.utils.JwtTokenUtil;
 
 import java.io.ByteArrayInputStream;
@@ -38,21 +39,21 @@ public class StompHandler implements ChannelInterceptor {
         switch (accessor.getCommand()) {
             case CONNECT:
                 String connectJwtToken = accessor.getFirstNativeHeader("jwt");
-                String connectUsername = jwtTokenUtil.getUsernameFromToken(connectJwtToken);
-                UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(connectUsername);
+                String connectUserEmail = jwtTokenUtil.getUserEmailFromToken(connectJwtToken);
+                UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(connectUserEmail);
                 jwtTokenUtil.validateToken(connectJwtToken, connectUserDetails);
                 break;
             case SEND:
                 String sendJwtToken = accessor.getFirstNativeHeader("jwt");
                 String messageType = accessor.getFirstNativeHeader("type");
-                String sendUsername = jwtTokenUtil.getUsernameFromToken(sendJwtToken);
+                String sendUserEmail = jwtTokenUtil.getUserEmailFromToken(sendJwtToken);
+                UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUserEmail);
+                jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
                 if(messageType != null && messageType.equals("ENTER")) {
                     String connectChannelId = accessor.getFirstNativeHeader("channelId");
                     Channel connectCheckedExistChannel = channelService.findOneChannelById(connectChannelId);
-                    channelService.enterChannel(connectCheckedExistChannel, sendUsername);
+                    channelService.enterChannel(connectCheckedExistChannel, sendUserEmail);
                 }
-                UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUsername);
-                jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");
                 channelService.findOneChannelById(sendChannelId);
                 break;

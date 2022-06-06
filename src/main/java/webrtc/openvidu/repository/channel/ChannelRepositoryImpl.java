@@ -111,7 +111,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     /*
-     * 모든 채널 불러오기
+     * 내가 입장한 모든 채널 불러오기
      */
     public List<Channel> findMyChannel(String userId, int idx) {
         return em.createQuery(

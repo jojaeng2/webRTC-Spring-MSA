@@ -276,7 +276,7 @@ public class ChannelApiControllerTest {
     }
 
     private CreateUserRequest CreateUserRequest(String userName) {
-        return new CreateUserRequest(userName, "user");
+        return new CreateUserRequest(userName, "user", "email");
     }
 
 

@@ -34,10 +34,10 @@ public class ChannelServiceImplTest {
 
     @BeforeEach
     public void saveTestUser() {
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         userRepository.saveUser(user);
 
-        User user1 = new User("user1", "user1");
+        User user1 = new User("user1", "user1", "email1");
         userRepository.saveUser(user1);
     }
 
@@ -53,7 +53,7 @@ public class ChannelServiceImplTest {
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
 
         // when
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // then
         assertThat(createChannel.getChannelName()).isEqualTo("testChannel");
@@ -72,7 +72,7 @@ public class ChannelServiceImplTest {
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
 
         // when
-        channelService.createChannel(request, "user");
+        channelService.createChannel(request, "email");
 
         // then
         Assertions.assertThrows(AlreadyExistChannelException.class,
@@ -88,10 +88,10 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
-        channelService.enterChannel(createChannel, "user1");
+        channelService.enterChannel(createChannel, "email1");
 
         // then
     }
@@ -105,10 +105,10 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
-        channelService.enterChannel(createChannel, "user1");
+        channelService.enterChannel(createChannel, "email1");
         Channel findChannel = channelService.findOneChannelById(createChannel.getId());
 
         // then
@@ -125,20 +125,20 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
         for(int i=1; i<=14; i++) {
-            User user = new User("user" + i, "user");
+            User user = new User("user" + i, "user", "email" + i);
             userRepository.saveUser(user);
-            channelService.enterChannel(createChannel, user.getNickname());
+            channelService.enterChannel(createChannel, user.getEmail());
         }
 
         // then
-        User user15 = new User("user15", "user");
+        User user15 = new User("user15", "user", "email15");
         userRepository.saveUser(user15);
         Assertions.assertThrows(ChannelParticipantsFullException.class,
-                () -> channelService.enterChannel(createChannel, user15.getNickname()));
+                () -> channelService.enterChannel(createChannel, user15.getEmail()));
     }
 
     @Test
@@ -150,10 +150,10 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
-        channelService.exitChannel(createChannel.getId(), "user");
+        channelService.exitChannel(createChannel.getId(), "email");
 
         // then
         assertThat(createChannel.getChannelUsers().size()).isEqualTo(0);
@@ -168,7 +168,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
         channelService.deleteChannel(createChannel.getId());
@@ -187,8 +187,8 @@ public class ChannelServiceImplTest {
         CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags);
         CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags);
 
-        Channel createChannel1 = channelService.createChannel(request1, "user");
-        Channel createChannel2 = channelService.createChannel(request2, "user");
+        Channel createChannel1 = channelService.createChannel(request1, "email");
+        Channel createChannel2 = channelService.createChannel(request2, "email");
 
 
         // when
@@ -207,7 +207,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
         Channel findChannel = channelService.findOneChannelById(createChannel.getId());
@@ -225,7 +225,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag2");
         hashTags.add("testTag3");
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
+        Channel createChannel = channelService.createChannel(request, "email");
 
         // when
 
@@ -243,14 +243,14 @@ public class ChannelServiceImplTest {
         hashTags1.add("testTag2");
         hashTags1.add("testTag3");
         CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags1);
-        Channel createChannel1 = channelService.createChannel(request1, "user");
+        Channel createChannel1 = channelService.createChannel(request1, "email");
 
         List<String> hashTags2 = new ArrayList<>();
         hashTags2.add("testTag3");
         hashTags2.add("testTag4");
         hashTags2.add("testTag5");
         CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags2);
-        Channel createChannel2 = channelService.createChannel(request2, "user");
+        Channel createChannel2 = channelService.createChannel(request2, "email");
 
 
         //when

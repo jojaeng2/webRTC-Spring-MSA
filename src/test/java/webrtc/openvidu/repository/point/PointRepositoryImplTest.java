@@ -1,6 +1,5 @@
 package webrtc.openvidu.repository.point;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Point;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
@@ -38,18 +36,18 @@ public class PointRepositoryImplTest {
         hashTags.add("tag2");
 
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        User user = new User("testUser", "testUser");
+        User user = new User("testUser", "testUser", "email1");
         userRepository.saveUser(user);
-        channelService.createChannel(request, "testUser");
+        channelService.createChannel(request, "email1");
     }
 
     @Test
-    @DisplayName("userName으로 Point 객체 찾기")
-    public void findPointByUserName() {
+    @DisplayName("userEmail으로 Point 객체 찾기")
+    public void findPointByUserEmail() {
         // given
 
         // when
-        Point findPoint = pointRepository.findPointByUserName("testUser");
+        Point findPoint = pointRepository.findPointByUserEmail("email1");
 
         // then
         assertThat(findPoint.getPoint()).isEqualTo(1000000);
@@ -59,12 +57,12 @@ public class PointRepositoryImplTest {
     @DisplayName("Point 객체 point 감소 성공")
     public void decreasePointSuccess(){
         // given
-        Point findPoint = pointRepository.findPointByUserName("testUser");
+        Point findPoint = pointRepository.findPointByUserEmail("email1");
 
         // when
         pointRepository.decreasePoint(findPoint.getId(), 10000L);
 
-        Point reFindPoint = pointRepository.findPointByUserName("testUser");
+        Point reFindPoint = pointRepository.findPointByUserEmail("email1");
 
         // then
         assertThat(findPoint.getPoint()).isEqualTo(990000L);

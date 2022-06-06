@@ -26,21 +26,21 @@ public class JwtUserDetailsServiceTest {
     @DisplayName("userName으로 UserDetails 조회 성공")
     public void findUserDetailsByUsernameSuccess() {
         // given
-        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user");
+        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email");
         userService.saveUser(createUserRequest);
 
         // when
-        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername("user");
+        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername("email");
 
         // then
-        Assertions.assertThat(userDetails.getUsername()).isEqualTo("user");
+        Assertions.assertThat(userDetails.getUsername()).isEqualTo("email");
     }
 
     @Test
     @DisplayName("userName으로 userDetails 조회 실패")
     public void findUserDetailsByUsernameFail() {
         // given
-        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user");
+        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email");
         userService.saveUser(createUserRequest);
 
         // when

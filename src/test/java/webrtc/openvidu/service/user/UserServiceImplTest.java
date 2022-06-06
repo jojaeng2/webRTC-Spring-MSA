@@ -29,7 +29,7 @@ public class UserServiceImplTest {
     @DisplayName("User 저장")
     public void returnUserO() {
         // given
-        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user");
+        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email");
 
         // when
         User saveUser = userService.saveUser(createUserRequest);
@@ -39,14 +39,14 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("Nickname으로 User 찾기")
-    public void findOneUserByNickname() {
+    @DisplayName("UserEmail 으로 User 찾기")
+    public void findOneUserByUserEmail() {
         //given
-        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user");
+        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email");
         User user = userService.saveUser(createUserRequest);
 
         //when
-        User findUser = userService.findOneUserByName("user");
+        User findUser = userService.findOneUserByEmail("email");
         
         //then
         assertThat(user).isEqualTo(findUser);
@@ -61,12 +61,11 @@ public class UserServiceImplTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user");
+        CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email2");
         User user = userService.saveUser(createUserRequest);
 
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "user");
-        channelService.enterChannel(createChannel, user.getNickname());
+        CreateChannelRequest request = new CreateChannelRequest("testChannel2", hashTags);
+        Channel createChannel = channelService.createChannel(request, "email2");
 
         //when
         List<User> findUsers = userService.findUsersByChannelId(createChannel.getId());

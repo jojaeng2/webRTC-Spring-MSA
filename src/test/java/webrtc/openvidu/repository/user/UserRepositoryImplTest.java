@@ -29,7 +29,7 @@ public class UserRepositoryImplTest {
     @DisplayName("User 저장 O")
     public void saveUser() {
         // given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
 
         // when
         userRepository.saveUser(user);
@@ -39,28 +39,28 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("User 저장 O && username 조회 O")
-    public void user_saveO_findByNameO() {
+    @DisplayName("User 저장 O && userEmail로 조회 성공")
+    public void user_saveO_findByUserEmailSuccess() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
 
         //when
         userRepository.saveUser(user);
-        List<User> findUsers = userRepository.findUsersByName(user.getNickname());
+        List<User> findUsers = userRepository.findUsersByEmail(user.getEmail());
 
         //then
         Assertions.assertThat(findUsers.get(0)).isEqualTo(user);
     }
 
     @Test
-    @DisplayName("User 저장 O && username 조회 X")
-    public void user_saveO_findByNameX() {
+    @DisplayName("User 저장 O && userEmail로 조회 실패")
+    public void user_saveO_findByUserEmailFail() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
 
         //when
         userRepository.saveUser(user);
-        List<User> findUsers = userRepository.findUsersByName("user1");
+        List<User> findUsers = userRepository.findUsersByEmail("email2");
 
 
         //then
@@ -68,10 +68,10 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("User 저장 O && channelId 조회 O")
-    public void user_saveO_findByChannelIdO() {
+    @DisplayName("User 저장 O && channelId 조회 성공")
+    public void user_saveO_findByChannelIdSuccess() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
@@ -88,10 +88,10 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("User 저장 O && channelId 조회 X")
-    public void user_saveO_findByChannelIdX() {
+    @DisplayName("User 저장 O && channelId 조회 실패")
+    public void user_saveO_findByChannelIdFail() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
@@ -108,13 +108,13 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("User 저장 X && username 조회 X")
-    public void user_saveX_findByNameX() {
+    @DisplayName("User 저장 X && userEmail 조회 실패")
+    public void user_saveX_findByUserEmailFail() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
 
         //when
-        List<User> findUsers = userRepository.findUsersByName("user");
+        List<User> findUsers = userRepository.findUsersByEmail("user");
 
 
         //then
@@ -122,10 +122,10 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    @DisplayName("User 저장 X && channelId 조회 X")
-    public void user_saveX_findByChannelIdX() {
+    @DisplayName("User 저장 X && channelId 조회 실패")
+    public void user_saveX_findByChannelIdFail() {
         //given
-        User user = new User("user", "user");
+        User user = new User("user", "user", "email");
         Channel channel = new Channel("testChannel");
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);

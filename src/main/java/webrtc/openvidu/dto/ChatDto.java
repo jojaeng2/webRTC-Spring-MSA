@@ -63,17 +63,19 @@ public class ChatDto {
         private Long currentParticipants;
         private List<User> users = new ArrayList<>();
         private Long logId;
+        private String senderEmail;
 
         public ChatServerMessage(String channelId) {
             super(channelId);
         }
 
-        public void setMessageType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users) {
+        public void setMessageType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users, String senderEmail) {
             this.setType(type);
             this.senderName = senderName;
             this.chatMessage = chatMessage;
             this.currentParticipants = currentParticipants;
             this.users = users;
+            this.senderEmail = senderEmail;
         }
 
         public void setChatLogId(Long logId) {

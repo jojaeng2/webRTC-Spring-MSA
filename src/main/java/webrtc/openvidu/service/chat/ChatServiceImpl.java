@@ -24,27 +24,27 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
 
-    private final ChatLogRepository chatRepository;
+    private final ChatLogRepository chatLogRepository;
 
     private final ChannelService channelService;
     private final UserService userService;
 
-    public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel) {
-        List<ChatLog> findChatLogs = chatRepository.findLastChatLogsByChannelId(channel.getId());
-        ChatLog chatLog = new ChatLog(type, chatMessage, username);
+    public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel, String senderEmail) {
+        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
+        ChatLog chatLog = new ChatLog(type, chatMessage, username, senderEmail);
 
         if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
         else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
 
         chatLog.setChannel(channel);
-        chatRepository.save(chatLog);
+        chatLogRepository.save(chatLog);
         return chatLog.getIdx();
     }
 
     /**
      * Chatting Room에 message 발송
      */
-    public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage) {
+    public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage, String senderEmail) {
         Channel channel = channelService.findOneChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
@@ -52,48 +52,40 @@ public class ChatServiceImpl implements ChatService{
         Long logId;
         switch (type) {
             case CHAT:
-                serverMessage.setMessageType(SocketServerMessageType.CHAT, senderName, chatMessage, currentParticipants, currentUsers);
-                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setMessageType(CHAT, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
+                logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
-                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
-
                 break;
             case ENTER:
                 chatMessage = senderName+ " 님이 채팅방에 입장했습니다.";
-                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
-                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
+                logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
-                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
-
                 break;
             case EXIT:
                 chatMessage = senderName+ " 님이 채팅방에서 퇴장했습니다.";
-                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
-                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
+                logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
-                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
-
                 break;
             case CLOSE:
-                serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers);
-                logId = saveChatLog(type, chatMessage, senderName, channel);
+                serverMessage.setMessageType(CLOSE, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
+                logId = saveChatLog(type, chatMessage, senderName, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
-                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
-
                 break;
             case REENTER:
-                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers);
-                redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+                serverMessage.setMessageType(RENEWAL, senderName, chatMessage, currentParticipants, currentUsers, senderEmail);
                 break;
         }
+        redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
 
     }
 
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
-        return chatRepository.findChatLogsByChannelId(channelId, idx);
+        return chatLogRepository.findChatLogsByChannelId(channelId, idx);
     }
 
     public ChatLog findLastChatLogsByChannelId(String channelId) {
-        return chatRepository.findLastChatLogsByChannelId(channelId).get(0);
+        return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
     }
 }

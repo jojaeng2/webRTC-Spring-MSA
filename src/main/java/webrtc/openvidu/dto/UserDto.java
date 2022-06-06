@@ -12,5 +12,6 @@ public class UserDto {
     public static class CreateUserRequest {
         private String nickname;
         private String password;
+        private String email;
     }
 }

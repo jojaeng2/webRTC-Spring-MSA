@@ -44,9 +44,9 @@ public class PointServiceImplTest {
         hashTags.add("tag2");
 
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        User user = new User("testUser", "testUser");
+        User user = new User("testUser", "testUser", "testEmail");
         userRepository.saveUser(user);
-        channelService.createChannel(request, "testUser");
+        channelService.createChannel(request, "testEmail");
     }
 
     @Test
@@ -55,7 +55,7 @@ public class PointServiceImplTest {
         // given
 
         // when
-        Point point = pointService.findPointByUserName("testUser");
+        Point point = pointService.findPointByUserEmail("testEmail");
 
         // then
         Assertions.assertThat(point.getPoint()).isEqualTo(1000000L);
@@ -65,13 +65,13 @@ public class PointServiceImplTest {
     @DisplayName("User 보유 Point 감소 실패")
     public void decreasePointFail() {
         // given
-        Point point = pointService.findPointByUserName("testUser");
+        Point point = pointService.findPointByUserEmail("testEmail");
         Channel channel = channelService.findChannelByHashName("tag1").get(0);
         // when
 
         // then
         assertThrows(InsufficientPointException.class,
-                () -> pointService.decreasePoint(channel.getId(), "testUser", 10000000L));
+                () -> pointService.decreasePoint(channel.getId(), "testEmail", 10000000L));
     }
 
     @Test

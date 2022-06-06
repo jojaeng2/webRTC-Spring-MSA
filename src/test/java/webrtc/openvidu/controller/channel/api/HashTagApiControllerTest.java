@@ -105,7 +105,7 @@ public class HashTagApiControllerTest {
     }
 
     private CreateUserRequest CreateUserRequest(String userName) {
-        return new CreateUserRequest(userName, "user");
+        return new CreateUserRequest(userName, "user", "email");
     }
 
     private CreateChannelRequest CreateChannelRequest(String channelName) {

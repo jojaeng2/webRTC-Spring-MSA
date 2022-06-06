@@ -16,8 +16,8 @@ public class PointServiceImpl implements PointService{
     private final PointRepository pointRepository;
     private final ChannelService channelService;
 
-    public void decreasePoint(String channelId, String userName, Long requestTTL) {
-        Point userPoint = findPointByUserName(userName);
+    public void decreasePoint(String channelId, String userEmail, Long requestTTL) {
+        Point userPoint = findPointByUserEmail(userEmail);
         if(userPoint.getPoint() < requestTTL * 10L) {
             throw new InsufficientPointException();
         }
@@ -26,7 +26,7 @@ public class PointServiceImpl implements PointService{
         pointRepository.decreasePoint(userPoint.getId(), requestTTL*10L);
     }
 
-    public Point findPointByUserName(String userName) {
-        return pointRepository.findPointByUserName(userName);
+    public Point findPointByUserEmail(String userEmail) {
+        return pointRepository.findPointByUserEmail(userEmail);
     }
 }

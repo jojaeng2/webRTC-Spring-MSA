@@ -38,9 +38,9 @@ public class ChatLogRepositoryImpl2Test {
         hashTags.add("tag2");
 
         CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        User user = new User("testUser", "testUser");
+        User user = new User("testUser", "testUser", "email1");
         userRepository.saveUser(user);
-        channelService.createChannel(request, "testUser");
+        channelService.createChannel(request, "email1");
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ChatLogRepositoryImpl2Test {
     public void saveChatLog() {
         //given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
-        ChatLog chatLog = new ChatLog(ENTER, "testMessage", "testUser2");
+        ChatLog chatLog = new ChatLog(ENTER, "testMessage", "testUser2", "email1");
         chatLog.setChannel(findChannel);
 
         //when
@@ -63,10 +63,10 @@ public class ChatLogRepositoryImpl2Test {
     public void LoadAllChatLog() {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
-        ChatLog chatLog1 = new ChatLog(ENTER, "testMessage1", "testUser2");
+        ChatLog chatLog1 = new ChatLog(ENTER, "testMessage1", "testUser2", "email1");
         chatLog1.setChannel(findChannel);
         chatLogRepository.save(chatLog1);
-        ChatLog chatLog2 = new ChatLog(ENTER, "testMessage2", "testUser2");
+        ChatLog chatLog2 = new ChatLog(ENTER, "testMessage2", "testUser2", "email1");
         chatLog2.setChannel(findChannel);
         chatLogRepository.save(chatLog2);
 
@@ -83,7 +83,7 @@ public class ChatLogRepositoryImpl2Test {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         for(Long i=0L; i<23L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
             chatLog.setChatLogIdx(i);
             chatLog.setChannel(findChannel);
             chatLogRepository.save(chatLog);
@@ -115,7 +115,7 @@ public class ChatLogRepositoryImpl2Test {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         for(Long i=0L; i<100L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
             chatLog.setChatLogIdx(i);
             chatLog.setChannel(findChannel);
             chatLogRepository.save(chatLog);
@@ -137,7 +137,7 @@ public class ChatLogRepositoryImpl2Test {
         // given
         Channel findChannel = channelService.findChannelByHashName("tag1").get(0);
         for(Long i=0L; i<20L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2");
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
             chatLog.setChatLogIdx(i);
             chatLog.setChannel(findChannel);
             chatLogRepository.save(chatLog);

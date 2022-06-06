@@ -30,13 +30,15 @@ public class ChatLog {
 
 
     private String message;
-    private String name;
+    private String senderNickname;
+    private String senderEmail;
     private Timestamp sendTime;
 
-    public ChatLog(ClientMessageType type, String message, String name) {
+    public ChatLog(ClientMessageType type, String message, String senderNickname, String senderEmail) {
         this.type = type;
         this.message = message;
-        this.name = name;
+        this.senderNickname = senderNickname;
+        this.senderEmail = senderEmail;
         this.sendTime = new Timestamp(System.currentTimeMillis());
     }
 

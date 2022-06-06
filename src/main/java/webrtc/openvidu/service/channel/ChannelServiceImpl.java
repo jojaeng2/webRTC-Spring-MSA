@@ -78,7 +78,6 @@ public class ChannelServiceImpl implements ChannelService{
             }
         }
         else {
-            System.out.println("channelServiceImpl2");
             throw new AlreadyExistUserInChannelException();
         }
     }
