@@ -1,5 +1,6 @@
 package webrtc.openvidu.service.user;
 
+import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
 
@@ -13,4 +14,6 @@ public interface UserService {
     User findOneUserByEmail(String email);
 
     List<User> findUsersByChannelId(String channelId);
+
+    void setChannelUser(User user, ChannelUser channelUser);
 }

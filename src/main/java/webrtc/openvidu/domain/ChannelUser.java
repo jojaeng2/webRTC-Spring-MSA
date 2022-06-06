@@ -28,6 +28,11 @@ public class ChannelUser implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public ChannelUser(User user, Channel channel) {
+        this.channel = channel;
+        this.user = user;
+    }
+
     public void setChannel(Channel channel) {
         this.channel = channel;
     }

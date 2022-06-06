@@ -90,8 +90,9 @@ public class ChannelRepositoryImpl implements ChannelRepository{
 
     @Transactional
     public void enterChannelUserInChannel(Channel channel, ChannelUser channelUser) {
-        em.find(Channel.class, channel.getId());
-        channel.enterChannelUser(channelUser);
+        Channel findChannel = em.find(Channel.class, channel.getId());
+        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
+        findChannel.enterChannelUser(findChannelUser);
     }
 
     @Transactional

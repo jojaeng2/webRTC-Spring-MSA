@@ -3,6 +3,8 @@ package webrtc.openvidu.service.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.UserDto.CreateUserRequest;
 import webrtc.openvidu.exception.UserException.NotExistUserException;
@@ -31,5 +33,10 @@ public class UserServiceImpl implements UserService{
 
     public List<User> findUsersByChannelId(String channelId) {
         return userRepository.findUsersByChannelId(channelId);
+    }
+
+    @Transactional
+    public void setChannelUser(User user, ChannelUser channelUser) {
+        userRepository.setChannelUser(user, channelUser);
     }
 }

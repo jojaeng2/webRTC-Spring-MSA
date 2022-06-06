@@ -2,6 +2,7 @@ package webrtc.openvidu.repository.user;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 
 import javax.persistence.EntityManager;
@@ -36,6 +37,12 @@ public class UserRepositoryImpl implements UserRepository{
                         "where channel_id = :channel_id", User.class)
                 .setParameter("channel_id", channelId)
                 .getResultList();
+    }
+
+    public void setChannelUser(User user, ChannelUser channelUser) {
+        User findUser = em.find(User.class, user.getId());
+        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
+        findUser.addChannelUser(findChannelUser);
     }
 
 }
