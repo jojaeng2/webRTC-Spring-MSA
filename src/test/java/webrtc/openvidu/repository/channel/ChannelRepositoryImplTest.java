@@ -95,7 +95,7 @@ public class ChannelRepositoryImplTest {
             channelRepository.createChannel(channel, hashTags);
             User user = userRepository.findUsersByEmail("email1").get(0);
 
-            ChannelUser channelUser = new ChannelUser();
+            ChannelUser channelUser = new ChannelUser(user, channel);
             channel.enterChannelUser(channelUser);
             user.addChannelUser(channelUser);
             channelUserRepository.save(channelUser);
@@ -106,7 +106,7 @@ public class ChannelRepositoryImplTest {
             channelRepository.createChannel(channel, hashTags);
             User user = userRepository.findUsersByEmail("email2").get(0);
 
-            ChannelUser channelUser = new ChannelUser();
+            ChannelUser channelUser = new ChannelUser(user, channel);
             channel.enterChannelUser(channelUser);
             user.addChannelUser(channelUser);
             channelUserRepository.save(channelUser);
@@ -174,7 +174,7 @@ public class ChannelRepositoryImplTest {
         channelRepository.createChannel(channel, hashTags);
 
         User user1 = userRepository.findUsersByEmail("email1").get(0);
-        ChannelUser channelUser = new ChannelUser();
+        ChannelUser channelUser = new ChannelUser(user1, channel);
         channel.enterChannelUser(channelUser);
         user1.addChannelUser(channelUser);
         channelUserRepository.save(channelUser);

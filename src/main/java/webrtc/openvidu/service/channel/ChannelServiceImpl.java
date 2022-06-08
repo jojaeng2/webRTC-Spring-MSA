@@ -57,6 +57,11 @@ public class ChannelServiceImpl implements ChannelService{
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
+        ChannelUser channelUser = new ChannelUser(user, channel);
+        channelUserService.save(channelUser);
+        userService.setChannelUser(user, channelUser);
+        channelRepository.enterChannelUserInChannel(channel, channelUser);
+
         chatService.saveChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), channel, "NOTICE");
         return channel;
     }
