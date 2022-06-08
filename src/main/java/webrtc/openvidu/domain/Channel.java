@@ -22,7 +22,7 @@ public class Channel implements Serializable {
     private Long currentParticipants;
     private Long timeToLive;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private Set<ChannelUser> channelUsers;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")

@@ -92,7 +92,6 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     public void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
-        em.find(Channel.class, channel.getId());
         channel.exitChannelUser(channelUser);
     }
 

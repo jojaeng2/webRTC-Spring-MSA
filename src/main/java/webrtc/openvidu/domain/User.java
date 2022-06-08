@@ -33,7 +33,7 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "point_id")
     private Point point;
