@@ -1,7 +1,6 @@
 package webrtc.openvidu.repository.chat;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.ChatLog;
 
 import javax.persistence.EntityManager;
@@ -18,7 +17,6 @@ public class ChatLogRepositoryImpl2 implements ChatLogRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     public void save(ChatLog chatLog) {
         em.persist(chatLog);
     }

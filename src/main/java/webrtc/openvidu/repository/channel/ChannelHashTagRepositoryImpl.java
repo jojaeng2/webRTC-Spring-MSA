@@ -15,7 +15,6 @@ public class ChannelHashTagRepositoryImpl implements ChannelHashTagRepository{
     @PersistenceContext
     private final EntityManager em;
 
-    @Transactional
     public void save(ChannelHashTag channelHashTag) {
         em.persist(channelHashTag);
     }

@@ -16,13 +16,11 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     public void save(ChannelUser channelUser) {
         em.persist(channelUser);
     }
 
 
-    @Transactional
     public void delete(ChannelUser channelUser) {
         ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
         em.remove(findChannelUser);

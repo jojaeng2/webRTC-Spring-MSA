@@ -15,7 +15,6 @@ public class UserRepositoryImpl implements UserRepository{
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     public void saveUser(User user) {
         em.persist(user);
     }

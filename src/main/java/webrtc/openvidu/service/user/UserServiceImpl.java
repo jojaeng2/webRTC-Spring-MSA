@@ -19,18 +19,21 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
 
+    @Transactional
     public User saveUser(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
         userRepository.saveUser(user);
         return user;
     }
 
+    @Transactional
     public User findOneUserByEmail(String email) {
         List<User> users = userRepository.findUsersByEmail(email);
         if(users.isEmpty()) throw new NotExistUserException();
         return users.get(0);
     }
 
+    @Transactional
     public List<User> findUsersByChannelId(String channelId) {
         return userRepository.findUsersByChannelId(channelId);
     }

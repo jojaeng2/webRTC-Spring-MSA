@@ -2,6 +2,7 @@ package webrtc.openvidu.service.point;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.Point;
 import webrtc.openvidu.exception.PointException;
@@ -16,6 +17,7 @@ public class PointServiceImpl implements PointService{
     private final PointRepository pointRepository;
     private final ChannelService channelService;
 
+    @Transactional
     public void decreasePoint(String channelId, String userEmail, Long requestTTL) {
         Point userPoint = findPointByUserEmail(userEmail);
         if(userPoint.getPoint() < requestTTL * 10L) {

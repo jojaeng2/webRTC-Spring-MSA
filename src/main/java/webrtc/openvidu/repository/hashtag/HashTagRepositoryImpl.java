@@ -15,7 +15,6 @@ public class HashTagRepositoryImpl implements HashTagRepository{
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
     public void save(HashTag hashTag) {
         em.persist(hashTag);
     }

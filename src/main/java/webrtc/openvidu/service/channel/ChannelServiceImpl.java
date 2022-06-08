@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.ChannelUser;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
-import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
@@ -46,6 +46,7 @@ public class ChannelServiceImpl implements ChannelService{
      *
      * @return Channel
      */
+    @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
         List<Channel> channels = channelRepository.findChannelsByChannelName(request.getChannelName());
         if(!channels.isEmpty()) {
@@ -70,6 +71,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 입장
      *
      */
+    @Transactional
     public void enterChannel(Channel channel, String email) {
         User user = userService.findOneUserByEmail(email);
         String channelId = channel.getId();
@@ -96,6 +98,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 퇴장
      *
      */
+    @Transactional
     public void exitChannel(String channelId, User user) {
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
@@ -106,6 +109,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 채널 삭제
      *
      */
+    @Transactional
     public void deleteChannel(String channelId) {
         Channel channel = findOneChannelById(channelId);
         channelRepository.deleteChannel(channel);
@@ -116,6 +120,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
+    @Transactional
     public List<ChannelResponse> findAnyChannel(int idx) {
         List<Channel> channels = channelRepository.findAnyChannel(idx);
         List<ChannelResponse> responses = new ArrayList<>();
@@ -131,6 +136,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 입장한 모든 채널 불러오기
      *
      */
+    @Transactional
     public List<ChannelResponse> findMyChannel(String email, int idx) {
         User user = userService.findOneUserByEmail(email);
         List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
@@ -146,6 +152,7 @@ public class ChannelServiceImpl implements ChannelService{
     /*
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
+    @Transactional
     public Channel findOneChannelById(String channelId) {
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.size() == 0) throw new NotExistChannelException();
@@ -154,11 +161,12 @@ public class ChannelServiceImpl implements ChannelService{
         return findChannel;
     }
 
-
+    @Transactional
     public List<Channel> findChannelByHashName(String tagName) {
         return channelRepository.findChannelsByHashName(tagName);
     }
 
+    @Transactional
     public void extensionChannelTTL(Channel channel, Long addTTL) {
         channelRepository.extensionChannelTTL(channel, addTTL);
     }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
@@ -30,6 +31,7 @@ public class ChatServiceImpl implements ChatService{
     private final ChannelService channelService;
 
 
+    @Transactional
     public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, username, senderEmail);
@@ -81,10 +83,12 @@ public class ChatServiceImpl implements ChatService{
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
+    @Transactional
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
         return chatLogRepository.findChatLogsByChannelId(channelId, idx);
     }
 
+    @Transactional
     public ChatLog findLastChatLogsByChannelId(String channelId) {
         return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
     }

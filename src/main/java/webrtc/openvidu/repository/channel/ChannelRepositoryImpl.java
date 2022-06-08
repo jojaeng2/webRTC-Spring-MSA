@@ -50,12 +50,10 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
      */
 
-    @Transactional
     public void save(Channel channel) {
         em.persist(channel);
     }
 
-    @Transactional
     public Channel createChannel(Channel channel, List<String> hashTags) {
 
         // 채널 생성
@@ -81,21 +79,18 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     /*
      * 채널 삭제
      */
-    @Transactional
     public void deleteChannel(Channel channel) {
         opsValueOperation.getOperations().delete(channel.getId());
         Channel deleteChannel = em.find(Channel.class, channel.getId());
         em.remove(deleteChannel);
     }
 
-    @Transactional
     public void enterChannelUserInChannel(Channel channel, ChannelUser channelUser) {
         Channel findChannel = em.find(Channel.class, channel.getId());
         ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
         findChannel.enterChannelUser(findChannelUser);
     }
 
-    @Transactional
     public void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
         em.find(Channel.class, channel.getId());
         channel.exitChannelUser(channelUser);
