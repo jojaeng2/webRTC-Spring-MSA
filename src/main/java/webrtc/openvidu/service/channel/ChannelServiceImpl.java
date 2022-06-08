@@ -1,11 +1,10 @@
 package webrtc.openvidu.service.channel;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.ChannelUser;
+import webrtc.openvidu.domain.ChatLog;
 import webrtc.openvidu.domain.User;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
@@ -15,8 +14,9 @@ import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelExcep
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
-import webrtc.openvidu.service.chat.ChatService;
-import webrtc.openvidu.service.user.UserService;
+import webrtc.openvidu.repository.channel.ChannelUserRepository;
+import webrtc.openvidu.repository.chat.ChatLogRepository;
+import webrtc.openvidu.repository.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +30,10 @@ public class ChannelServiceImpl implements ChannelService{
 
 
     private final ChannelRepository channelRepository;
-    private final UserService userService;
-    private final ChannelUserService channelUserService;
-    private ChatService chatService;
+    private final ChatLogRepository chatLogRepository;
+    private final UserRepository userRepository;
+    private final ChannelUserRepository channelUserRepository;
 
-    @Autowired
-    public void setChatService(@Lazy ChatService chatService) {
-        this.chatService = chatService;
-    }
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -54,16 +50,19 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userService.findOneUserByEmail(email);
+        User user = userRepository.findUsersByEmail(email).get(0);
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
-        ChannelUser channelUser = new ChannelUser(user, channel);
-        channelUserService.save(channelUser);
-        userService.setChannelUser(user, channelUser);
-        channelRepository.enterChannelUserInChannel(channel, channelUser);
+        createChannelUser(user, channel);
 
-        chatService.saveChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), channel, "NOTICE");
+        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
+        ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
+        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
+        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
+        chatLog.setChannel(channel);
+        chatLogRepository.save(chatLog);
+
         return channel;
     }
 
@@ -73,7 +72,7 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public void enterChannel(Channel channel, String email) {
-        User user = userService.findOneUserByEmail(email);
+        User user = userRepository.findUsersByEmail(email).get(0);
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
@@ -83,10 +82,7 @@ public class ChannelServiceImpl implements ChannelService{
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
-                ChannelUser channelUser = new ChannelUser(user, channel);
-                channelUserService.save(channelUser);
-                userService.setChannelUser(user, channelUser);
-                channelRepository.enterChannelUserInChannel(channel, channelUser);
+                createChannelUser(user, channel);
             }
         }
         else {
@@ -101,7 +97,7 @@ public class ChannelServiceImpl implements ChannelService{
     @Transactional
     public void exitChannel(String channelId, User user) {
         Channel channel = findOneChannelById(channelId);
-        ChannelUser channelUser = channelUserService.findOneChannelUser(channelId, user.getId());
+        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, user.getId());
         channelRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
@@ -123,13 +119,7 @@ public class ChannelServiceImpl implements ChannelService{
     @Transactional
     public List<ChannelResponse> findAnyChannel(int idx) {
         List<Channel> channels = channelRepository.findAnyChannel(idx);
-        List<ChannelResponse> responses = new ArrayList<>();
-        for (Channel channel : channels) {
-            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
-            responses.add(response);
-        }
-        return responses;
+        return setReturnChannelsTTL(channels);
     }
 
     /*
@@ -138,15 +128,9 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String email, int idx) {
-        User user = userService.findOneUserByEmail(email);
+        User user = userRepository.findUsersByEmail(email).get(0);
         List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
-        List<ChannelResponse> responses = new ArrayList<>();
-        for (Channel channel : channels) {
-            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
-            responses.add(response);
-        }
-        return responses;
+        return setReturnChannelsTTL(channels);
     }
 
     /*
@@ -171,4 +155,20 @@ public class ChannelServiceImpl implements ChannelService{
         channelRepository.extensionChannelTTL(channel, addTTL);
     }
 
+    private void createChannelUser(User user, Channel channel) {
+        ChannelUser channelUser = new ChannelUser(user, channel);
+        channelUserRepository.save(channelUser);
+        userRepository.setChannelUser(user, channelUser);
+        channelRepository.enterChannelUserInChannel(channel, channelUser);
+    }
+
+    private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
+        List<ChannelResponse> responses = new ArrayList<>();
+        for (Channel channel : channels) {
+            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
+            responses.add(response);
+        }
+        return responses;
+    }
 }

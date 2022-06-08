@@ -11,7 +11,9 @@ import webrtc.openvidu.domain.User;
 import webrtc.openvidu.dto.ChatDto.ChatServerMessage;
 import webrtc.openvidu.enums.ClientMessageType;
 import webrtc.openvidu.enums.SocketServerMessageType;
+import webrtc.openvidu.repository.channel.ChannelRepository;
 import webrtc.openvidu.repository.chat.ChatLogRepository;
+import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.channel.ChannelService;
 import webrtc.openvidu.service.user.UserService;
 
@@ -26,12 +28,9 @@ public class ChatServiceImpl implements ChatService{
     private final RedisTemplate redisTemplate;
 
     private final ChatLogRepository chatLogRepository;
+    private final UserRepository userRepository;
+    private final ChannelRepository channelRepository;
 
-    private final UserService userService;
-    private final ChannelService channelService;
-
-
-    @Transactional
     public Long saveChatLog(ClientMessageType type, String chatMessage, String username, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, username, senderEmail);
@@ -47,11 +46,12 @@ public class ChatServiceImpl implements ChatService{
     /**
      * Chatting Room에 message 발송
      */
+    @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String senderName, String chatMessage, String senderEmail) {
-        Channel channel = channelService.findOneChannelById(channelId);
+        Channel channel = channelRepository.findChannelsById(channelId).get(0);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        List<User> currentUsers = userService.findUsersByChannelId(channelId);
+        List<User> currentUsers = userRepository.findUsersByChannelId(channelId);
         Long logId;
         switch (type) {
             case CHAT:
