@@ -44,14 +44,9 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널 생성")
     public void createChannel() {
         // given
-        Channel channel = new Channel("testChannel");
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
+        Channel channel = createChannelTemp();
 
         // when
-        channelRepository.createChannel(channel, hashTags);
         Channel findChannel = channelRepository.findChannelsByChannelName(channel.getChannelName()).get(0);
 
         // then
@@ -128,13 +123,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 channelID로 찾기 성공")
     public void findChannelsByChannelIdSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
-
+        Channel channel = createChannelTemp();
 
         // when
         Channel findChannel = channelRepository.findChannelsById(channel.getId()).get(0);
@@ -147,12 +136,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 channelID로 찾기 실패")
     public void findChannelsByChannelIdFail() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
+        Channel channel = createChannelTemp();
 
         // when
         List<Channel> findChannels = channelRepository.findChannelsById("NotExistId");
@@ -166,12 +150,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 userId로 찾기 성공")
     public void findChannelsByUserIdSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
+        Channel channel = createChannelTemp();
 
         User user1 = userRepository.findUsersByEmail("email1").get(0);
         ChannelUser channelUser = new ChannelUser(user1, channel);
@@ -190,12 +169,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 userId로 찾기 실패")
     public void findChannelsByUserIdFail() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
+        Channel channel = createChannelTemp();
 
         User user1 = userRepository.findUsersByEmail("email1").get(0);
         ChannelUser channelUser = new ChannelUser();
@@ -214,12 +188,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 hashName으로 찾기 성공")
     public void findChannelsByHashNameSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
+        Channel channel = createChannelTemp();
 
         // when
         List<Channel> findChannels = channelRepository.findChannelsByHashName("tag1");
@@ -252,12 +221,7 @@ public class ChannelRepositoryImplTest {
     @DisplayName("채널을 channemName으로 찾기 성공")
     public void findChannelsByChannelNameSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("tag1");
-        hashTags.add("tag2");
-        hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
-        channelRepository.createChannel(channel, hashTags);
+        Channel channel = createChannelTemp();
 
         // when
         List<Channel> findChannels = channelRepository.findChannelsByChannelName("testChannel");
@@ -282,6 +246,27 @@ public class ChannelRepositoryImplTest {
 
         // then
         assertThat(findChannels.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("채널의 TTL 연장 성공")
+    public void extensionChannelTTLSuccess() {
+        // given
+
+        // when
+
+        // then
+
+    }
+
+    public Channel createChannelTemp() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add("tag1");
+        hashTags.add("tag2");
+        hashTags.add("tag3");
+        Channel channel = new Channel("testChannel");
+        channelRepository.createChannel(channel, hashTags);
+        return channel;
     }
 
 

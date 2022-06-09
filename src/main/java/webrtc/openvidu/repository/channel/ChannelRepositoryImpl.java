@@ -197,7 +197,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 채널의 TTL 연장
      */
     public void extensionChannelTTL(Channel channel, Long addTTL) {
-        Long newTTL = getCurrentParticipants(channel) + addTTL;
+        Long newTTL = findChannelTTL(channel.getId()) + addTTL;
         channel.setTimeToLive(newTTL);
         redisTemplate.expire(channel.getId(), newTTL, SECONDS);
     }

@@ -1,6 +1,5 @@
 package webrtc.openvidu.service.channel;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,12 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.openvidu.domain.Channel;
 import webrtc.openvidu.domain.User;
-import webrtc.openvidu.dto.ChannelDto;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
+import webrtc.openvidu.exception.PointException.InsufficientPointException;
 import webrtc.openvidu.repository.user.UserRepository;
 import webrtc.openvidu.service.user.UserService;
 
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -79,7 +79,7 @@ public class ChannelServiceImplTest {
         channelService.createChannel(request, "email");
 
         // then
-        Assertions.assertThrows(AlreadyExistChannelException.class,
+        assertThrows(AlreadyExistChannelException.class,
                 () -> channelService.createChannel(request, "user"));
     }
 
@@ -87,12 +87,7 @@ public class ChannelServiceImplTest {
     @DisplayName("채널에 처음으로 입장")
     public void enterChannelFirstSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
         channelService.enterChannel(createChannel, "email1");
@@ -104,12 +99,7 @@ public class ChannelServiceImplTest {
     @DisplayName("채널에 입장 + 채널 정보 확인")
     public void enterChannelAndChannelInfoSuccess() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
         channelService.enterChannel(createChannel, "email1");
@@ -124,12 +114,7 @@ public class ChannelServiceImplTest {
     @DisplayName("인원 제한으로 채널 입장 실패")
     public void enterChannelFail() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
         for(int i=1; i<=14; i++) {
@@ -141,7 +126,7 @@ public class ChannelServiceImplTest {
         // then
         User user15 = new User("user15", "user", "email15");
         userRepository.saveUser(user15);
-        Assertions.assertThrows(ChannelParticipantsFullException.class,
+        assertThrows(ChannelParticipantsFullException.class,
                 () -> channelService.enterChannel(createChannel, user15.getEmail()));
     }
 
@@ -149,12 +134,7 @@ public class ChannelServiceImplTest {
     @DisplayName("채널 퇴장")
     public void exitChannel() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
         User user = userService.findOneUserByEmail("email");
 
         // when
@@ -168,12 +148,7 @@ public class ChannelServiceImplTest {
     @DisplayName("채널 삭제")
     public void deleteChannel() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
         channelService.deleteChannel(createChannel.getId());
@@ -207,12 +182,7 @@ public class ChannelServiceImplTest {
     @DisplayName("ChannelId로 특정 채널 찾기 O")
     public void findOneChannelByIdO() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
         Channel findChannel = channelService.findOneChannelById(createChannel.getId());
@@ -225,17 +195,12 @@ public class ChannelServiceImplTest {
     @DisplayName("ChannelId로 특정 채널 찾기 X")
     public void findOneChannelByIdX() {
         // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("testTag1");
-        hashTags.add("testTag2");
-        hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
-        Channel createChannel = channelService.createChannel(request, "email");
+        Channel createChannel = createChannelTemp();
 
         // when
 
         // then
-        Assertions.assertThrows(NotExistChannelException.class,
+        assertThrows(NotExistChannelException.class,
                 () -> channelService.findOneChannelById("NotExistChannelId"));
     }
 
@@ -268,6 +233,57 @@ public class ChannelServiceImplTest {
         assertThat(findChannels1.size()).isEqualTo(2);
         assertThat(findChannels2.size()).isEqualTo(1);
         assertThat(findChannels3.size()).isEqualTo(1);
+    }
 
+    @Test
+    @DisplayName("Extension channelTTL 성공")
+    public void extensionChannelTTLSuccess() {
+        // given
+        Channel channel = createChannelTemp();
+
+        // when
+        channelService.extensionChannelTTL(channel.getId(), "email", 100L);
+        User user = userService.findOneUserByEmail("email");
+
+
+        // then
+        assertThat(user.getPoint().getPoint()).isEqualTo(900000L);
+        assertThat(channel.getTimeToLive()).isEqualTo(600L + 100L);
+    }
+
+    @Test
+    @DisplayName("Extension ChannelTTL 실패 by NotExistChannelException")
+    public void extensionChannelTTLFailByNotExistChannelException() {
+        // given
+
+        // when
+
+        // then
+
+        assertThrows(NotExistChannelException.class,
+                () -> channelService.extensionChannelTTL("NotExistChannelId", "email", 100L));
+    }
+
+    @Test
+    @DisplayName("Extension ChannelTTL 실패 by InsufficientPointException")
+    public void extensionChannelTTLFailByInsufficientPointException() {
+        // given
+        Channel channel = createChannelTemp();
+
+        // when
+
+        // then
+
+        assertThrows(InsufficientPointException.class,
+                () -> channelService.extensionChannelTTL(channel.getId(), "email", 1000000L));
+    }
+
+    private Channel createChannelTemp() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add("testTag1");
+        hashTags.add("testTag2");
+        hashTags.add("testTag3");
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
+        return channelService.createChannel(request, "email");
     }
 }

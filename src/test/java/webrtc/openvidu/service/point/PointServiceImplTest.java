@@ -78,9 +78,13 @@ public class PointServiceImplTest {
     @DisplayName("User 보유 Point 감소 성공")
     public void decreasePointSuccess() {
         // given
+        Channel channel = channelService.findChannelByHashName("tag1").get(0);
 
         // when
+        pointService.decreasePoint(channel.getId(), "testEmail", 10000L);
+        Point point = pointService.findPointByUserEmail("testEmail");
 
-
+        // then
+        Assertions.assertThat(point.getPoint()).isEqualTo(900000L);
     }
 }
