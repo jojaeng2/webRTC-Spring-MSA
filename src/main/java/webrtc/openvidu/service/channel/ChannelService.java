@@ -26,6 +26,7 @@ public interface ChannelService {
 
     List<Channel> findChannelByHashName(String tagName);
 
-    void extensionChannelTTL(Channel channel, Long addTTL);
+    void extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
+
 
 }

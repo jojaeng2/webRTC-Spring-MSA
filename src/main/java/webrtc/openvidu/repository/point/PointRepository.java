@@ -6,5 +6,5 @@ public interface PointRepository {
 
     Point findPointByUserEmail(String userEmail);
 
-    void decreasePoint(Long pointId, Long requiredPoint);
+    void decreasePoint(Point point, Long requiredPoint);
 }

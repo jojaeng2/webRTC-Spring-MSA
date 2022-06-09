@@ -3,19 +3,19 @@ package webrtc.openvidu.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.openvidu.domain.ChannelUser;
-import webrtc.openvidu.domain.ChatLog;
-import webrtc.openvidu.domain.User;
-import webrtc.openvidu.domain.Channel;
+import webrtc.openvidu.domain.*;
 import webrtc.openvidu.dto.ChannelDto.ChannelResponse;
 import webrtc.openvidu.dto.ChannelDto.CreateChannelRequest;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.openvidu.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.openvidu.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.openvidu.exception.ChannelException.NotExistChannelException;
+import webrtc.openvidu.exception.PointException;
+import webrtc.openvidu.exception.PointException.InsufficientPointException;
 import webrtc.openvidu.repository.channel.ChannelRepository;
 import webrtc.openvidu.repository.channel.ChannelUserRepository;
 import webrtc.openvidu.repository.chat.ChatLogRepository;
+import webrtc.openvidu.repository.point.PointRepository;
 import webrtc.openvidu.repository.user.UserRepository;
 
 import java.util.ArrayList;
@@ -33,7 +33,8 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChatLogRepository chatLogRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
-
+    private final PointRepository pointRepository;
+    private final Long pointUnit = 1000L;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -151,8 +152,14 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     @Transactional
-    public void extensionChannelTTL(Channel channel, Long addTTL) {
-        channelRepository.extensionChannelTTL(channel, addTTL);
+    public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
+        List<Channel> channels = channelRepository.findChannelsById(channelId);
+        if(channels.isEmpty()) throw new NotExistChannelException();
+        Channel channel = channels.get(0);
+        Point point = pointRepository.findPointByUserEmail(userEmail);
+        if(point.getPoint() < requestTTL * pointUnit) throw new InsufficientPointException();
+        pointRepository.decreasePoint(point, requestTTL * pointUnit);
+        channelRepository.extensionChannelTTL(channel, requestTTL);
     }
 
     private void createChannelUser(User user, Channel channel) {

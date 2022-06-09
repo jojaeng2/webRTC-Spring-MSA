@@ -23,8 +23,8 @@ public class PointRepositoryImpl implements PointRepository{
         return user.getPoint();
     }
 
-    public void decreasePoint(Long pointId, Long requiredPoint) {
-        Point findPoint = em.find(Point.class, pointId);
-        findPoint.setPoint(findPoint.getPoint() - requiredPoint);
+    public void decreasePoint(Point point, Long requiredPoint) {
+
+        point.setPoint(point.getPoint() - requiredPoint);
     }
 }

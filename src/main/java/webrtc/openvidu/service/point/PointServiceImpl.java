@@ -25,7 +25,7 @@ public class PointServiceImpl implements PointService{
         }
         Channel channel = channelRepository.findChannelsById(channelId).get(0);
         channelRepository.extensionChannelTTL(channel, requestTTL/10L);
-        pointRepository.decreasePoint(userPoint.getId(), requestTTL*10L);
+        pointRepository.decreasePoint(userPoint, requestTTL*10L);
     }
 
     public Point findPointByUserEmail(String userEmail) {

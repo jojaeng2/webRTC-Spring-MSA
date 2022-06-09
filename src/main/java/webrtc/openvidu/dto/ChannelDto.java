@@ -21,6 +21,13 @@ public class ChannelDto {
     }
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ExtensionChannelTTLRequest {
+        private Long requestTTL;
+    }
+
+    @Getter
     public static class CreateChannelResponse {
 
         private String channelName;
@@ -74,6 +81,12 @@ public class ChannelDto {
             this.code = code;
             this.message = message;
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ExtensionChannelTTLResponse {
+        private Long channelTTL;
     }
 
 }

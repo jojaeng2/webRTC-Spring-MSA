@@ -60,7 +60,7 @@ public class PointRepositoryImplTest {
         Point findPoint = pointRepository.findPointByUserEmail("email1");
 
         // when
-        pointRepository.decreasePoint(findPoint.getId(), 10000L);
+        pointRepository.decreasePoint(findPoint, 10000L);
 
         Point reFindPoint = pointRepository.findPointByUserEmail("email1");
 
