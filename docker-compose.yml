@@ -1,0 +1,44 @@
+# 버전지정
+version: "1.0" 
+
+# 컨테이너 설정
+services: 
+  chat-service:
+    image: chat
+    volumes:
+      - ./target/openvidu-0.0.1-SNAPSHOT.jar:/home/spring/chat.jar
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://chat-database:3307/investment-db?useUnicode=true&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.MySQL5Dialect
+      SPRING_SESSION_STORAGE_TYPE: redis
+      SPRING_REDIS_HOST: chat-redis
+      SPRING_REDIS_PORT: 6379
+
+    depends_on:
+      - chat-database
+      - chat-redis
+    restart: always
+    networks:
+      - test-network
+    command:
+      java -Xms512m -Xms512m -jar chat.jar    
+
+  chat-database:
+    image: mysql:5.7
+    ports:
+      - 33070:3307
+    environment:
+      MYSQL_DATABASE: chat-db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_TCP_PORT: 3307    
+    networks:
+      - test
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+          
