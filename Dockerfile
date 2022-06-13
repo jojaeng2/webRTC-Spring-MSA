@@ -1,8 +1,8 @@
 FROM openjdk:11
 
-ARG JAR_FILE=./target/openvidu-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=./target/*.jar
 COPY ${JAR_FILE} /home/spring/chat.jar
 
-WORKDIR /home/spring/chat.jar
+WORKDIR /home/spring
 
 EXPOSE 8080
