@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: webrtc.openvidu.repository.hashtag.HashTagRepositoryImplTest
--------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.813 s - in webrtc.openvidu.repository.hashtag.HashTagRepositoryImplTest

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: webrtc.chatservice.service.point.PointServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 s - in webrtc.chatservice.service.point.PointServiceImplTest

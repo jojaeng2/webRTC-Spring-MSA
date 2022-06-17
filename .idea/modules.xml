@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/openvidu.iml" filepath="$PROJECT_DIR$/openvidu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chat-service/openvidu.iml" filepath="$PROJECT_DIR$/chat-service/openvidu.iml" />
     </modules>
   </component>
 </project>
