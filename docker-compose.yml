@@ -3,6 +3,14 @@ version: "3.3"
 
 # 컨테이너 설정
 services: 
+
+  openvidu-service:
+    image: openvidu/openvidu-server-kms 
+    ports:
+      - 4443:4443
+    networks:
+      - spring-network
+    
   chat-service:
     image: chat
     volumes:
