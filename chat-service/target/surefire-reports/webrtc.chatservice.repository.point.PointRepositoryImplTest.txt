@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.repository.point.PointRepositoryImplTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s - in webrtc.chatservice.repository.point.PointRepositoryImplTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s - in webrtc.chatservice.repository.point.PointRepositoryImplTest

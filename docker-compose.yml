@@ -4,12 +4,11 @@ version: "3.3"
 # 컨테이너 설정
 services: 
   chat-service:
-    build: .
     image: chat
     volumes:
       - ./chat-service/target/openvidu-0.0.1-SNAPSHOT.jar:/home/spring/chat.jar
     ports:
-      - 80:8080
+      - 80:80
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://chat-database:3307/chat-db?useUnicode=true&serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: user
