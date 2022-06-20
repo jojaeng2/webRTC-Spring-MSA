@@ -31,14 +31,21 @@ public class ChatLogRepositoryImpl2 implements ChatLogRepository {
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
         return em.createQuery(
-                    "select cl from ChatLog cl " +
-                            "where channel_id = :channel_id " +
-                            "and cl.idx BETWEEN :start AND :end"
-                    , ChatLog.class)
+                        "select cl from ChatLog cl " +
+                                "where channel_id = :channel_id "
+                        , ChatLog.class)
                 .setParameter("channel_id", channelId)
-                .setParameter("start", max(1L, idx-(LoadingChatCount)))
-                .setParameter("end", idx-1L)
                 .getResultList();
+
+        //        return em.createQuery(
+//                    "select cl from ChatLog cl " +
+//                            "where channel_id = :channel_id " +
+//                            "and cl.idx BETWEEN :start AND :end"
+//                    , ChatLog.class)
+//                .setParameter("channel_id", channelId)
+//                .setParameter("start", max(1L, idx-(LoadingChatCount)))
+//                .setParameter("end", idx-1L)
+//                .getResultList();
     }
 
     public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
