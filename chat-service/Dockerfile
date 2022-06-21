@@ -5,4 +5,4 @@ COPY ${JAR_FILE} /home/spring/chat.jar
 
 WORKDIR /home/spring
 
-EXPOSE 80
+EXPOSE 8080

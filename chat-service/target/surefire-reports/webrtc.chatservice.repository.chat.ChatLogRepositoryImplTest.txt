@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+Test set: webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.1 s <<< FAILURE! - in webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest
+LoadAllChatLog  Time elapsed: 0.05 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+
+LastChatLogLoadByIdxSuccess  Time elapsed: 0.01 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+
+LastChatLogLoadByIdxFail  Time elapsed: 0.008 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+
+LoadChatLogByChannelIdAndIdxFromZeroSuccess  Time elapsed: 0.009 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+
+saveChatLog  Time elapsed: 0.012 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+
+LoadChatLogByChannelIdAndIdxSuccess  Time elapsed: 0.008 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.chat.ChatLogRepositoryImplTest.saveChannel(ChatLogRepositoryImplTest.java:53)
+

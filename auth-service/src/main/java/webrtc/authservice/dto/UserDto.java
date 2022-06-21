@@ -21,4 +21,21 @@ public class UserDto {
     public static class FindUserByEmailRequest {
         private String email;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FindUserWithPointByEmailRequest {
+        private String email;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FindUserWithPointByEmailResponse {
+        private String id;
+        private String email;
+        private String nickname;
+        private Long point;
+    }
 }

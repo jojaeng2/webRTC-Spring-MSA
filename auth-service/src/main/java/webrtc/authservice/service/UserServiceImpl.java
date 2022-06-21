@@ -6,9 +6,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.authservice.domain.Point;
 import webrtc.authservice.domain.User;
 import webrtc.authservice.dto.UserDto;
 import webrtc.authservice.dto.UserDto.CreateUserRequest;
+import webrtc.authservice.dto.UserDto.FindUserWithPointByEmailResponse;
 import webrtc.authservice.repository.UserRepository;
 
 @Service
@@ -29,6 +31,13 @@ public class UserServiceImpl implements UserService {
     @Cacheable(key = "#email", value = "users")
     public User findOneUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+    
+    @Transactional
+    public FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        Point point = user.getPoint();
+        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), point.getPoint());
     }
 
     @CacheEvict(value = "users", allEntries = true)

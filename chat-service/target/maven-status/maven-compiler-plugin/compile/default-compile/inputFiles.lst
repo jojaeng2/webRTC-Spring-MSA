@@ -3,6 +3,7 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/dto/SessionDto.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/enums/ClientMessageType.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelService.java
+/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/config/CacheConfig.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/listner/RedisKeyExpiredListener.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelHashTagRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/OpenviduApplication.java
@@ -12,6 +13,7 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/chat/ChatService.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/domain/Point.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelUserService.java
+/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/chat/ChatLogRepositoryImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelUserServiceImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/exception/ChannelUserException.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/config/RedisConfig.java
@@ -40,7 +42,6 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/channel/api/HashTagApiController.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/hashtag/HashTagRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/point/PointRepositoryImpl.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/chat/ChatLogRepositoryImpl2.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelUserRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/pubsub/RedisSubscriberImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/jwt/JwtAuthenticationController.java

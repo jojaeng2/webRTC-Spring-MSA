@@ -21,7 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(
                         "/api/v1/webrtc/authenticate",
                         "/api/v1/webrtc/register",
-                        "/api/v1/webrtc/user"
+                        "/api/v1/webrtc/user",
+                        "/api/v1/webrtc/user/point"
                 ).permitAll();
     }
 }

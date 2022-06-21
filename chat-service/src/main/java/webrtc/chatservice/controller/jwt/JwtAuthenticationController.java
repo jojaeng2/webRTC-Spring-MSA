@@ -9,11 +9,16 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import webrtc.chatservice.controller.HttpApiController;
+import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
+import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.dto.UserDto.CreateUserResponse;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.utils.CustomJsonMapper;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
 
@@ -31,9 +36,12 @@ public class JwtAuthenticationController {
 
     private final UserService userService;
 
+    private final HttpApiController httpApiController;
+
+    private final CustomJsonMapper customJsonMapper;
+
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getEmail());
@@ -44,16 +52,8 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        return new ResponseEntity(userService.saveUser(request), HttpStatus.OK);
-    }
-
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+        httpApiController.postSaveUser(request);
+        User user = userService.saveUser(request);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 }

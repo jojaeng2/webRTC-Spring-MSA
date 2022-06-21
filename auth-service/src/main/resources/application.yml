@@ -1,5 +1,5 @@
 address: localhost
-port: 8080
+port: 8081
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,5 +23,5 @@ spring:
     secret: govlepel@$&
 
 server:
-  port: 8080
+  port: 8081
 

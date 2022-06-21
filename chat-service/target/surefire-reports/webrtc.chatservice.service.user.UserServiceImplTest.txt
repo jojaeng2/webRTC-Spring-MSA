@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.service.user.UserServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.254 s - in webrtc.chatservice.service.user.UserServiceImplTest
+Tests run: 3, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.257 s <<< FAILURE! - in webrtc.chatservice.service.user.UserServiceImplTest
+findOneUserByUserEmail  Time elapsed: 0.085 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.user.UserServiceImplTest.findOneUserByUserEmail(UserServiceImplTest.java:56)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.user.UserServiceImplTest.findOneUserByUserEmail(UserServiceImplTest.java:56)
+
+findUsersByChannelId  Time elapsed: 0.085 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.user.UserServiceImplTest.findUsersByChannelId(UserServiceImplTest.java:75)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.user.UserServiceImplTest.findUsersByChannelId(UserServiceImplTest.java:75)
+

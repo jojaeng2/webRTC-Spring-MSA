@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.repository.point.PointRepositoryImplTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s - in webrtc.chatservice.repository.point.PointRepositoryImplTest
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.018 s <<< FAILURE! - in webrtc.chatservice.repository.point.PointRepositoryImplTest
+decreasePointSuccess  Time elapsed: 0.007 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.point.PointRepositoryImplTest.saveChannelAndUser(PointRepositoryImplTest.java:50)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.point.PointRepositoryImplTest.saveChannelAndUser(PointRepositoryImplTest.java:50)
+
+findPointByUserEmail  Time elapsed: 0.01 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.point.PointRepositoryImplTest.saveChannelAndUser(PointRepositoryImplTest.java:50)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.repository.point.PointRepositoryImplTest.saveChannelAndUser(PointRepositoryImplTest.java:50)
+

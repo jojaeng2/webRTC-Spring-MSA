@@ -5,9 +5,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.utils.CustomJsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         User user = userService.findOneUserByEmail(userEmail);
+
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
 
     }

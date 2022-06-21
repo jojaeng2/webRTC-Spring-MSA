@@ -3,19 +3,22 @@ package webrtc.chatservice.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.controller.HttpApiController;
+import webrtc.chatservice.controller.channel.api.ChannelApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
-import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
-import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.*;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.point.PointRepository;
 import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.utils.CustomJsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +30,14 @@ import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 @Service
 public class ChannelServiceImpl implements ChannelService{
 
-
     private final ChannelRepository channelRepository;
     private final ChatLogRepository chatLogRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
     private final PointRepository pointRepository;
     private final Long pointUnit = 1000L;
+    private final HttpApiController httpApiController;
+    private final CustomJsonMapper customJsonMapper;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -50,7 +54,14 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userRepository.findUserByEmail(email);
+        User user = httpApiController.postFindUserByEmail(email);
+        try {
+            user = userRepository.findUserByEmail(email);
+        } catch (NotExistUserException e) {
+            userRepository.saveUser(user);
+            user = userRepository.findUserByEmail(email);
+        }
+
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
@@ -72,7 +83,17 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public void enterChannel(Channel channel, String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = httpApiController.postFindUserByEmail(email);
+
+        // 무조건 user 객체 가져와야함
+        try {
+            user = userRepository.findUserByEmail(email);
+        } catch (NotExistUserException e) {
+            userRepository.saveUser(user);
+            user = userRepository.findUserByEmail(email);
+        }
+
+
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
@@ -128,9 +149,13 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String email, int idx) {
-        User user = userRepository.findUserByEmail(email);
-        List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
-        return setReturnChannelsTTL(channels);
+        try {
+            User user = userRepository.findUserByEmail(email);
+            List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
+            return setReturnChannelsTTL(channels);
+        } catch(NotExistUserException e) {
+            throw new NotExistEnterChannelException();
+        }
     }
 
     /*

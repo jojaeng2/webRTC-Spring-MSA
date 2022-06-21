@@ -1,4 +1,20 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.168 s - in webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest
+Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.176 s <<< FAILURE! - in webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest
+findUserDetailsByUsernameFail  Time elapsed: 0.088 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown ==> expected: <webrtc.chatservice.exception.UserException.NotExistUserException> but was: <org.springframework.web.client.ResourceAccessException>
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.findUserDetailsByUsernameFail(JwtUserDetailsServiceTest.java:58)
+Caused by: org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.lambda$findUserDetailsByUsernameFail$0(JwtUserDetailsServiceTest.java:59)
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.findUserDetailsByUsernameFail(JwtUserDetailsServiceTest.java:58)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.lambda$findUserDetailsByUsernameFail$0(JwtUserDetailsServiceTest.java:59)
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.findUserDetailsByUsernameFail(JwtUserDetailsServiceTest.java:58)
+
+findUserDetailsByUsernameSuccess  Time elapsed: 0.086 s  <<< ERROR!
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8081/api/v1/webrtc/user": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.findUserDetailsByUsernameSuccess(JwtUserDetailsServiceTest.java:42)
+Caused by: java.net.ConnectException: Connection refused
+	at webrtc.chatservice.service.jwt.JwtUserDetailsServiceTest.findUserDetailsByUsernameSuccess(JwtUserDetailsServiceTest.java:42)
+

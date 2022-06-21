@@ -53,4 +53,9 @@ public class ChannelException extends RuntimeException{
     public static class ChannelParticipantsFullException extends ChannelException {
 
     }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public static class NotExistEnterChannelException extends ChannelException {
+
+    }
 }
