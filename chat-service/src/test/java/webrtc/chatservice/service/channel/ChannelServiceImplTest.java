@@ -37,6 +37,12 @@ public class ChannelServiceImplTest {
     private UserService userService;
 
     @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
+
+    @BeforeEach
     public void saveTestUser() {
         User user = new User("user", "user", "email");
         userRepository.saveUser(user);

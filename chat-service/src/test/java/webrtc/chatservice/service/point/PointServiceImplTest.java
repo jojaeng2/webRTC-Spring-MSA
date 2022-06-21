@@ -14,6 +14,7 @@ import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,14 @@ public class PointServiceImplTest {
 
     @Autowired
     private ChannelService channelService;
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
 
     @BeforeEach

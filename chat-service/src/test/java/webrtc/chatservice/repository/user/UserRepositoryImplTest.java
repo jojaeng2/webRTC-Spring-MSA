@@ -1,6 +1,7 @@
 package webrtc.chatservice.repository.user;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
+import webrtc.chatservice.service.user.UserService;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -24,6 +30,14 @@ public class UserRepositoryImplTest {
     private ChannelRepository channelRepository;
     @Autowired
     private ChannelUserRepository channelUserRepository;
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @Test
     @DisplayName("User 저장 O")
@@ -46,10 +60,10 @@ public class UserRepositoryImplTest {
 
         //when
         userRepository.saveUser(user);
-        List<User> findUsers = userRepository.findUsersByEmail(user.getEmail());
+        User findUser = userRepository.findUserByEmail(user.getEmail());
 
         //then
-        Assertions.assertThat(findUsers.get(0)).isEqualTo(user);
+        Assertions.assertThat(findUser).isEqualTo(user);
     }
 
     @Test
@@ -60,11 +74,11 @@ public class UserRepositoryImplTest {
 
         //when
         userRepository.saveUser(user);
-        List<User> findUsers = userRepository.findUsersByEmail("email2");
 
 
         //then
-        Assertions.assertThat(findUsers.isEmpty()).isEqualTo(true);
+        assertThrows(NotExistUserException.class,
+                () -> userRepository.findUserByEmail("email2"));
     }
 
     @Test
@@ -114,11 +128,10 @@ public class UserRepositoryImplTest {
         User user = new User("user", "user", "email");
 
         //when
-        List<User> findUsers = userRepository.findUsersByEmail("user");
-
 
         //then
-        Assertions.assertThat(findUsers.isEmpty()).isEqualTo(true);
+        org.junit.jupiter.api.Assertions.assertThrows(NotExistUserException.class,
+                () -> userRepository.findUserByEmail("user"));
     }
 
     @Test

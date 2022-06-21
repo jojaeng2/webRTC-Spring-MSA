@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.user.UserService;
 
 @SpringBootTest
 @Transactional
@@ -14,6 +15,15 @@ public class ChannelTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @BeforeEach
     public void createUser() {
@@ -37,7 +47,7 @@ public class ChannelTest {
     public void addChannelUser() {
         //given
         Channel channel = new Channel("TestChannel");
-        User user = userRepository.findUsersByEmail("email").get(0);
+        User user = userRepository.findUserByEmail("email");
         ChannelUser channelUser = new ChannelUser(user, channel);
 
         //when

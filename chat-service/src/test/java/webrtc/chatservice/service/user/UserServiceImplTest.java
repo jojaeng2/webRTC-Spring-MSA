@@ -1,5 +1,6 @@
 package webrtc.chatservice.service.user;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class UserServiceImplTest {
     @Autowired
     private ChannelService channelService;
 
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
     @Test
     @DisplayName("User 저장")
     public void returnUserO() {
@@ -49,7 +56,7 @@ public class UserServiceImplTest {
         User findUser = userService.findOneUserByEmail("email");
         
         //then
-        assertThat(user).isEqualTo(findUser);
+        assertThat(user.getId()).isEqualTo(findUser.getId());
     }
 
     @Test

@@ -1,6 +1,8 @@
 package webrtc.chatservice.service.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +29,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
+    @Cacheable(key = "#email", value = "users")
     public User findOneUserByEmail(String email) {
-        List<User> users = userRepository.findUsersByEmail(email);
-        if(users.isEmpty()) throw new NotExistUserException();
-        return users.get(0);
+        return userRepository.findUserByEmail(email);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void redisDataEvict() {
+
     }
 
     @Transactional

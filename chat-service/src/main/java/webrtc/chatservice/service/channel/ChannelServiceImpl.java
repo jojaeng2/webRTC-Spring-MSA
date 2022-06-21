@@ -50,7 +50,7 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         Channel channel = new Channel(request.getChannelName());
-        User user = userRepository.findUsersByEmail(email).get(0);
+        User user = userRepository.findUserByEmail(email);
         List<String> hashTags = request.getHashTags();
         channelRepository.createChannel(channel, hashTags);
 
@@ -72,7 +72,7 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public void enterChannel(Channel channel, String email) {
-        User user = userRepository.findUsersByEmail(email).get(0);
+        User user = userRepository.findUserByEmail(email);
         String channelId = channel.getId();
         List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
 
@@ -128,7 +128,7 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String email, int idx) {
-        User user = userRepository.findUsersByEmail(email).get(0);
+        User user = userRepository.findUserByEmail(email);
         List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
         return setReturnChannelsTTL(channels);
     }

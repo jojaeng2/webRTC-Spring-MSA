@@ -3,6 +3,7 @@ package webrtc.chatservice.controller.channel.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.user.UserService;
 import webrtc.chatservice.utils.CustomJsonMapper;
 
 import java.util.ArrayList;
@@ -57,7 +59,16 @@ public class ChannelApiControllerTest {
     @Autowired
     private ChannelService channelService;
 
+    @Autowired
+    private UserService userService;
+
     private String jwtAccessToken;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @Before
     public void setup() throws Exception {

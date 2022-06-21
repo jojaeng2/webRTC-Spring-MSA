@@ -19,7 +19,7 @@ public class PointRepositoryImpl implements PointRepository{
     private final UserRepository userRepository;
 
     public Point findPointByUserEmail(String userEmail) {
-        User user = userRepository.findUsersByEmail(userEmail).get(0);
+        User user = userRepository.findUserByEmail(userEmail);
         return user.getPoint();
     }
 

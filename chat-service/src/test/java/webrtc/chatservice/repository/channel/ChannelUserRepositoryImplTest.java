@@ -1,6 +1,7 @@
 package webrtc.chatservice.repository.channel;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.user.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -25,6 +27,14 @@ public class ChannelUserRepositoryImplTest {
     private ChannelRepository channelRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @Test
     @DisplayName("ChannelUser 저장 O && (channelId + userId) 조회 O")

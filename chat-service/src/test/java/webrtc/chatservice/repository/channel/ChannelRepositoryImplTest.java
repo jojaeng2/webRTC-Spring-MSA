@@ -12,6 +12,7 @@ import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,15 @@ public class ChannelRepositoryImplTest {
     private ChannelUserRepository channelUserRepository;
     @Autowired
     private HashTagRepository hashTagRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @BeforeEach
     public void createUser() {
@@ -88,7 +98,7 @@ public class ChannelRepositoryImplTest {
         for(int i=0; i<7; i++) {
             Channel channel = new Channel("testChannel" + i);
             channelRepository.createChannel(channel, hashTags);
-            User user = userRepository.findUsersByEmail("email1").get(0);
+            User user = userRepository.findUserByEmail("email1");
 
             ChannelUser channelUser = new ChannelUser(user, channel);
             channel.enterChannelUser(channelUser);
@@ -99,7 +109,7 @@ public class ChannelRepositoryImplTest {
         for(int i=0; i<5; i++) {
             Channel channel = new Channel("testChannel" + i);
             channelRepository.createChannel(channel, hashTags);
-            User user = userRepository.findUsersByEmail("email2").get(0);
+            User user = userRepository.findUserByEmail("email2");
 
             ChannelUser channelUser = new ChannelUser(user, channel);
             channel.enterChannelUser(channelUser);
@@ -108,8 +118,8 @@ public class ChannelRepositoryImplTest {
         }
 
         // when
-        User user1 = userRepository.findUsersByEmail("email1").get(0);
-        User user2 = userRepository.findUsersByEmail("email2").get(0);
+        User user1 = userRepository.findUserByEmail("email1");
+        User user2 = userRepository.findUserByEmail("email2");
 
         List<Channel> findChannels1 = channelRepository.findMyChannel(user1.getId(), 0);
         List<Channel> findChannels2 = channelRepository.findMyChannel(user2.getId(), 0);
@@ -152,7 +162,7 @@ public class ChannelRepositoryImplTest {
         // given
         Channel channel = createChannelTemp();
 
-        User user1 = userRepository.findUsersByEmail("email1").get(0);
+        User user1 = userRepository.findUserByEmail("email1");
         ChannelUser channelUser = new ChannelUser(user1, channel);
         channel.enterChannelUser(channelUser);
         user1.addChannelUser(channelUser);
@@ -171,7 +181,7 @@ public class ChannelRepositoryImplTest {
         // given
         Channel channel = createChannelTemp();
 
-        User user1 = userRepository.findUsersByEmail("email1").get(0);
+        User user1 = userRepository.findUserByEmail("email1");
         ChannelUser channelUser = new ChannelUser();
         channel.enterChannelUser(channelUser);
         user1.addChannelUser(channelUser);

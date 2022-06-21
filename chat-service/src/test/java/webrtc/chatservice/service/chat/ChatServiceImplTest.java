@@ -13,6 +13,7 @@ import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,14 @@ public class ChatServiceImplTest {
     private UserRepository userRepository;
     @Autowired
     private ChannelRepository channelRepository;
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @BeforeEach
     public void saveChannel() {

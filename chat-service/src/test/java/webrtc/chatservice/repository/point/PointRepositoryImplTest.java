@@ -11,6 +11,7 @@ import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,14 @@ public class PointRepositoryImplTest {
     private UserRepository userRepository;
     @Autowired
     private PointRepository pointRepository;
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
 
     @BeforeEach
     public void saveChannelAndUser() {

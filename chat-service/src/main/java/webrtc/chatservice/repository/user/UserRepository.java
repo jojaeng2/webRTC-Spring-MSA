@@ -9,7 +9,7 @@ public interface UserRepository {
 
     void saveUser(User user);
 
-    List<User> findUsersByEmail(String email);
+    User findUserByEmail(String email);
 
     List<User> findUsersByChannelId(String channelId);
 
