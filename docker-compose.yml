@@ -11,13 +11,72 @@ services:
     networks:
       - spring-network
     
+  auth-service:
+    image: auth
+    volumes:
+      - ./auth-service/target/auth-service-0.0.1-SNAPSHOT.jar:/home/spring/auth.jar
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://auth-database:3308/auth-db?useUnicode=true&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.MySQL5Dialect
+      SPRING_SESSION_STORAGE_TYPE: redis
+      SPRING_REDIS_HOST: auth-redis
+      SPRING_REDIS_PORT: 6379
+    depends_on:
+      - auth-database
+      - auth-redis
+    restart: always
+    networks:
+      - spring-network
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        sleep 20s
+        java -jar auth.jar   
+
+  auth-database:
+    image: mysql:5.7
+    ports:
+      - 3308:3308
+    environment:
+      MYSQL_DATABASE: auth-db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_TCP_PORT: 3308
+    networks:
+      - spring-network
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+  
+  auth-redis:
+    image: redis:6.2.6
+    ports:
+      - 6380:6379
+    networks:
+      - spring-network
+    command: [ "redis-server", "--protected-mode", "no" ]
+
+  nginx-service:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443 
+    networks:
+      - spring-network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - chat-service
+  
   chat-service:
     image: chat
     volumes:
       - ./chat-service/target/openvidu-0.0.1-SNAPSHOT.jar:/home/spring/chat.jar
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://chat-database:3307/chat-db?useUnicode=true&serverTimezone=Asia/Seoul
-      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.MySQL5Dialect
@@ -34,7 +93,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 15s
+        sleep 20s
         java -jar chat.jar   
 
   chat-database:
@@ -63,6 +122,7 @@ services:
     image: nginx
     ports:
       - 80:80
+      - 81:81
       - 443:443 
     networks:
       - spring-network

@@ -38,8 +38,6 @@ public class JwtAuthenticationController {
 
     private final HttpApiController httpApiController;
 
-    private final CustomJsonMapper customJsonMapper;
-
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
