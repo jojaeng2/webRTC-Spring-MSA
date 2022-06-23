@@ -1,4 +1,4 @@
-package webrtc.voiceservice.controller;
+package webrtc.voiceservice.controller.session;
 
 
 import io.openvidu.java.client.*;
