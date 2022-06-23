@@ -2,6 +2,7 @@ package webrtc.voiceservice.controller.session;
 
 
 import io.openvidu.java.client.*;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import webrtc.voiceservice.controller.HttpApiController;
+import webrtc.voiceservice.domain.User;
+import webrtc.voiceservice.dto.SessionDto.GetTokenRequest;
 import webrtc.voiceservice.dto.SessionDto.GetTokenResponse;
 
 import javax.servlet.http.HttpSession;
@@ -20,11 +24,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api-sessions")
+@RequiredArgsConstructor
 public class SessionController {
 
-    private OpenVidu openVidu;
+
+    @Value("{openvidu.url}")
     private String openViduUrl;
+
+    @Value("${openvidu.secret}")
     private String secret;
+
+    private OpenVidu openVidu = new OpenVidu(openViduUrl, secret);
+
+    private final HttpApiController httpApiController;
 
     // 임시로 Memory로 Session 관리
     private Map<String, Session> sessionMap = new HashMap<>();
@@ -32,24 +44,19 @@ public class SessionController {
     // sessions name과 token으로 OpenViduRole 저장을 위한 2차원 Map
     private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new HashMap<>();
 
-    public SessionController(@Value("${openvidu.secret}") String secret, @Value("{openvidu.url}") String openViduUrl) {
-        this.secret = secret;
-        this.openViduUrl = openViduUrl;
-        this.openVidu = new OpenVidu(openViduUrl, secret);
-    }
-
     @PostMapping("/get-token")
-    public ResponseEntity getToken(@RequestBody String request, HttpSession httpSession) throws ParseException {
+    public ResponseEntity getToken(@RequestBody GetTokenRequest request, HttpSession httpSession) throws ParseException {
 
-        JSONObject sessionJSON = (JSONObject) new JSONParser().parse(request);
+        String email = request.getEmail();
+        User user = httpApiController.postFindUserByEmail(email);
 
         // The video-call to connect
-        String sessionName = (String) sessionJSON.get("sessionName");
+        String sessionName = request.getSessionName();
 
         // Role associated to this user
         OpenViduRole role = OpenViduRole.PUBLISHER;
 
-        String serverData = "{\"serverData\": \"" + httpSession.getAttribute("loggedUser") + "\"}";
+        String serverData = "{\"serverData\": \"" + user.toString() + "\"}";
 
         // Create Connection Properties
         ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
