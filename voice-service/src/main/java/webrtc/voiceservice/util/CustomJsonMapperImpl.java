@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomJsonMapperImpl {
+public class CustomJsonMapperImpl implements CustomJsonMapper{
 
     public Object jsonParse(String jsonStr, Class className) {
         Gson gson = new Gson();

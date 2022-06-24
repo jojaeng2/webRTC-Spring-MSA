@@ -113,7 +113,7 @@ services:
   chat-redis:
     image: redis:6.2.6
     ports:
-      - 6379:6379
+      - 6381:6379
     networks:
       - spring-network
     command: [ "redis-server", "--protected-mode", "no" ]

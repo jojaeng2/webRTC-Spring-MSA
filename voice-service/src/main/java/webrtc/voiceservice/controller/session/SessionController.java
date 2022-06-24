@@ -18,12 +18,13 @@ import webrtc.voiceservice.domain.User;
 import webrtc.voiceservice.dto.SessionDto.GetTokenRequest;
 import webrtc.voiceservice.dto.SessionDto.GetTokenResponse;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api-sessions")
+@RequestMapping("/api/v1/webrtc")
 @RequiredArgsConstructor
 public class SessionController {
 
@@ -34,7 +35,12 @@ public class SessionController {
     @Value("${openvidu.secret}")
     private String secret;
 
-    private OpenVidu openVidu = new OpenVidu(openViduUrl, secret);
+    private OpenVidu openVidu;
+
+    @PostConstruct
+    public OpenVidu openVidu() {
+        return openVidu = new OpenVidu(openViduUrl, secret);
+    }
 
     private final HttpApiController httpApiController;
 
@@ -45,8 +51,7 @@ public class SessionController {
     private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new HashMap<>();
 
     @PostMapping("/get-token")
-    public ResponseEntity getToken(@RequestBody GetTokenRequest request, HttpSession httpSession) throws ParseException {
-
+    public ResponseEntity getToken(@RequestBody GetTokenRequest request) throws ParseException {
         String email = request.getEmail();
         User user = httpApiController.postFindUserByEmail(email);
 
@@ -56,7 +61,9 @@ public class SessionController {
         // Role associated to this user
         OpenViduRole role = OpenViduRole.PUBLISHER;
 
-        String serverData = "{\"serverData\": \"" + user.toString() + "\"}";
+        String serverData = "{\"serverData\": \"" + user.getNickname() + "\"}";
+
+        System.out.println("serverData = " + serverData);
 
         // Create Connection Properties
         ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
