@@ -19,4 +19,12 @@ public class SessionDto {
     public static class GetTokenResponse {
         private String token;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class RemoveUserInSessionRequest {
+        private String sessionName;
+        private String email;
+        private String token;
+    }
 }
