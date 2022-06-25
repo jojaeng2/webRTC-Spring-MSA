@@ -1,4 +1,4 @@
-package webrtc.voiceservice.repository;
+package webrtc.voiceservice.repository.session;
 
 import webrtc.voiceservice.domain.OpenViduSession;
 

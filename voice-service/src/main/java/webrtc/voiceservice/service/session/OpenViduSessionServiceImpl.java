@@ -1,19 +1,20 @@
-package webrtc.voiceservice.service;
+package webrtc.voiceservice.service.session;
 
 import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.voiceservice.controller.HttpApiController;
 import webrtc.voiceservice.domain.OpenViduSession;
 import webrtc.voiceservice.domain.User;
-import webrtc.voiceservice.dto.SessionDto;
 import webrtc.voiceservice.dto.SessionDto.GetTokenRequest;
 import webrtc.voiceservice.dto.SessionDto.RemoveUserInSessionRequest;
-import webrtc.voiceservice.repository.OpenViduSessionRepository;
+import webrtc.voiceservice.exception.SessionException.AlreadyRemovedSessionInOpenViduServer;
+import webrtc.voiceservice.exception.SessionException.InvalidAccessToOpenViduServerException;
+import webrtc.voiceservice.exception.SessionException.NotExistOpenViduServerException;
+import webrtc.voiceservice.exception.SessionException.OpenViduClientException;
+import webrtc.voiceservice.repository.session.OpenViduSessionRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -68,33 +69,34 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
                 String token;
                 for (Session session : sessions) {
                     if(session.getSessionId().equals(openViduSession.getSessionId())) {
-                        // response로 token 반환
-                        return session.createConnection(connectionProperties).getToken();
+                        token = session.createConnection(connectionProperties).getToken();
+                        openViduSession.getUsers().put(user.getId(), token);
+                        openViduSessionRepository.update(sessionName, openViduSession);
+                        return token;
                     }
                 }
 
             } catch(OpenViduJavaClientException e) {
-
             } catch(OpenViduHttpException e) {
                 if(e.getStatus() == 404) {
-                    // Invalid sessionId, Clean Collections and continue as new session
+                    throw new NotExistOpenViduServerException();
                 }
             }
         }
-        else {
-            // session 새롭게 생성
-            try {
-                Session session = this.openVidu.createSession();
-                // Generate a new Connection With the recently created connectionProperties
-                String token = session.createConnection(connectionProperties).getToken();
 
-                // Store the session and the token
-                createOpenViduSession(sessionName, user, token, session.getSessionId());
-                return token;
-            } catch(Exception e) {
-                // If Error generate an error message and return it to client
 
-            }
+        // session 새롭게 생성
+        try {
+            Session session = this.openVidu.createSession();
+            // Generate a new Connection With the recently created connectionProperties
+            String token = session.createConnection(connectionProperties).getToken();
+
+            // Store the session and the token
+            createOpenViduSession(sessionName, user, token, session.getSessionId());
+            return token;
+        } catch(Exception e) {
+            // If Error generate an error message and return it to client
+            throw new OpenViduClientException();
         }
     }
 
@@ -105,9 +107,9 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
         OpenViduSession openViduSession = findOpenViduSessionByName(sessionName);
 
         if(openViduSession != null) {
-            if(openViduSession.getUsers().get(token).equals(user)) {
+            if(openViduSession.getUsers().get(user.getId()).equals(token)) {
 
-                openViduSession.getUsers().remove(token);
+                openViduSession.getUsers().remove(user.getId());
                 openViduSessionRepository.update(sessionName, openViduSession);
 
                 if(openViduSession.getUsers().isEmpty()) {
@@ -116,13 +118,11 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
                 }
             } else {
                 // token invalid
-                System.out.println("Problems in the app server");
-                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new InvalidAccessToOpenViduServerException();
             }
         } else {
             // Session does not exist
-            System.out.println("Problems in the app server : the SESSION does not exist");
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new AlreadyRemovedSessionInOpenViduServer();
         }
     }
 

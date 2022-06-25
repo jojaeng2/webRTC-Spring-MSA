@@ -1,4 +1,4 @@
-package webrtc.voiceservice.service;
+package webrtc.voiceservice.service.session;
 
 import webrtc.voiceservice.domain.OpenViduSession;
 import webrtc.voiceservice.domain.User;
