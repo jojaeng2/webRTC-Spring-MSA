@@ -90,8 +90,8 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
             Session session = this.openVidu.createSession();
             // Generate a new Connection With the recently created connectionProperties
             String token = session.createConnection(connectionProperties).getToken();
-
-            // Store the session and the token
+            System.out.println("session.getSessionId() = " + session.getSessionId());
+             // Store the session and the token
             createOpenViduSession(sessionName, user, token, session.getSessionId());
             return token;
         } catch(Exception e) {
