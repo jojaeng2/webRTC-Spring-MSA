@@ -1,0 +1,144 @@
+2022-06-30T06:49:46,239870 1 0x00007fe940989240    info KurentoMediaServer        main.cpp:196 main()  Logs storage path set to /opt/openvidu/kurento-logs
+2022-06-30T06:49:46,241173 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so
+2022-06-30T06:49:46,241231 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: filters, version: 6.16.0, date: Feb 26 2021 17:10:19
+2022-06-30T06:49:46,248679 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so
+2022-06-30T06:49:46,248739 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: elements, version: 6.16.0, date: Feb 26 2021 17:01:41
+2022-06-30T06:49:46,249163 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so
+2022-06-30T06:49:46,249208 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: core, version: 6.16.0, date: Feb 26 2021 16:53:09
+2022-06-30T06:49:46,249872 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmspointerdetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmspointerdetectormodule.so
+2022-06-30T06:49:46,249913 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: pointerdetector, version: 6.16.0, date: Feb 26 2021 17:53:51
+2022-06-30T06:49:46,260290 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsplatedetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsplatedetectormodule.so
+2022-06-30T06:49:46,260353 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: platedetector, version: 6.16.0, date: Feb 26 2021 17:32:44
+2022-06-30T06:49:46,336516 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsmarkerdetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsmarkerdetectormodule.so
+2022-06-30T06:49:46,336597 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: markerdetector, version: 6.16.0, date: Feb 26 2021 17:32:43
+2022-06-30T06:49:46,337726 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so
+2022-06-30T06:49:46,337774 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: datachannelexample, version: 6.16.0, date: Feb 26 2021 17:35:07
+2022-06-30T06:49:46,338766 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscrowddetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscrowddetectormodule.so
+2022-06-30T06:49:46,338810 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: crowddetector, version: 6.16.0, date: Feb 26 2021 17:32:43
+2022-06-30T06:49:46,339575 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so
+2022-06-30T06:49:46,339630 1 0x00007fe940989240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: chroma, version: 6.16.0, date: Feb 26 2021 17:31:29
+2022-06-30T06:49:46,339680 1 0x00007fe940989240    info KurentoMediaServer        main.cpp:240 main()  Kurento Media Server version: 6.16.0
+2022-06-30T06:49:46,339700 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:249 loadConfig()  Reading configuration from: /etc/kurento/kurento.conf.json
+2022-06-30T06:49:46,344095 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules
+2022-06-30T06:49:46,344189 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules/kurento
+2022-06-30T06:49:46,344330 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/UriEndpoint.conf.ini
+2022-06-30T06:49:46,344418 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/MediaElement.conf.ini
+2022-06-30T06:49:46,344519 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/HttpEndpoint.conf.ini
+2022-06-30T06:49:46,344778 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/SdpEndpoint.conf.json
+2022-06-30T06:49:46,344955 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/RecorderEndpoint.conf.ini
+2022-06-30T06:49:46,345133 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/BaseRtpEndpoint.conf.ini
+2022-06-30T06:49:46,345302 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/PlayerEndpoint.conf.ini
+2022-06-30T06:49:46,345510 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
+2022-06-30T06:49:46,345555 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:265 loadConfig()  Configuration loaded successfully
+2022-06-30T06:49:46,345633 1 0x00007fe940989240    info KurentoLoadConfig         loadConfig.cpp:271 loadConfig()  Loaded config in effect:
+{
+    "mediaServer": {
+        "resources": {
+            "\/\/exceptionLimit": "0.8",
+            "\/\/killLimit": "0.7",
+            "garbageCollectorPeriod": "240",
+            "\/\/": "Default: false",
+            "disableRequestCache": "false"
+        },
+        "net": {
+            "websocket": {
+                "\/\/ipv6": "false",
+                "port": "8888",
+                "secure": {
+                    "\/\/port": "8433",
+                    "\/\/certificate": "cert+key.pem",
+                    "\/\/": "Password for the private key, if one was set when the key was created",
+                    "\/\/password": ""
+                },
+                "\/\/registrar": {
+                    "\/\/address": "ws:\/\/localhost:9090",
+                    "\/\/localAddress": "localhost"
+                },
+                "\/\/": "Default: SOMAXCONN (128)",
+                "\/\/connqueue": "128",
+                "path": "kurento",
+                "threads": "10"
+            }
+        }
+    },
+    "configPath": "\/etc\/kurento",
+    "modules": {
+        "kurento": {
+            "UriEndpoint": {
+                "defaultPath": "file:\/\/\/var\/lib\/kurento\/",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "MediaElement": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "HttpEndpoint": {
+                "serverAddress": "localhost",
+                "port": "9091",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "SdpEndpoint": {
+                "numAudioMedias": "1",
+                "numVideoMedias": "1",
+                "audioCodecs": [
+                    {
+                        "name": "opus\/48000\/2",
+                        "\/\/": "Next is an example about how a codec can be configured.",
+                        "\/\/": "WARNING: Usage of properties is not yet supported",
+                        "\/\/properties": {
+                            "\/\/maxcodedaudiobandwidth": "16000",
+                            "\/\/maxaveragebitrate": "20000",
+                            "\/\/stereo": "1",
+                            "\/\/useinbandfec": "1",
+                            "\/\/usedtx": "0"
+                        }
+                    },
+                    {
+                        "name": "PCMU\/8000"
+                    },
+                    {
+                        "name": "AMR\/8000"
+                    }
+                ],
+                "videoCodecs": [
+                    {
+                        "name": "VP8\/90000"
+                    },
+                    {
+                        "name": "H264\/90000"
+                    }
+                ],
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "RecorderEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "BaseRtpEndpoint": {
+                "minPort": "40000",
+                "maxPort": "57000",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "PlayerEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "WebRtcEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            }
+        }
+    }
+}
+
+2022-06-30T06:49:46,345704 1 0x00007fe940989240    info KurentoServerMethods      ServerMethods.cpp:90 ServerMethods()  Using above 80% of system limits will throw NOT_ENOUGH_RESOURCES exception
+2022-06-30T06:49:46,345736 1 0x00007fe940989240    info KurentoServerMethods      ServerMethods.cpp:109 ServerMethods()  System limits: unlimited threads, 1048576 files
+2022-06-30T06:49:46,345984 1 0x00007fe940989240    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 2
+2022-06-30T06:49:46,346220 1 0x00007fe940989240    info KurentoServerMethods      ServerMethods.cpp:144 ServerMethods()  RPC Request Cache is ENABLED
+2022-06-30T06:49:46,346380 1 0x00007fe940989240    info KurentoWebSocketTransport WebSocketTransport.cpp:179 initWebSocket()  WebSocket server (ws://) listening on address '::', port 8888
+2022-06-30T06:49:46,346411 1 0x00007fe940989240    info KurentoWebSocketTransport WebSocketTransport.cpp:88 WebSocketTransport()  Secure WebSocket server (wss://) not enabled
+2022-06-30T06:49:46,346769 1 0x00007fe940989240    info KurentoMediaServer        main.cpp:259 main()  Kurento Media Server started
+2022-06-30T06:49:52,253474 1 0x00007fe91da7d700    info KurentoServerMethods      ServerMethods.cpp:811 ping()  WebSocket Ping/Pong
+2022-06-30T06:50:46,347129 1 0x00007fe918a73700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e3217007-1a9b-4794-95f4-d29367ec13f2'
+2022-06-30T06:51:46,347410 1 0x00007fe918a73700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e3217007-1a9b-4794-95f4-d29367ec13f2'
+2022-06-30T06:52:46,347726 1 0x00007fe918a73700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e3217007-1a9b-4794-95f4-d29367ec13f2'
+2022-06-30T06:53:46,347967 1 0x00007fe918a73700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e3217007-1a9b-4794-95f4-d29367ec13f2'
+2022-06-30T06:53:51,809068 1 0x00007fe91d27c700    info KurentoServerMethods      ServerMethods.cpp:814 ping()  WebSocket Ping/Pong with sessionId e3217007-1a9b-4794-95f4-d29367ec13f2
+2022-06-30T06:54:38,587311 1 0x00007fe940989240    info KurentoMediaSet           MediaSet.cpp:109 deleteMediaSet()  Destroying mediaSet
+2022-06-30T06:54:38,587618 1 0x00007fe940989240    info KurentoMediaServer        main.cpp:266 main()  Kurento Media Server stopped

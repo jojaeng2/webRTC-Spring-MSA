@@ -98,6 +98,10 @@ services:
             - ./custom-nginx-vhosts:/etc/nginx/vhost.d/
             - ./custom-nginx-locations:/custom-nginx-locations
             - ${OPENVIDU_RECORDING_CUSTOM_LAYOUT}:/opt/openvidu/custom-layout
+            - /etc/letsencrypt:/etc/letsencrypt
+            - ./custom-nginx.conf:/custom-nginx/custom-nginx.conf
+            - ./nginx.conf:/etc/nginx/nginx.conf
+
         environment:
             - DOMAIN_OR_PUBLIC_IP=${DOMAIN_OR_PUBLIC_IP}
             - CERTIFICATE_TYPE=${CERTIFICATE_TYPE}
