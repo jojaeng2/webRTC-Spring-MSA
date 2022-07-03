@@ -42,7 +42,7 @@ services:
         environment:
             - SERVER_SSL_ENABLED=false
             - SERVER_PORT=5443
-            - KMS_URIS=["ws://localhost:8888/kurento"]
+            - KMS_URIS=["ws://kms:8888/kurento"]
             - COTURN_IP=${COTURN_IP:-auto-ipv4}
             - COTURN_PORT=${COTURN_PORT:-3478}
         logging:
