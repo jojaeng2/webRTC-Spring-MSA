@@ -152,6 +152,7 @@ services:
       
     
     
-networks:
-  spring-network:
-    external: false
+networks: 
+  default: 
+    external: 
+      name: spring-network

@@ -126,7 +126,7 @@ services:
             options:
                 max-size: "${DOCKER_LOGS_MAX_SIZE:-100M}"
 
-networks:
-    default:
-        external:
-            name: webrtc-spring-msa_spring-network
+networks: 
+  default: 
+    external: 
+      name: spring-network
