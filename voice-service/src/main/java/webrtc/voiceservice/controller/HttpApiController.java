@@ -32,7 +32,7 @@ public class HttpApiController {
 
     public User postFindUserByEmail(String email) {
         try {
-            ResponseEntity<String> response = postRequest("http://auth-service:8081/api/v1/webrtc/user", new FindUserByEmailRequest(email));
+            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/user", new FindUserByEmailRequest(email));
             String responseBody = response.getBody();
             Object obj = customJsonMapper.jsonParse(responseBody, User.class);
             return User.class.cast(obj);

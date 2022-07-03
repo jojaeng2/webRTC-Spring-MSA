@@ -5,4 +5,4 @@ COPY ${JAR_FILE} /home/spring/voice.jar
 
 WORKDIR /home/spring
 
-EXPOSE 8082
+EXPOSE 8080

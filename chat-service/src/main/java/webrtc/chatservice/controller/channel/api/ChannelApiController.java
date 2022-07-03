@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/chat")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChannelApiController {
 

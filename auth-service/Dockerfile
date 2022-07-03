@@ -5,4 +5,4 @@ COPY ${JAR_FILE} /home/spring/auth.jar
 
 WORKDIR /home/spring
 
-EXPOSE 8081
+EXPOSE 8080

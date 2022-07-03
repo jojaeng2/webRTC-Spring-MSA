@@ -12,7 +12,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/chat")
 public class HashTagApiController {
 
     private final ChannelService channelService;

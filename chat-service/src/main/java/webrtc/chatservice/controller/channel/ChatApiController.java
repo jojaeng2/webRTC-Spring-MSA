@@ -9,7 +9,7 @@ import webrtc.chatservice.service.chat.ChatService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/chat")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatApiController {
 

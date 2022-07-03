@@ -25,7 +25,7 @@ import webrtc.chatservice.utils.JwtTokenUtil;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/chat")
 public class JwtAuthenticationController {
 
     private final AuthenticationManager authenticationManager;

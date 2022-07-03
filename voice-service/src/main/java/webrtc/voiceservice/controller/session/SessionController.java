@@ -15,7 +15,7 @@ import webrtc.voiceservice.service.session.OpenViduSessionService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/voice")
 @RequiredArgsConstructor
 public class SessionController {
 
