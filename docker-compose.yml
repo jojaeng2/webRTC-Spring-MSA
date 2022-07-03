@@ -4,12 +4,12 @@ version: "3.3"
 # 컨테이너 설정
 services: 
 
-  openvidu-service:
-    image: openvidu/openvidu-server-kms 
-    ports:
-      - 4443:4443
-    networks:
-      - spring-network
+  # openvidu-service:
+  #   image: openvidu/openvidu-server-kms 
+  #   ports:
+  #     - 4443:4443
+  #   networks:
+  #     - spring-network
 
   auth-service:
     image: auth
@@ -33,7 +33,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 30s
+        sleep 20s
         java -jar auth.jar   
 
   auth-database:
@@ -83,7 +83,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 23s
+        sleep 20s
         java -jar chat.jar   
 
   chat-database:
@@ -139,7 +139,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 30s
+        sleep 20s
         java -jar voice.jar   
 
   voice-redis:
