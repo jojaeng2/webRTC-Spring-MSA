@@ -2,7 +2,14 @@
 version: "3.3" 
 
 # 컨테이너 설정
+
+networks: 
+  spring-network:
+    external: true
+    
 services: 
+
+
 
   # openvidu-service:
   #   image: openvidu/openvidu-server-kms 
@@ -152,7 +159,3 @@ services:
       
     
     
-networks: 
-  default: 
-    external: 
-      name: spring-network
