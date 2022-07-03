@@ -19,10 +19,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests().antMatchers(
-                        "/api/v1/webrtc/authenticate",
-                        "/api/v1/webrtc/register",
-                        "/api/v1/webrtc/user",
-                        "/api/v1/webrtc/user/point"
+                        "/api/v1/webrtc/auth/authenticate",
+                        "/api/v1/webrtc/auth/register",
+                        "/api/v1/webrtc/auth/user",
+                        "/api/v1/webrtc/auth/user/point"
                 ).permitAll();
     }
 }
