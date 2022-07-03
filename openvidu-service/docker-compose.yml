@@ -125,3 +125,8 @@ services:
         logging:
             options:
                 max-size: "${DOCKER_LOGS_MAX_SIZE:-100M}"
+
+networks:
+    default:
+        external:
+            name: spring-network
