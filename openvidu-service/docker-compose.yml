@@ -19,12 +19,17 @@
 
 version: '3.1'
 
-services:
+networks: 
+    spring-network:
+        external: true
 
+services:
+    
     openvidu-server:
         image: openvidu/openvidu-server:2.22.0
         restart: on-failure
-        network_mode: host
+        networks:
+          - spring-network
         entrypoint: ['/usr/local/bin/entrypoint.sh']
         volumes:
             - ./coturn:/run/secrets/coturn
@@ -47,7 +52,8 @@ services:
     kms:
         image: ${KMS_IMAGE:-kurento/kurento-media-server:6.16.0}
         restart: always
-        network_mode: host
+        networks:
+          - spring-network
         ulimits:
           core: -1
         volumes:
@@ -91,7 +97,8 @@ services:
     nginx:
         image: openvidu/openvidu-proxy:2.22.0
         restart: always
-        network_mode: host
+        networks:
+          - spring-network
         volumes:
             - ./certificates:/etc/letsencrypt
             - ./owncert:/owncert
@@ -122,3 +129,4 @@ services:
         logging:
             options:
                 max-size: "${DOCKER_LOGS_MAX_SIZE:-100M}"
+
