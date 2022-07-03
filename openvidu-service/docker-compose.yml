@@ -99,7 +99,7 @@ services:
             - ./custom-nginx-locations:/custom-nginx-locations
             - ${OPENVIDU_RECORDING_CUSTOM_LAYOUT}:/opt/openvidu/custom-layout
             - /etc/letsencrypt:/etc/letsencrypt
-            - ../nginx.conf:/custom-nginx/custom-nginx.conf
+            - ./custom-nginx.conf:/custom-nginx/custom-nginx.conf
             - ./nginx.conf:/etc/nginx/nginx.conf
 
         environment:
