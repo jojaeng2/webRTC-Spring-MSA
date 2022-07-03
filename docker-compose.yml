@@ -137,8 +137,6 @@ services:
     image: nginx
     networks:
       - spring-network
-    ports:
-      - 81:81
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
