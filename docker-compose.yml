@@ -6,17 +6,8 @@ version: "3.3"
 networks: 
   spring-network:
     external: true
-    
+
 services: 
-
-
-
-  # openvidu-service:
-  #   image: openvidu/openvidu-server-kms 
-  #   ports:
-  #     - 4443:4443
-  #   networks:
-  #     - spring-network
 
   auth-service:
     image: auth
@@ -65,8 +56,7 @@ services:
       - spring-network
     command: [ "redis-server", "--protected-mode", "no" ]
 
-  
-  
+
   chat-service:
     image: chat
     volumes:

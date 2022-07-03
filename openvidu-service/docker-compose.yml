@@ -24,7 +24,7 @@ networks:
         external: true
 
 services:
-
+    
     openvidu-server:
         image: openvidu/openvidu-server:2.22.0
         restart: on-failure
