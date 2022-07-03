@@ -129,4 +129,4 @@ services:
 networks:
     default:
         external:
-            name: spring-network
+            name: webrtc-spring-msa_spring-network
