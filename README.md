@@ -80,3 +80,51 @@ Auth-Service는 사용자 인증 요청이 들어오면 가장 먼저 redis 캐�
 1. 사용자 인증 서비스를 독립적으로 분리했다.
 
 2. request를 처리하는 시간을 줄이기 위해 redis를 캐시로 활용했다.
+
+
+> ## **Chat-Service**
+- ### **Architecture**
+
+<img width="985" alt="image" src="https://user-images.githubusercontent.com/76645095/177088960-8532abd7-57ac-4852-aad7-3eafb909559d.png">
+
+```
+소켓 통신을 위한 서브 프로토콜로 STOMP를 사용했다. 
+STOMP를 이용한 메시지 전달은 redis Publish/Subscribe 기능을 활용했고, 채널별로 message를 구별하기위해 redis에서 ChannelTopic을 관리했다.
+```
+
+```
+채널은 수명을 가지고 있다. 수명은 사용자의 point를 활용해 증가시킬 수있다.
+수명이 다하면 자동으로 채널이 닫힌다. 이를 구현하기 위해 redis의 TTL을 custom 했다.
+```
+
+```
+모든 사용자는 채팅 로그를 요청할 수있다.
+한번에 모든 채팅 로그를 불러오는 것은 비효율적이다. 
+무한 스크롤을 구현하여 사용자가 request를 보내면 특정 개수만큼 채팅 로그를 전송했다.
+```
+
+1. redis 자료구조를 이해하고 pub/sub system과 STOMP를 사용했다.
+
+2. redis의 TTL을 custom 했다.
+
+3. 무한 스크롤을 구현해 채팅 로그를 N개씩 보내도록 구현했다.
+
+
+> ## **Voice-Service**
+- ### **Architecture**
+
+<img width="992" alt="image" src="https://user-images.githubusercontent.com/76645095/177089724-36818b19-c7c7-4a5a-ad50-ca32b8562be3.png">
+
+```
+OpenVidu 서버와 통신을 담당하는 서비스이다. 
+```
+
+```
+OpenVidu에 세션을 생성하고 세션별 사용자의 토큰을 발급받는다.
+세션에 이미 참여한 사용자를 저장하기 위해 세션 저장소로 redis를 활용했다.
+redis를 사용한 이유는 token 발급 서버가 여러대 증설되었을때, 데이터 일광성을 유지하기 위해 외부 저장소를 사용하기로 결정했다.
+```
+
+1. redis를 외부 session 저장소로 사용했다.
+
+2. OpenVidu 라이브러리를 뜯어보고 사용했다.
