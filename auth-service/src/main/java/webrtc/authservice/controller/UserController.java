@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/webrtc")
+@RequestMapping("/api/v1/webrtc/auth")
 public class UserController {
 
     private final UserService userService;
