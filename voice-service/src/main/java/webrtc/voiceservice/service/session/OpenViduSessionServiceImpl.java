@@ -73,7 +73,7 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
                     if(session.getSessionId().equals(openViduSession.getSessionId())) {
                         token = session.createConnection(connectionProperties).getToken();
                         System.out.println("token = " + token);
-                        openViduSession.getUsers().put(user.getId(), token);
+                        openViduSession.getUsers().put(user.getEmail(), token);
                         openViduSessionRepository.update(sessionName, openViduSession);
                         return token;
                     }
@@ -110,9 +110,9 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
         OpenViduSession openViduSession = findOpenViduSessionByName(sessionName);
 
         if(openViduSession != null) {
-            if(openViduSession.getUsers().get(user.getId()).equals(token)) {
+            if(openViduSession.getUsers().get(user.getEmail()).equals(token)) {
 
-                openViduSession.getUsers().remove(user.getId());
+                openViduSession.getUsers().remove(user.getEmail());
                 openViduSessionRepository.update(sessionName, openViduSession);
 
                 if(openViduSession.getUsers().isEmpty()) {

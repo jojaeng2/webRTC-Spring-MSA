@@ -18,7 +18,7 @@ public class OpenViduSession implements Serializable {
         this.sessionName = sessionName;
         this.sessionId = sessionId;
         this.users = new HashMap();
-        this.users.put(user.getId(), token);
+        this.users.put(user.getEmail(), token);
     }
 
 
