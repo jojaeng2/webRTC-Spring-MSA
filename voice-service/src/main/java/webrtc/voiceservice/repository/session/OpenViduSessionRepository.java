@@ -8,6 +8,8 @@ public interface OpenViduSessionRepository {
 
     OpenViduSession findOpenViduSessionByName(String sessionId);
 
+    void deletedChannel(String channelId);
+
     void update(String sessionName, OpenViduSession openViduSession);
 
     void delete(String sessionName);

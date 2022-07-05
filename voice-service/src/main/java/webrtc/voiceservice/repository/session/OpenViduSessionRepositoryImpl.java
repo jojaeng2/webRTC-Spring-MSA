@@ -30,6 +30,13 @@ public class OpenViduSessionRepositoryImpl implements OpenViduSessionRepository{
         return OpenViduSession.class.cast(opsValueOperation.get(sessionName));
     }
 
+    public void deletedChannel(String channelId) {
+        Object obj = opsValueOperation.get(channelId);
+        if(obj != null) {
+            delete(channelId);
+        }
+    }
+
     public void update(String sessionName, OpenViduSession openViduSession) {
         opsValueOperation.set(sessionName, openViduSession);
     }

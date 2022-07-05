@@ -129,17 +129,22 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
         }
     }
 
-    public OpenViduSession findOpenViduSessionByName(String sessionName) {
-        return openViduSessionRepository.findOpenViduSessionByName(sessionName);
+    @Transactional
+    public void deletedChannel(String channelId) {
+        deleteOpenViduSession(channelId);
     }
 
-    public OpenViduSession createOpenViduSession(String sessionName, User user, String token, String sessionId) {
-        OpenViduSession openViduSession = new OpenViduSession(sessionName, user, token, sessionId);
-        openViduSessionRepository.createSession(sessionName, openViduSession);
+    public OpenViduSession findOpenViduSessionByName(String channelId) {
+        return openViduSessionRepository.findOpenViduSessionByName(channelId);
+    }
+
+    public OpenViduSession createOpenViduSession(String channelId, User user, String token, String sessionId) {
+        OpenViduSession openViduSession = new OpenViduSession(channelId, user, token, sessionId);
+        openViduSessionRepository.createSession(channelId, openViduSession);
         return openViduSession;
     }
 
-    public void deleteOpenViduSession(String sessionName) {
-        openViduSessionRepository.delete(sessionName);
+    public void deleteOpenViduSession(String channelId) {
+        openViduSessionRepository.delete(channelId);
     }
 }

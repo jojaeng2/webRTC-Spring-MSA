@@ -8,11 +8,13 @@ public interface OpenViduSessionService {
 
     String createToken(SessionDto.GetTokenRequest request, User user);
 
-    OpenViduSession findOpenViduSessionByName(String sessionName);
+    OpenViduSession findOpenViduSessionByName(String channelId);
 
-    OpenViduSession createOpenViduSession(String sessionName, User user, String token, String sessionId);
+    OpenViduSession createOpenViduSession(String channelId, User user, String token, String sessionId);
+
+    void deletedChannel(String channelId);
 
     void removeUserInOpenViduSession(SessionDto.RemoveUserInSessionRequest request, User user);
 
-    void deleteOpenViduSession(String sessionName);
+    void deleteOpenViduSession(String channelId);
 }

@@ -30,8 +30,7 @@ public class HttpApiController {
 
     public ResponseEntity<String> postRequest(String url, Object object) {
         HttpEntity<Object> request = new HttpEntity<>(object);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
-        return response;
+        return restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public User postFindUserByEmail(String email) {
@@ -49,6 +48,10 @@ public class HttpApiController {
         String response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/register", request).getBody();
         Object obj = customJsonMapper.jsonParse(response, User.class );
         return User.class.cast(obj);
+    }
+
+    public void postDeletedChannel(String channelId) {
+        String response = postRequest("http://voice-service:8080/api/v1/webrtc/voice/remove-channel", channelId).getBody();
     }
 
 
