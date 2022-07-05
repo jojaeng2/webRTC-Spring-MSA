@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.voiceservice.VoiceServiceApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.16 s - in webrtc.voiceservice.VoiceServiceApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.243 s - in webrtc.voiceservice.VoiceServiceApplicationTests
