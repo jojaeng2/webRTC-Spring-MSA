@@ -49,7 +49,7 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
 
         String serverData = "{\"serverData\": " +
                 "\"" +
-                    user.getNickname() +
+                    user.getEmail() +
                 "\"}";
 
         // Create Connection Properties
@@ -72,6 +72,7 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
                     System.out.println("session = " + session.getSessionId());
                     if(session.getSessionId().equals(openViduSession.getSessionId())) {
                         token = session.createConnection(connectionProperties).getToken();
+                        System.out.println("token = " + token);
                         openViduSession.getUsers().put(user.getId(), token);
                         openViduSessionRepository.update(sessionName, openViduSession);
                         return token;
