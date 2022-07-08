@@ -16,7 +16,7 @@ cache:
 # before_install:
 #   - chmod +x mvnw
 
-script: "mvn clean package"
+script: "cd ./chat-service mvn clean package"
 
 # # CI 실행 완료시 메일로 알람
 notifications:
