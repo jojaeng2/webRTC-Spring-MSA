@@ -53,7 +53,6 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/user/UserRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/dto/ChannelDto.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/handler/GlobalChannelUserExceptionHandler.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/session/SessionController.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/enums/SocketInterceptorErrorType.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/domain/User.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/channel/api/ChannelApiController.java
