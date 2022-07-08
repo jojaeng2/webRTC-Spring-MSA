@@ -1,0 +1,209 @@
+2022-06-30T06:54:57,874907 1 0x00007fb7fbec1240    info KurentoMediaServer        main.cpp:196 main()  Logs storage path set to /opt/openvidu/kurento-logs
+2022-06-30T06:54:57,876326 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so
+2022-06-30T06:54:57,876388 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: filters, version: 6.16.0, date: Feb 26 2021 17:10:19
+2022-06-30T06:54:57,899975 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so
+2022-06-30T06:54:57,900078 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: elements, version: 6.16.0, date: Feb 26 2021 17:01:41
+2022-06-30T06:54:57,900620 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so
+2022-06-30T06:54:57,900669 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: core, version: 6.16.0, date: Feb 26 2021 16:53:09
+2022-06-30T06:54:57,901426 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmspointerdetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmspointerdetectormodule.so
+2022-06-30T06:54:57,901469 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: pointerdetector, version: 6.16.0, date: Feb 26 2021 17:53:51
+2022-06-30T06:54:57,902114 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsplatedetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsplatedetectormodule.so
+2022-06-30T06:54:57,902158 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: platedetector, version: 6.16.0, date: Feb 26 2021 17:32:44
+2022-06-30T06:54:57,998680 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsmarkerdetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsmarkerdetectormodule.so
+2022-06-30T06:54:57,998786 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: markerdetector, version: 6.16.0, date: Feb 26 2021 17:32:43
+2022-06-30T06:54:57,999942 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so
+2022-06-30T06:54:57,999993 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: datachannelexample, version: 6.16.0, date: Feb 26 2021 17:35:07
+2022-06-30T06:54:58,001000 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscrowddetectormodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscrowddetectormodule.so
+2022-06-30T06:54:58,001044 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: crowddetector, version: 6.16.0, date: Feb 26 2021 17:32:43
+2022-06-30T06:54:58,001804 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:90 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so
+2022-06-30T06:54:58,001860 1 0x00007fb7fbec1240    info KurentoModuleManager      ModuleManager.cpp:137 loadModule()  Loaded module: chroma, version: 6.16.0, date: Feb 26 2021 17:31:29
+2022-06-30T06:54:58,001908 1 0x00007fb7fbec1240    info KurentoMediaServer        main.cpp:240 main()  Kurento Media Server version: 6.16.0
+2022-06-30T06:54:58,001926 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:249 loadConfig()  Reading configuration from: /etc/kurento/kurento.conf.json
+2022-06-30T06:54:58,002281 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules
+2022-06-30T06:54:58,002371 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules/kurento
+2022-06-30T06:54:58,002514 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/UriEndpoint.conf.ini
+2022-06-30T06:54:58,002607 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/MediaElement.conf.ini
+2022-06-30T06:54:58,002709 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/HttpEndpoint.conf.ini
+2022-06-30T06:54:58,002968 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/SdpEndpoint.conf.json
+2022-06-30T06:54:58,003142 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/RecorderEndpoint.conf.ini
+2022-06-30T06:54:58,003317 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/BaseRtpEndpoint.conf.ini
+2022-06-30T06:54:58,003489 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/PlayerEndpoint.conf.ini
+2022-06-30T06:54:58,003704 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
+2022-06-30T06:54:58,003789 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:265 loadConfig()  Configuration loaded successfully
+2022-06-30T06:54:58,003872 1 0x00007fb7fbec1240    info KurentoLoadConfig         loadConfig.cpp:271 loadConfig()  Loaded config in effect:
+{
+    "mediaServer": {
+        "resources": {
+            "\/\/exceptionLimit": "0.8",
+            "\/\/killLimit": "0.7",
+            "garbageCollectorPeriod": "240",
+            "\/\/": "Default: false",
+            "disableRequestCache": "false"
+        },
+        "net": {
+            "websocket": {
+                "\/\/ipv6": "false",
+                "port": "8888",
+                "secure": {
+                    "\/\/port": "8433",
+                    "\/\/certificate": "cert+key.pem",
+                    "\/\/": "Password for the private key, if one was set when the key was created",
+                    "\/\/password": ""
+                },
+                "\/\/registrar": {
+                    "\/\/address": "ws:\/\/localhost:9090",
+                    "\/\/localAddress": "localhost"
+                },
+                "\/\/": "Default: SOMAXCONN (128)",
+                "\/\/connqueue": "128",
+                "path": "kurento",
+                "threads": "10"
+            }
+        }
+    },
+    "configPath": "\/etc\/kurento",
+    "modules": {
+        "kurento": {
+            "UriEndpoint": {
+                "defaultPath": "file:\/\/\/var\/lib\/kurento\/",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "MediaElement": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "HttpEndpoint": {
+                "serverAddress": "localhost",
+                "port": "9091",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "SdpEndpoint": {
+                "numAudioMedias": "1",
+                "numVideoMedias": "1",
+                "audioCodecs": [
+                    {
+                        "name": "opus\/48000\/2",
+                        "\/\/": "Next is an example about how a codec can be configured.",
+                        "\/\/": "WARNING: Usage of properties is not yet supported",
+                        "\/\/properties": {
+                            "\/\/maxcodedaudiobandwidth": "16000",
+                            "\/\/maxaveragebitrate": "20000",
+                            "\/\/stereo": "1",
+                            "\/\/useinbandfec": "1",
+                            "\/\/usedtx": "0"
+                        }
+                    },
+                    {
+                        "name": "PCMU\/8000"
+                    },
+                    {
+                        "name": "AMR\/8000"
+                    }
+                ],
+                "videoCodecs": [
+                    {
+                        "name": "VP8\/90000"
+                    },
+                    {
+                        "name": "H264\/90000"
+                    }
+                ],
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "RecorderEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "BaseRtpEndpoint": {
+                "minPort": "40000",
+                "maxPort": "57000",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "PlayerEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "WebRtcEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            }
+        }
+    }
+}
+
+2022-06-30T06:54:58,003939 1 0x00007fb7fbec1240    info KurentoServerMethods      ServerMethods.cpp:90 ServerMethods()  Using above 80% of system limits will throw NOT_ENOUGH_RESOURCES exception
+2022-06-30T06:54:58,003969 1 0x00007fb7fbec1240    info KurentoServerMethods      ServerMethods.cpp:109 ServerMethods()  System limits: unlimited threads, 1048576 files
+2022-06-30T06:54:58,004230 1 0x00007fb7fbec1240    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 2
+2022-06-30T06:54:58,004480 1 0x00007fb7fbec1240    info KurentoServerMethods      ServerMethods.cpp:144 ServerMethods()  RPC Request Cache is ENABLED
+2022-06-30T06:54:58,004643 1 0x00007fb7fbec1240    info KurentoWebSocketTransport WebSocketTransport.cpp:179 initWebSocket()  WebSocket server (ws://) listening on address '::', port 8888
+2022-06-30T06:54:58,004673 1 0x00007fb7fbec1240    info KurentoWebSocketTransport WebSocketTransport.cpp:88 WebSocketTransport()  Secure WebSocket server (wss://) not enabled
+2022-06-30T06:54:58,005038 1 0x00007fb7fbec1240    info KurentoMediaServer        main.cpp:259 main()  Kurento Media Server started
+2022-06-30T06:55:02,965481 1 0x00007fb7d77b2700    info KurentoServerMethods      ServerMethods.cpp:811 ping()  WebSocket Ping/Pong
+2022-06-30T06:55:58,005372 1 0x00007fb7d3fab700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e432f297-544c-4830-8f67-ca65dfdf5061'
+2022-06-30T06:56:06,372244 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:164 generateDefaultCertificates()  Unable to load the RSA certificate from file. Using the default certificate.
+2022-06-30T06:56:06,630884 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:174 generateDefaultCertificates()  Unable to load the ECDSA certificate from file. Using the default certificate.
+2022-06-30T06:56:06,631285 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:110 remove_not_supported_codecs_from_array() <kmswebrtcendpoint0>  Removing not supported codec 'AMR/8000'
+2022-06-30T06:56:06,631437 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:578 WebRtcEndpointImpl()  STUN port not found in config; using default value: 3478
+2022-06-30T06:56:06,631476 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:586 WebRtcEndpointImpl()  STUN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:06,631503 1 0x00007fb7d5faf700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:609 WebRtcEndpointImpl()  TURN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:06,635147 1 0x00007fb7d77b2700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:06,807020 1 0x00007fb7d67b0700    info basertpendpoint           kmsbasertpendpoint.c:1118 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint0>  Media 'video' has REMB
+2022-06-30T06:56:06,807106 1 0x00007fb7d67b0700    info basertpendpoint           kmsbasertpendpoint.c:1064 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  Creating REMB for session ID 0 (kmswebrtcendpoint0-sess0) and remote video SSRC 2301197209
+2022-06-30T06:56:06,807144 1 0x00007fb7d67b0700    info basertpendpoint           kmsbasertpendpoint.c:1075 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  REMB: Set RTCP min interval to 500 ms
+2022-06-30T06:56:06,819568 1 0x00007fb7d5faf700    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 2
+2022-06-30T06:56:08,011538 1 0x00007fb79a7fc700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:08,036176 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:1914 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer0>  Add probe: Set jitterbuffer latency
+2022-06-30T06:56:08,036278 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:1963 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer0>  Add probe: Adjust jitterbuffer PTS out
+2022-06-30T06:56:08,036559 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:2008 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer0>  Add probe: Get jitterbuffer RTCP SR timing
+2022-06-30T06:56:08,037182 1 0x00007fb78f7fe700    info basertpendpoint           kmsbasertpendpoint.c:1899 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Setting latency to 100 ms
+2022-06-30T06:56:08,037269 1 0x00007fb78f7fe700    info basertpendpoint           kmsbasertpendpoint.c:1902 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Jitterbuffer latency set; remove probe
+2022-06-30T06:56:08,038337 1 0x00007fb78f7fe700    info kmsutils                  kmsutils.c:1505 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay0>  Add probe: Adjust depayloader PTS out
+2022-06-30T06:56:08,041167 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:1914 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer1>  Add probe: Set jitterbuffer latency
+2022-06-30T06:56:08,041213 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:1963 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer1>  Add probe: Adjust jitterbuffer PTS out
+2022-06-30T06:56:08,041429 1 0x00007fb79a7fc700    info basertpendpoint           kmsbasertpendpoint.c:2008 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer1>  Add probe: Get jitterbuffer RTCP SR timing
+2022-06-30T06:56:08,045729 1 0x00007fb78effd700    info basertpendpoint           kmsbasertpendpoint.c:1899 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Setting latency to 500 ms
+2022-06-30T06:56:08,047381 1 0x00007fb78effd700    info basertpendpoint           kmsbasertpendpoint.c:1902 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Jitterbuffer latency set; remove probe
+2022-06-30T06:56:08,047805 1 0x00007fb78f7fe700 warning kmsutils                  kmsutils.c:1452 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay0>  Fix PTS not strictly increasing, last: 0:00:01.824005446, current: 0:00:01.824005446, fixed = last + 1: 0:00:01.825005446
+2022-06-30T06:56:08,050018 1 0x00007fb78effd700    info kmsutils                  kmsutils.c:1505 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay0>  Add probe: Adjust depayloader PTS out
+2022-06-30T06:56:08,053109 1 0x00007fb78effd700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint0_kmsagnosticbin2-3:sink>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:08,064866 1 0x00007fb78d7fa700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-1:sink>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:08,148960 1 0x00007fb7d77b2700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:110 remove_not_supported_codecs_from_array() <kmswebrtcendpoint1>  Removing not supported codec 'AMR/8000'
+2022-06-30T06:56:08,149109 1 0x00007fb7d77b2700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:578 WebRtcEndpointImpl()  STUN port not found in config; using default value: 3478
+2022-06-30T06:56:08,149144 1 0x00007fb7d77b2700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:586 WebRtcEndpointImpl()  STUN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,149169 1 0x00007fb7d77b2700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:609 WebRtcEndpointImpl()  TURN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,180348 1 0x00007fb7d4fad700    info basertpendpoint           kmsbasertpendpoint.c:1118 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint1>  Media 'video' has REMB
+2022-06-30T06:56:08,180430 1 0x00007fb7d4fad700    info basertpendpoint           kmsbasertpendpoint.c:1064 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  Creating REMB for session ID 0 (kmswebrtcendpoint1-sess0) and remote video SSRC 0
+2022-06-30T06:56:08,180462 1 0x00007fb7d4fad700    info basertpendpoint           kmsbasertpendpoint.c:1075 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  REMB: Set RTCP min interval to 500 ms
+2022-06-30T06:56:08,275023 1 0x00007fb7d6fb1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:110 remove_not_supported_codecs_from_array() <kmswebrtcendpoint2>  Removing not supported codec 'AMR/8000'
+2022-06-30T06:56:08,275173 1 0x00007fb7d6fb1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:578 WebRtcEndpointImpl()  STUN port not found in config; using default value: 3478
+2022-06-30T06:56:08,275210 1 0x00007fb7d6fb1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:586 WebRtcEndpointImpl()  STUN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,275236 1 0x00007fb7d6fb1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:609 WebRtcEndpointImpl()  TURN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,278194 1 0x00007fb7d87b4700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:08,314822 1 0x00007fb7d47ac700    info basertpendpoint           kmsbasertpendpoint.c:1118 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint2>  Media 'video' has REMB
+2022-06-30T06:56:08,314892 1 0x00007fb7d47ac700    info basertpendpoint           kmsbasertpendpoint.c:1064 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  Creating REMB for session ID 0 (kmswebrtcendpoint2-sess0) and remote video SSRC 923556579
+2022-06-30T06:56:08,314938 1 0x00007fb7d47ac700    info basertpendpoint           kmsbasertpendpoint.c:1075 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  REMB: Set RTCP min interval to 500 ms
+2022-06-30T06:56:08,439915 1 0x00007fb7d4fad700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:110 remove_not_supported_codecs_from_array() <kmswebrtcendpoint3>  Removing not supported codec 'AMR/8000'
+2022-06-30T06:56:08,440055 1 0x00007fb7d4fad700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:578 WebRtcEndpointImpl()  STUN port not found in config; using default value: 3478
+2022-06-30T06:56:08,440091 1 0x00007fb7d4fad700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:586 WebRtcEndpointImpl()  STUN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,440118 1 0x00007fb7d4fad700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:609 WebRtcEndpointImpl()  TURN server not found in config; remember that NAT traversal requires STUN or TURN
+2022-06-30T06:56:08,477167 1 0x00007fb7d77b2700    info basertpendpoint           kmsbasertpendpoint.c:1118 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint3>  Media 'video' has REMB
+2022-06-30T06:56:08,477239 1 0x00007fb7d77b2700    info basertpendpoint           kmsbasertpendpoint.c:1064 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  Creating REMB for session ID 0 (kmswebrtcendpoint3-sess0) and remote video SSRC 0
+2022-06-30T06:56:08,477279 1 0x00007fb7d77b2700    info basertpendpoint           kmsbasertpendpoint.c:1075 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  REMB: Set RTCP min interval to 500 ms
+2022-06-30T06:56:09,250916 1 0x00007fb78aff5700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:09,403981 1 0x00007fb788ff1700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:09,416331 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:1914 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer2>  Add probe: Set jitterbuffer latency
+2022-06-30T06:56:09,416402 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:1963 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer2>  Add probe: Adjust jitterbuffer PTS out
+2022-06-30T06:56:09,416663 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:2008 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer2>  Add probe: Get jitterbuffer RTCP SR timing
+2022-06-30T06:56:09,417126 1 0x00007fb7847e8700    info basertpendpoint           kmsbasertpendpoint.c:1899 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Setting latency to 500 ms
+2022-06-30T06:56:09,417202 1 0x00007fb7847e8700    info basertpendpoint           kmsbasertpendpoint.c:1902 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Jitterbuffer latency set; remove probe
+2022-06-30T06:56:09,417954 1 0x00007fb7847e8700    info kmsutils                  kmsutils.c:1505 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay1>  Add probe: Adjust depayloader PTS out
+2022-06-30T06:56:09,418597 1 0x00007fb7847e8700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint2_kmsagnosticbin2-6:sink>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:09,431878 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:1914 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer3>  Add probe: Set jitterbuffer latency
+2022-06-30T06:56:09,431932 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:1963 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer3>  Add probe: Adjust jitterbuffer PTS out
+2022-06-30T06:56:09,432146 1 0x00007fb788ff1700    info basertpendpoint           kmsbasertpendpoint.c:2008 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer3>  Add probe: Get jitterbuffer RTCP SR timing
+2022-06-30T06:56:09,435179 1 0x00007fb784fe9700    info basertpendpoint           kmsbasertpendpoint.c:1899 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Setting latency to 100 ms
+2022-06-30T06:56:09,435241 1 0x00007fb784fe9700    info basertpendpoint           kmsbasertpendpoint.c:1902 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Jitterbuffer latency set; remove probe
+2022-06-30T06:56:09,436052 1 0x00007fb784fe9700    info kmsutils                  kmsutils.c:1505 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay1>  Add probe: Adjust depayloader PTS out
+2022-06-30T06:56:09,437642 1 0x00007fb7837e6700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-5:sink>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:09,563941 1 0x00007fb786fed700    info kmsutils                  kmsutils.c:518 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2022-06-30T06:56:58,005619 1 0x00007fb7d3fab700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e432f297-544c-4830-8f67-ca65dfdf5061'
+2022-06-30T06:57:58,005893 1 0x00007fb7d3fab700    info KurentoWebSocketTransport WebSocketTransport.cpp:346 keepAliveSessions()  Keep-Alive for session 'e432f297-544c-4830-8f67-ca65dfdf5061'
+2022-06-30T06:58:15,470968 1 0x00007fb7fbec1240    info KurentoMediaSet           MediaSet.cpp:94 deleteMediaSet()  Destroying 1 pipelines that are already alive
+2022-06-30T06:58:15,488988 1 0x00007fb7fbec1240    info KurentoMediaSet           MediaSet.cpp:109 deleteMediaSet()  Destroying mediaSet
+2022-06-30T06:58:15,494599 1 0x00007fb7fbec1240    info KurentoMediaServer        main.cpp:266 main()  Kurento Media Server stopped
