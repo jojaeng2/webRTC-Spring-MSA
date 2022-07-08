@@ -35,6 +35,8 @@ deploy:
     acl: private # zip 파일 접근을 private로 설정
     local_dir: chat-service
     wait-until-deployed: true
+    on:
+      all_branched: true
 
 
 
