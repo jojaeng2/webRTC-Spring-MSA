@@ -6,7 +6,7 @@ jdk:
 
 branches:
   only:
-    - main
+    - chat-service
 
 # # Travis CI 서버의 Home
 cache:
@@ -16,7 +16,6 @@ cache:
 # before_install:
 #   - chmod +x mvnw
 
-# MAVEN 프로젝트는 필요 없음
 script: "./chat-service mvn package"
 
 # # CI 실행 완료시 메일로 알람
