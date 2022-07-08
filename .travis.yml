@@ -16,7 +16,7 @@ cache:
 # before_install:
 #   - chmod +x mvnw
 
-script: "mvn package"
+script: "mvn clean package"
 
 # # CI 실행 완료시 메일로 알람
 notifications:
