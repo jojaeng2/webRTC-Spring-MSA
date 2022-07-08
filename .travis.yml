@@ -6,7 +6,7 @@ jdk:
 
 branches:
   only:
-    - chat-service
+    - voice-service
 
 # # Travis CI 서버의 Home
 cache:
