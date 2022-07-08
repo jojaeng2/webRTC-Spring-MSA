@@ -26,7 +26,8 @@ before_deploy:
 deploy:
     provider: s3
     access_key_id: $AWS_ACCESS_KEY 
-    secret_key_id: $AWS_SECRET_KEY
+
+    secret_access_key: $AWS_SECRET_KEY
 
     bucket: springboot-webrtc-build # S3 버킷
     region: ap-northeast-2
