@@ -9,20 +9,18 @@ branches:
     - main
 
 # # Travis CI 서버의 Home
-# cache:
-#   directories:
-#     - $HOME/.m2
+cache:
+  directories:
+    - $HOME/.m2
 
-# before_install:
-#   - chmod +x mvnw
+before_install:
+  - chmod +x mvnw
 
 # MAVEN 프로젝트는 필요 없음
 #script: "./mvnw package"
-script:
-  - ./mvnw test
 
 # # CI 실행 완료시 메일로 알람
-# notifications:
-#   email:
-#     recipients:
-#       - ds4ouj@naver.com
+notifications:
+  email:
+    recipients:
+      - ds4ouj@naver.com
