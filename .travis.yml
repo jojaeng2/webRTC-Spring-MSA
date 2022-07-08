@@ -18,6 +18,27 @@ cache:
 
 script: "mvn clean package"
 
+before_deploy:
+  - zip -r chat-service *
+  - mkdir -p chat-service
+  - mv chat-service.zip chat-service/chat-service.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY 
+    secret_key_id: $AWS_SECRET_KEY
+
+    bucket: springboot-webrtc-build # S3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
+
+    acl: private # zip 파일 접근을 private로 설정
+    local_dir: chat-service
+    wait-until-deployed: true
+
+
+
+
 # # CI 실행 완료시 메일로 알람
 notifications:
   email:
