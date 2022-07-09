@@ -8,10 +8,7 @@ import webrtc.chatservice.controller.channel.api.ChannelApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.*;
-import webrtc.chatservice.exception.PointException.InsufficientPointException;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
@@ -34,10 +31,8 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChatLogRepository chatLogRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
-    private final PointRepository pointRepository;
-    private final Long pointUnit = 1000L;
+    private final Long pointUnit = 100L;
     private final HttpApiController httpApiController;
-    private final CustomJsonMapper customJsonMapper;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -180,10 +175,8 @@ public class ChannelServiceImpl implements ChannelService{
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.isEmpty()) throw new NotExistChannelException();
         Channel channel = channels.get(0);
-        Point point = pointRepository.findPointByUserEmail(userEmail);
-        if(point.getPoint() < requestTTL * pointUnit) throw new InsufficientPointException();
-        pointRepository.decreasePoint(point, requestTTL * pointUnit);
-        channelRepository.extensionChannelTTL(channel, requestTTL);
+        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * 30 * pointUnit);
+        channelRepository.extensionChannelTTL(channel, requestTTL * 30);
     }
 
     private void createChannelUser(User user, Channel channel) {

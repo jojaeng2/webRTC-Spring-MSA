@@ -87,5 +87,13 @@ public class ChannelDto {
         private Long channelTTL;
     }
 
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ExtensionChannelInfoWithUserPointResponse {
+        private Long channelTTL;
+        private Long point;
+    }
+
 }
 

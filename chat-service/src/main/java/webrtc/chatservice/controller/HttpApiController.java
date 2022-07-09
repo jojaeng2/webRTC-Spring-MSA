@@ -10,8 +10,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.UserDto;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
-import webrtc.chatservice.dto.UserDto.FindUserByEmailRequest;
+import webrtc.chatservice.dto.UserDto.*;
+import webrtc.chatservice.exception.PointException;
+import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.utils.CustomJsonMapper;
@@ -41,6 +42,25 @@ public class HttpApiController {
             return User.class.cast(obj);
         } catch (HttpClientErrorException e) {
             throw new NotExistUserException();
+        }
+    }
+
+    public FindUserWithPointByEmailResponse postFindUserWithPointByEmail(String email) {
+        try {
+            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/user/point", new FindUserByEmailRequest(email));
+            String responseBody = response.getBody();
+            Object obj = customJsonMapper.jsonParse(responseBody, User.class);
+            return FindUserWithPointByEmailResponse.class.cast(obj);
+        } catch (HttpClientErrorException e) {
+            throw new NotExistUserException();
+        }
+    }
+
+    public void postDecreaseUserPoint(String email, Long point) {
+        try {
+            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/decrease/point", new DecreasePointRequest(email, point));
+        } catch (HttpClientErrorException e) {
+            throw new InsufficientPointException();
         }
     }
 

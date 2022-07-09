@@ -8,9 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.dto.UserDto.FindUserByEmailRequest;
+import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
+import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.utils.CustomJsonMapper;
 
@@ -20,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    private final ChannelRepository channelRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
     private final HttpApiController httpApiController;
@@ -37,10 +42,16 @@ public class UserServiceImpl implements UserService{
         return httpApiController.postFindUserByEmail(email);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
-    public void redisDataEvict() {
-
+    @Transactional
+    public ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email) {
+        FindUserWithPointByEmailResponse response = httpApiController.postFindUserWithPointByEmail(email);
+        return new ExtensionChannelInfoWithUserPointResponse(channelRepository.findChannelTTL(channelId), response.getPoint());
     }
+
+//    @CacheEvict(value = "users", allEntries = true)
+//    public void redisDataEvict() {
+//
+//    }
 
     @Transactional
     public List<User> findUsersByChannelId(String channelId) {
@@ -51,4 +62,6 @@ public class UserServiceImpl implements UserService{
     public void setChannelUser(User user, ChannelUser channelUser) {
         userRepository.setChannelUser(user, channelUser);
     }
+
+
 }

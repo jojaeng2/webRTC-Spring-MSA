@@ -2,7 +2,11 @@ package webrtc.chatservice.service.user;
 
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
+import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ public interface UserService {
 
     void setChannelUser(User user, ChannelUser channelUser);
 
-    void redisDataEvict();
+//    void redisDataEvict();
 
+    ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email);
 }
