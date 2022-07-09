@@ -1,6 +1,6 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /home/ubuntu/honeybee/zip/
-    overwrite: yes
+  source: /
+  destination: /home/ubuntu/honeybee/zip/
+  overwrite: yes
