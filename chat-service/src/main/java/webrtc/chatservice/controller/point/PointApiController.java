@@ -24,7 +24,7 @@ public class PointApiController {
 
     @PostMapping("/extension/{id}")
     public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(@RequestBody ExtensionChannelTTLRequest request, @PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
-        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken);
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         Long requestTTL = request.getRequestTTL();
         channelService.extensionChannelTTL(channelId, userEmail, requestTTL);
         return new ResponseEntity<>(new ExtensionChannelTTLResponse(channelService.findOneChannelById(channelId).getTimeToLive()), OK);
@@ -32,7 +32,7 @@ public class PointApiController {
 
     @GetMapping("/point/{id}")
     public ResponseEntity<?> findUserPoint(@PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
-        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken);
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         return new ResponseEntity<>(userService.findUserWithPointByEmail(channelId, userEmail), OK);
     }
 }

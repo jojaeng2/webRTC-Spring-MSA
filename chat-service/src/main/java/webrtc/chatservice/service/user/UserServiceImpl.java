@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService{
         return new ExtensionChannelInfoWithUserPointResponse(channelRepository.findChannelTTL(channelId), response.getPoint());
     }
 
-//    @CacheEvict(value = "users", allEntries = true)
-//    public void redisDataEvict() {
-//
-//    }
+    @CacheEvict(value = "users", allEntries = true)
+    public void redisDataEvict() {
+
+    }
 
     @Transactional
     public List<User> findUsersByChannelId(String channelId) {

@@ -175,8 +175,8 @@ public class ChannelServiceImpl implements ChannelService{
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.isEmpty()) throw new NotExistChannelException();
         Channel channel = channels.get(0);
-        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * 30 * pointUnit);
-        channelRepository.extensionChannelTTL(channel, requestTTL * 30);
+        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
+        channelRepository.extensionChannelTTL(channel, requestTTL * 30 * 60);
     }
 
     private void createChannelUser(User user, Channel channel) {

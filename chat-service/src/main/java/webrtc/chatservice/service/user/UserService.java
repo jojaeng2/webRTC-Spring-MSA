@@ -21,7 +21,7 @@ public interface UserService {
 
     void setChannelUser(User user, ChannelUser channelUser);
 
-//    void redisDataEvict();
+    void redisDataEvict();
 
     ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email);
 }

@@ -49,7 +49,7 @@ public class HttpApiController {
         try {
             ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/user/point", new FindUserByEmailRequest(email));
             String responseBody = response.getBody();
-            Object obj = customJsonMapper.jsonParse(responseBody, User.class);
+            Object obj = customJsonMapper.jsonParse(responseBody, FindUserWithPointByEmailResponse.class);
             return FindUserWithPointByEmailResponse.class.cast(obj);
         } catch (HttpClientErrorException e) {
             throw new NotExistUserException();

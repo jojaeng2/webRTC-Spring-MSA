@@ -11,6 +11,8 @@ import webrtc.authservice.domain.User;
 import webrtc.authservice.dto.UserDto;
 import webrtc.authservice.dto.UserDto.CreateUserRequest;
 import webrtc.authservice.dto.UserDto.FindUserWithPointByEmailResponse;
+import webrtc.authservice.exception.UserException;
+import webrtc.authservice.exception.UserException.InsufficientPointException;
 import webrtc.authservice.repository.UserRepository;
 
 @Service
@@ -38,6 +40,16 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByEmail(email);
         Point point = user.getPoint();
         return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), point.getPoint());
+    }
+
+    @Transactional
+    public void decreasePoint(String email, Long point) {
+        User user = userRepository.findUserByEmail(email);
+        Point userPoint = user.getPoint();
+        if(userPoint.getPoint() < point) {
+            throw new InsufficientPointException();
+        }
+        userPoint.setPoint(userPoint.getPoint() - point);
     }
 
     @CacheEvict(value = "users", allEntries = true)

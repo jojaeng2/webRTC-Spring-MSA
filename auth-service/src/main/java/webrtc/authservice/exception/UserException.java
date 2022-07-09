@@ -9,4 +9,9 @@ public class UserException {
     public static class NotExistUserException extends RuntimeException {
 
     }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    public static class InsufficientPointException extends RuntimeException {
+
+    }
 }

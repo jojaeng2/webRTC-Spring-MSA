@@ -38,4 +38,12 @@ public class UserDto {
         private String nickname;
         private Long point;
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DecreasePointRequest {
+        private String userEmail;
+        private Long point;
+    }
 }

@@ -2,6 +2,7 @@ webrtc/chatservice/exception/JwtException$CustomJwtExceptionDto.class
 webrtc/chatservice/exception/UserException$NotExistUserExceptionDto.class
 webrtc/chatservice/handler/GlobalJwtExceptionHandler.class
 webrtc/chatservice/service/user/UserService.class
+webrtc/chatservice/dto/UserDto$FindUserWithPointByEmailRequest.class
 webrtc/chatservice/exception/ChannelUserException$NotExistChannelUserException.class
 webrtc/chatservice/service/jwt/JwtUserDetailsService.class
 webrtc/chatservice/service/point/PointServiceImpl.class
@@ -35,6 +36,7 @@ webrtc/chatservice/repository/hashtag/HashTagRepository.class
 webrtc/chatservice/service/channel/ChannelUserServiceImpl.class
 webrtc/chatservice/service/channel/HashTagServiceImpl.class
 webrtc/chatservice/exception/ChannelException$NotExistChannelException.class
+webrtc/chatservice/dto/UserDto$FindUserWithPointByEmailResponse.class
 webrtc/chatservice/dto/SessionDto$GetTokenResponse.class
 webrtc/chatservice/service/channel/ChannelServiceImpl.class
 webrtc/chatservice/utils/CustomJsonMapperImpl.class
@@ -66,7 +68,9 @@ webrtc/chatservice/domain/ChannelHashTag.class
 webrtc/chatservice/repository/hashtag/HashTagRepositoryImpl.class
 webrtc/chatservice/controller/jwt/JwtAuthenticationController.class
 webrtc/chatservice/dto/HttpStatusResponse.class
+webrtc/chatservice/dto/UserDto$DecreasePointRequest.class
 webrtc/chatservice/exception/UserException.class
+webrtc/chatservice/dto/ChannelDto$ExtensionChannelInfoWithUserPointResponse.class
 webrtc/chatservice/repository/channel/ChannelRepositoryImpl.class
 webrtc/chatservice/exception/JwtException.class
 webrtc/chatservice/service/user/UserServiceImpl.class
