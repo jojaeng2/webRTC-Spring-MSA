@@ -32,7 +32,7 @@ public class ChannelHashTagRepositoryTest {
     public void saveChannelHashTag() {
 
         //given
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         HashTag hashTag = new HashTag("testHashTag");
         ChannelHashTag channelHashTag = new ChannelHashTag();
         channelHashTag.CreateChannelHashTag(channel, hashTag);

@@ -16,6 +16,7 @@ public class ChannelDto {
     public static class CreateChannelRequest {
         private String channelName;
         private List<String> hashTags;
+        private boolean isVoice;
     }
 
     @Getter
@@ -67,6 +68,7 @@ public class ChannelDto {
         private Long currentParticipants;
         private Long timeToLive;
         private Set<ChannelHashTag> channelHashTags;
+        private boolean isVoice;
     }
 
     @Getter

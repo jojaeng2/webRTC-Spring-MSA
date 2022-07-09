@@ -41,7 +41,7 @@ public class ChannelUserServiceImplTest {
     public void saveChannelUser() {
         // given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);
@@ -61,7 +61,7 @@ public class ChannelUserServiceImplTest {
     public void deleteChannelUser() {
         // given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);
@@ -81,7 +81,7 @@ public class ChannelUserServiceImplTest {
     public void findOneChannelUserO() {
         // given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);
@@ -101,7 +101,7 @@ public class ChannelUserServiceImplTest {
     public void findOneChannelUserX() {
         // given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);

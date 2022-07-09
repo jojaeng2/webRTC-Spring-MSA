@@ -35,7 +35,7 @@ public class ChannelTest {
     @Test
     public void constructorChannel() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
 
         //when
 
@@ -46,7 +46,7 @@ public class ChannelTest {
     @Test
     public void addChannelUser() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
         User user = userRepository.findUserByEmail("email");
         ChannelUser channelUser = new ChannelUser(user, channel);
 
@@ -63,7 +63,7 @@ public class ChannelTest {
     public void addChannelHashTag() {
 
         // given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
         HashTag hashTag = new HashTag("TestTag");
         ChannelHashTag channelHashTag = new ChannelHashTag();
         channelHashTag.CreateChannelHashTag(channel, hashTag);
@@ -79,7 +79,7 @@ public class ChannelTest {
     @Test
     public void minusCurrentParticipants() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
 
         //when
 //        channel.exitChannelUser();

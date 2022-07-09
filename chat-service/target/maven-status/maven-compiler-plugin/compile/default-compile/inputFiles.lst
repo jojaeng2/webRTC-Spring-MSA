@@ -11,7 +11,6 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/domain/ChannelUser.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/handler/StompHandler.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/chat/ChatService.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/domain/Point.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelUserService.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/chat/ChatLogRepositoryImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelUserServiceImpl.java
@@ -20,7 +19,6 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/exception/JwtException.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/utils/CustomJsonMapperImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/HashTagService.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/point/PointServiceImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/user/UserServiceImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/utils/JwtTokenUtil.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelUserRepositoryImpl.java
@@ -28,20 +26,17 @@
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/HttpApiController.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/exception/UserException.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/utils/JwtTokenUtilImpl.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/point/PointRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/domain/HashTag.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/HashTagServiceImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/chat/ChatLogRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/exception/PointException.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/dto/HashTagDto.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/exception/ChannelException.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/point/PointService.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelServiceImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/config/WebConfig.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/channel/api/HashTagApiController.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/hashtag/HashTagRepository.java
-/Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/point/PointRepositoryImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelUserRepository.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/service/pubsub/RedisSubscriberImpl.java
 /Users/jo/Desktop/webRTC/chat-service/src/main/java/webrtc/chatservice/controller/jwt/JwtAuthenticationController.java

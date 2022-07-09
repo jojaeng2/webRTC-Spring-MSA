@@ -296,6 +296,6 @@ public class ChannelApiControllerTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        return new CreateChannelRequest(channelName, hashTags);
+        return new CreateChannelRequest(channelName, hashTags, false);
     }
 }

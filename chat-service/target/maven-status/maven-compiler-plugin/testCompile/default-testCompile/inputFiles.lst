@@ -1,9 +1,7 @@
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/domain/ChannelTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/repository/channel/ChannelRepositoryImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/channel/HashTagServiceImplTest.java
-/Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/repository/point/PointRepositoryImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/repository/chat/ChatLogRepositoryImplTest.java
-/Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/point/PointServiceImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/user/UserServiceImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/channel/ChannelServiceImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/OpenviduApplicationTests.java

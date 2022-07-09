@@ -47,7 +47,7 @@ public class ChatLogRepositoryImplTest {
         hashTags.add("tag2");
         hashTags.add("tag2");
 
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, false);
         User user = new User("testUser", "testUser", "email1");
         userRepository.saveUser(user);
         channelService.createChannel(request, "email1");

@@ -5,7 +5,6 @@ webrtc/chatservice/service/user/UserService.class
 webrtc/chatservice/dto/UserDto$FindUserWithPointByEmailRequest.class
 webrtc/chatservice/exception/ChannelUserException$NotExistChannelUserException.class
 webrtc/chatservice/service/jwt/JwtUserDetailsService.class
-webrtc/chatservice/service/point/PointServiceImpl.class
 webrtc/chatservice/repository/user/UserRepository.class
 webrtc/chatservice/dto/ChannelDto$ExtensionChannelTTLRequest.class
 webrtc/chatservice/utils/JwtRequestFilter.class
@@ -21,13 +20,11 @@ webrtc/chatservice/exception/PointException$InsufficientPointException.class
 webrtc/chatservice/dto/ChannelDto$ExtensionChannelTTLResponse.class
 webrtc/chatservice/dto/SessionDto.class
 webrtc/chatservice/controller/channel/api/HashTagApiController.class
-webrtc/chatservice/domain/Point.class
 webrtc/chatservice/exception/ChannelException$ChannelParticipantsFullException.class
 webrtc/chatservice/controller/channel/ChatMessageController$1.class
 webrtc/chatservice/repository/channel/ChannelHashTagRepositoryImpl.class
 webrtc/chatservice/dto/UserDto.class
 webrtc/chatservice/repository/channel/ChannelUserRepositoryImpl.class
-webrtc/chatservice/repository/point/PointRepositoryImpl.class
 webrtc/chatservice/config/RedisConfig.class
 webrtc/chatservice/enums/SocketServerMessageType.class
 webrtc/chatservice/dto/ChatDto.class
@@ -77,7 +74,6 @@ webrtc/chatservice/service/user/UserServiceImpl.class
 webrtc/chatservice/handler/GlobalChannelExceptionHandler.class
 webrtc/chatservice/controller/HttpApiController.class
 webrtc/chatservice/exception/ChannelException$AlreadyExistUserInChannelException.class
-webrtc/chatservice/repository/point/PointRepository.class
 webrtc/chatservice/controller/point/PointApiController.class
 webrtc/chatservice/repository/channel/ChannelRepository.class
 webrtc/chatservice/config/WebConfig.class
@@ -107,7 +103,6 @@ webrtc/chatservice/repository/chat/ChatLogRepository.class
 webrtc/chatservice/config/CacheConfig.class
 webrtc/chatservice/config/JwtAuthenticationEntryPoint.class
 webrtc/chatservice/utils/JwtTokenUtil.class
-webrtc/chatservice/service/point/PointService.class
 webrtc/chatservice/exception/ChannelException.class
 webrtc/chatservice/dto/ChatDto$PublishMessage.class
 webrtc/chatservice/dto/ChannelDto$EnterChannelResponse.class

@@ -11,9 +11,7 @@ webrtc/chatservice/repository/hashtag/HashTagRepositoryImplTest.class
 webrtc/chatservice/service/channel/ChannelUserServiceImplTest.class
 webrtc/chatservice/service/jwt/JwtUserDetailsServiceTest.class
 webrtc/chatservice/domain/ChannelTest.class
-webrtc/chatservice/repository/point/PointRepositoryImplTest.class
 webrtc/chatservice/controller/channel/api/HashTagApiControllerTest.class
 webrtc/chatservice/repository/channel/ChannelHashTagRepositoryTest.class
 webrtc/chatservice/controller/channel/api/ChannelApiControllerTest.class
-webrtc/chatservice/service/point/PointServiceImplTest.class
 webrtc/chatservice/repository/channel/ChannelUserRepositoryImplTest.class

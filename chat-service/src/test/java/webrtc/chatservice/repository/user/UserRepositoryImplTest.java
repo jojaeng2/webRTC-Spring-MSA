@@ -86,7 +86,7 @@ public class UserRepositoryImplTest {
     public void user_saveO_findByChannelIdSuccess() {
         //given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);
@@ -106,7 +106,7 @@ public class UserRepositoryImplTest {
     public void user_saveO_findByChannelIdFail() {
         //given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
         channelUser.setUser(user);
@@ -139,7 +139,7 @@ public class UserRepositoryImplTest {
     public void user_saveX_findByChannelIdFail() {
         //given
         User user = new User("user", "user", "email");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         ChannelUser channelUser = new ChannelUser();
         channelUser.setChannel(channel);
 
