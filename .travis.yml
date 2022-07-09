@@ -45,7 +45,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
 
     bucket: springboot-webrtc-build
-    key: springboot-webrtc-service.zip
+    key: chat-service.zip 
 
     bundle_type: zip #압축 확장자
     application: springboot-webrtc-service
