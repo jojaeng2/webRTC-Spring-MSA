@@ -40,6 +40,19 @@ deploy:
       branch: chat-service
 
 
+    provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+
+    bucket: springboot-webrtc-build
+    key: springboot-webrtc-service
+
+    bundle_type: zip #압축 확장자
+    application: springboot-webrtc-service
+    deployment_group: springboot-webrtc-service-group
+
+    region: ap-northeast-2
+    wait-until-deployed: true
 
 
 # # CI 실행 완료시 메일로 알람
