@@ -241,21 +241,6 @@ public class ChannelServiceImplTest {
         assertThat(findChannels3.size()).isEqualTo(1);
     }
 
-    @Test
-    @DisplayName("Extension channelTTL 성공")
-    public void extensionChannelTTLSuccess() {
-        // given
-        Channel channel = createChannelTemp();
-
-        // when
-        channelService.extensionChannelTTL(channel.getId(), "email", 100L);
-        User user = userService.findOneUserByEmail("email");
-
-
-        // then
-        assertThat(user.getPoint().getPoint()).isEqualTo(900000L);
-        assertThat(channel.getTimeToLive()).isEqualTo(600L + 100L);
-    }
 
     @Test
     @DisplayName("Extension ChannelTTL 실패 by NotExistChannelException")

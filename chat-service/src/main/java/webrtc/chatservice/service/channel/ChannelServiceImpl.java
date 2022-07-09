@@ -13,7 +13,6 @@ import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.point.PointRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.utils.CustomJsonMapper;
 
