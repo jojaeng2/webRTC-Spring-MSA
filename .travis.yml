@@ -47,8 +47,8 @@ deploy:
     key: chat-service.zip 
 
     bundle_type: zip #압축 확장자
-    application: springboot-webrtc
-    deployment_group: springboot-webrtc-group
+    application: springboot-webrtc2
+    deployment_group: springboot-webrtc2-group
 
     region: ap-northeast-2
     wait-until-deployed: true
