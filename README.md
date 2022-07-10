@@ -25,8 +25,7 @@
 ---
 
 ## **Service Architecture**
-<img width="1680" alt="image" src="https://user-images.githubusercontent.com/76645095/178147018-8894221e-9560-4116-b826-0e396b7f7d83.png">
-
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/76645095/178147070-63abae91-2d77-42a8-857c-2d41a0ce8747.png">
 
 
 ---
