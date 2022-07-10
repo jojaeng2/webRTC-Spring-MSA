@@ -19,6 +19,7 @@ public class Channel implements Serializable {
     private Long limitParticipants;
     private Long currentParticipants;
     private Long timeToLive;
+    private boolean isVoice;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private Set<ChannelUser> channelUsers;
@@ -31,7 +32,7 @@ public class Channel implements Serializable {
     private List<ChatLog> chatLogs;
 
 
-    public Channel(String channelName) {
+    public Channel(String channelName, boolean isVoice) {
         this.id = UUID.randomUUID().toString();
         this.channelName = channelName;
         this.limitParticipants = 15L;
@@ -40,6 +41,7 @@ public class Channel implements Serializable {
         this.channelUsers = new HashSet<>();
         this.channelHashTags = new HashSet<>();
         this.chatLogs = new ArrayList<>();
+        this.isVoice = isVoice;
     }
 
     public void enterChannelUser(ChannelUser channelUser) {

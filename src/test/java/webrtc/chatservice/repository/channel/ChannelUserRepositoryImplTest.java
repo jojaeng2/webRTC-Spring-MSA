@@ -40,7 +40,7 @@ public class ChannelUserRepositoryImplTest {
     @DisplayName("ChannelUser 저장 O && (channelId + userId) 조회 O")
     public void channelUser_saveO_findO() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
         User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 
@@ -63,7 +63,7 @@ public class ChannelUserRepositoryImplTest {
     @DisplayName("ChannelUser 저장 O && (channelId + userId) 조회 X")
     public void channelUser_saveO_findX() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
         User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 
@@ -85,7 +85,7 @@ public class ChannelUserRepositoryImplTest {
     @DisplayName("ChannelUser 저장 O && 삭제 O")
     public void channelUser_saveO_delO() {
         //given
-        Channel channel = new Channel("TestChannel");
+        Channel channel = new Channel("TestChannel", false);
         User user = new User("user", "user", "email1");
         ChannelUser channelUser = new ChannelUser();
 

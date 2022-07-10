@@ -73,7 +73,7 @@ public class ChannelRepositoryImplTest {
         hashTags.add("tag3");
 
         for(int i=0; i<25; i++) {
-            Channel channel = new Channel("testChannel" + i);
+            Channel channel = new Channel("testChannel" + i, false);
             channelRepository.createChannel(channel, hashTags);
         }
 
@@ -96,7 +96,7 @@ public class ChannelRepositoryImplTest {
         hashTags.add("tag3");
 
         for(int i=0; i<7; i++) {
-            Channel channel = new Channel("testChannel" + i);
+            Channel channel = new Channel("testChannel" + i, false);
             channelRepository.createChannel(channel, hashTags);
             User user = userRepository.findUserByEmail("email1");
 
@@ -107,7 +107,7 @@ public class ChannelRepositoryImplTest {
         }
 
         for(int i=0; i<5; i++) {
-            Channel channel = new Channel("testChannel" + i);
+            Channel channel = new Channel("testChannel" + i, false);
             channelRepository.createChannel(channel, hashTags);
             User user = userRepository.findUserByEmail("email2");
 
@@ -215,7 +215,7 @@ public class ChannelRepositoryImplTest {
         hashTags.add("tag1");
         hashTags.add("tag2");
         hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         channelRepository.createChannel(channel, hashTags);
         HashTag hashTag = new HashTag("tag4");
         hashTagRepository.save(hashTag);
@@ -248,7 +248,7 @@ public class ChannelRepositoryImplTest {
         hashTags.add("tag1");
         hashTags.add("tag2");
         hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         channelRepository.createChannel(channel, hashTags);
 
         // when
@@ -274,7 +274,7 @@ public class ChannelRepositoryImplTest {
         hashTags.add("tag1");
         hashTags.add("tag2");
         hashTags.add("tag3");
-        Channel channel = new Channel("testChannel");
+        Channel channel = new Channel("testChannel", false);
         channelRepository.createChannel(channel, hashTags);
         return channel;
     }

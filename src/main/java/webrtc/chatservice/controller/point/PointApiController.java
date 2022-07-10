@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLResponse;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.user.UserService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -19,12 +20,19 @@ public class PointApiController {
 
     private final ChannelService channelService;
     private final JwtTokenUtil jwtTokenUtil;
+    private final UserService userService;
 
     @PostMapping("/extension/{id}")
     public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(@RequestBody ExtensionChannelTTLRequest request, @PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
-        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken);
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         Long requestTTL = request.getRequestTTL();
         channelService.extensionChannelTTL(channelId, userEmail, requestTTL);
         return new ResponseEntity<>(new ExtensionChannelTTLResponse(channelService.findOneChannelById(channelId).getTimeToLive()), OK);
+    }
+
+    @GetMapping("/point/{id}")
+    public ResponseEntity<?> findUserPoint(@PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
+        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
+        return new ResponseEntity<>(userService.findUserWithPointByEmail(channelId, userEmail), OK);
     }
 }

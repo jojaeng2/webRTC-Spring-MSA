@@ -32,11 +32,6 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "point_id")
-    private Point point;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private Set<ChannelUser> channelUsers = new HashSet<>();
@@ -56,9 +51,6 @@ public class User implements Serializable {
         this.company = null;
         this.nickname_expire_at = null;
 
-        Point point = new Point();
-        point.setPoint(1000000L);
-        this.point = point;
     }
 
     public void addChannelUser(ChannelUser channelUser) {

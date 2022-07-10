@@ -8,15 +8,11 @@ import webrtc.chatservice.controller.channel.api.ChannelApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.*;
-import webrtc.chatservice.exception.PointException.InsufficientPointException;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.point.PointRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.utils.CustomJsonMapper;
 
@@ -34,10 +30,8 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChatLogRepository chatLogRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
-    private final PointRepository pointRepository;
-    private final Long pointUnit = 1000L;
+    private final Long pointUnit = 100L;
     private final HttpApiController httpApiController;
-    private final CustomJsonMapper customJsonMapper;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -53,7 +47,7 @@ public class ChannelServiceImpl implements ChannelService{
             throw new AlreadyExistChannelException();
         }
 
-        Channel channel = new Channel(request.getChannelName());
+        Channel channel = new Channel(request.getChannelName(), request.isVoice());
         User user = httpApiController.postFindUserByEmail(email);
         try {
             user = userRepository.findUserByEmail(email);
@@ -180,10 +174,8 @@ public class ChannelServiceImpl implements ChannelService{
         List<Channel> channels = channelRepository.findChannelsById(channelId);
         if(channels.isEmpty()) throw new NotExistChannelException();
         Channel channel = channels.get(0);
-        Point point = pointRepository.findPointByUserEmail(userEmail);
-        if(point.getPoint() < requestTTL * pointUnit) throw new InsufficientPointException();
-        pointRepository.decreasePoint(point, requestTTL * pointUnit);
-        channelRepository.extensionChannelTTL(channel, requestTTL);
+        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
+        channelRepository.extensionChannelTTL(channel, requestTTL * 30 * 60);
     }
 
     private void createChannelUser(User user, Channel channel) {
@@ -197,7 +189,7 @@ public class ChannelServiceImpl implements ChannelService{
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags());
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.isVoice());
             responses.add(response);
         }
         return responses;
