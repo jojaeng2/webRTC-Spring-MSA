@@ -38,18 +38,14 @@ deploy:
     on:
       branch: chat-service
 
-
   - provider: codedeploy
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
-
-    bucket: springboot-webrtc-build
-    key: chat-service.zip 
-
-    bundle_type: zip #압축 확장자
-    application: springboot-webrtc2
-    deployment_group: springboot-webrtc2-group
-
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: springboot-webrtc-build # S3 버킷
+    key: chat-service.zip # 빌드 파일을 압축해서 전달
+    bundle_type: zip
+    application: springboot-webrtc2 # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: springboot-webrtc2-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
     region: ap-northeast-2
     wait-until-deployed: true
 
