@@ -9,6 +9,7 @@ networks:
 
 services: 
   auth-service:
+    build: .
     image: auth
     volumes:
       - ./target/auth-service-0.0.1-SNAPSHOT.jar:/home/spring/auth.jar
