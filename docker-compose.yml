@@ -11,8 +11,6 @@ services:
   auth-service:
     build: .
     image: auth
-    volumes:
-      - ./target/auth-service-0.0.1-SNAPSHOT.jar:/home/spring/auth.jar
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://auth-database:3307/auth-db?useUnicode=true&serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: user
@@ -31,7 +29,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 20s
+        sleep 10s
         java -jar auth.jar   
 
   auth-database:
