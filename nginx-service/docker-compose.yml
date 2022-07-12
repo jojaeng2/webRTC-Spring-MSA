@@ -1,0 +1,19 @@
+# 버전지정
+version: "3.3"
+
+# 컨테이너 설정
+
+networks:
+  spring-network:
+    external: true
+
+services:
+  nginx-service:
+    image: nginx
+    networks:
+      - spring-network
+    ports:
+      - 81:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
