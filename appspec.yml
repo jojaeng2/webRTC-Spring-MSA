@@ -5,4 +5,4 @@ files:
     destination: /home/ec2-user/honeybee/auth-service/
     overwrite: yes
 
-file_exists_behavior: OVERWRITEg
+file_exists_behavior: OVERWRITE
