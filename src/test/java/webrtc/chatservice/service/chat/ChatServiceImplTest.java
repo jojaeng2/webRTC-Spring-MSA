@@ -49,7 +49,7 @@ public class ChatServiceImplTest {
         hashTags.add("tag2");
         hashTags.add("tag2");
 
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, false);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
         User user = new User("testUser", "testUser", "testEmail");
         userRepository.saveUser(user);
         channelService.createChannel(request, "testEmail");

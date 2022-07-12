@@ -47,7 +47,7 @@ public class ChannelServiceImpl implements ChannelService{
             throw new AlreadyExistChannelException();
         }
 
-        Channel channel = new Channel(request.getChannelName(), request.isVoice());
+        Channel channel = new Channel(request.getChannelName(), request.getChannelType());
         User user = httpApiController.postFindUserByEmail(email);
         try {
             user = userRepository.findUserByEmail(email);
@@ -189,7 +189,7 @@ public class ChannelServiceImpl implements ChannelService{
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
             channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.isVoice());
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
             responses.add(response);
         }
         return responses;

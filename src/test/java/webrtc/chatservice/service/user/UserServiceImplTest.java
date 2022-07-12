@@ -71,7 +71,7 @@ public class UserServiceImplTest {
         CreateUserRequest createUserRequest = new CreateUserRequest("user", "user", "email2");
         User user = userService.saveUser(createUserRequest);
 
-        CreateChannelRequest request = new CreateChannelRequest("testChannel2", hashTags, false);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel2", hashTags, "chat");
         Channel createChannel = channelService.createChannel(request, "email2");
 
         //when

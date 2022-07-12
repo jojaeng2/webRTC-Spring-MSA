@@ -60,7 +60,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, false);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
 
         // when
         Channel createChannel = channelService.createChannel(request, "email");
@@ -79,7 +79,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, false);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
 
         // when
         channelService.createChannel(request, "email");
@@ -170,8 +170,8 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags, false);
-        CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags, false);
+        CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags, "chat");
+        CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags, "chat");
 
         Channel createChannel1 = channelService.createChannel(request1, "email");
         Channel createChannel2 = channelService.createChannel(request2, "email");
@@ -218,14 +218,14 @@ public class ChannelServiceImplTest {
         hashTags1.add("testTag1");
         hashTags1.add("testTag2");
         hashTags1.add("testTag3");
-        CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags1, false);
+        CreateChannelRequest request1 = new CreateChannelRequest("testChannel1", hashTags1, "chat");
         Channel createChannel1 = channelService.createChannel(request1, "email");
 
         List<String> hashTags2 = new ArrayList<>();
         hashTags2.add("testTag3");
         hashTags2.add("testTag4");
         hashTags2.add("testTag5");
-        CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags2, false);
+        CreateChannelRequest request2 = new CreateChannelRequest("testChannel2", hashTags2, "chat");
         Channel createChannel2 = channelService.createChannel(request2, "email");
 
 
@@ -274,7 +274,7 @@ public class ChannelServiceImplTest {
         hashTags.add("testTag1");
         hashTags.add("testTag2");
         hashTags.add("testTag3");
-        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, false);
+        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
         return channelService.createChannel(request, "email");
     }
 }
