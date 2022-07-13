@@ -92,11 +92,8 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
         try {
             RecordingProperties recordingProperties = new RecordingProperties.Builder()
                     .outputMode(Recording.OutputMode.COMPOSED_QUICK_START)
-                    .hasAudio(true)
-                    .hasVideo(false)
                     .build();
             SessionProperties sessionProperties = new SessionProperties.Builder()
-                    .recordingMode(RecordingMode.ALWAYS) 
                     .defaultRecordingProperties(recordingProperties)
                     .build();
 
