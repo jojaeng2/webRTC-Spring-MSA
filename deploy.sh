@@ -20,11 +20,14 @@ cd ./voice-service
 ./deploy.sh & 
 cd ..
 
-cd ./nginx-service
-./deploy.sh &
-cd ..
-
 
 cd ./openvidu-service
 ./deploy.sh &
 cd .. 
+
+
+sleep 30
+
+cd ./nginx-service
+./deploy.sh &
+cd ..
