@@ -17,8 +17,4 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt
-    depends_on:
-      - auth-service
-      - chat-service
-      - voice-service
 
