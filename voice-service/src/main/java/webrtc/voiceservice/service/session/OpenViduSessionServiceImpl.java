@@ -90,7 +90,19 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
 
         // session 새롭게 생성
         try {
-            Session session = this.openVidu.createSession();
+            RecordingProperties recordingProperties = new RecordingProperties.Builder()
+                    .outputMode(Recording.OutputMode.COMPOSED)
+                    .hasAudio(true)
+                    .hasVideo(false)
+                    .build();
+                    
+            SessionProperties sessionProperties = new SessionProperties.Builder()
+                    .defaultRecordingProperties(recordingProperties)
+                    .recordingMode(RecordingMode.ALWAYS)
+                    .build();
+
+            Session session = this.openVidu.createSession(sessionProperties);
+
             // Generate a new Connection With the recently created connectionProperties
             String token = session.createConnection(connectionProperties).getToken();
             System.out.println("session.getSessionId() = " + session.getSessionId());

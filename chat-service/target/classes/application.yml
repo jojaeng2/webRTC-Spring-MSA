@@ -3,7 +3,7 @@ port: 8080
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/webRTC
+    url: jdbc:mysql://localhost:3306/user
     username: ds4ouj
     password: hong971220!
   jpa:
@@ -17,7 +17,7 @@ spring:
     storage-type: redis
   redis:
     timeout: 600
-    host: 127.0.0.1
+    host: 192.168.99.100
     port: 6379
   jwt:
     secret: govlepel@$&
@@ -25,4 +25,3 @@ spring:
 server:
   port: 8080
 
-  

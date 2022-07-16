@@ -9,9 +9,8 @@ networks:
 
 services: 
   voice-service:
+    build: .
     image: voice
-    volumes:
-      - ./target/voice-service-0.0.1-SNAPSHOT.jar:/home/spring/voice.jar
     environment:
       SPRING_SESSION_STORAGE_TYPE: redis
       SPRING_REDIS_HOST: voice-redis
@@ -24,7 +23,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
-        sleep 20s
+        sleep 15s
         java -jar voice.jar   
 
   voice-redis:
