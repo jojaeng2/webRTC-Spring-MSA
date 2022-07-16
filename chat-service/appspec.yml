@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/honeybee/auth-service/
+    destination: /home/ec2-user/honeybee/chat-service/
     overwrite: yes
-
+    
 file_exists_behavior: OVERWRITE
