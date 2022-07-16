@@ -26,7 +26,7 @@ cd ./openvidu-service
 cd .. 
 
 
-sleep 30
+sleep 50
 
 cd ./nginx-service
 ./deploy.sh &
