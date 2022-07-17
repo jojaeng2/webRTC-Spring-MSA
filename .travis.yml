@@ -16,46 +16,46 @@ cache:
 # before_install:
 #   - chmod +x mvnw
 
-script: "mvn clean package"
+script: ./travis-ci.sh
 
-# before_deploy:
-#   - zip -r master *
-#   - mkdir -p master
-#   - mv master.zip master/master.zip
+before_deploy:
+  - zip -r master *
+  - mkdir -p master
+  - mv master.zip master/master.zip
 
-# deploy:
-#   - provider: s3
-#     access_key_id: $AWS_ACCESS_KEY 
-#     secret_access_key: $AWS_SECRET_KEY
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY 
+    secret_access_key: $AWS_SECRET_KEY
 
-#     bucket: springboot-webrtc-build # S3 버킷
-#     region: ap-northeast-2
-#     skip_cleanup: true
+    bucket: springboot-webrtc-build # S3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
 
-#     acl: private # zip 파일 접근을 private로 설정
-#     local_dir: master
-#     wait-until-deployed: true
-#     on:
-#       branch: main
+    acl: private # zip 파일 접근을 private로 설정
+    local_dir: master
+    wait-until-deployed: true
+    on:
+      branch: main
 
-#   - provider: codedeploy
-#     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
-#     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-#     bucket: springboot-webrtc-build # S3 버킷
-#     key: master.zip # 빌드 파일을 압축해서 전달
-#     bundle_type: zip
-#     application: springboot-webrtc # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-#     deployment_group: master-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
-#     region: ap-northeast-2
-#     wait-until-deployed: true
-#     on:
-#       branch: master
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: springboot-webrtc-build # S3 버킷
+    key: master.zip # 빌드 파일을 압축해서 전달
+    bundle_type: zip
+    application: springboot-webrtc # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: master-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      branch: master
 
   
 
 
-# # # CI 실행 완료시 메일로 알람
-# notifications:
-#   email:
-#     recipients:
-#       - ds4ouj@naver.com
+# # CI 실행 완료시 메일로 알람
+notifications:
+  email:
+    recipients:
+      - ds4ouj@naver.com
