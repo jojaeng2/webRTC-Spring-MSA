@@ -50,7 +50,7 @@ deploy:
     region: ap-northeast-2
     wait-until-deployed: true
     on:
-      branch: master
+      branch: main
 
   
 
