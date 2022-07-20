@@ -82,12 +82,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Transactional
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
-        long startTime = System.currentTimeMillis();
-        List<ChatLog> chatLogs = chatLogRepository.findChatLogsByChannelId(channelId, idx);
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println("Query Time" + elapsedTime);
-        return chatLogs;
+        return chatLogRepository.findChatLogsByChannelId(channelId, idx);
     }
 
     @Transactional

@@ -22,9 +22,15 @@ public class HashTagApiController {
 
     @ApiOperation(value = "해시태그로 채널 목록 반환", notes =
             "같은 hashtag를 가진 채널 목록을 불러옵니다. \n" +
+            "채널 목록은 스크롤 페이징을 적용했습니다. 따라서 request를 보낼때 몇번째 페이지에 대한 요청인지 {index} 값을 넣어서 보내주셔야 합니다.\n" +
+
             "1. header에 jwt access 토큰을 넣어야 합니다. \n" +
             "2. request URL에 hashTag value를 넣어야 합니다. \n" +
-            "3. 다른 채널 목록을 불러오는 것과 같이 index 값을 넣어야 합니다.\n"
+            "3. PathParam에 index 값을 넣어주세요. \n\n" +
+            "한번에 모든 채널을 불러오지 않고, 페이징 기능을 넣은 이유는 아래와 같습니다.\n" +
+            "- 한번에 모든 채널을 불러오는 요청을 처리함으로써 request 처리 비용이 증가합니다. (ex : 서버 메모리 부하, DB 부하, 네트워크 부하 증가로 response 받는 시간 증가 등 )\n" +
+            "- channel에는 TTL이 존재합니다. TTL은 DB에 따로 저장하지 않고 response를 보내기 직전 처리합니다. 따라서 불러온 데이터의 양에따라 처리 시간이 증가합니다. \n" +
+            "- 사용자의 가독성이 떨어집니다. \n"
     )
     @ApiImplicitParams({
             @ApiImplicitParam(

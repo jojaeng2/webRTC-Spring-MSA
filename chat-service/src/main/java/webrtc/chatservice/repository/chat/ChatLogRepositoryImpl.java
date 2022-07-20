@@ -44,7 +44,7 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
     public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
         return em.createQuery(
                 "select cl from ChatLog cl " +
-                        "where channel_id = :channel_id " +
+                        "where chann다el_id = :channel_id " +
                         "order by sendTime DESC ", ChatLog.class
                 ).setParameter("channel_id", channelId)
                 .setFirstResult(0)
