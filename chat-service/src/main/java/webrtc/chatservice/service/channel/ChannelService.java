@@ -23,7 +23,7 @@ public interface ChannelService {
 
     Channel findOneChannelById(String channelId);
 
-    List<Channel> findChannelByHashName(String tagName);
+    List<ChannelResponse> findChannelByHashName(String tagName, int idx);
 
     void extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
 

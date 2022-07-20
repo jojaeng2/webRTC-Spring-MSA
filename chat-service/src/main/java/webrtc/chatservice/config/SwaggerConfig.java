@@ -22,7 +22,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .useDefaultResponseMessages(false)
+//                .useDefaultResponseMessages(false)
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(getApiInfo())

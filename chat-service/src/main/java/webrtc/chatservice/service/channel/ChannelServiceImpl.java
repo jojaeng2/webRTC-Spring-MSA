@@ -165,8 +165,10 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     @Transactional
-    public List<Channel> findChannelByHashName(String tagName) {
-        return channelRepository.findChannelsByHashName(tagName);
+    public List<ChannelResponse> findChannelByHashName(String tagName, int idx) {
+        List<Channel> channels = channelRepository.findChannelsByHashName(tagName, idx);
+
+        return setReturnChannelsTTL(channels);
     }
 
     @Transactional

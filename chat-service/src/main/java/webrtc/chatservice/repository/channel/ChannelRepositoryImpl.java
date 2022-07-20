@@ -160,13 +160,15 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 특정 채널을 hashName으로 찾기
      *
      */
-    public List<Channel> findChannelsByHashName(String tagName) {
+    public List<Channel> findChannelsByHashName(String tagName, int idx) {
         List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
                         "where hashtag_id = :hashtag_id", Channel.class)
                 .setParameter("hashtag_id", hashTags.get(0).getId())
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
                 .getResultList();
     }
     /*
