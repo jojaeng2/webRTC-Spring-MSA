@@ -1,4 +1,4 @@
-package webrtc.chatservice.config;
+package webrtc.voiceservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +22,12 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-               .useDefaultResponseMessages(false)
+                .useDefaultResponseMessages(false)
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(getApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("webrtc.chatservice.controller"))
+                .apis(RequestHandlerSelectors.basePackage("webrtc.voiceservice.controller"))
                 .paths(PathSelectors.ant("/**"))
                 .build();
     }

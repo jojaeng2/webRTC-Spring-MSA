@@ -1,6 +1,7 @@
 package webrtc.voiceservice.controller.session;
 
 
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import webrtc.voiceservice.dto.SessionDto.RemoveUserInSessionRequest;
 import webrtc.voiceservice.service.session.OpenViduSessionService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/webrtc/voice")
 @RequiredArgsConstructor
 public class SessionController {
@@ -23,7 +24,7 @@ public class SessionController {
     private final HttpApiController httpApiController;
 
 
-    @ApiOperation(value = "jwt token 발급", notes =
+    @ApiOperation(value = "openvidu token 발급", notes =
                     "jwt Access token을 발급 받습니다. \n" +
                     "1. 아직 토큰을 발급받지 않은 상태이니, Header에는 별도의 처리를 안하셔도 됩니다.\n" +
                     "2. email과 password로 가입된 사용자인지 확인합니다.\n"
