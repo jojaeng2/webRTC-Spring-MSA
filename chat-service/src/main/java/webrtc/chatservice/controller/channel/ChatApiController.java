@@ -56,7 +56,7 @@ public class ChatApiController {
                     "1. 존재하지 않는 User token입니다. \n" +
                     "2. Jwt Access Token이 만료되었습니다.\n" +
                     "3. 올바르지 않은 Jwt Token 형식입니다. \n" +
-                    "4. 올바르지 않은 Jwt Token 형식입니다."
+                    "4. 올바르지 않은 Jwt Hashing algorithm입니다."
             )
     })
     @GetMapping("/channel/{channelId}/{idx}")
