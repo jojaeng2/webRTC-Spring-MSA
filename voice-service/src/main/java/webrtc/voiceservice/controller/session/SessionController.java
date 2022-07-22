@@ -22,6 +22,32 @@ public class SessionController {
     private final OpenViduSessionService openViduSessionService;
     private final HttpApiController httpApiController;
 
+
+    @ApiOperation(value = "jwt token 발급", notes =
+                    "jwt Access token을 발급 받습니다. \n" +
+                    "1. 아직 토큰을 발급받지 않은 상태이니, Header에는 별도의 처리를 안하셔도 됩니다.\n" +
+                    "2. email과 password로 가입된 사용자인지 확인합니다.\n"
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "email"
+            , value = "로그인에 사용할 email 입니다."
+            , required = true
+            , dataType = "string"
+            , paramType = "query"
+        ),
+        @ApiImplicitParam(
+                name = "password"
+                , value = "로그인에 사용할 password입니다."
+                , required = true
+                , dataType = "string"
+                , paramType = "query"
+        )
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "토큰을 정상적으로 발급합니다."),
+            @ApiResponse(code = 404, message = "로그인 정보가 잘못되었습니다.")
+    })
     @PostMapping("/get-token")
     public ResponseEntity<?> getToken(@RequestBody GetTokenRequest request) {
         User user = httpApiController.postFindUserByEmail(request.getEmail());
