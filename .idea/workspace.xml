@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="" />
+    <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/.idea/runConfigurations.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,7 +51,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/auth-service" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
@@ -62,7 +65,7 @@
       <recent name="webrtc.openvidu.service.chat" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OpenviduApplication">
+  <component name="RunManager" selected="JUnit.All in openvidu">
     <configuration name="OpenviduApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="webrtc.chatservice.OpenviduApplication" />
       <module name="openvidu" />
@@ -133,7 +136,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.OpenviduApplication" />
         <item itemvalue="JUnit.All in openvidu" />
         <item itemvalue="JUnit.ChannelServiceImplTest" />
         <item itemvalue="JUnit.ChannelServiceImplTest.extensionChannelTTLFailByInsufficientPointException" />
@@ -162,7 +164,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

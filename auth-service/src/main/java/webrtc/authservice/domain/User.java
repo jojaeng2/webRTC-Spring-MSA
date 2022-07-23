@@ -55,4 +55,10 @@ public class User implements Serializable {
         this.points.add(point);
         point.setUser(this);
     }
+
+    public int sumOfPoint(List<Point> points) {
+        int sum = 0;
+        for (Point point : points) sum += point.getAmount();
+        return sum;
+    }
 }

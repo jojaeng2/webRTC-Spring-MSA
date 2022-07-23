@@ -21,40 +21,40 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
+    private static int welcomePoint = 1000000;
 
     @Transactional
     public User save(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        Point point = new Point("회원 가입", 100);
+        Point point = new Point("회원 가입", welcomePoint);
         user.getPoints().add(point);
         userRepository.save(user);
         return user;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Cacheable(key = "#email", value = "users")
     public User findOneUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
     
-    @Transactional
+    @Transactional(readOnly = true)
     public FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email) {
         User user = userRepository.findUserByEmail(email);
         List<Point> points = user.getPoints();
-        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), sumOfPoint(points));
+        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), user.sumOfPoint(points));
     }
 
     @Transactional
     public void decreasePoint(String email, int amount) {
         User user = userRepository.findUserByEmail(email);
         List<Point> points = user.getPoints();
-        int psum = sumOfPoint(points);
-        if(psum < amount) {
+        int sum = user.sumOfPoint(points);
+        if(sum < amount) {
             throw new InsufficientPointException();
         }
         Point point = new Point("채널 연장에 포인트를 사용합니다", -amount);
         user.addPoint(point);
-        userRepository.save(user);
     }
 
     @Transactional
@@ -63,9 +63,4 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public int sumOfPoint(List<Point> points) {
-        int sum = 0;
-        for (Point point : points) sum += point.getAmount();
-        return sum;
-    }
 }
