@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     public User findOneUserByEmail(String email) {
+        System.out.println("findOneUserByEmail email = " + email);
         try {
             return userRepository.findUserByEmail(email);
         }

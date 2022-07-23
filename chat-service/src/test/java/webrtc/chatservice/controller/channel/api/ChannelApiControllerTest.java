@@ -5,43 +5,57 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.dto.ChannelDto.FindAllChannelResponse;
-import webrtc.chatservice.dto.ChannelDto.FindOneChannelResponse;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.user.UserService;
 import webrtc.chatservice.utils.CustomJsonMapper;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.management.openmbean.SimpleType.LONG;
+import static javax.management.openmbean.SimpleType.STRING;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureRestDocs
 @Transactional
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
+@ExtendWith(RestDocumentationExtension.class)
 public class ChannelApiControllerTest {
 
     @Autowired
@@ -62,17 +76,16 @@ public class ChannelApiControllerTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RestDocumentationContextProvider restDocumentationContextProvider;
+
     private String jwtAccessToken;
-
-    @BeforeEach
-    public void clearUserCache() {
-        userService.redisDataEvict();
-    }
-
 
     @Before
     public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(wac)
+                .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .build();
 
@@ -94,18 +107,42 @@ public class ChannelApiControllerTest {
     }
 
     @Test
-    @DisplayName("새로운 채널 생성 성공")
-    public void createChannelSuccess() throws Exception{
+    public void 새로운_채널_생성_성공() throws Exception{
         // given
-        CreateChannelRequest request = CreateChannelRequest("testChannel");
+        String channelName = "testChannel";
+        CreateChannelRequest request = CreateChannelRequest(channelName);
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/chat/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(APPLICATION_JSON));
+        ResultActions resultActions = mockMvc.perform(
+                post("/api/v1/webrtc/chat/channel")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(document("create-channel",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("[jwt (발급받은 token)] 형식")
+                        ),
+                        requestFields(
+                                fieldWithPath("channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("channelType").type(STRING).description("채널 타입"),
+                                fieldWithPath("hashTags").type(ARRAY).description("채널 해시태그 목록")
+                        ),
+                        responseFields(
+                                fieldWithPath("channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("limitParticipants").type(LONG).description("채널 참가 제한 인원"),
+                                fieldWithPath("currentParticipants").type(LONG).description("채널 참가 현재 인원"),
+                                fieldWithPath("timeToLive").type(LONG).description("채널 수명")
+                        )
+                ))
+                .andExpect(jsonPath("$.channelName", is(channelName)))
+                .andExpect(jsonPath("$.limitParticipants", is(15)))
+                .andExpect(jsonPath("$.currentParticipants", is(1)))
+                .andExpect(jsonPath("$.timeToLive").exists())
+                .andDo(document("create-channel"));
 
-        // then
-        resultActions.andExpect(status().isOk());
     }
 
     @Test
@@ -283,11 +320,11 @@ public class ChannelApiControllerTest {
 
 
     private JwtRequest CreateJwtAccessTokenRequest() {
-        return new JwtRequest("email", "user");
+        return new JwtRequest("email1", "password");
     }
 
     private CreateUserRequest CreateUserRequest(String userName, String email) {
-        return new CreateUserRequest(userName, "user", email);
+        return new CreateUserRequest(userName, "password", email);
     }
 
 

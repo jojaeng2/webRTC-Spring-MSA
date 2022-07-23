@@ -1,0 +1,24 @@
+= CHAT-Service RESTful Notes API Guide
+:doctype: 채널 생성 API
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== create-channel Api
+api 에 관련된 설명을 이곳에 적는다.
+1. header에 jwt access 토큰을 넣어야 합니다. 
+2. hashTags는 공백일 경우 빈 배열을 넘겨주세요.
+3. hashTags 개수의 제한은 없으나, UI 디자인에 문제가 발생할 수도 있습니다. 프론트분들의 소통이 필요합니다. 
+4. 문자 채팅과 음성 채팅방은 분리가 되어 있습니다. 채널 타입이 추가되는 것을 대비하여 채널 타입을 String으로 구별하기로 했습니다. 
+
+
+include::{snippets}/create-channel/http-request.adoc[]
+include::{snippets}/create-channel/request-fields.adoc[]
+
+include::{snippets}/create-channel/http-response.adoc[]
+include::{snippets}/create-channel/response-fields.adoc[]
