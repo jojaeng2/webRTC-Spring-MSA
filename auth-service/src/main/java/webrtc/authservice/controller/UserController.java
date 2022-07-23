@@ -3,12 +3,11 @@ package webrtc.authservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import webrtc.authservice.dto.UserDto;
 import webrtc.authservice.dto.UserDto.CreateUserRequest;
 import webrtc.authservice.dto.UserDto.DecreasePointRequest;
 import webrtc.authservice.dto.UserDto.FindUserByEmailRequest;
 import webrtc.authservice.dto.UserDto.FindUserWithPointByEmailRequest;
-import webrtc.authservice.service.UserService;
+import webrtc.authservice.service.user.UserService;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -22,7 +21,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody CreateUserRequest request) throws Exception{
-        return new ResponseEntity<>(userService.saveUser(request), OK);
+        return new ResponseEntity<>(userService.save(request), OK);
     }
 
     @PostMapping("/user")

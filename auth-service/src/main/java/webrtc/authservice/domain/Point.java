@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -12,16 +15,25 @@ import java.io.Serializable;
 public class Point implements Serializable {
 
     @Id
-    @GeneratedValue
     @Column(name = "point_id")
-    private Long id;
+    private String id;
 
-    private Long point;
+    private String message;
+    private int amount;
+    private Timestamp created_at;
 
-    @OneToOne(mappedBy = "point")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public void setPoint(Long point) {
-        this.point = point;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Point(String message, int amount) {
+        this.id = UUID.randomUUID().toString();
+        this.message = message;
+        this.amount = amount;
+        this.created_at = new Timestamp(System.currentTimeMillis());
     }
 }

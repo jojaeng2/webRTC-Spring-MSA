@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,10 +30,9 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "point_id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-    private Point point;
+    private List<Point> points;
 
     public User(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
@@ -47,9 +48,11 @@ public class User implements Serializable {
         this.school = null;
         this.company = null;
         this.nickname_expire_at = null;
+        this.points = new ArrayList<>();
+    }
 
-        Point point = new Point();
-        point.setPoint(1000000L);
-        this.point = point;
+    public void addPoint(Point point) {
+        this.points.add(point);
+        point.setUser(this);
     }
 }

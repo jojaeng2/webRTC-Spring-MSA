@@ -23,9 +23,11 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder bcryptEncoder;
 
     @Transactional
-    public User saveUser(CreateUserRequest request) {
+    public User save(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        userRepository.saveUser(user);
+        Point point = new Point("회원 가입", 100);
+        user.getPoints().add(point);
+        userRepository.save(user);
         return user;
     }
 
@@ -43,13 +45,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void decreasePoint(String email, Long point) {
+    public void decreasePoint(String email, int amount) {
         User user = userRepository.findUserByEmail(email);
-        Point userPoint = user.getPoint();
-        if(userPoint.getPoint() < point) {
+        List<Point> points = user.getPoints();
+        int psum = sumOfPoint(points);
+        if(psum < amount) {
             throw new InsufficientPointException();
         }
-        userPoint.setPoint(userPoint.getPoint() - point);
+        Point point = new Point("채널 연장에 포인트를 사용합니다", -amount);
+        user.addPoint(point);
+        userRepository.save(user);
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package webrtc.authservice.repository;
+package webrtc.authservice.repository.user;
 
 import org.springframework.stereotype.Repository;
 import webrtc.authservice.domain.User;
@@ -14,7 +14,7 @@ public class UserRepositoryImpl implements UserRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public void saveUser(User user) {
+    public void save(User user) {
         em.persist(user);
     }
 

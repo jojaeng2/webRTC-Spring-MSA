@@ -36,7 +36,7 @@ public class UserDto {
         private String id;
         private String email;
         private String nickname;
-        private Long point;
+        private int point;
     }
 
     @Getter
@@ -44,6 +44,6 @@ public class UserDto {
     @AllArgsConstructor
     public static class DecreasePointRequest {
         private String userEmail;
-        private Long point;
+        private int point;
     }
 }
