@@ -61,7 +61,6 @@ public class ChatApiController {
     })
     @GetMapping("/channel/{channelId}/{idx}")
     public ResponseEntity<FindChatLogsResponse> findChatLogs(@PathVariable("channelId") String channelId, @PathVariable("idx") String idx) {
-        FindChatLogsResponse response = new FindChatLogsResponse(chatService.findChatLogsByIndex(channelId, Long.parseLong(idx)));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new FindChatLogsResponse(chatService.findChatLogsByIndex(channelId, Long.parseLong(idx))), HttpStatus.OK);
     }
 }

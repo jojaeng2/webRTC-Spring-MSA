@@ -1,8 +1,10 @@
+webrtc/voiceservice/config/SwaggerConfig.class
 webrtc/voiceservice/dto/UserDto$FindUserByEmailRequest.class
 webrtc/voiceservice/dto/SessionDto$GetTokenResponse.class
 webrtc/voiceservice/controller/HttpApiController.class
 webrtc/voiceservice/service/session/OpenViduSessionService.class
 webrtc/voiceservice/exception/UserException$NotExistUserException.class
+webrtc/voiceservice/config/WebConfig.class
 webrtc/voiceservice/exception/UserException.class
 webrtc/voiceservice/util/CustomJsonMapperImpl.class
 webrtc/voiceservice/repository/session/OpenViduSessionRepositoryImpl.class

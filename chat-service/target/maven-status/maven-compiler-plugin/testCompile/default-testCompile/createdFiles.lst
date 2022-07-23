@@ -1,11 +1,8 @@
-webrtc/chatservice/repository/chat/ChatLogRepositoryImplTest.class
 webrtc/chatservice/service/chat/ChatServiceImplTest.class
 webrtc/chatservice/domain/UserTest.class
 webrtc/chatservice/service/user/UserServiceImplTest.class
 webrtc/chatservice/service/channel/HashTagServiceImplTest.class
 webrtc/chatservice/repository/user/UserRepositoryImplTest.class
-webrtc/chatservice/service/channel/ChannelServiceImplTest.class
-webrtc/chatservice/repository/channel/ChannelRepositoryImplTest.class
 webrtc/chatservice/OpenviduApplicationTests.class
 webrtc/chatservice/repository/hashtag/HashTagRepositoryImplTest.class
 webrtc/chatservice/service/channel/ChannelUserServiceImplTest.class

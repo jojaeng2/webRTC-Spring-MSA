@@ -14,6 +14,8 @@ import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.dto.UserDto.FindUserByEmailRequest;
 import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.utils.CustomJsonMapper;
@@ -39,7 +41,12 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     public User findOneUserByEmail(String email) {
-        return httpApiController.postFindUserByEmail(email);
+        try {
+            return userRepository.findUserByEmail(email);
+        }
+        catch (NotExistUserException e) {
+            return httpApiController.postFindUserByEmail(email);
+        }
     }
 
     @Transactional

@@ -76,16 +76,16 @@ public class ChannelApiControllerTest {
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .build();
 
-        ResultActions resultActions0 = mockMvc.perform(post("/api/v1/webrtc/register")
-                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user", "email")))
+        ResultActions resultActions0 = mockMvc.perform(post("/api/v1/webrtc/chat/register")
+                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user1", "email1")))
                 .contentType(APPLICATION_JSON));
 
-        ResultActions resultActions1 = mockMvc.perform(post("/api/v1/webrtc/register")
-                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("enterUser", "enterEmail")))
+        ResultActions resultActions1 = mockMvc.perform(post("/api/v1/webrtc/chat/register")
+                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user2", "email2")))
                 .contentType(APPLICATION_JSON));
 
 
-        ResultActions resultActions2 = mockMvc.perform(post("/api/v1/webrtc/authenticate")
+        ResultActions resultActions2 = mockMvc.perform(post("/api/v1/webrtc/chat/authenticate")
                 .content(new ObjectMapper().writeValueAsString(CreateJwtAccessTokenRequest()))
                 .contentType(APPLICATION_JSON));
 
@@ -100,7 +100,7 @@ public class ChannelApiControllerTest {
         CreateChannelRequest request = CreateChannelRequest("testChannel");
 
         // when
-        ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/chat/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(APPLICATION_JSON));
 

@@ -69,8 +69,7 @@ public class ChannelApiController {
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         Channel channel = channelService.createChannel(request, userEmail);
-        CreateChannelResponse response = new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive()), HttpStatus.OK);
     }
 
 
@@ -103,10 +102,9 @@ public class ChannelApiController {
             ),
     })
     @GetMapping("/channels/{idx}")
-    public ResponseEntity<FindAllChannelResponse> findAllChannel(@PathVariable("idx") String idx) {
+    public ResponseEntity<FindAllChannelResponse> findAnyChannel(@PathVariable("idx") String idx) {
         List<ChannelResponse> channels = channelService.findAnyChannel(Integer.parseInt(idx));
-        FindAllChannelResponse response = new FindAllChannelResponse(channels);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
 
@@ -144,8 +142,7 @@ public class ChannelApiController {
     public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@RequestHeader("Authorization") String jwtAccessToken, @PathVariable("idx") String idx) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         List<ChannelResponse> channels = channelService.findMyChannel(userEmail, Integer.parseInt(idx));
-        FindAllChannelResponse response = new FindAllChannelResponse(channels);
-        return new ResponseEntity<>(response, OK);
+        return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
 
@@ -175,7 +172,6 @@ public class ChannelApiController {
     @GetMapping("/channel/{id}")
     public ResponseEntity<ChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
         Channel channel = channelService.findOneChannelById(channelId);
-        ChannelResponse response = new ChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-        return new ResponseEntity<>(response, OK);
+        return new ResponseEntity<>(new ChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType()), OK);
     }
 }

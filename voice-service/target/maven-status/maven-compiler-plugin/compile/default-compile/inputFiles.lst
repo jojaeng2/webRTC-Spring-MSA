@@ -1,5 +1,6 @@
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/handler/GlobalSessionExceptionHandler.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/repository/session/OpenViduSessionRepositoryImpl.java
+/Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/config/SwaggerConfig.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/util/CustomJsonMapper.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/VoiceServiceApplication.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/dto/ExceptionHttpStatusResponse.java
@@ -15,5 +16,6 @@
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/dto/SessionDto.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/service/session/OpenViduSessionServiceImpl.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/repository/session/OpenViduSessionRepository.java
+/Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/config/WebConfig.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/dto/UserDto.java
 /Users/jo/Desktop/webRTC/voice-service/src/main/java/webrtc/voiceservice/domain/User.java

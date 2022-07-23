@@ -33,7 +33,7 @@ public class JwtAuthenticationController {
 
     private final JwtTokenUtil jwtTokenUtil;
 
-    private final JwtUserDetailsService userDetailsService;
+    private final JwtUserDetailsService jwtUserDetailsService;
 
     private final UserService userService;
 
@@ -69,7 +69,7 @@ public class JwtAuthenticationController {
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-        final UserDetails userDetails = userDetailsService
+        final UserDetails userDetails = jwtUserDetailsService
                 .loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
@@ -110,7 +110,6 @@ public class JwtAuthenticationController {
     })
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        httpApiController.postSaveUser(request);
         User user = userService.saveUser(request);
         return new ResponseEntity(user, HttpStatus.OK);
     }

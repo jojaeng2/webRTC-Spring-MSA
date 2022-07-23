@@ -61,7 +61,6 @@ public class HashTagApiController {
     @GetMapping("/hashtag/{tagName}/{idx}")
     public ResponseEntity<HashTagResponse> searchHashTag(@PathVariable String tagName, @PathVariable("idx") String idx) {
         List<ChannelResponse> channels = channelService.findChannelByHashName(tagName, Integer.parseInt(idx));
-        HashTagResponse response = new HashTagResponse(channels);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new HashTagResponse(channels), HttpStatus.OK);
     }
 }

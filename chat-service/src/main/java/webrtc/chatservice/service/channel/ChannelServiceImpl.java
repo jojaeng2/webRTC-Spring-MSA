@@ -48,12 +48,13 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         Channel channel = new Channel(request.getChannelName(), request.getChannelType());
-        User user = httpApiController.postFindUserByEmail(email);
+        User user;
+
         try {
             user = userRepository.findUserByEmail(email);
         } catch (NotExistUserException e) {
+            user = httpApiController.postFindUserByEmail(email);
             userRepository.saveUser(user);
-            user = userRepository.findUserByEmail(email);
         }
 
         List<String> hashTags = request.getHashTags();
@@ -133,8 +134,7 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findAnyChannel(int idx) {
-        List<Channel> channels = channelRepository.findAnyChannel(idx);
-        return setReturnChannelsTTL(channels);
+        return setReturnChannelsTTL(channelRepository.findAnyChannel(idx));
     }
 
     /*
@@ -143,13 +143,8 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String email, int idx) {
-        try {
-            User user = userRepository.findUserByEmail(email);
-            List<Channel> channels = channelRepository.findMyChannel(user.getId(), idx);
-            return setReturnChannelsTTL(channels);
-        } catch(NotExistUserException e) {
-            throw new NotExistEnterChannelException();
-        }
+        User user = userRepository.findUserByEmail(email);
+        return setReturnChannelsTTL(channelRepository.findMyChannel(user.getId(), idx));
     }
 
     /*
@@ -166,9 +161,8 @@ public class ChannelServiceImpl implements ChannelService{
 
     @Transactional
     public List<ChannelResponse> findChannelByHashName(String tagName, int idx) {
-        List<Channel> channels = channelRepository.findChannelsByHashName(tagName, idx);
 
-        return setReturnChannelsTTL(channels);
+        return setReturnChannelsTTL(channelRepository.findChannelsByHashName(tagName, idx));
     }
 
     @Transactional
