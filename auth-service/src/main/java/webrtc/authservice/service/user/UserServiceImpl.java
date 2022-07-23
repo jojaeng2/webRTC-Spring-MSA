@@ -1,4 +1,4 @@
-package webrtc.authservice.service;
+package webrtc.authservice.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.authservice.domain.Point;
 import webrtc.authservice.domain.User;
-import webrtc.authservice.dto.UserDto;
 import webrtc.authservice.dto.UserDto.CreateUserRequest;
 import webrtc.authservice.dto.UserDto.FindUserWithPointByEmailResponse;
-import webrtc.authservice.exception.UserException;
 import webrtc.authservice.exception.UserException.InsufficientPointException;
-import webrtc.authservice.repository.UserRepository;
+import webrtc.authservice.repository.user.UserRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email) {
         User user = userRepository.findUserByEmail(email);
-        Point point = user.getPoint();
-        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), point.getPoint());
+        List<Point> points = user.getPoints();
+        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), sumOfPoint(points));
     }
 
     @Transactional
@@ -52,8 +52,15 @@ public class UserServiceImpl implements UserService {
         userPoint.setPoint(userPoint.getPoint() - point);
     }
 
+    @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public void redisDataEvict() {
 
+    }
+
+    public int sumOfPoint(List<Point> points) {
+        int sum = 0;
+        for (Point point : points) sum += point.getAmount();
+        return sum;
     }
 }

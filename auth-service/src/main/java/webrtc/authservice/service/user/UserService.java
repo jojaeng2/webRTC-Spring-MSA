@@ -1,4 +1,4 @@
-package webrtc.authservice.service;
+package webrtc.authservice.service.user;
 
 import webrtc.authservice.domain.User;
 import webrtc.authservice.dto.UserDto;

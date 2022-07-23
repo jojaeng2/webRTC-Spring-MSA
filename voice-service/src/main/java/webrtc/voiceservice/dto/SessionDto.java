@@ -16,12 +16,14 @@ public class SessionDto {
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class GetTokenResponse {
         private String token;
     }
 
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class RemoveUserInSessionRequest {
         private String sessionName;
         private String email;
