@@ -78,14 +78,14 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public void enterChannel(Channel channel, String email) {
-        User user = httpApiController.postFindUserByEmail(email);
+        User user;
 
         // 무조건 user 객체 가져와야함
         try {
             user = userRepository.findUserByEmail(email);
         } catch (NotExistUserException e) {
+            user = httpApiController.postFindUserByEmail(email);
             userRepository.saveUser(user);
-            user = userRepository.findUserByEmail(email);
         }
 
 
