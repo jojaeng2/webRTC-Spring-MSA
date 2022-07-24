@@ -7,6 +7,7 @@ import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserExce
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class ChannelUserRepositoryImpl implements ChannelUserRepository{
@@ -20,16 +21,14 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
 
 
     public ChannelUser findOneChannelUser(String channelId, String userId) {
-        try {
-            return em.createQuery(
-                    "select cu from ChannelUser cu " +
-                            "where channel_id = :channel_id " +
-                            "and user_id = :user_id", ChannelUser.class)
-                    .setParameter("channel_id", channelId)
-                    .setParameter("user_id", userId)
-                    .getSingleResult();
-        } catch(NoResultException e) {
-            throw new NotExistChannelUserException();
-        }
+        List<ChannelUser> channelUserList = em.createQuery(
+                        "select cu from ChannelUser cu " +
+                                "where channel_id = :channel_id " +
+                                "and user_id = :user_id", ChannelUser.class)
+                .setParameter("channel_id", channelId)
+                .setParameter("user_id", userId)
+                .getResultList();
+        if(channelUserList.isEmpty()) throw new NotExistChannelUserException();
+        return channelUserList.get(0);
     }
 }
