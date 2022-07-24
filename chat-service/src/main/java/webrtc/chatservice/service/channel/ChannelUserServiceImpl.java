@@ -18,11 +18,6 @@ public class ChannelUserServiceImpl implements ChannelUserService{
     }
 
     @Transactional
-    public void delete(ChannelUser channelUser) {
-        channelUserRepository.delete(channelUser);
-    }
-
-    @Transactional
     public ChannelUser findOneChannelUser(String channelId, String userId) {
         return channelUserRepository.findOneChannelUser(channelId, userId);
     }

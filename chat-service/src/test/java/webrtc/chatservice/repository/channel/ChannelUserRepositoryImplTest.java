@@ -1,129 +1,116 @@
-//package webrtc.chatservice.repository.channel;
-//
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.dao.InvalidDataAccessApiUsageException;
-//import org.springframework.transaction.annotation.Transactional;
-//import webrtc.chatservice.domain.Channel;
-//import webrtc.chatservice.domain.ChannelUser;
-//import webrtc.chatservice.domain.User;
-//import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-//import webrtc.chatservice.repository.user.UserRepository;
-//import webrtc.chatservice.service.user.UserService;
-//
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//
-//@SpringBootTest
-//@Transactional
-//public class ChannelUserRepositoryImplTest {
-//
-//    @Autowired
-//    private ChannelUserRepository channelUserRepository;
-//    @Autowired
-//    private ChannelRepository channelRepository;
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private UserService userService;
-//
-//    @BeforeEach
-//    public void clearUserCache() {
-//        userService.redisDataEvict();
-//    }
-//
-//
-//    @Test
-//    @DisplayName("ChannelUser 저장 O && (channelId + userId) 조회 O")
-//    public void channelUser_saveO_findO() {
-//        //given
-//        Channel channel = new Channel("TestChannel", "chat");
-//        User user = new User("user", "user", "email1");
-//        ChannelUser channelUser = new ChannelUser();
-//
-//        //when
-//
-//        channelUser.setChannel(channel);
-//        channelUser.setUser(user);
-//        channelRepository.save(channel);
-//        userRepository.saveUser(user);
-//        channelUserRepository.save(channelUser);
-//
-//        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channelUser.getChannel().getId(), channelUser.getUser().getId());
-//
-//        //then
-//        Assertions.assertThat(findChannelUser.getChannel().getId()).isEqualTo(channel.getId());
-//        Assertions.assertThat(findChannelUser.getUser().getId()).isEqualTo(user.getId());
-//    }
-//
-//    @Test
-//    @DisplayName("ChannelUser 저장 O && (channelId + userId) 조회 X")
-//    public void channelUser_saveO_findX() {
-//        //given
-//        Channel channel = new Channel("TestChannel", "chat");
-//        User user = new User("user", "user", "email1");
-//        ChannelUser channelUser = new ChannelUser();
-//
-//        //when
-//
-//        channelUser.setChannel(channel);
-//        channelUser.setUser(user);
-//        channelRepository.save(channel);
-//        userRepository.saveUser(user);
-//        channelUserRepository.save(channelUser);
-//
-//
-//        //then
-//        assertThrows(NotExistChannelUserException.class,
-//                () -> channelUserRepository.findOneChannelUser(channel.getId(), "NotEXIST"));
-//    }
-//
-//    @Test
-//    @DisplayName("ChannelUser 저장 O && 삭제 O")
-//    public void channelUser_saveO_delO() {
-//        //given
-//        Channel channel = new Channel("TestChannel", "chat");
-//        User user = new User("user", "user", "email1");
-//        ChannelUser channelUser = new ChannelUser();
-//
-//        //when
-//        channelUser.setChannel(channel);
-//        channelUser.setUser(user);
-//        channelRepository.save(channel);
-//        userRepository.saveUser(user);
-//        channelUserRepository.save(channelUser);
-//
-//        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channelUser.getChannel().getId(), channelUser.getUser().getId());
-//
-//        /* then
-//        channelUser 조회 -> channelUser 삭제 -> channelUser 조회 (Exception 발생)
-//         */
-//        Assertions.assertThat(findChannelUser.getChannel().getId()).isEqualTo(channel.getId());
-//        Assertions.assertThat(findChannelUser.getUser().getId()).isEqualTo(user.getId());
-//
-//        channelUserRepository.delete(channelUser);
-//        assertThrows(NotExistChannelUserException.class,
-//                () -> channelUserRepository.findOneChannelUser(channel.getId(), "NotEXIST"));
-//    }
-//
-//    @Test
-//    @DisplayName("ChannelUser 저장 X && 삭제 X")
-//    public void channelUser_saveX_delX() {
-//        //given
-//        ChannelUser channelUser = new ChannelUser();
-//
-//
-//        //when
-//
-//
-//        // then
-//
-//        assertThrows(InvalidDataAccessApiUsageException.class,
-//                ()-> {
-//                    channelUserRepository.delete(channelUser);
-//                });
-//    }
-//}
+package webrtc.chatservice.repository.channel;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.ChannelUser;
+import webrtc.chatservice.domain.User;
+import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelUserException;
+import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
+import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.user.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static webrtc.chatservice.enums.ChannelType.TEXT;
+import static webrtc.chatservice.enums.ChannelType.VOIP;
+
+
+@SpringBootTest
+public class ChannelUserRepositoryImplTest {
+
+    @Autowired
+    private ChannelUserRepository channelUserRepository;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    String nickname1 = "nickname1";
+    String nickname2 = "nickname2";
+    String password = "password";
+    String email1 = "email1";
+    String email2 = "email2";
+    String channelName1 = "channelName1";
+    String notExistChannelId = "null";
+    String tag1 = "tag1";
+    String tag2 = "tag2";
+    String tag3 = "tag3";
+    ChannelType text = TEXT;
+    ChannelType voip = VOIP;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
+    @BeforeEach
+    public void 테스트용_유저생성() {
+        User user1 = new User(nickname1, password, email1);
+        userRepository.saveUser(user1);
+
+        User user2 = new User(nickname2, password, email2);
+        userRepository.saveUser(user2);
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널유저_저장후_채널ID_AND_유저ID로_조회_성공() {
+        //given
+        Channel channel = new Channel(channelName1, text);
+        channelRepository.createChannel(channel, returnHashTags());
+        User user = userRepository.findUserByEmail(email1);
+        ChannelUser channelUser = new ChannelUser(user, channel);
+        channelRepository.enterChannelUserInChannel(channel, channelUser);
+
+        //when
+
+        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), user.getId());
+
+        //then
+        assertThat(findChannelUser).isEqualTo(channelUser);
+        assertThat(findChannelUser.getChannel().getId()).isEqualTo(channel.getId());
+        assertThat(findChannelUser.getUser().getId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    @Transactional
+    public void 채널유저_저장후_채널ID_AND_유저ID로_조회_실패() {
+        //given
+        Channel channel = new Channel(channelName1, text);
+        channelRepository.createChannel(channel, returnHashTags());
+        User user = userRepository.findUserByEmail(email1);
+        ChannelUser channelUser = new ChannelUser(user, channel);
+        channelRepository.enterChannelUserInChannel(channel, channelUser);
+
+        //when
+
+        //then
+        assertThrows(NotExistChannelUserException.class, () -> {
+            channelUserRepository.findOneChannelUser(channel.getId(), "notExist");
+        });
+    }
+
+
+    public List<String> returnHashTags() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add(tag1);
+        hashTags.add(tag2);
+        hashTags.add(tag3);
+        return hashTags;
+    }
+}

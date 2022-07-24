@@ -64,9 +64,6 @@ public class Channel implements Serializable {
         this.channelUsers.remove(channelUser);
     }
 
-    public void setLimitParticipants(Long limitParticipants) {
-        this.limitParticipants = limitParticipants;
-    }
 
     public void addChatLog(ChatLog chatLog) {
         chatLog.setChannel(this);

@@ -19,11 +19,6 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
     }
 
 
-    public void delete(ChannelUser channelUser) {
-        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
-        em.remove(findChannelUser);
-    }
-
     public ChannelUser findOneChannelUser(String channelId, String userId) {
         try {
             return em.createQuery(
