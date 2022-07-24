@@ -7,7 +7,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@EnableCaching
+// @EnableCaching
 public class AuthServiceApplication {
 
 	public static void main(String[] args) {

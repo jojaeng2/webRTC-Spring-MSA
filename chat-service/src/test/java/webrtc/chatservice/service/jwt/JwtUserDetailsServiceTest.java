@@ -12,7 +12,6 @@ import org.springframework.web.client.ResourceAccessException;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.service.user.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
