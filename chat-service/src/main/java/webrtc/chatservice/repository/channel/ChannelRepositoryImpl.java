@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.HashTagException;
+import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 
 import javax.annotation.PostConstruct;
@@ -58,9 +60,11 @@ public class ChannelRepositoryImpl implements ChannelRepository{
         // 채널 생성
         for(String tagName : hashTags) {
             HashTag hashTag;
-            List<HashTag> tags = hashTagRepository.findHashTagByName(tagName);
-            if(tags.isEmpty()) hashTag = new HashTag(tagName);
-            else hashTag = tags.get(0);
+            try {
+                hashTag = hashTagRepository.findHashTagByName(tagName);
+            } catch (NotExistHashTagException e) {
+                hashTag = new HashTag(tagName);
+            }
             ChannelHashTag channelHashTag = new ChannelHashTag();
             channelHashTag.CreateChannelHashTag(channel, hashTag);
             hashTag.addChannelHashTag(channelHashTag);
@@ -184,13 +188,13 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      *
      */
     public List<Channel> findChannelsByHashNameAndPartiASC(String tagName, int idx) {
-        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
+        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
                         "where hashtag_id = :hashtag_id "+
                         "order by c.currentParticipants asc", Channel.class)
-                .setParameter("hashtag_id", hashTags.get(0).getId())
+                .setParameter("hashtag_id", hashTag.getId())
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
                 .getResultList();
@@ -202,13 +206,13 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      *
      */
     public List<Channel> findChannelsByHashNameAndPartiDESC(String tagName, int idx) {
-        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
+        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                         "select c from Channel c " +
                                 "join c.channelHashTags " +
                                 "where hashtag_id = :hashtag_id "+
                                 "order by c.currentParticipants desc", Channel.class)
-                .setParameter("hashtag_id", hashTags.get(0).getId())
+                .setParameter("hashtag_id", hashTag.getId())
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
                 .getResultList();

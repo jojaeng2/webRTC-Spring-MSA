@@ -10,5 +10,5 @@ public interface HashTagRepository {
 
     HashTag findHashTagById(Long id);
 
-    List<HashTag> findHashTagByName(String tagName);
+    HashTag findHashTagByName(String tagName);
 }

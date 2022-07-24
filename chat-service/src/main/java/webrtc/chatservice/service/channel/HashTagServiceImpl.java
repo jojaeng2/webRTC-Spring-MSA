@@ -14,7 +14,7 @@ public class HashTagServiceImpl implements HashTagService{
     private final HashTagRepository hashTagRepository;
 
     @Transactional
-    public List<HashTag> findHashTagByName(String tagName) {
+    public HashTag findHashTagByName(String tagName) {
         return hashTagRepository.findHashTagByName(tagName);
     }
 }
