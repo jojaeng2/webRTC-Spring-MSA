@@ -75,7 +75,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
         // redis 설정
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), channelTTL, SECONDS);
-
+        save(channel);
         return channel;
     }
 
