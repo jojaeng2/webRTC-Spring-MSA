@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(key = "#email", value = "users")
     public User findOneUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
@@ -55,12 +54,6 @@ public class UserServiceImpl implements UserService {
         }
         Point point = new Point("채널 연장에 포인트를 사용합니다", -amount);
         user.addPoint(point);
-    }
-
-    @Transactional
-    @CacheEvict(value = "users", allEntries = true)
-    public void redisDataEvict() {
-
     }
 
 }

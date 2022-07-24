@@ -2,6 +2,7 @@ package webrtc.chatservice.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
+    @Cacheable(key = "#email", value = "users")
     public User findOneUserByEmail(String email) {
         try {
             return userRepository.findUserByEmail(email);
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService{
         return new ExtensionChannelInfoWithUserPointResponse(channelRepository.findChannelTTL(channelId), response.getPoint());
     }
 
+    @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public void redisDataEvict() {
 

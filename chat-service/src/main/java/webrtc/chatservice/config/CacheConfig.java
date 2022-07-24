@@ -20,15 +20,12 @@ public class CacheConfig {
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Bean
     public CacheManager redisCacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofSeconds(60*60));
+                .entryTtl(Duration.ofSeconds(30 * 60));
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory).cacheDefaults(redisCacheConfiguration).build();
     }

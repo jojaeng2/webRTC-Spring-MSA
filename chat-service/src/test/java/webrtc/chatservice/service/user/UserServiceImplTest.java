@@ -2,7 +2,6 @@ package webrtc.chatservice.service.user;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,13 +10,9 @@ import org.springframework.web.client.ResourceAccessException;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.repository.channel.ChannelRepository;
-import webrtc.chatservice.service.channel.ChannelService;
-
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
