@@ -21,13 +21,6 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
         em.persist(chatLog);
     }
 
-    public List<ChatLog> findAllChatLogsByChannelId(String channelId) {
-        return em.createQuery(
-                        "select cl from ChatLog cl " +
-                                "where channel_id=:channel_id", ChatLog.class)
-                .setParameter("channel_id", channelId)
-                .getResultList();
-    }
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
         return em.createQuery(
@@ -45,7 +38,7 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
         return em.createQuery(
                 "select cl from ChatLog cl " +
                         "where channel_id = :channel_id " +
-                        "order by sendTime DESC ", ChatLog.class
+                        "order by idx desc ", ChatLog.class
                 ).setParameter("channel_id", channelId)
                 .setFirstResult(0)
                 .setMaxResults(1)
