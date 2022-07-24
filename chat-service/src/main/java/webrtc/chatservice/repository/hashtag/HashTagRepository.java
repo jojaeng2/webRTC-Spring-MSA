@@ -8,7 +8,5 @@ public interface HashTagRepository {
 
     void save(HashTag hashTag);
 
-    HashTag findHashTagById(Long id);
-
     HashTag findHashTagByName(String tagName);
 }

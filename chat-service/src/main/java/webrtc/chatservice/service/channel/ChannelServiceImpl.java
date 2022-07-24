@@ -191,7 +191,7 @@ public class ChannelServiceImpl implements ChannelService{
     private void createChannelUser(User user, Channel channel) {
         ChannelUser channelUser = new ChannelUser(user, channel);
         channelUserRepository.save(channelUser);
-        userRepository.setChannelUser(user, channelUser);
+//        userRepository.setChannelUser(user, channelUser);
         channelRepository.enterChannelUserInChannel(channel, channelUser);
     }
 

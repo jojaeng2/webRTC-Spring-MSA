@@ -10,6 +10,8 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.HashTagException;
+import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.service.user.UserService;
@@ -301,21 +303,20 @@ public class ChannelRepositoryImplTest {
         assertThat(findChannels1.size()).isEqualTo(10);
     }
 
-//
-//
-////    @Test
-////    @Transactional
-////    public void 존재하지않는_Hashtag로_채널조회() {
-////        // given
-////
-////        // when
-////        List<Channel> notExisttagFindChannels = channelRepository.findChannelsByHashName("no", 0);
-////
-////        // then
-////        assertThat(notExisttagFindChannels.size()).isEqualTo(0);
-////    }
-//
-//
+
+
+    @Test
+    @Transactional
+    public void 존재하지않는_Hashtag로_채널조회() {
+        // given
+
+        // when
+
+        // then
+        assertThrows(NotExistHashTagException.class, ()-> {
+            channelRepository.findChannelsByHashNameAndPartiASC("no", 0);
+        });
+    }
 
 
     @Test

@@ -19,10 +19,6 @@ public class HashTagRepositoryImpl implements HashTagRepository{
         em.persist(hashTag);
     }
 
-    public HashTag findHashTagById(Long id) {
-        return em.find(HashTag.class, id);
-    }
-
     public HashTag findHashTagByName(String tagName) {
         List<HashTag> hashTagList = em.createQuery("select h from HashTag h where h.tagName = :tagName", HashTag.class)
                 .setParameter("tagName", tagName)

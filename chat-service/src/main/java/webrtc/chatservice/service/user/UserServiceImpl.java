@@ -65,10 +65,4 @@ public class UserServiceImpl implements UserService{
         return userRepository.findUsersByChannelId(channelId);
     }
 
-    @Transactional
-    public void setChannelUser(User user, ChannelUser channelUser) {
-        userRepository.setChannelUser(user, channelUser);
-    }
-
-
 }

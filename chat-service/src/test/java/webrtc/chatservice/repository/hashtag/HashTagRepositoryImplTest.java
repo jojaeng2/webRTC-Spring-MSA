@@ -51,20 +51,6 @@ public class HashTagRepositoryImplTest {
 
     @Test
     @Transactional
-    public void 해시태그_저장성공_AND_조회성공() {
-        //given
-        HashTag hashTag = new HashTag(tag1);
-        hashTagRepository.save(hashTag);
-
-        //when
-        HashTag findHashTag = hashTagRepository.findHashTagById(hashTag.getId());
-
-        //then
-        Assertions.assertThat(findHashTag).isEqualTo(hashTag);
-    }
-
-    @Test
-    @Transactional
     public void 해시태그_저장성공_AND_해시태그이름조회_성공() {
         //given
         HashTag hashTag = new HashTag(tag1);
