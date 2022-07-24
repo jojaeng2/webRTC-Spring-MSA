@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.*;
+import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 
 import javax.annotation.PostConstruct;
@@ -93,16 +94,6 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     /*
-     * 채널 업데이트
-     */
-    public Channel updateChannel(Channel channel) {
-        String channelId = channel.getId();
-        channel.setTimeToLive(redisTemplate.getExpire(channelId));
-//        em.persist(channel);
-        return channel;
-    }
-
-    /*
      * 모든 채널 불러오기
      */
     public List<Channel> findAnyChannel(int idx) {
@@ -134,12 +125,14 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      *
      */
     public List<Channel> findChannelsById(String id) {
-        return em.createQuery(
+        List<Channel> channels =  em.createQuery(
                         "select c from Channel c " +
                                 "where c.id = :id"
                         , Channel.class)
                 .setParameter("id", id)
                 .getResultList();
+        if(channels.isEmpty()) throw new ChannelException.NotExistChannelException();
+        return channels;
     }
 
     /*

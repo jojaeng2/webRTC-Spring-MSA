@@ -68,7 +68,6 @@ public class ChannelServiceImpl implements ChannelService{
         else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
         chatLog.setChannel(channel);
         chatLogRepository.save(chatLog);
-
         return channel;
     }
 

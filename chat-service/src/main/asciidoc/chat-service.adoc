@@ -1,5 +1,5 @@
 = CHAT-Service RESTful Notes API Guide
-:doctype: 채널 생성 API
+:doctype: create-channel
 :icons: font
 :source-highlighter: highlightjs
 :toc: left

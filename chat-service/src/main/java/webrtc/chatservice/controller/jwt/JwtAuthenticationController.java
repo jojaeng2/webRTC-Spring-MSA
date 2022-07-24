@@ -111,6 +111,7 @@ public class JwtAuthenticationController {
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
         User user = userService.saveUser(request);
+        httpApiController.postSaveUser(request);
         return new ResponseEntity(user, HttpStatus.OK);
     }
 }

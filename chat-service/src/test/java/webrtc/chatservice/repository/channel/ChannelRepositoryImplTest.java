@@ -1,68 +1,112 @@
-//package webrtc.chatservice.repository.channel;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
-//import webrtc.chatservice.domain.Channel;
-//import webrtc.chatservice.domain.ChannelUser;
-//import webrtc.chatservice.domain.HashTag;
-//import webrtc.chatservice.domain.User;
-//import webrtc.chatservice.repository.hashtag.HashTagRepository;
-//import webrtc.chatservice.repository.user.UserRepository;
-//import webrtc.chatservice.service.user.UserService;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//
-//@SpringBootTest
-//@Transactional
-//public class ChannelRepositoryImplTest {
-//
-//    @Autowired
-//    private ChannelRepository channelRepository;
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private ChannelUserRepository channelUserRepository;
-//    @Autowired
-//    private HashTagRepository hashTagRepository;
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    @BeforeEach
-//    public void clearUserCache() {
-//        userService.redisDataEvict();
-//    }
-//
-//
-//    @BeforeEach
-//    public void createUser() {
-//        User user1 = new User("user1", "user", "email1");
-//        userRepository.saveUser(user1);
-//
-//        User user2 = new User("user2", "user", "email2");
-//        userRepository.saveUser(user2);
-//    }
-//
-//    @Test
-//    @DisplayName("채널 생성")
-//    public void createChannel() {
-//        // given
-//        Channel channel = createChannelTemp();
-//
-//        // when
-//        Channel findChannel = channelRepository.findChannelsByChannelName(channel.getChannelName()).get(0);
-//
-//        // then
-//        assertThat(findChannel).isEqualTo(channel);
-//    }
-//
+package webrtc.chatservice.repository.channel;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.User;
+import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.repository.hashtag.HashTagRepository;
+import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.user.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static webrtc.chatservice.enums.ChannelType.TEXT;
+import static webrtc.chatservice.enums.ChannelType.VOIP;
+
+@SpringBootTest
+public class ChannelRepositoryImplTest {
+
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ChannelUserRepository channelUserRepository;
+    @Autowired
+    private HashTagRepository hashTagRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
+    String nickname1 = "nickname1";
+    String nickname2 = "nickname2";
+    String password = "password";
+    String email1 = "email1";
+    String email2 = "email2";
+    String channelName1 = "channelName1";
+    ChannelType text = TEXT;
+    ChannelType voip = VOIP;
+
+
+    @BeforeEach
+    public void 테스트용_유저생성() {
+        User user1 = new User(nickname1, password, email1);
+        userRepository.saveUser(user1);
+
+        User user2 = new User(nickname2, password, email2);
+        userRepository.saveUser(user2);
+    }
+
+    @Test
+    @Transactional
+    public void 채널생성_성공() {
+        // given
+        Channel channel = new Channel(channelName1, text);
+
+
+        // when
+        Channel createdChannel = channelRepository.createChannel(channel, returnHashTags());
+
+        // then
+        assertThat(createdChannel).isEqualTo(channel);
+    }
+
+    @Test
+    @Transactional
+    public void 채널ID로_채널찾기_성공() {
+        // given
+        Channel channel = new Channel(channelName1, text);
+        channelRepository.createChannel(channel, returnHashTags());
+
+        // when
+        Channel findChannel = channelRepository.findChannelsById(channel.getId()).get(0);
+
+        // then
+        assertThat(channel).isEqualTo(findChannel);
+    }
+
+    @Test
+    @Transactional
+    public void 채널ID로_채널찾기_실패() {
+        // given
+        Channel channel = new Channel(channelName1, text);
+        channelRepository.createChannel(channel, returnHashTags());
+
+        // when
+
+        // then
+        assertThrows(NotExistChannelException.class, () -> {
+            Channel findChannel = channelRepository.findChannelsById(channel.getId()).get(0);
+        });
+    }
+
+
+
+
+
 //    @Test
 //    @DisplayName("Any 채널 목록 불러오기")
 //    public void LoadAnyChannelsList() {
@@ -269,15 +313,21 @@
 //
 //    }
 //
-//    public Channel createChannelTemp() {
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add("tag1");
-//        hashTags.add("tag2");
-//        hashTags.add("tag3");
-//        Channel channel = new Channel("testChannel", "chat");
-//        channelRepository.createChannel(channel, hashTags);
-//        return channel;
-//    }
-//
-//
-//}
+////    public Channel createChannelTemp() {
+////        List<String> hashTags = new ArrayList<>();
+////        hashTags.add("tag1");
+////        hashTags.add("tag2");
+////        hashTags.add("tag3");
+////        Channel channel = new Channel("testChannel", "chat");
+////        channelRepository.createChannel(channel, hashTags);
+////        return channel;
+////    }
+
+    public List<String> returnHashTags() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add("tag1");
+        hashTags.add("tag2");
+        hashTags.add("tag3");
+        return hashTags;
+    }
+}

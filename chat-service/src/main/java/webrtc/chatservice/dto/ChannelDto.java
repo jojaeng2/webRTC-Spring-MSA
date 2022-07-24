@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.chatservice.domain.ChannelHashTag;
+import webrtc.chatservice.enums.ChannelType;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class ChannelDto {
     public static class CreateChannelRequest {
         private String channelName;
         private List<String> hashTags;
-        private String channelType;
+        private ChannelType channelType;
     }
 
     @Getter
@@ -68,7 +69,7 @@ public class ChannelDto {
         private Long currentParticipants;
         private Long timeToLive;
         private Set<ChannelHashTag> channelHashTags;
-        private String channelType;
+        private ChannelType channelType;
     }
 
     @Getter

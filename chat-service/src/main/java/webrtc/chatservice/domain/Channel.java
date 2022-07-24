@@ -2,6 +2,7 @@ package webrtc.chatservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import webrtc.chatservice.enums.ChannelType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class Channel implements Serializable {
     private Long limitParticipants;
     private Long currentParticipants;
     private Long timeToLive;
-    private String channelType;
+    private ChannelType channelType;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private Set<ChannelUser> channelUsers;
@@ -32,7 +33,7 @@ public class Channel implements Serializable {
     private List<ChatLog> chatLogs;
 
 
-    public Channel(String channelName, String channelType) {
+    public Channel(String channelName, ChannelType channelType) {
         this.id = UUID.randomUUID().toString();
         this.channelName = channelName;
         this.limitParticipants = 15L;
