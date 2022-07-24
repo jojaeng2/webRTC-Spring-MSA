@@ -17,17 +17,21 @@ public interface ChannelRepository {
 
     void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
 
-    List<Channel> findAnyChannel(int idx);
+    List<Channel> findAnyChannelByPartiASC(int idx);
+    List<Channel> findAnyChannelByPartiDESC(int idx);
 
-    List<Channel> findMyChannel(String userId, int idx);
+
+    List<Channel> findMyChannelByPartiASC(String userId, int idx);
+    List<Channel> findMyChannelByPartiDESC(String userId, int idx);
 
     List<Channel> findChannelsById(String id);
 
-    List<Channel> findChannelsByUserId(String channelId, String userId);
+    List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 
-    List<Channel> findChannelsByHashName(String tagName, int idx);
+    List<Channel> findChannelsByHashNameAndPartiASC(String tagName, int idx);
+    List<Channel> findChannelsByHashNameAndPartiDESC(String tagName, int idx);
 
-    List<Channel> findChannelsByChannelName(String channelName);
+    Channel findChannelByChannelName(String channelName);
 
     Long findChannelTTL(String channelId);
 

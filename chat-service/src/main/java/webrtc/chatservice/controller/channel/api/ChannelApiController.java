@@ -1,5 +1,6 @@
 package webrtc.chatservice.controller.channel.api;
 
+import com.sun.istack.NotNull;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -101,9 +102,9 @@ public class ChannelApiController {
                     "4. 올바르지 않은 Jwt Hashing algorithm입니다."
             ),
     })
-    @GetMapping("/channels/{idx}")
-    public ResponseEntity<FindAllChannelResponse> findAnyChannel(@PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelService.findAnyChannel(Integer.parseInt(idx));
+    @GetMapping("/channels/{orderType}/{idx}")
+    public ResponseEntity<FindAllChannelResponse> findAnyChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
+        List<ChannelResponse> channels = channelService.findAnyChannel(orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
@@ -138,10 +139,10 @@ public class ChannelApiController {
                     "4. 올바르지 않은 Jwt Hashing algorithm입니다."
             )
     })
-    @GetMapping("/mychannel/{idx}")
-    public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@RequestHeader("Authorization") String jwtAccessToken, @PathVariable("idx") String idx) {
+    @GetMapping("/mychannel/{orderType}/{idx}")
+    public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @RequestHeader("Authorization") String jwtAccessToken, @NotNull @PathVariable("idx") String idx) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        List<ChannelResponse> channels = channelService.findMyChannel(userEmail, Integer.parseInt(idx));
+        List<ChannelResponse> channels = channelService.findMyChannel(orderType, userEmail, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 

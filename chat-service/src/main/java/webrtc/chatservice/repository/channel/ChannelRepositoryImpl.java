@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 
 import javax.annotation.PostConstruct;
@@ -78,15 +79,13 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 채널 삭제
      */
     public void deleteChannel(Channel channel) {
+        if(channel == null) throw new NotExistChannelException();
         opsValueOperation.getOperations().delete(channel.getId());
-        Channel deleteChannel = em.find(Channel.class, channel.getId());
-        em.remove(deleteChannel);
+        em.remove(channel);
     }
 
     public void enterChannelUserInChannel(Channel channel, ChannelUser channelUser) {
-        Channel findChannel = em.find(Channel.class, channel.getId());
-        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
-        findChannel.enterChannelUser(findChannelUser);
+        channel.enterChannelUser(channelUser);
     }
 
     public void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
@@ -94,25 +93,54 @@ public class ChannelRepositoryImpl implements ChannelRepository{
     }
 
     /*
-     * 모든 채널 불러오기
+     * 모든 채널 불러오기 - 참가자 오름차순
      */
-    public List<Channel> findAnyChannel(int idx) {
+    public List<Channel> findAnyChannelByPartiASC(int idx) {
         return em.createQuery(
-                        "select c from Channel c "
+                        "select c from Channel c "+
+                                "order by c.currentParticipants asc"
                                 , Channel.class)
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
+                .getResultList();
+    }
+    /*
+     * 모든 채널 불러오기 - 참가자 내림차순
+     */
+    public List<Channel> findAnyChannelByPartiDESC(int idx) {
+        return em.createQuery(
+                        "select c from Channel c "+
+                                "order by c.currentParticipants desc"
+                        , Channel.class)
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
                 .getResultList();
     }
 
     /*
-     * 내가 입장한 모든 채널 불러오기
+     * 내가 입장한 모든 채널 불러오기 - 참가자 오름차순
      */
-    public List<Channel> findMyChannel(String userId, int idx) {
+    public List<Channel> findMyChannelByPartiASC(String userId, int idx) {
         return em.createQuery(
                         "select c from Channel c " +
                                 "join c.channelUsers " +
-                                "where user_id = :user_id ", Channel.class)
+                                "where user_id = :user_id "+
+                                "order by c.currentParticipants asc", Channel.class)
+                .setParameter("user_id", userId)
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
+                .getResultList();
+    }
+
+    /*
+     * 내가 입장한 모든 채널 불러오기 - 참가자 내림차순
+     */
+    public List<Channel> findMyChannelByPartiDESC(String userId, int idx) {
+        return em.createQuery(
+                        "select c from Channel c " +
+                                "join c.channelUsers " +
+                                "where user_id = :user_id " +
+                                "order by c.currentParticipants desc", Channel.class)
                 .setParameter("user_id", userId)
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
@@ -131,15 +159,15 @@ public class ChannelRepositoryImpl implements ChannelRepository{
                         , Channel.class)
                 .setParameter("id", id)
                 .getResultList();
-        if(channels.isEmpty()) throw new ChannelException.NotExistChannelException();
+        if(channels.isEmpty()) throw new NotExistChannelException();
         return channels;
     }
 
     /*
      * 특정 채널을 channel_id + user_id로 찾기
      */
-    public List<Channel> findChannelsByUserId(String channelId, String userId) {
-        return em.createQuery(
+    public List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId) {
+        List<Channel> channelList = em.createQuery(
                 "select c from Channel c " +
                         "join c.channelUsers " +
                         "where user_id = :user_id " +
@@ -147,18 +175,39 @@ public class ChannelRepositoryImpl implements ChannelRepository{
                 .setParameter("channel_id", channelId)
                 .setParameter("user_id", userId)
                 .getResultList();
+        if(channelList.size() == 0) throw new NotExistChannelException();
+        return channelList;
     }
 
     /*
-     * 특정 채널을 hashName으로 찾기
+     * 특정 채널을 hashName으로 찾기 - 참가자 오름차순
      *
      */
-    public List<Channel> findChannelsByHashName(String tagName, int idx) {
+    public List<Channel> findChannelsByHashNameAndPartiASC(String tagName, int idx) {
         List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
-                        "where hashtag_id = :hashtag_id", Channel.class)
+                        "where hashtag_id = :hashtag_id "+
+                        "order by c.currentParticipants asc", Channel.class)
+                .setParameter("hashtag_id", hashTags.get(0).getId())
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
+                .getResultList();
+    }
+
+
+    /*
+     * 특정 채널을 hashName으로 찾기 - 참가자 내림차순
+     *
+     */
+    public List<Channel> findChannelsByHashNameAndPartiDESC(String tagName, int idx) {
+        List<HashTag> hashTags = hashTagRepository.findHashTagByName(tagName);
+        return em.createQuery(
+                        "select c from Channel c " +
+                                "join c.channelHashTags " +
+                                "where hashtag_id = :hashtag_id "+
+                                "order by c.currentParticipants desc", Channel.class)
                 .setParameter("hashtag_id", hashTags.get(0).getId())
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
@@ -168,13 +217,15 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 특정 채널을 channelName으로 찾기
      *
      */
-    public List<Channel> findChannelsByChannelName(String channelName) {
-        return em.createQuery(
-                "select c from Channel c " +
-                "where c.channelName = :channelName"
-                , Channel.class)
+    public Channel findChannelByChannelName(String channelName) {
+        List<Channel> channels = em.createQuery(
+                        "select c from Channel c " +
+                                "where c.channelName = :channelName"
+                        , Channel.class)
                 .setParameter("channelName", channelName)
                 .getResultList();
+        if(channels.isEmpty()) throw new NotExistChannelException();
+        return channels.get(0);
     }
 
 

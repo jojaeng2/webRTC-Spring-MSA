@@ -17,13 +17,13 @@ public interface ChannelService {
 
     void deleteChannel(String channelId);
 
-    List<ChannelResponse> findAnyChannel(int idx);
+    List<ChannelResponse> findAnyChannel(String orderType, int idx);
 
-    List<ChannelResponse> findMyChannel(String email, int idx);
+    List<ChannelResponse> findMyChannel(String orderType, String email, int idx);
 
     Channel findOneChannelById(String channelId);
 
-    List<ChannelResponse> findChannelByHashName(String tagName, int idx);
+    List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx);
 
     void extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
 

@@ -1,5 +1,6 @@
 package webrtc.chatservice.controller.channel.api;
 
+import com.sun.istack.NotNull;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,9 +59,9 @@ public class HashTagApiController {
 
             )
     })
-    @GetMapping("/hashtag/{tagName}/{idx}")
-    public ResponseEntity<HashTagResponse> searchHashTag(@PathVariable String tagName, @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelService.findChannelByHashName(tagName, Integer.parseInt(idx));
+    @GetMapping("/hashtag/{tagName}/{orderType}/{idx}")
+    public ResponseEntity<HashTagResponse> searchHashTag(@NotNull @PathVariable("orderType") String orderType, @PathVariable String tagName, @PathVariable("idx") String idx) {
+        List<ChannelResponse> channels = channelService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new HashTagResponse(channels), HttpStatus.OK);
     }
 }

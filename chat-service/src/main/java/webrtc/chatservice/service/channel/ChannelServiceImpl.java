@@ -42,19 +42,19 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
-        List<Channel> channels = channelRepository.findChannelsByChannelName(request.getChannelName());
-        if(!channels.isEmpty()) {
-            throw new AlreadyExistChannelException();
-        }
-
-        Channel channel = new Channel(request.getChannelName(), request.getChannelType());
+        Channel channel;
         User user;
-
         try {
-            user = userRepository.findUserByEmail(email);
-        } catch (NotExistUserException e) {
-            user = httpApiController.postFindUserByEmail(email);
-            userRepository.saveUser(user);
+            channel = channelRepository.findChannelByChannelName(request.getChannelName());
+            throw new AlreadyExistChannelException();
+        } catch (NotExistChannelException ex1) {
+            channel = new Channel(request.getChannelName(), request.getChannelType());
+            try {
+                user = userRepository.findUserByEmail(email);
+            } catch (NotExistUserException ex2) {
+                user = httpApiController.postFindUserByEmail(email);
+                userRepository.saveUser(user);
+            }
         }
 
         List<String> hashTags = request.getHashTags();
@@ -89,19 +89,17 @@ public class ChannelServiceImpl implements ChannelService{
 
 
         String channelId = channel.getId();
-        List<Channel> findEnterChannels = channelRepository.findChannelsByUserId(channelId, user.getId());
+        try {
+            channelRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
+            throw new AlreadyExistUserInChannelException();
 
-        // !findEnterChannels.isEmpty() -> 이미 해당 user가 채널에 입장한 상태라는 의미
-        if(findEnterChannels.isEmpty()) {
+        } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
                 createChannelUser(user, channel);
             }
-        }
-        else {
-            throw new AlreadyExistUserInChannelException();
         }
     }
 
@@ -132,8 +130,14 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     @Transactional
-    public List<ChannelResponse> findAnyChannel(int idx) {
-        return setReturnChannelsTTL(channelRepository.findAnyChannel(idx));
+    public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
+        switch (orderType) {
+            case "partiASC" :
+                return setReturnChannelsTTL(channelRepository.findAnyChannelByPartiASC(idx));
+            case "partiDESC" :
+                return setReturnChannelsTTL(channelRepository.findAnyChannelByPartiDESC(idx));
+        }
+        return new ArrayList<>();
     }
 
     /*
@@ -141,9 +145,15 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     @Transactional
-    public List<ChannelResponse> findMyChannel(String email, int idx) {
+    public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
         User user = userRepository.findUserByEmail(email);
-        return setReturnChannelsTTL(channelRepository.findMyChannel(user.getId(), idx));
+        switch (orderType) {
+            case "partiASC" :
+                return setReturnChannelsTTL(channelRepository.findMyChannelByPartiASC(user.getId(), idx));
+            case "partiDESC" :
+                return setReturnChannelsTTL(channelRepository.findMyChannelByPartiDESC(user.getId(), idx));
+        }
+        return new ArrayList<>();
     }
 
     /*
@@ -159,9 +169,14 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     @Transactional
-    public List<ChannelResponse> findChannelByHashName(String tagName, int idx) {
-
-        return setReturnChannelsTTL(channelRepository.findChannelsByHashName(tagName, idx));
+    public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
+        switch (orderType) {
+            case "partiASC" :
+                return setReturnChannelsTTL(channelRepository.findChannelsByHashNameAndPartiASC(tagName, idx));
+            case "partiDESC" :
+                return setReturnChannelsTTL(channelRepository.findChannelsByHashNameAndPartiDESC(tagName, idx));
+        }
+        return new ArrayList<>();
     }
 
     @Transactional
