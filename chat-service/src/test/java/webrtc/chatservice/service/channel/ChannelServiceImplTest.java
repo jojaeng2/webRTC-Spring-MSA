@@ -1,106 +1,147 @@
-//package webrtc.chatservice.service.channel;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
-//import webrtc.chatservice.domain.Channel;
-//import webrtc.chatservice.domain.User;
-//import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
-//import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-//import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
-//import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
-//import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-//import webrtc.chatservice.exception.PointException.InsufficientPointException;
-//import webrtc.chatservice.repository.user.UserRepository;
-//import webrtc.chatservice.service.user.UserService;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.assertj.core.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//
-//@SpringBootTest
-//@Transactional
-//public class ChannelServiceImplTest {
-//
-//    @Autowired
-//    private ChannelService channelService;
-//
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    @BeforeEach
-//    public void clearUserCache() {
-//        userService.redisDataEvict();
-//    }
-//
-//
-//    @BeforeEach
-//    public void saveTestUser() {
-//        User user = new User("user", "user", "email");
-//        userRepository.saveUser(user);
-//
-//        User user1 = new User("user1", "user1", "email1");
-//        userRepository.saveUser(user1);
-//    }
-//
-//    @Test
-//    @DisplayName("채널 생성 O")
-//    public void createChannelO() {
-//        // given
-//
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add("testTag1");
-//        hashTags.add("testTag2");
-//        hashTags.add("testTag3");
-//        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
-//
-//        // when
-//        Channel createChannel = channelService.createChannel(request, "email");
-//
-//        // then
-//        assertThat(createChannel.getChannelName()).isEqualTo("testChannel");
-//        assertThat(createChannel.getChannelHashTags().size()).isEqualTo(3);
-//
-//    }
-//
-//    @Test
-//    @DisplayName("채널 중복 발생")
-//    public void channelDuplicate() {
-//        // given
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add("testTag1");
-//        hashTags.add("testTag2");
-//        hashTags.add("testTag3");
-//        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
-//
-//        // when
-//        channelService.createChannel(request, "email");
-//
-//        // then
-//        assertThrows(AlreadyExistChannelException.class,
-//                () -> channelService.createChannel(request, "user"));
-//    }
-//
-//    @Test
-//    @DisplayName("채널에 처음으로 입장")
-//    public void enterChannelFirstSuccess() {
-//        // given
-//        Channel createChannel = createChannelTemp();
-//
-//        // when
-//        channelService.enterChannel(createChannel, "email1");
-//
-//        // then
-//    }
-//
+package webrtc.chatservice.service.channel;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.ChatLog;
+import webrtc.chatservice.domain.User;
+import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
+import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.chatservice.repository.channel.ChannelRepository;
+import webrtc.chatservice.repository.chat.ChatLogRepository;
+import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.service.chat.ChatService;
+import webrtc.chatservice.service.user.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static webrtc.chatservice.enums.ChannelType.TEXT;
+import static webrtc.chatservice.enums.ChannelType.VOIP;
+import static webrtc.chatservice.enums.ClientMessageType.CHAT;
+import static webrtc.chatservice.enums.ClientMessageType.CREATE;
+
+@SpringBootTest
+public class ChannelServiceImplTest {
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private ChatService chatService;
+
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ChannelService channelService;
+
+
+
+    String nickname1 = "nickname1";
+    String nickname2 = "nickname2";
+    String password = "password";
+    String email1 = "email1";
+    String email2 = "email2";
+    String channelName1 = "channelName1";
+    String channelName2 = "channelName2";
+    String tag1 = "tag1";
+    String tag2 = "tag2";
+    String tag3 = "tag3";
+    ChannelType text = TEXT;
+    ChannelType voip = VOIP;
+
+    @BeforeEach
+    public void clearUserCache() {
+        userService.redisDataEvict();
+    }
+
+    @BeforeEach
+    public void 테스트용_유저생성() {
+        User user1 = new User(nickname1, password, email1);
+        userRepository.saveUser(user1);
+
+        User user2 = new User(nickname2, password, email2);
+        userRepository.saveUser(user2);
+    }
+
+    @BeforeEach
+    public void 테스트용_채널생성() {
+        Channel channel = new Channel(channelName1, text);
+        channelRepository.createChannel(channel, returnHashTags());
+    }
+
+    @Test
+    @Transactional
+    public void 채널생성_성공() {
+        // given
+        CreateChannelRequest request = new CreateChannelRequest(channelName2, returnHashTags(), TEXT);
+
+        // when
+        Channel createChannel = channelService.createChannel(request, email1);
+
+        // then
+        assertThat(createChannel.getChannelName()).isEqualTo(channelName2);
+        assertThat(createChannel.getChannelHashTags().size()).isEqualTo(3);
+
+    }
+
+    @Test
+    @Transactional
+    public void 채널이름중복으로_채널생성_실패() {
+        // given
+        CreateChannelRequest request = new CreateChannelRequest(channelName1, returnHashTags(), TEXT);
+
+        // when
+
+        // then
+        assertThrows(AlreadyExistChannelException.class,
+                () -> {
+                    channelService.createChannel(request, email1);
+                });
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널_첫번째메시지_반환성공() {
+        // given
+        CreateChannelRequest request = new CreateChannelRequest(channelName2, returnHashTags(), TEXT);
+        Channel channel = channelService.createChannel(request, email1);
+
+        // when
+        ChatLog chatLog = chatService.findLastChatLogsByChannelId(channel.getId());
+
+        // then
+        assertThat(chatLog.getIdx()).isEqualTo(1L);
+        assertThat(chatLog.getType()).isEqualTo(CREATE);
+    }
+
+    @Test
+    @Transactional
+    public void 채널_N번째메시지_반환성공() {
+        // given
+        int testCase = 10;
+        CreateChannelRequest request = new CreateChannelRequest(channelName2, returnHashTags(), TEXT);
+        Channel channel = channelService.createChannel(request, email1);
+        for(int i=1; i<=testCase; i++) {
+            chatService.saveChatLog(CHAT, i + " message", nickname1, channel, email1);
+        }
+
+        // when
+        ChatLog chatLog = chatService.findLastChatLogsByChannelId(channel.getId());
+
+        // then
+        assertThat(chatLog.getIdx()).isEqualTo(testCase + 1L);
+        assertThat(chatLog.getMessage()).isEqualTo(testCase + " message");
+    }
+
 //    @Test
 //    @DisplayName("채널에 입장 + 채널 정보 확인")
 //    public void enterChannelAndChannelInfoSuccess() {
@@ -268,13 +309,12 @@
 //        assertThrows(InsufficientPointException.class,
 //                () -> channelService.extensionChannelTTL(channel.getId(), "email", 1000000L));
 //    }
-//
-//    private Channel createChannelTemp() {
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add("testTag1");
-//        hashTags.add("testTag2");
-//        hashTags.add("testTag3");
-//        CreateChannelRequest request = new CreateChannelRequest("testChannel", hashTags, "chat");
-//        return channelService.createChannel(request, "email");
-//    }
-//}
+
+    public List<String> returnHashTags() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add(tag1);
+        hashTags.add(tag2);
+        hashTags.add(tag3);
+        return hashTags;
+    }
+}

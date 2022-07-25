@@ -40,7 +40,6 @@ public class ChannelUserServiceImplTest {
     String email1 = "email1";
     String email2 = "email2";
     String channelName1 = "channelName1";
-    String notExistChannelId = "null";
     String tag1 = "tag1";
     String tag2 = "tag2";
     String tag3 = "tag3";
@@ -70,7 +69,7 @@ public class ChannelUserServiceImplTest {
 
     @Test
     @Transactional
-    public void 채널유저_저장성공() {
+    public void 채널유저_조회성공() {
         // given
         User user = userRepository.findUserByEmail(email1);
         Channel channel = channelRepository.findChannelByChannelName(channelName1);
@@ -87,7 +86,7 @@ public class ChannelUserServiceImplTest {
 
     @Test
     @Transactional
-    public void 채널유저_저장실패() {
+    public void 채널유저_조회실패() {
         // given
         User user = userRepository.findUserByEmail(email1);
         Channel channel = channelRepository.findChannelByChannelName(channelName1);
