@@ -24,7 +24,7 @@ public interface ChannelRepository {
     List<Channel> findMyChannelByPartiASC(String userId, int idx);
     List<Channel> findMyChannelByPartiDESC(String userId, int idx);
 
-    List<Channel> findChannelsById(String id);
+    Channel findChannelById(String id);
 
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 

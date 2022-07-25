@@ -1,4 +1,4 @@
-package webrtc.chatservice.controller.channel;
+package webrtc.chatservice.controller.chat;
 
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

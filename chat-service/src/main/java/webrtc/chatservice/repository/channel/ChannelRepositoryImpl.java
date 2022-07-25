@@ -156,15 +156,10 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 특정 채널을 ID로 찾기
      *
      */
-    public List<Channel> findChannelsById(String id) {
-        List<Channel> channels =  em.createQuery(
-                        "select c from Channel c " +
-                                "where c.id = :id"
-                        , Channel.class)
-                .setParameter("id", id)
-                .getResultList();
-        if(channels.isEmpty()) throw new NotExistChannelException();
-        return channels;
+    public Channel findChannelById(String id) {
+        Channel channel = em.find(Channel.class, id);
+        if(channel == null) throw new NotExistChannelException();
+        return channel;
     }
 
     /*

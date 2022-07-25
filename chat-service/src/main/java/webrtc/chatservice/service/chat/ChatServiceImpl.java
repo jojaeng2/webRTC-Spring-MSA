@@ -45,7 +45,7 @@ public class ChatServiceImpl implements ChatService{
      */
     @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String nickname, String chatMessage, String senderEmail) {
-        Channel channel = channelRepository.findChannelsById(channelId).get(0);
+        Channel channel = channelRepository.findChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<User> currentUsers = userRepository.findUsersByChannelId(channelId);

@@ -90,7 +90,7 @@ public class ChannelRepositoryImplTest {
         channelRepository.createChannel(channel, returnHashTags());
 
         // when
-        Channel findChannel = channelRepository.findChannelsById(channel.getId()).get(0);
+        Channel findChannel = channelRepository.findChannelById(channel.getId());
 
         // then
         assertThat(channel).isEqualTo(findChannel);
@@ -105,7 +105,7 @@ public class ChannelRepositoryImplTest {
 
         // then
         assertThrows(NotExistChannelException.class, () -> {
-            Channel findChannel = channelRepository.findChannelsById(notExistChannelId).get(0);
+            Channel findChannel = channelRepository.findChannelById(notExistChannelId);
         });
     }
 

@@ -13,7 +13,7 @@ public interface ChannelService {
 
     void enterChannel(Channel channel, String email);
 
-    void exitChannel(String channelId, User user);
+    void exitChannel(String channelId, String userId);
 
     void deleteChannel(String channelId);
 

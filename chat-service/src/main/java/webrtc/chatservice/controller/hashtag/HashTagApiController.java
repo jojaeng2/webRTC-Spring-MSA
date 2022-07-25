@@ -1,4 +1,4 @@
-package webrtc.chatservice.controller.channel.api;
+package webrtc.chatservice.controller.hashtag;
 
 import com.sun.istack.NotNull;
 import io.swagger.annotations.*;

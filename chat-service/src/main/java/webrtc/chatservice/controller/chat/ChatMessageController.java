@@ -1,4 +1,4 @@
-package webrtc.chatservice.controller.channel;
+package webrtc.chatservice.controller.chat;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
@@ -37,7 +37,7 @@ public class ChatMessageController {
                 message.setSenderName(sender.getNickname());
                 break;
             case EXIT:
-                channelService.exitChannel(channelId, sender);
+                channelService.exitChannel(channelId, sender.getId());
                 break;
         }
         chatService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);

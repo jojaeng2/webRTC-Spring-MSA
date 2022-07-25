@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.controller.channel.api.ChannelApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
@@ -14,7 +13,6 @@ import webrtc.chatservice.repository.channel.ChannelRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.utils.CustomJsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +33,6 @@ public class ChannelServiceImpl implements ChannelService{
 
     /**
      * 비즈니스 로직 - 채널 생성
-     * @Param channelName
-     * @Param limitParticipants
-     *
-     * @return Channel
      */
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
@@ -92,7 +86,6 @@ public class ChannelServiceImpl implements ChannelService{
         try {
             channelRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
             throw new AlreadyExistUserInChannelException();
-
         } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
@@ -108,9 +101,9 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     @Transactional
-    public void exitChannel(String channelId, User user) {
+    public void exitChannel(String channelId, String userId) {
         Channel channel = findOneChannelById(channelId);
-        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, user.getId());
+        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId);
         channelRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
@@ -161,11 +154,9 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public Channel findOneChannelById(String channelId) {
-        List<Channel> channels = channelRepository.findChannelsById(channelId);
-        if(channels.size() == 0) throw new NotExistChannelException();
-        Channel findChannel = channels.get(0);
-        findChannel.setTimeToLive(channelRepository.findChannelTTL(channelId));
-        return findChannel;
+        Channel channel = channelRepository.findChannelById(channelId);
+        channel.setTimeToLive(channelRepository.findChannelTTL(channelId));
+        return channel;
     }
 
     @Transactional
@@ -181,9 +172,7 @@ public class ChannelServiceImpl implements ChannelService{
 
     @Transactional
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
-        List<Channel> channels = channelRepository.findChannelsById(channelId);
-        if(channels.isEmpty()) throw new NotExistChannelException();
-        Channel channel = channels.get(0);
+        Channel channel = channelRepository.findChannelById(channelId);
         httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
         channelRepository.extensionChannelTTL(channel, requestTTL * 30 * 60);
     }
