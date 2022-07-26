@@ -1,29 +1,30 @@
 package webrtc.chatservice.service.jwt;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.ResourceAccessException;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.user.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class JwtUserDetailsServiceTest {
 
-    @Autowired
+    @InjectMocks
     private JwtUserDetailsService jwtUserDetailsService;
-    @Autowired
+    @Mock
     private UserService userService;
 
     String nickname1 = "nickname1";
@@ -39,19 +40,12 @@ public class JwtUserDetailsServiceTest {
     ChannelType text = TEXT;
     ChannelType voip = VOIP;
 
-    @BeforeEach
-    public void clearUserCache() {
-        userService.redisDataEvict();
-    }
-
-
     @Test
     @Transactional
     public void 유저이름으로_UserDetails_조회성공() {
         // given
-        CreateUserRequest createUserRequest = new CreateUserRequest(nickname1, password, email1);
-        User user = userService.saveUser(createUserRequest);
-
+        doReturn(new User(nickname1, password, email1))
+                .when(userService).findOneUserByEmail(email1);
 
         // when
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email1);
@@ -64,14 +58,14 @@ public class JwtUserDetailsServiceTest {
     @Transactional
     public void 유저이름으로_UserDetails_조회실패() {
         // given
-        CreateUserRequest createUserRequest = new CreateUserRequest(nickname1, password, email1);
-        User user = userService.saveUser(createUserRequest);
+        doThrow(new NotExistUserException())
+                .when(userService).findOneUserByEmail(email1);
 
         // when
 
         // then
-        assertThrows(ResourceAccessException.class, ()-> {
-            jwtUserDetailsService.loadUserByUsername(email2);
+        assertThrows(NotExistUserException.class, ()-> {
+            jwtUserDetailsService.loadUserByUsername(email1);
         });
     }
 }

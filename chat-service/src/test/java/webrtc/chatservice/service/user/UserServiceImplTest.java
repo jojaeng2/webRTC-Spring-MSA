@@ -40,8 +40,6 @@ public class UserServiceImplTest {
     private ChannelRedisRepository channelRedisRepository;
     @Mock
     private UserRepository userRepository;
-    @Spy
-    private PasswordEncoder passwordEncoder;
     @Mock
     private HttpApiController httpApiController;
 
