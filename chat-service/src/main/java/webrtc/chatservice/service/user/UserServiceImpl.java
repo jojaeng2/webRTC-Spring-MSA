@@ -22,13 +22,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
-
-    private final ChannelDBRepository channelDBRepository;
     private final ChannelRedisRepository channelRedisRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
     private final HttpApiController httpApiController;
-    private final CustomJsonMapper customJsonMapper;
 
     @Transactional
     public User saveUser(CreateUserRequest request) {
@@ -38,7 +35,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    @Cacheable(key = "#email", value = "users")
+    @Cacheable(key = "#email", value = "user")
     public User findOneUserByEmail(String email) {
         try {
             return userRepository.findUserByEmail(email);
@@ -60,9 +57,5 @@ public class UserServiceImpl implements UserService{
 
     }
 
-    @Transactional
-    public List<User> findUsersByChannelId(String channelId) {
-        return userRepository.findUsersByChannelId(channelId);
-    }
 
 }

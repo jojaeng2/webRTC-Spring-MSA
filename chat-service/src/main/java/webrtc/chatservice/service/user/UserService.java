@@ -17,8 +17,6 @@ public interface UserService {
 
     User findOneUserByEmail(String email);
 
-    List<User> findUsersByChannelId(String channelId);
-
 
     void redisDataEvict();
 

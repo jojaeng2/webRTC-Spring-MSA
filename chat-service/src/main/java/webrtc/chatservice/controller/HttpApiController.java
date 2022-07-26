@@ -41,8 +41,12 @@ public class HttpApiController {
             Object obj = customJsonMapper.jsonParse(responseBody, User.class);
             return User.class.cast(obj);
         } catch (HttpClientErrorException e) {
-            throw new NotExistUserException();
+            switch (e.getStatusCode()) {
+                case NOT_FOUND:
+                    throw new NotExistUserException();
+            }
         }
+        return new User();
     }
 
     public FindUserWithPointByEmailResponse postFindUserWithPointByEmail(String email) {
@@ -52,8 +56,12 @@ public class HttpApiController {
             Object obj = customJsonMapper.jsonParse(responseBody, FindUserWithPointByEmailResponse.class);
             return FindUserWithPointByEmailResponse.class.cast(obj);
         } catch (HttpClientErrorException e) {
-            throw new NotExistUserException();
+            switch (e.getStatusCode()) {
+                case NOT_FOUND:
+                    throw new NotExistUserException();
+            }
         }
+        return new FindUserWithPointByEmailResponse();
     }
 
     public void postDecreaseUserPoint(String email, Long point) {
