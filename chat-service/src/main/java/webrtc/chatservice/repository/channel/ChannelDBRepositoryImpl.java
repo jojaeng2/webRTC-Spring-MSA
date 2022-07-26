@@ -5,9 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.*;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 
@@ -20,61 +18,21 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RequiredArgsConstructor
 @Repository
-public class ChannelRepositoryImpl implements ChannelRepository{
+public class ChannelDBRepositoryImpl implements ChannelDBRepository {
 
     private final int LoadingChannel = 20;
 
     @PersistenceContext
     private EntityManager em;
 
-    private final ChannelHashTagRepository channelHashTagRepository;
-    private final HashTagRepository hashTagRepository;
-
-    // Redis 설정
-    private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> opsValueOperation;
-
-    private final Long channelTTL = 10 * 60L;
-
-    /*
-     * 초깃값 설정, Test Code에서도 자동으로 실행됨
-     */
-    @PostConstruct
-    private void init() {
-        opsValueOperation = redisTemplate.opsForValue();
-    }
-
-    /*
-     * 채널 생성
-     *
-     * 서버간 채널 공유를 위해 redis hash에 채널 저장
-     * redis에 topic을 만들고 pub/sub 통신을 위해 listener를 설정.
-     */
-
     public void save(Channel channel) {
         em.persist(channel);
     }
 
-    public Channel createChannel(Channel channel, List<String> hashTags) {
-
-        // 채널 생성
-        for(String tagName : hashTags) {
-            HashTag hashTag;
-            try {
-                hashTag = hashTagRepository.findHashTagByName(tagName);
-            } catch (NotExistHashTagException e) {
-                hashTag = new HashTag(tagName);
-            }
-            ChannelHashTag channelHashTag = new ChannelHashTag();
-            channelHashTag.CreateChannelHashTag(channel, hashTag);
-            hashTag.addChannelHashTag(channelHashTag);
-            channel.addChannelHashTag(channelHashTag);
-            channelHashTagRepository.save(channelHashTag);
+    public Channel createChannel(Channel channel, List<ChannelHashTag> hashTags) {
+        for(ChannelHashTag hashTag : hashTags) {
+            channel.addChannelHashTag(hashTag);
         }
-
-        // redis 설정
-        opsValueOperation.set(channel.getId(), channel);
-        redisTemplate.expire(channel.getId(), channelTTL, SECONDS);
         save(channel);
         return channel;
     }
@@ -84,13 +42,10 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      */
     public void deleteChannel(Channel channel) {
         if(channel == null) throw new NotExistChannelException();
-        opsValueOperation.getOperations().delete(channel.getId());
         em.remove(channel);
     }
 
-    public void enterChannelUserInChannel(Channel channel, ChannelUser channelUser) {
-        channel.enterChannelUser(channelUser);
-    }
+
 
     public void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
         channel.exitChannelUser(channelUser);
@@ -182,8 +137,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 특정 채널을 hashName으로 찾기 - 참가자 오름차순
      *
      */
-    public List<Channel> findChannelsByHashNameAndPartiASC(String tagName, int idx) {
-        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
+    public List<Channel> findChannelsByHashNameAndPartiASC(HashTag hashTag, int idx) {
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
@@ -200,8 +154,7 @@ public class ChannelRepositoryImpl implements ChannelRepository{
      * 특정 채널을 hashName으로 찾기 - 참가자 내림차순
      *
      */
-    public List<Channel> findChannelsByHashNameAndPartiDESC(String tagName, int idx) {
-        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
+    public List<Channel> findChannelsByHashNameAndPartiDESC(HashTag hashTag, int idx) {
         return em.createQuery(
                         "select c from Channel c " +
                                 "join c.channelHashTags " +
@@ -226,31 +179,4 @@ public class ChannelRepositoryImpl implements ChannelRepository{
         if(channels.isEmpty()) throw new NotExistChannelException();
         return channels.get(0);
     }
-
-
-    /*
-     * 특정 채널의 TTL 반환
-     */
-    public Long findChannelTTL(String channelId) {
-        return redisTemplate.getExpire(channelId);
-    }
-
-    /**
-     * 채널의 TTL 연장
-     */
-    public void extensionChannelTTL(Channel channel, Long addTTL) {
-        Long newTTL = findChannelTTL(channel.getId()) + addTTL;
-        channel.setTimeToLive(newTTL);
-        redisTemplate.expire(channel.getId(), newTTL, SECONDS);
-    }
-
-    /*
-     * 특정 채널의 현재 참가자 수 반환
-     */
-    public Long getCurrentParticipants(Channel channel) {
-        return channel.getCurrentParticipants();
-    }
-
-
-
 }

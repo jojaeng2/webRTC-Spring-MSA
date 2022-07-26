@@ -1,6 +1,7 @@
 package webrtc.chatservice.repository.channel;
 
 import org.springframework.stereotype.Repository;
+import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 
@@ -15,10 +16,6 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
     @PersistenceContext
     private EntityManager em;
 
-    public void save(ChannelUser channelUser) {
-        em.persist(channelUser);
-    }
-
 
     public ChannelUser findOneChannelUser(String channelId, String userId) {
         List<ChannelUser> channelUserList = em.createQuery(
@@ -31,4 +28,6 @@ public class ChannelUserRepositoryImpl implements ChannelUserRepository{
         if(channelUserList.isEmpty()) throw new NotExistChannelUserException();
         return channelUserList.get(0);
     }
+
+
 }

@@ -20,7 +20,8 @@ public class HashTagRepositoryImpl implements HashTagRepository{
     }
 
     public HashTag findHashTagByName(String tagName) {
-        List<HashTag> hashTagList = em.createQuery("select h from HashTag h where h.tagName = :tagName", HashTag.class)
+        List<HashTag> hashTagList = em.createQuery(
+                "select h from HashTag h where h.tagName = :tagName", HashTag.class)
                 .setParameter("tagName", tagName)
                 .getResultList();
         if(hashTagList.isEmpty()) throw new NotExistHashTagException();

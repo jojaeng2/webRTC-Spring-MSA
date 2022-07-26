@@ -3,6 +3,7 @@ package webrtc.chatservice.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
+@RedisHash("channelUser")
 public class ChannelUser implements Serializable {
 
     @Id
@@ -29,6 +31,7 @@ public class ChannelUser implements Serializable {
     public ChannelUser(User user, Channel channel) {
         this.channel = channel;
         this.user = user;
+        channel.enterChannelUser(this);
     }
 
     public void setChannel(Channel channel) {

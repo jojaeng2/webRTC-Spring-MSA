@@ -43,10 +43,4 @@ public class UserRepositoryImpl implements UserRepository{
                 .getResultList();
     }
 
-    public void setChannelUser(User user, ChannelUser channelUser) {
-//        User findUser = em.find(User.class, user.getId());
-//        ChannelUser findChannelUser = em.find(ChannelUser.class, channelUser.getId());
-        user.addChannelUser(channelUser);
-    }
-
 }

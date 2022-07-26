@@ -2,12 +2,14 @@ package webrtc.chatservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Getter
+@RedisHash("channelHashTag")
 public class ChannelHashTag implements Serializable {
 
     @Id
@@ -25,7 +27,7 @@ public class ChannelHashTag implements Serializable {
     @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
 
-    public void CreateChannelHashTag(Channel channel, HashTag hashTag) {
+    public ChannelHashTag(Channel channel, HashTag hashTag) {
         this.channel = channel;
         this.hashTag = hashTag;
     }

@@ -1,19 +1,20 @@
 package webrtc.chatservice.repository.channel;
 
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.ChannelUser;
+import webrtc.chatservice.domain.HashTag;
 
 import java.util.List;
 
-public interface ChannelRepository {
+public interface ChannelDBRepository {
 
     void save(Channel channel);
 
-    Channel createChannel(Channel channel, List<String> hashTags);
+    Channel createChannel(Channel channel, List<ChannelHashTag> hashTags);
 
     void deleteChannel(Channel channel);
 
-    void enterChannelUserInChannel(Channel channel, ChannelUser channelUser);
 
     void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
 
@@ -28,15 +29,11 @@ public interface ChannelRepository {
 
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 
-    List<Channel> findChannelsByHashNameAndPartiASC(String tagName, int idx);
-    List<Channel> findChannelsByHashNameAndPartiDESC(String tagName, int idx);
+    List<Channel> findChannelsByHashNameAndPartiASC(HashTag hashTag, int idx);
+    List<Channel> findChannelsByHashNameAndPartiDESC(HashTag hashTag, int idx);
 
     Channel findChannelByChannelName(String channelName);
 
-    Long findChannelTTL(String channelId);
 
-    void extensionChannelTTL(Channel channel, Long addTTL);
-
-    Long getCurrentParticipants(Channel channel);
 
 }

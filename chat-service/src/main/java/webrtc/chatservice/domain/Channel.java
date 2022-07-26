@@ -2,6 +2,7 @@ package webrtc.chatservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 import webrtc.chatservice.enums.ChannelType;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.*;
 @Getter
 @Entity
 @NoArgsConstructor
+@RedisHash("channel")
 public class Channel implements Serializable {
 
     @Id

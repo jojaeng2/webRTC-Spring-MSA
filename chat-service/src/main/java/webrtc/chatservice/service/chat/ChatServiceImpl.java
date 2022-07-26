@@ -10,7 +10,7 @@ import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.repository.channel.ChannelRepository;
+import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 
@@ -26,7 +26,7 @@ public class ChatServiceImpl implements ChatService{
 
     private final ChatLogRepository chatLogRepository;
     private final UserRepository userRepository;
-    private final ChannelRepository channelRepository;
+    private final ChannelDBRepository channelDBRepository;
 
     public Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
@@ -45,7 +45,7 @@ public class ChatServiceImpl implements ChatService{
      */
     @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String nickname, String chatMessage, String senderEmail) {
-        Channel channel = channelRepository.findChannelById(channelId);
+        Channel channel = channelDBRepository.findChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<User> currentUsers = userRepository.findUsersByChannelId(channelId);

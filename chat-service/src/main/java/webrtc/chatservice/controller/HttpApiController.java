@@ -58,7 +58,7 @@ public class HttpApiController {
 
     public void postDecreaseUserPoint(String email, Long point) {
         try {
-            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/decrease/point", new DecreasePointRequest(email, point));
+            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/decrease/point", new DecreasePointRequest(email, point.intValue()));
         } catch (HttpClientErrorException e) {
             throw new InsufficientPointException();
         }

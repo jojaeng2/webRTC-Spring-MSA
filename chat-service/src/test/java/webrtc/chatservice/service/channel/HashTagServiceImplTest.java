@@ -29,7 +29,6 @@ public class HashTagServiceImplTest {
 
 
     @Test
-    @Transactional
     public void HashTag_이름으로_조회성공() {
         // given
         HashTag hashTag = new HashTag(tagName);

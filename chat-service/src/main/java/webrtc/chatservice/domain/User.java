@@ -3,6 +3,7 @@ package webrtc.chatservice.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
+@RedisHash("user")
 public class User implements Serializable {
 
     @Id

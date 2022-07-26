@@ -13,6 +13,4 @@ public interface UserRepository {
 
     List<User> findUsersByChannelId(String channelId);
 
-    void setChannelUser(User user, ChannelUser channelUser);
-
 }

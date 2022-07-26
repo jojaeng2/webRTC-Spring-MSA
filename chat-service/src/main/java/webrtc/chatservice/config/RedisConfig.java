@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import webrtc.chatservice.domain.Channel;
@@ -19,6 +20,7 @@ import webrtc.chatservice.service.pubsub.RedisSubscriberImpl;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableRedisRepositories
 public class RedisConfig {
 
     @Value("${spring.redis.port}")

@@ -3,6 +3,7 @@ package webrtc.chatservice.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 import webrtc.chatservice.enums.ClientMessageType;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @NoArgsConstructor
+@RedisHash("chatLog")
 public class ChatLog {
 
     @Id

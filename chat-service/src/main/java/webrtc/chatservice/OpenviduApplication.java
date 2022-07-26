@@ -13,5 +13,4 @@ public class OpenviduApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OpenviduApplication.class, args);
 	}
-
 }

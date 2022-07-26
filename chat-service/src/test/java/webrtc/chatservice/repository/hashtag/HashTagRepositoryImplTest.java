@@ -2,43 +2,35 @@ package webrtc.chatservice.repository.hashtag;
 
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
-import webrtc.chatservice.service.user.UserService;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@DataJpaTest
+@Import({
+        HashTagRepositoryImpl.class
+})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class HashTagRepositoryImplTest {
 
     @Autowired
-    private HashTagRepositoryImpl hashTagRepository;
-
-    @Autowired
-    private UserService userService;
+    private HashTagRepository hashTagRepository;
 
 
     String tag1 = "tag1";
     String tag2 = "tag2";
     String tag3 = "tag3";
 
-    @BeforeEach
-    public void clearUserCache() {
-        userService.redisDataEvict();
-    }
-
 
     @Test
-    @Transactional
     public void 해시태그_저장성공() {
         //given
         HashTag hashTag = new HashTag(tag1);
@@ -50,13 +42,12 @@ public class HashTagRepositoryImplTest {
     }
 
     @Test
-    @Transactional
     public void 해시태그_저장성공_AND_해시태그이름조회_성공() {
         //given
         HashTag hashTag = new HashTag(tag1);
+        hashTagRepository.save(hashTag);
 
         //when
-        hashTagRepository.save(hashTag);
         HashTag findHashTag = hashTagRepository.findHashTagByName(hashTag.getTagName());
 
         //then
@@ -64,10 +55,9 @@ public class HashTagRepositoryImplTest {
     }
 
     @Test
-    @Transactional
     public void 해시태그_저장성공_AND_해시태그이름조회_실패() {
         //given
-        HashTag hashTag = new HashTag("testTag");
+        HashTag hashTag = new HashTag(tag1);
 
         //when
 

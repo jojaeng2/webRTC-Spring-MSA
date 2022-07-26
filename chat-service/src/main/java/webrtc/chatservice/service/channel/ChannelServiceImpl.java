@@ -8,10 +8,15 @@ import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.exception.ChannelException.*;
+import webrtc.chatservice.exception.HashTagException;
+import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelRepository;
+import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
+import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
+import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 
 import java.util.ArrayList;
@@ -24,10 +29,13 @@ import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 @Service
 public class ChannelServiceImpl implements ChannelService{
 
-    private final ChannelRepository channelRepository;
+    private final ChannelDBRepository channelDBRepository;
+    private final ChannelRedisRepository channelRedisRepository;
     private final ChatLogRepository chatLogRepository;
+    private ChannelHashTagRepository channelHashTagRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
+    private final HashTagRepository hashTagRepository;
     private final Long pointUnit = 100L;
     private final HttpApiController httpApiController;
 
@@ -39,7 +47,7 @@ public class ChannelServiceImpl implements ChannelService{
         Channel channel;
         User user;
         try {
-            channel = channelRepository.findChannelByChannelName(request.getChannelName());
+            channel = channelDBRepository.findChannelByChannelName(request.getChannelName());
             throw new AlreadyExistChannelException();
         } catch (NotExistChannelException ex1) {
             channel = new Channel(request.getChannelName(), request.getChannelType());
@@ -52,7 +60,23 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         List<String> hashTags = request.getHashTags();
-        channelRepository.createChannel(channel, hashTags);
+        List<ChannelHashTag> channelHashTagList = new ArrayList<>();
+        for (String tagName : hashTags) {
+            HashTag hashTag;
+            try {
+                hashTag = hashTagRepository.findHashTagByName(tagName);
+            } catch (NotExistHashTagException e) {
+                hashTag = new HashTag(tagName);
+            }
+
+            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+            channelHashTagList.add(channelHashTag);
+            hashTag.addChannelHashTag(channelHashTag);
+            channel.addChannelHashTag(channelHashTag);
+            channelHashTagRepository.save(channelHashTag);
+        }
+
+        channelDBRepository.createChannel(channel, channelHashTagList);
 
         createChannelUser(user, channel);
 
@@ -84,7 +108,7 @@ public class ChannelServiceImpl implements ChannelService{
 
         String channelId = channel.getId();
         try {
-            channelRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
+            channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
             throw new AlreadyExistUserInChannelException();
         } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
@@ -104,7 +128,7 @@ public class ChannelServiceImpl implements ChannelService{
     public void exitChannel(String channelId, String userId) {
         Channel channel = findOneChannelById(channelId);
         ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId);
-        channelRepository.exitChannelUserInChannel(channel, channelUser);
+        channelDBRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
     /*
@@ -114,7 +138,7 @@ public class ChannelServiceImpl implements ChannelService{
     @Transactional
     public void deleteChannel(String channelId) {
         Channel channel = findOneChannelById(channelId);
-        channelRepository.deleteChannel(channel);
+        channelDBRepository.deleteChannel(channel);
     }
 
 
@@ -126,9 +150,9 @@ public class ChannelServiceImpl implements ChannelService{
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelRepository.findAnyChannelByPartiASC(idx));
+                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiASC(idx));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelRepository.findAnyChannelByPartiDESC(idx));
+                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiDESC(idx));
         }
         return new ArrayList<>();
     }
@@ -142,9 +166,9 @@ public class ChannelServiceImpl implements ChannelService{
         User user = userRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelRepository.findMyChannelByPartiASC(user.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(user.getId(), idx));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelRepository.findMyChannelByPartiDESC(user.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiDESC(user.getId(), idx));
         }
         return new ArrayList<>();
     }
@@ -154,40 +178,38 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public Channel findOneChannelById(String channelId) {
-        Channel channel = channelRepository.findChannelById(channelId);
-        channel.setTimeToLive(channelRepository.findChannelTTL(channelId));
+        Channel channel = channelDBRepository.findChannelById(channelId);
+        channel.setTimeToLive(channelRedisRepository.findChannelTTL(channelId));
         return channel;
     }
 
     @Transactional
     public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
+        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelRepository.findChannelsByHashNameAndPartiASC(tagName, idx));
+                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag, idx));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelRepository.findChannelsByHashNameAndPartiDESC(tagName, idx));
+                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag, idx));
         }
         return new ArrayList<>();
     }
 
     @Transactional
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
-        Channel channel = channelRepository.findChannelById(channelId);
+        Channel channel = channelDBRepository.findChannelById(channelId);
         httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
-        channelRepository.extensionChannelTTL(channel, requestTTL * 30 * 60);
+        channelRedisRepository.extensionChannelTTL(channel, requestTTL * 30L * 60L);
     }
 
     private void createChannelUser(User user, Channel channel) {
         ChannelUser channelUser = new ChannelUser(user, channel);
-        channelUserRepository.save(channelUser);
-//        userRepository.setChannelUser(user, channelUser);
-        channelRepository.enterChannelUserInChannel(channel, channelUser);
     }
 
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
-            channel.setTimeToLive(channelRepository.findChannelTTL(channel.getId()));
+            channel.setTimeToLive(channelRedisRepository.findChannelTTL(channel.getId()));
             ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
             responses.add(response);
         }

@@ -1,21 +1,18 @@
 package webrtc.chatservice.repository.user;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelRepository;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
-import webrtc.chatservice.service.user.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,22 +20,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
-@SpringBootTest
+@DataJpaTest
+@Import({
+        UserRepositoryImpl.class
+})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryImplTest {
 
     @Autowired
+    private TestEntityManager em;
+    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ChannelRepository channelRepository;
-    @Autowired
-    private ChannelUserRepository channelUserRepository;
-    @Autowired
-    private UserService userService;
-
-    @BeforeEach
-    public void clearUserCache() {
-        userService.redisDataEvict();
-    }
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -102,10 +94,8 @@ public class UserRepositoryImplTest {
         User user = new User(nickname1, password, email1);
         userRepository.saveUser(user);
         Channel channel = new Channel(channelName1, text);
-        channelRepository.createChannel(channel, new ArrayList<>());
         ChannelUser channelUser = new ChannelUser(user, channel);
-        channelRepository.enterChannelUserInChannel(channel, channelUser);
-
+        em.persist(channel);
         //when
 
         List<User> findUsers = userRepository.findUsersByChannelId(channel.getId());
@@ -121,7 +111,7 @@ public class UserRepositoryImplTest {
         User user = new User(nickname1, password, email1);
         userRepository.saveUser(user);
         Channel channel = new Channel(channelName1, text);
-        channelRepository.createChannel(channel, new ArrayList<>());
+        ChannelUser channelUser = new ChannelUser(user, channel);
 
         //when
 

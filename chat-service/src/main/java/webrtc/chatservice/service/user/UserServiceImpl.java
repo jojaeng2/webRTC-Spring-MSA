@@ -7,17 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
-import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
-import webrtc.chatservice.dto.UserDto.FindUserByEmailRequest;
 import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelRepository;
+import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.user.UserRepository;
 import webrtc.chatservice.utils.CustomJsonMapper;
 
@@ -27,7 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private final ChannelRepository channelRepository;
+    private final ChannelDBRepository channelDBRepository;
+    private final ChannelRedisRepository channelRedisRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
     private final HttpApiController httpApiController;
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email) {
         FindUserWithPointByEmailResponse response = httpApiController.postFindUserWithPointByEmail(email);
-        return new ExtensionChannelInfoWithUserPointResponse(channelRepository.findChannelTTL(channelId), response.getPoint());
+        return new ExtensionChannelInfoWithUserPointResponse(channelRedisRepository.findChannelTTL(channelId), response.getPoint());
     }
 
     @Transactional
