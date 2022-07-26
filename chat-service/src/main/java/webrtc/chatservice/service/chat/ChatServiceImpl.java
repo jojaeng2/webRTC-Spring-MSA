@@ -28,14 +28,14 @@ public class ChatServiceImpl implements ChatService{
     private final UserRepository userRepository;
     private final ChannelDBRepository channelDBRepository;
 
+    @Transactional
     public Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, nickname, senderEmail);
 
         if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
         else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
-
-        chatLog.setChannel(channel);
+        channel.addChatLog(chatLog);
         chatLogRepository.save(chatLog);
         return chatLog.getIdx();
     }

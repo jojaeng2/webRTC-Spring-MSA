@@ -34,8 +34,6 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {
         Throwable exception = ex;
-        System.out.println("handleClientMessageProcessingError = ");
-        System.out.println("exception.getCause() = " + exception.getCause());
         if (exception instanceof MessageDeliveryException) {
             exception = exception.getCause();
             if(exception instanceof JwtException) {
