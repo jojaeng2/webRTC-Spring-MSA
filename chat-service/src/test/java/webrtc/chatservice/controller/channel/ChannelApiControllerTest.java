@@ -33,6 +33,8 @@ import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
@@ -45,6 +47,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -134,6 +137,8 @@ public class ChannelApiControllerTest {
                 .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
 
         // when
+
+        // then
         mockMvc.perform(post("/api/v1/webrtc/chat/channel")
                         .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
                         .content(StrRequest)
@@ -163,31 +168,43 @@ public class ChannelApiControllerTest {
 
     }
 
-//    @Test
-//    @Transactional
-//    public void 채널생성_실패_중복된채널이름() throws Exception{
-//        // given
-//        CreateChannelRequest request = CreateChannelRequest(channelName1);
-//        mockMvc.perform(
-//                        post("/api/v1/webrtc/chat/channel")
-//                                .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                                .content(objectMapper.writeValueAsString(request))
-//                                .contentType(APPLICATION_JSON)
-//                                .accept(APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//
-//        // when
-//
-//
-//        // then
-//        mockMvc.perform(
-//                    post("/api/v1/webrtc/chat/channel")
-//                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                        .content(objectMapper.writeValueAsString(request))
-//                        .contentType(APPLICATION_JSON)
-//                        .accept(APPLICATION_JSON))
-//                .andExpect(status().is(409));
-//    }
+    @Test
+    @Transactional
+    public void 채널생성_실패_중복된채널이름() throws Exception{
+        // given
+        User user = new User(nickName1, password, email1);
+
+        CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
+        String StrRequest = objectMapper.writeValueAsString(ObjRequest);
+
+        doReturn(user.getEmail())
+                .when(jwtTokenUtil).getUserEmailFromToken(any());
+
+        doThrow(new AlreadyExistChannelException())
+                .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
+
+        // when
+
+
+        // then
+        mockMvc.perform(post("/api/v1/webrtc/chat/channel")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .content(StrRequest)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(409))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(document("create-channel-fail-alreadyExistName",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("hashTags").type(JsonFieldType.ARRAY).description("채널 해시태그 목록"),
+                                fieldWithPath("channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
 //
 //    @Test
 //    @DisplayName("20개 이하 Channels 정보 불러오기")
