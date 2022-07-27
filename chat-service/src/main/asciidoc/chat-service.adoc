@@ -1,5 +1,5 @@
 = CHAT-Service RESTful Notes API Guide
-:doctype: create-channel
+:doctype: register-post
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
@@ -9,16 +9,58 @@
 :sectanchors:
 
 [[api]]
-== create-channel Api
-api 에 관련된 설명을 이곳에 적는다.
-1. header에 jwt access 토큰을 넣어야 합니다. 
-2. hashTags는 공백일 경우 빈 배열을 넘겨주세요.
-3. hashTags 개수의 제한은 없으나, UI 디자인에 문제가 발생할 수도 있습니다. 프론트분들의 소통이 필요합니다. 
-4. 문자 채팅과 음성 채팅방은 분리가 되어 있습니다. 채널 타입이 추가되는 것을 대비하여 채널 타입을 String으로 구별하기로 했습니다. 
+== 회원가입 API
+회원가입 기능을 제공하는 API이지만, 회원가입은 채팅 서비스에서 진행하지 않고, 메인 서버에서 진행합니다.
 
+따라서 임시 회원을 만들고 테스트 하는 용도로 사용합니다.
 
-include::{snippets}/create-channel/http-request.adoc[]
-include::{snippets}/create-channel/request-fields.adoc[]
+Request 예시입니다.
 
-include::{snippets}/create-channel/http-response.adoc[]
-include::{snippets}/create-channel/response-fields.adoc[]
+include::{snippets}/register-post/http-request.adoc[]
+
+Request Field 형식입니다.
+
+include::{snippets}/register-post//request-fields.adoc[]
+
+요청 성공시 Response 예시입니다.
+
+include::{snippets}/register-post//http-response.adoc[]
+
+Response 형식입니다.
+Email, Nickname 외의 정보는 채팅 서비스에서 사용되지 않습니다.
+
+include::{snippets}/register-post//response-fields.adoc[]
+
+:doctype: authenticate-post-success
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+[[api]]
+== jwt 토큰발급 API
+jwt Access token을 발급 받습니다.
+
+1. 토큰을 발급받을때는 Header에 별도의 처리를 안해도 됩니다.
+2. email과 password로 가입된 사용자인지 확인합니다.
+3. 이후의 모든 Request는 Header Authorization에 토큰을 넣어야 하며 형식은 아래와 같습니다.
+4. "jwt " + "발급받은 토큰" jwt 뒤에 공백이 있음에 주의하세요.
+
+Request 예시입니다.
+
+include::{snippets}/authenticate-post-success/http-request.adoc[]
+Request Field 형식입니다.
+
+include::{snippets}/authenticate-post-success/request-fields.adoc[]
+
+토큰을 정상적으로 발급받을 때 Response 예시입니다.
+include::{snippets}/authenticate-post-success/http-response.adoc[]
+토큰을 정상적으로 발급받을 때 Response 형식입니다.
+include::{snippets}/authenticate-post-success/response-fields.adoc[]
+
+존재하지 않은 Email 정보를 사용했을 때
+
+include::{snippets}/authenticate-post-fail-notexistuser/http-response.adoc[]

@@ -15,6 +15,7 @@ public class JwtDto {
     @AllArgsConstructor
     public static class JwtRequest implements Serializable {
         private static final Long serialVersionUID = 5926468583005150707L;
+
         private String email;
         private String password;
     }

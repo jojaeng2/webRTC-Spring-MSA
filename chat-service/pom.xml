@@ -157,7 +157,9 @@
 						</goals>
 						<configuration>
 							<backend>html</backend>
-							<doctype>create-channel</doctype>
+							<doctype>register-post</doctype>
+							<doctype>authenticate-post-success</doctype>
+							<doctype>authenticate-post-fail-notexistuser</doctype>
 						</configuration>
 					</execution>
 				</executions>
