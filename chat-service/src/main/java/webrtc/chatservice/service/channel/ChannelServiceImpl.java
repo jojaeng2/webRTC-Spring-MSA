@@ -32,7 +32,7 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChannelDBRepository channelDBRepository;
     private final ChannelRedisRepository channelRedisRepository;
     private final ChatLogRepository chatLogRepository;
-    private ChannelHashTagRepository channelHashTagRepository;
+    private final ChannelHashTagRepository channelHashTagRepository;
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;

@@ -71,4 +71,8 @@ public class Channel implements Serializable {
         chatLog.setChannel(this);
         this.chatLogs.add(chatLog);
     }
+
+    public void setCurrentParticipants(Long currentParticipants) {
+        this.currentParticipants = currentParticipants;
+    }
 }
