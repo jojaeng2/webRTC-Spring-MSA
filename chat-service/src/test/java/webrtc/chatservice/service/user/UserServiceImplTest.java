@@ -33,6 +33,8 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
     @Mock
     private HttpApiController httpApiController;
+    @Mock
+    private BCryptPasswordEncoder encoder;
 
     String nickname1 = "nickname1";
     String password = "password";
@@ -45,10 +47,13 @@ public class UserServiceImplTest {
     @Test
     public void 유저저장_성공() {
         // given
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         CreateUserRequest request = new CreateUserRequest(nickname1, password, email1);
 
-        doNothing().when(userRepository)
+        doReturn(password)
+                .when(encoder).encode(any(String.class));
+        doNothing()
+                .when(userRepository)
                 .saveUser(any(User.class));
 
         // when
