@@ -13,7 +13,6 @@ import webrtc.chatservice.utils.JwtTokenUtil;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.OK;
 
 
@@ -28,10 +27,10 @@ public class ChannelApiController {
     private final JwtTokenUtil jwtTokenUtil;
 
     @ApiOperation(value = "채널 생성", notes =
-            "1. header에 jwt access 토큰을 넣어야 합니다. \n" +
-            "2. hashTags는 공백일 경우 빈 배열을 넘겨주세요.\n" +
-            "3. hashTags 개수의 제한은 없으나, UI 디자인에 문제가 발생할 수도 있습니다. 프론트분들의 소통이 필요합니다. \n" +
-            "4. 문자 채팅과 음성 채팅방은 분리가 되어 있습니다. 채널 타입이 추가되는 것을 대비하여 채널 타입을 String으로 구별하기로 했습니다. "
+            " \n" +
+            "2. \n" +
+            "3.  \n" +
+            "4.  "
     )
     @ApiImplicitParams({
         @ApiImplicitParam(

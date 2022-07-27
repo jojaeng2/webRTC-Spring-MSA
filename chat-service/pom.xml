@@ -159,7 +159,6 @@
 							<backend>html</backend>
 							<doctype>register-post</doctype>
 							<doctype>authenticate-post-success</doctype>
-							<doctype>authenticate-post-fail-notexistuser</doctype>
 						</configuration>
 					</execution>
 				</executions>
