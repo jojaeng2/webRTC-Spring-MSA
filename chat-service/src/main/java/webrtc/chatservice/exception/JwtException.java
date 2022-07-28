@@ -3,6 +3,8 @@ package webrtc.chatservice.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import webrtc.chatservice.enums.SocketInterceptorErrorType;
 
 public class JwtException {
@@ -18,5 +20,10 @@ public class JwtException {
             this.type = type;
             this.exception = exception;
         }
+    }
+
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public static class JwtAccessTokenNotValid extends RuntimeException {
+
     }
 }

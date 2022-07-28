@@ -9,8 +9,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,6 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 
@@ -25,8 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.User;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.JwtException;
+import webrtc.chatservice.exception.JwtException.JwtAccessTokenNotValid;
 import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelService;
@@ -34,6 +43,7 @@ import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -67,6 +77,7 @@ public class JwtAuthenticationControllerTest {
     String nickname1 = "nickname1";
     String password = "password";
     String email1 = "email1";
+    String jwtAccessToken;
 
 
     @BeforeEach
@@ -75,6 +86,11 @@ public class JwtAuthenticationControllerTest {
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
+
+        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+                .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
+
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
     }
 
     @Test

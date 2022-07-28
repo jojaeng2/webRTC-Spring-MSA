@@ -90,12 +90,23 @@ include::{snippets}/authenticate-post-fail-notexistuser/http-response.adoc[]
 Request 예시입니다.
 
 include::{snippets}/create-channel-success/http-request.adoc[]
+
 Request Field 형식입니다.
 
 include::{snippets}/create-channel-success/request-fields.adoc[]
 
 채널을 정상적으로 생성할 때 Response 예시입니다.
+
 include::{snippets}/create-channel-success/http-response.adoc[]
+
+jwt-token에 아래 4가지 문제중 하나가 존재할때 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
+
+1. 존재하지 않는 User token입니다.
+2. Jwt Access Token이 만료되었습니다.
+3. 올바르지 않은 Jwt Token 형식입니다.
+4. 올바르지 않은 Jwt Hashing algorithm입니다.
+
+include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
 이미 같은 이름을 사용하는 채널이 존재할때 Response 입니다.
 include::{snippets}/create-channel-fail-alreadyExistName/http-response.adoc[]

@@ -35,6 +35,7 @@ import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
@@ -85,8 +86,7 @@ public class ChannelApiControllerTest {
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    String nickName1 = "user1";
-    String nickName2 = "user2";
+    String nickname1 = "user1";
     String password = "password";
     String email1 = "email1";
     String email2 = "email2";
@@ -125,7 +125,7 @@ public class ChannelApiControllerTest {
     public void 새로운_채널생성_성공() throws Exception{
         // given
 
-        User user = new User(nickName1, password, email1);
+        User user = new User(nickname1, password, email1);
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -172,7 +172,7 @@ public class ChannelApiControllerTest {
     @Transactional
     public void 채널생성_실패_중복된채널이름() throws Exception{
         // given
-        User user = new User(nickName1, password, email1);
+        User user = new User(nickname1, password, email1);
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -205,6 +205,44 @@ public class ChannelApiControllerTest {
                         )
                 ));
     }
+    @Test
+    @Transactional
+    public void jwt토큰문제발생() throws Exception{
+        // given
+        User user = new User(nickname1, password, email1);
+
+        CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
+        String StrRequest = objectMapper.writeValueAsString(ObjRequest);
+
+        doReturn(user.getEmail())
+                .when(jwtTokenUtil).getUserEmailFromToken(any());
+
+        doThrow(new JwtException.JwtAccessTokenNotValid())
+                .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
+
+        // when
+
+
+        // then
+        mockMvc.perform(post("/api/v1/webrtc/chat/channel")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .content(StrRequest)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(401))
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(document("jwt-accesstoken-invalid",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("hashTags").type(JsonFieldType.ARRAY).description("채널 해시태그 목록"),
+                                fieldWithPath("channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
+
 //
 //    @Test
 //    @DisplayName("20개 이하 Channels 정보 불러오기")
