@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -25,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
@@ -35,6 +37,7 @@ import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
@@ -52,8 +55,12 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
@@ -145,14 +152,16 @@ public class ChannelApiControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
                 .andDo(document("create-channel-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("channelName").type(STRING).description("채널 이름"),
-                                fieldWithPath("hashTags").type(JsonFieldType.ARRAY).description("채널 해시태그 목록"),
+                                fieldWithPath("hashTags").type(ARRAY).description("채널 해시태그 목록"),
                                 fieldWithPath("channelType").type(STRING).description("채널 타입")
                         ),
                         responseFields(
@@ -193,14 +202,16 @@ public class ChannelApiControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().is(409))
-                .andDo(MockMvcResultHandlers.print())
                 .andDo(document("create-channel-fail-alreadyExistName",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("channelName").type(STRING).description("채널 이름"),
-                                fieldWithPath("hashTags").type(JsonFieldType.ARRAY).description("채널 해시태그 목록"),
+                                fieldWithPath("hashTags").type(ARRAY).description("채널 해시태그 목록"),
                                 fieldWithPath("channelType").type(STRING).description("채널 타입")
                         )
                 ));
@@ -230,15 +241,105 @@ public class ChannelApiControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().is(401))
-                .andDo(MockMvcResultHandlers.print())
                 .andDo(document("jwt-accesstoken-invalid",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("channelName").type(STRING).description("채널 이름"),
-                                fieldWithPath("hashTags").type(JsonFieldType.ARRAY).description("채널 해시태그 목록"),
+                                fieldWithPath("hashTags").type(ARRAY).description("채널 해시태그 목록"),
                                 fieldWithPath("channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널ID로_채널정보반환성공() throws Exception{
+
+        // given
+
+        Channel channel = new Channel(channelName1, text);
+        for(String tagName : hashTagList) {
+            HashTag hashTag = new HashTag(tagName);
+            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+            channel.addChannelHashTag(channelHashTag);
+        }
+
+        doReturn(channel)
+                .when(channelService).findOneChannelById(any(String.class));
+
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/channel/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("return-channelInfo-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(STRING).description("채널 이름"),
+                                fieldWithPath("channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("limitParticipants").type(NUMBER).description("채널에 참여할 수있는 제한인원"),
+                                fieldWithPath("currentParticipants").type(NUMBER).description("채널에 현재 참여중인 인원"),
+                                fieldWithPath("timeToLive").type(NUMBER).description("채널이 삭제되기까지 남은 시간"),
+                                fieldWithPath("channelHashTags").type(ARRAY).description("채널에 사용된 해시태그들"),
+                                fieldWithPath("channelHashTags[].hashTag").type(OBJECT).description("채널에 사용된 해시태그"),
+                                fieldWithPath("channelHashTags[].hashTag.tagName").type(STRING).description("해시태그 이름"),
+                                fieldWithPath("channelType").type(STRING).description("채널 타입")
+                        )
+                ))
+                .andExpect(jsonPath("$.channelName", is(channelName1)))
+                .andExpect(jsonPath("$.limitParticipants", is(15)))
+                .andExpect(jsonPath("$.timeToLive").exists())
+                .andExpect(jsonPath("$.channelHashTags").exists());
+
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널ID로_채널정보반환실패_채널없음() throws Exception{
+
+        // given
+
+        Channel channel = new Channel(channelName1, text);
+
+        doThrow(new NotExistChannelException())
+                .when(channelService).findOneChannelById(any(String.class));
+
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/channel/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(404))
+                .andDo(document("return-channelInfo-fail-notexistchannel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
                         )
                 ));
     }
@@ -373,28 +474,6 @@ public class ChannelApiControllerTest {
 ////        assertThat(response.getCurrentParticipant*/s()).isEqualTo(2);
 //    }
 //
-//    @Test
-//    @DisplayName("channelId로 특정 채널 정보 반환")
-//    public void findOneChannelByChannelId() throws Exception{
-//        // given
-//        CreateChannelRequest request = CreateChannelRequest("testChannel");
-//        mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                .content(objectMapper.writeValueAsString(request))
-//                .contentType(APPLICATION_JSON));
-
-
-        // when
-//        Channel findChannel = channelService.findChannelByHashName("testTag1").get(0);
-//        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/channel/" + findChannel.getId()).header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindOneChannelResponse.class);
-//        FindOneChannelResponse response = FindOneChannelResponse.class.cast(obj);
-//
-//        // then
-//        resultActions.andExpect(status().isOk());
-//        assertThat(response.getChannelId()).isEqualTo(findChannel.getId());
-//        assertThat(response.getChannelName()).isEqualTo(findChannel.getChannelName());
-//        assertThat(response.getCurrentParticipants()).isEqualTo(1L);
-//    }
 
 
 

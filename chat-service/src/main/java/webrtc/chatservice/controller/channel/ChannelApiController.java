@@ -101,19 +101,6 @@ public class ChannelApiController {
     }
 
 
-    @ApiOperation(value = "특정 채널정보 반환", notes =
-            "1. header에 jwt access 토큰을 넣어야 합니다. \n" +
-            "2. PathParameter로 channelId를 추가합니다."
-    )
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "channelId"
-                    , value = "반환할 채널의 channelId입니다."
-                    , required = true
-                    , dataType = "string"
-                    , paramType = "path"
-            )
-    })
     @ApiResponses({
             @ApiResponse(code = 200, message = "채널을 정상적으로 반환합니다."),
             @ApiResponse(code = 401, message = "jwt token에 아래의 4가지 문제중 하나가 존재합니다. 재로그인 후 토큰을 다시 발급받아 사용해야합니다. \n" +

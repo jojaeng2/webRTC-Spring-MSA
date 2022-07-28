@@ -23,6 +23,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -115,8 +117,10 @@ public class JwtAuthenticationControllerTest {
                     .contentType(APPLICATION_JSON)
                     .accept(APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andDo(MockMvcResultHandlers.print())
             .andDo(document("register-post",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+
                     requestFields(
                             fieldWithPath("nickname").type(STRING).description("회원 Nickname"),
                             fieldWithPath("password").type(STRING).description("회원 Password"),
@@ -157,8 +161,10 @@ public class JwtAuthenticationControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
                 .andDo(document("authenticate-post-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
                         requestFields(
                                 fieldWithPath("email").type(STRING).description("회원 Email"),
                                 fieldWithPath("password").type(STRING).description("회원 Password")
@@ -189,8 +195,10 @@ public class JwtAuthenticationControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().is(404))
-                .andDo(MockMvcResultHandlers.print())
                 .andDo(document("authenticate-post-fail-notexistuser",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+
                         requestFields(
                                 fieldWithPath("email").type(STRING).description("회원 Email"),
                                 fieldWithPath("password").type(STRING).description("회원 Password")

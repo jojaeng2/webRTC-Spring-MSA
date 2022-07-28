@@ -1,12 +1,9 @@
 = CHAT-Service RESTful Notes API Guide
-:doctype: register-post
-:icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 4
+:toclevels: 2
 :sectnums:
 :sectlinks:
-:sectanchors:
 
 [[api]]
 == 회원가입 API
@@ -30,15 +27,6 @@ Response 형식입니다.
 Email, Nickname 외의 정보는 채팅 서비스에서 사용되지 않습니다.
 
 include::{snippets}/register-post//response-fields.adoc[]
-
-:doctype:
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 4
-:sectnums:
-:sectlinks:
-:sectanchors:
 
 [[api]]
 == jwt 토큰발급 API
@@ -65,15 +53,6 @@ include::{snippets}/authenticate-post-success/response-fields.adoc[]
 
 include::{snippets}/authenticate-post-fail-notexistuser/http-response.adoc[]
 
-
-:doctype:
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 4
-:sectnums:
-:sectlinks:
-:sectanchors:
 
 [[api]]
 == 채널생성 API
@@ -110,4 +89,33 @@ include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
 이미 같은 이름을 사용하는 채널이 존재할때 Response 입니다.
 include::{snippets}/create-channel-fail-alreadyExistName/http-response.adoc[]
+
+
+[[api]]
+== 특정 채널정보 반환 API
+하나의 채널정보를 반환합니다.
+채널이 존재하지 않거나, Jwt-Token이 올바르지 않을 경우 예외가 발생합니다.
+
+1. header에 jwt access 토큰을 넣어야 합니다.
+2. PathParameter로 channelId를 추가 해야합니다.
+
+Request 예시입니다.
+
+include::{snippets}/return-channelInfo-success/http-request.adoc[]
+
+채널을 정상적으로 반환할 때 Response 예시입니다.
+
+include::{snippets}/return-channelInfo-success/http-response.adoc[]
+
+jwt-token에 아래 4가지 문제중 하나가 존재할때 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
+
+1. 존재하지 않는 User token입니다.
+2. Jwt Access Token이 만료되었습니다.
+3. 올바르지 않은 Jwt Token 형식입니다.
+4. 올바르지 않은 Jwt Hashing algorithm입니다.
+
+include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
+
+존재하지 않는 channelId를 PatParameter로 넣었을때 Response 입니다.
+include::{snippets}/return-channelInfo-fail-notexistchannel/http-response.adoc[]
 
