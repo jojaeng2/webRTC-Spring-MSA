@@ -1,9 +1,7 @@
 package webrtc.chatservice.controller.channel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,34 +14,23 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.ChannelDto.FindAllChannelResponse;
-import webrtc.chatservice.dto.JwtDto.JwtRequest;
-import webrtc.chatservice.dto.JwtDto.JwtResponse;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.user.UserService;
 import webrtc.chatservice.utils.CustomJsonMapper;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
@@ -69,7 +56,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
@@ -85,8 +71,6 @@ public class ChannelApiControllerTest {
     private JwtTokenUtilImpl jwtTokenUtil;
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
-    @Autowired
-    private CustomJsonMapper customJsonMapper;
     @Mock
     private ChannelService channelService;
     @Mock
@@ -98,9 +82,7 @@ public class ChannelApiControllerTest {
     String nickname1 = "user1";
     String password = "password";
     String email1 = "email1";
-    String email2 = "email2";
     String channelName1 = "channelName1";
-    String channelName2 = "channelName2";
     String tag1 = "tag1";
     String tag2 = "tag2";
     String tag3 = "tag3";
@@ -139,8 +121,6 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(user.getEmail())
-                .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doReturn(new Channel(channelName1, text))
                 .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));

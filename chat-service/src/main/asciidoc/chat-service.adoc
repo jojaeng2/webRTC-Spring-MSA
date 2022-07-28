@@ -126,7 +126,7 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
 
-=== 전체 채널정목록들 반환 API
+=== 전체 채널목록들 반환 API
 
 채널 목록들을 반환합니다.
 채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 전체 채널 목록들을 불러오는 API가 존재합니다.
@@ -181,7 +181,7 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
-=== 나의 채널정목록들 반환 API
+=== 나의 채널목록들 반환 API
 
 내가 입장한 채널 목록들을 반환합니다.
 채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 전체 채널 목록들을 불러오는 API가 존재합니다.
@@ -226,6 +226,59 @@ include::{snippets}/return-mychannels-success/path-parameters.adoc[]
 
 include::{snippets}/return-mychannels-success/http-response.adoc[]
 include::{snippets}/return-mychannels-success/response-fields.adoc[]
+
+jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
+
+1. 존재하지 않는 User token입니다.
+2. Jwt Access Token이 만료되었습니다.
+3. 올바르지 않은 Jwt Token 형식입니다.
+4. 올바르지 않은 Jwt Hashing algorithm입니다.
+
+include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
+
+
+=== 채널 수명 연장 API
+사용자가 보유한 포인트를 사용해 채널의 수명을 연장합니다.
+
+요청을 보낼때 고려해야 하는 것은 크게 4가지가 존재합니다.
+
+1. Jwt Access 토큰을 Header에 넣어야 합니다.
+2. channelId를 PathParam으로 넣어주세요.
+3. 30분당 1 단위 채널의 수명을 얼마나 연장할지 보내주시면 됩니다.
+4. 문자 채팅방과 음성 채팅방의 수명 연장 비용은 다릅니다.
+
+수명 연장 비용이 다른 이유는 아래와 같습니다.
+
+1. webRTC 통신을 수행하는 media server는 동시 접속자의 수가 많을 수록 성능이 낮아지기 때문에 음성 채팅방의 비용을 더 높게 책정합니다.
+
+따라서 문자 채팅방인지, 음성 채팅방인지에 따라 사용되는 포인트가 다른 UI를 보여줘야 합니다.
+
+Request 예시입니다.
+
+include::{snippets}/extensionTTL-success/http-request.adoc[]
+include::{snippets}/extensionTTL-success/request-fields.adoc[]
+
+Request Header 입니다.
+
+include::{snippets}/extensionTTL-success/request-headers.adoc[]
+
+Request PathParameter 입니다.
+
+include::{snippets}/extensionTTL-success/path-parameters.adoc[]
+
+요청이 정상적으로 성공했을때, Response 예시입니다.
+
+include::{snippets}/extensionTTL-success/http-response.adoc[]
+include::{snippets}/extensionTTL-success/response-fields.adoc[]
+
+존재하지 않는 채널에 대해 요청을 보냈을때 Response 입니다.
+
+include::{snippets}/extensionTTL-fail-notexistchannel/http-response.adoc[]
+
+사용자가 보유한 포인트가 부족할때 Response 입니다.
+
+include::{snippets}/extensionTTL-fail-point/http-response.adoc[]
+
 
 jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
 

@@ -7,91 +7,231 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.PointException;
+import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.utils.CustomJsonMapper;
 import webrtc.chatservice.utils.JwtTokenUtil;
+import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
-import static org.mockito.Mockito.doNothing;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
-@Import({
-        ObjectMapper.class
-})
 @AutoConfigureRestDocs
-@AutoConfigureMockMvc
+@ExtendWith(RestDocumentationExtension.class)
 @ExtendWith(MockitoExtension.class)
 public class PointApiControllerTest {
-//
-//    @InjectMocks
-//    private PointApiController pointApiController;
-//
-//    @Mock
-//    private ChannelService channelService;
-//    @Mock
-//    private JwtTokenUtil jwtTokenUtil;
-//    @Mock
-//    private UserService userService;
-//    @Autowired
-//    private ObjectMapper objectMapper;
-//
-//    private MockMvc mockMvc;
-//
-//    String nickname1 = "nickname1";
-//    String nickname2 = "nickname2";
-//    String password = "password";
-//    String email1 = "email1";
-//    String email2 = "email2";
-//    String channelName1 = "channelName1";
-//    String channelName2 = "channelName2";
-//    String tag1 = "tag1";
-//    String tag2 = "tag2";
-//    String tag3 = "tag3";
-//    String jwtAccessToken = "accessToken";
-//    ChannelType text = TEXT;
-//    ChannelType voip = VOIP;
-//
-//    @BeforeEach
-//    public void init() {
-//        mockMvc = MockMvcBuilders.standaloneSetup(pointApiController).build();
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널연장성공() throws Exception{
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//        User user = new User(nickname1, password, email1);
-//        Long requestTTL = 100L;
-//
-//        ExtensionChannelTTLRequest objectRequest = new ExtensionChannelTTLRequest(requestTTL);
-//        String request = objectMapper.writeValueAsString(objectRequest);
-//
-//        doNothing()
-//                .when(channelService).extensionChannelTTL(channel.getId(), user.getEmail(), requestTTL);
-//
-//        // when
-//
-//        // then
-//        mockMvc.perform(
-//                post("/api/v1/webrtc/chat/extension/{id}")
-//                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//
-//        )
-//    }
 
+    @InjectMocks
+    private PointApiController pointApiController;
+    @Spy
+    private JwtTokenUtilImpl jwtTokenUtil;
+    @Mock
+    private JwtUserDetailsService jwtUserDetailsService;
+    @Mock
+    private ChannelService channelService;
+    @Mock
+    private UserService userService;
+    @Mock
+    private HttpApiController httpApiController;
+
+    private MockMvc mockMvc;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    String nickname1 = "user1";
+    String password = "password";
+    String email1 = "email1";
+    String channelName1 = "channelName1";
+    String tag1 = "tag1";
+    String tag2 = "tag2";
+    String tag3 = "tag3";
+    ChannelType text = TEXT;
+    List<String> hashTagList = new ArrayList<String>();
+    String jwtAccessToken;
+
+    @BeforeEach
+    public void setup(RestDocumentationContextProvider restDocumentationContextProvider) throws Exception{
+
+        this.mockMvc = MockMvcBuilders.standaloneSetup(pointApiController)
+                .apply(documentationConfiguration(restDocumentationContextProvider))
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))
+                .build();
+
+        // jwt token 생성
+        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+                .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
+
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
+    }
+
+    @Test
+    @Transactional
+    public void 채널연장성공() throws Exception{
+
+        // given
+        Channel channel = new Channel(channelName1, text);
+        User user = new User(nickname1, password, email1);
+        Long requestTTL = 10L;
+
+        ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
+        String StrRequest = objectMapper.writeValueAsString(ObjRequest);
+
+        doNothing()
+                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+        doReturn(channel)
+                .when(channelService).findOneChannelById(channel.getId());
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/webrtc/chat/extension/{id}", channel.getId())
+                .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                .content(StrRequest)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("extensionTTL-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("requestTTL").type(NUMBER).description("TTL을 증가시키는 단위입니다.")
+                        ),
+                        responseFields(
+                                fieldWithPath("channelTTL").type(NUMBER).description("TTL 증가 후 남은 시간입니다.")
+                        )
+                ));
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널연장실패_채널없음() throws Exception{
+
+        // given
+        Channel channel = new Channel(channelName1, text);
+        User user = new User(nickname1, password, email1);
+        Long requestTTL = 10L;
+
+        ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
+        String StrRequest = objectMapper.writeValueAsString(ObjRequest);
+
+        doThrow(new NotExistChannelException())
+                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/webrtc/chat/extension/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .content(StrRequest)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(404))
+                .andDo(document("extensionTTL-fail-notexistchannel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("requestTTL").type(NUMBER).description("TTL을 증가시키는 단위입니다.")
+                        )
+                ));
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널연장실패_포인트부족() throws Exception{
+
+        // given
+        Channel channel = new Channel(channelName1, text);
+        User user = new User(nickname1, password, email1);
+        Long requestTTL = 10L;
+
+        ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
+        String StrRequest = objectMapper.writeValueAsString(ObjRequest);
+
+        doThrow(new InsufficientPointException())
+                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/webrtc/chat/extension/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .content(StrRequest)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(409))
+                .andDo(document("extensionTTL-fail-point",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("requestTTL").type(NUMBER).description("TTL을 증가시키는 단위입니다.")
+                        )
+                ));
+    }
 }
