@@ -1,0 +1,24 @@
+[source,options="nowrap"]
+----
+{
+  "id" : "59406a11-63f1-49aa-81d2-d0d44496cf5e",
+  "channelName" : "channelName1",
+  "limitParticipants" : 15,
+  "currentParticipants" : 0,
+  "timeToLive" : 86400,
+  "channelHashTags" : [ {
+    "hashTag" : {
+      "tagName" : "tag2"
+    }
+  }, {
+    "hashTag" : {
+      "tagName" : "tag1"
+    }
+  }, {
+    "hashTag" : {
+      "tagName" : "tag3"
+    }
+  } ],
+  "channelType" : "TEXT"
+}
+----

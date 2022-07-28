@@ -1,0 +1,8 @@
+[source,options="nowrap"]
+----
+{
+  "channelName" : "channelName1",
+  "hashTags" : [ "tag1", "tag2", "tag3" ],
+  "channelType" : "TEXT"
+}
+----

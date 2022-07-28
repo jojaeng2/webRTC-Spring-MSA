@@ -1,0 +1,44 @@
+|===
+|Path|Type|Description
+
+|`+channels+`
+|`+Array+`
+|채널 정보를 담고있는 배열
+
+|`+channels[].id+`
+|`+String+`
+|채널 이름
+
+|`+channels[].channelName+`
+|`+String+`
+|채널 이름
+
+|`+channels[].limitParticipants+`
+|`+Number+`
+|채널에 참여할 수있는 제한인원
+
+|`+channels[].currentParticipants+`
+|`+Number+`
+|채널에 현재 참여중인 인원
+
+|`+channels[].timeToLive+`
+|`+Number+`
+|채널이 삭제되기까지 남은 시간
+
+|`+channels[].channelHashTags+`
+|`+Array+`
+|채널에 사용된 해시태그들
+
+|`+channels[].channelHashTags[].hashTag+`
+|`+Object+`
+|채널에 사용된 해시태그
+
+|`+channels[].channelHashTags[].hashTag.tagName+`
+|`+String+`
+|해시태그 이름
+
+|`+channels[].channelType+`
+|`+String+`
+|채널 타입
+
+|===

@@ -1,0 +1,7 @@
+|===
+|Name|Description
+
+|`+Authorization+`
+|Jwt Access 토큰
+
+|===

@@ -1,2 +1,4 @@
 webrtc/authservice/controller/UserControllerTest.class
 webrtc/authservice/AuthServiceApplicationTests.class
+webrtc/authservice/repository/user/UserRepositoryTest.class
+webrtc/authservice/service/user/UserServiceTest.class

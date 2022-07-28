@@ -1,0 +1,8 @@
+|===
+|Path|Type|Description
+
+|`+channelTTL+`
+|`+Number+`
+|TTL 증가 후 남은 시간입니다.
+
+|===

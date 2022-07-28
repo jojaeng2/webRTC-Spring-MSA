@@ -1,0 +1,7 @@
+[source,options="nowrap"]
+----
+{
+  "channelTTL" : 1234567,
+  "point" : 100000
+}
+----

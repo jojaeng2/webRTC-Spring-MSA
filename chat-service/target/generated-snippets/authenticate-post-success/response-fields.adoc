@@ -1,0 +1,8 @@
+|===
+|Path|Type|Description
+
+|`+jwttoken+`
+|`+String+`
+|Jwt-Access Token 입니다.
+
+|===

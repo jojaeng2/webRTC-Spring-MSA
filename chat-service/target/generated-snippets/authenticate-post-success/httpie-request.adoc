@@ -1,0 +1,9 @@
+[source,bash]
+----
+$ echo '{
+  "email" : "email1",
+  "password" : "password"
+}' | http POST 'http://localhost:8080/api/v1/webrtc/chat/authenticate' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

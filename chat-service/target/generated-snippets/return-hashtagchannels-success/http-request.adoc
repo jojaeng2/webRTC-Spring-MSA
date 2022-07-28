@@ -1,0 +1,9 @@
+[source,http,options="nowrap"]
+----
+GET /api/v1/webrtc/chat/hashtag/tag1/partiDESC/0 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMjkxMzUsImlhdCI6MTY1OTAxMTEzNX0.8NbsNHHvgLMVcSKMmxRCrGkQGQ2C7H5OUbOvnMo6LqxX4TtVwUCHITWNGg0iaQ1dWuVI50dsV1OapkARqr_rjw
+Accept: application/json
+Host: localhost:8080
+
+----

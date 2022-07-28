@@ -1,0 +1,46 @@
+[source,options="nowrap"]
+----
+{
+  "channels" : [ {
+    "id" : "719cefad-30f6-4990-93f7-ec4ff4a43222",
+    "channelName" : "channelName1",
+    "limitParticipants" : 15,
+    "currentParticipants" : 0,
+    "timeToLive" : 86400,
+    "channelHashTags" : [ {
+      "hashTag" : {
+        "tagName" : "tag1"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag2"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag3"
+      }
+    } ],
+    "channelType" : "TEXT"
+  }, {
+    "id" : "e183a379-080e-4f9a-8012-c8517bf55794",
+    "channelName" : "channelName1",
+    "limitParticipants" : 15,
+    "currentParticipants" : 0,
+    "timeToLive" : 86400,
+    "channelHashTags" : [ {
+      "hashTag" : {
+        "tagName" : "tag3"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag1"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag2"
+      }
+    } ],
+    "channelType" : "TEXT"
+  } ]
+}
+----

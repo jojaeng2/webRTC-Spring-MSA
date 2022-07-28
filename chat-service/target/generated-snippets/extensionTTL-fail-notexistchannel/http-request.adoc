@@ -1,0 +1,13 @@
+[source,http,options="nowrap"]
+----
+POST /api/v1/webrtc/chat/extension/cff525a2-4d6c-49d3-9247-f966f8deca53 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMjkxMzUsImlhdCI6MTY1OTAxMTEzNX0.8NbsNHHvgLMVcSKMmxRCrGkQGQ2C7H5OUbOvnMo6LqxX4TtVwUCHITWNGg0iaQ1dWuVI50dsV1OapkARqr_rjw
+Accept: application/json
+Content-Length: 23
+Host: localhost:8080
+
+{
+  "requestTTL" : 10
+}
+----

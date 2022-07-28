@@ -1,0 +1,53 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 877
+
+{
+  "channels" : [ {
+    "id" : "ddebcdc0-b0cb-41fc-89a0-2564dcc655a9",
+    "channelName" : "channelName1",
+    "limitParticipants" : 15,
+    "currentParticipants" : 0,
+    "timeToLive" : 86400,
+    "channelHashTags" : [ {
+      "hashTag" : {
+        "tagName" : "tag1"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag2"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag3"
+      }
+    } ],
+    "channelType" : "TEXT"
+  }, {
+    "id" : "27c934e4-07a6-4503-91b3-3bf98554e489",
+    "channelName" : "channelName1",
+    "limitParticipants" : 15,
+    "currentParticipants" : 0,
+    "timeToLive" : 86400,
+    "channelHashTags" : [ {
+      "hashTag" : {
+        "tagName" : "tag2"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag1"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag3"
+      }
+    } ],
+    "channelType" : "TEXT"
+  } ]
+}
+----

@@ -1,2 +1,4 @@
 /Users/jo/Desktop/webRTC/auth-service/src/test/java/webrtc/authservice/AuthServiceApplicationTests.java
+/Users/jo/Desktop/webRTC/auth-service/src/test/java/webrtc/authservice/service/user/UserServiceTest.java
+/Users/jo/Desktop/webRTC/auth-service/src/test/java/webrtc/authservice/repository/user/UserRepositoryTest.java
 /Users/jo/Desktop/webRTC/auth-service/src/test/java/webrtc/authservice/controller/UserControllerTest.java

@@ -1,0 +1,11 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/api/v1/webrtc/chat/register' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -d '{
+  "nickname" : "nickname1",
+  "password" : "password",
+  "email" : "email1"
+}'
+----

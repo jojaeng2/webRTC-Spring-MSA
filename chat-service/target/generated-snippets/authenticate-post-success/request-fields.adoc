@@ -1,0 +1,16 @@
+===== Request Fields
+|===
+|필드명|타입|필수값|설명
+
+|`+email+`
+|`+String+`
+|true
+|회원 Email
+
+|`+password+`
+|`+String+`
+|true
+|회원 Password
+
+
+|===

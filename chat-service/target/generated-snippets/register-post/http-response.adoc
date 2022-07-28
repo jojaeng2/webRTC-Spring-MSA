@@ -1,0 +1,22 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 264
+
+{
+  "id" : "55abe9ce-ddb0-4994-8532-d94ddf8c5833",
+  "created_at" : null,
+  "updated_at" : null,
+  "email" : "email1",
+  "birthdate" : null,
+  "phone_number" : null,
+  "school" : null,
+  "company" : null,
+  "nickname" : "nickname1",
+  "nickname_expire_at" : null
+}
+----

@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+channelTTL+`
+|`+Number+`
+|채널의 현재 남은 TTL 시간입니다.
+
+|`+point+`
+|`+Number+`
+|유저가 현재 가지고 있는 포인트입니다.
+
+|===
