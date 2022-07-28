@@ -1,122 +1,224 @@
-//package webrtc.chatservice.controller.channel.api;
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.ResultActions;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.context.WebApplicationContext;
-//import org.springframework.web.filter.CharacterEncodingFilter;
-//import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-//import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
-//import webrtc.chatservice.dto.JwtDto.JwtRequest;
-//import webrtc.chatservice.dto.JwtDto.JwtResponse;
-//import webrtc.chatservice.dto.UserDto.CreateUserRequest;
-//import webrtc.chatservice.service.user.UserService;
-//import webrtc.chatservice.utils.CustomJsonMapper;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.springframework.http.MediaType.APPLICATION_JSON;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//@Transactional
-//@SpringBootTest
-//@RunWith(SpringRunner.class)
-//@AutoConfigureMockMvc
-//public class HashTagApiControllerTest {
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @Autowired
-//    private WebApplicationContext wac;
-//
-//    @Autowired
-//    private CustomJsonMapper customJsonMapper;
-//
-//    @Autowired
-//    private ObjectMapper objectMapper;
-//
-//    @Autowired
-//    private UserService userService;
-//
-//
-//    private String jwtAccessToken;
-//
-//    @BeforeEach
-//    public void clearUserCache() {
-//        userService.redisDataEvict();
-//    }
-//
-//
-//    @Before
-//    public void setup() throws Exception {
-//        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-//                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
-//                .build();
-//
-//        ResultActions resultActions0 = mockMvc.perform(post("/api/v1/webrtc/register")
-//                .content(new ObjectMapper().writeValueAsString(CreateUserRequest("user")))
-//                .contentType(APPLICATION_JSON));
-//
-//
-//        ResultActions resultActions2 = mockMvc.perform(post("/api/v1/webrtc/authenticate")
-//                .content(new ObjectMapper().writeValueAsString(CreateJwtAccessTokenRequest()))
-//                .contentType(APPLICATION_JSON));
-//
-//        Object object = customJsonMapper.jsonParse(resultActions2.andReturn().getResponse().getContentAsString(), JwtResponse.class);
-//        jwtAccessToken = JwtResponse.class.cast(object).getJwttoken();
-//    }
-//
-//    @Test
-//    @DisplayName("HashTagName으로 Channel들 검색")
-//    public void SearchChannelsByHashTagName() throws Exception {
-//        // given
-//        String channelName = "testChannel";
-//        CreateChannelRequest request = CreateChannelRequest(channelName);
-//        mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                .content(objectMapper.writeValueAsString(request))
-//                .contentType(APPLICATION_JSON));
-//
-//        // when
-//        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/hashtag/testTag1")
-//                .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), HashTagResponse.class);
-//        HashTagResponse response = HashTagResponse.class.cast(obj);
-//
-//        // then
-//        resultActions.andExpect(status().isOk());
-//        assertThat(response.getChannels().get(0).getChannelName()).isEqualTo(channelName);
-//    }
-//
-//    private JwtRequest CreateJwtAccessTokenRequest() {
-//        return new JwtRequest("email", "user");
-//    }
-//
-//    private CreateUserRequest CreateUserRequest(String userName) {
-//        return new CreateUserRequest(userName, "user", "email");
-//    }
-//
-//    private CreateChannelRequest CreateChannelRequest(String channelName) {
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add("testTag1");
-//        hashTags.add("testTag2");
-//        hashTags.add("testTag3");
-//        return new CreateChannelRequest(channelName, hashTags, "chat");
-//    }
-//}
+package webrtc.chatservice.controller.hashtag;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import webrtc.chatservice.controller.HttpApiController;
+import webrtc.chatservice.controller.hashtag.HashTagApiController;
+import webrtc.chatservice.controller.point.PointApiController;
+import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.ChannelHashTag;
+import webrtc.chatservice.domain.HashTag;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
+import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
+import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
+import webrtc.chatservice.dto.JwtDto.JwtRequest;
+import webrtc.chatservice.dto.JwtDto.JwtResponse;
+import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.HashTagException;
+import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
+import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.jwt.JwtUserDetailsService;
+import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.utils.CustomJsonMapper;
+import webrtc.chatservice.utils.JwtTokenUtilImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static webrtc.chatservice.enums.ChannelType.TEXT;
+
+@AutoConfigureRestDocs
+@ExtendWith(RestDocumentationExtension.class)
+@ExtendWith(MockitoExtension.class)
+public class HashTagApiControllerTest {
+
+
+    @InjectMocks
+    private HashTagApiController hashTagApiController;
+    @Spy
+    private JwtTokenUtilImpl jwtTokenUtil;
+    @Mock
+    private JwtUserDetailsService jwtUserDetailsService;
+    @Mock
+    private ChannelService channelService;
+    @Mock
+    private UserService userService;
+    @Mock
+    private HttpApiController httpApiController;
+
+    private MockMvc mockMvc;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    String nickname1 = "user1";
+    String password = "password";
+    String email1 = "email1";
+    String channelName1 = "channelName1";
+    String tag1 = "tag1";
+    String tag2 = "tag2";
+    String tag3 = "tag3";
+    ChannelType text = TEXT;
+    List<String> hashTagList = new ArrayList<String>();
+    String jwtAccessToken;
+
+    @BeforeEach
+    public void setup(RestDocumentationContextProvider restDocumentationContextProvider) throws Exception{
+        hashTagList.add(tag1);
+        hashTagList.add(tag2);
+        hashTagList.add(tag3);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(hashTagApiController)
+                .apply(documentationConfiguration(restDocumentationContextProvider))
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))
+                .build();
+
+        // jwt token 생성
+        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+                .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
+
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
+    }
+
+    @Test
+    @Transactional
+    public void 해시태그채널목록_불러오기성공() throws Exception {
+        // given
+        List<ChannelResponse> responseList = new ArrayList<>();
+        int channelsSize = 2;
+        for(int i=1; i<=channelsSize; i++) {
+            Channel channel = new Channel(channelName1, text);
+            for(String tagName : hashTagList) {
+                HashTag hashTag = new HashTag(tagName);
+                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                channel.addChannelHashTag(channelHashTag);
+            }
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+            responseList.add(response);
+        }
+
+        doReturn(responseList)
+                .when(channelService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/hashtag/{tagName}/{orderType}/{idx}",
+                                tag1, "partiDESC", "0")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(200))
+                .andDo(document("return-hashtagchannels-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tagName").description("채널 목록을 찾는데 사용되는 해시태그입니다."),
+                                parameterWithName("orderType").description("채널 목록을 불러올 정렬 기준입니다."),
+                                parameterWithName("idx").description("몇번째 채널 목록을 불러올지 알려주는 index 값입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("channels").type(ARRAY).description("채널 정보를 담고있는 배열"),
+                                fieldWithPath("channels[].id").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].limitParticipants").type(NUMBER).description("채널에 참여할 수있는 제한인원"),
+                                fieldWithPath("channels[].currentParticipants").type(NUMBER).description("채널에 현재 참여중인 인원"),
+                                fieldWithPath("channels[].timeToLive").type(NUMBER).description("채널이 삭제되기까지 남은 시간"),
+                                fieldWithPath("channels[].channelHashTags").type(ARRAY).description("채널에 사용된 해시태그들"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag").type(OBJECT).description("채널에 사용된 해시태그"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag.tagName").type(STRING).description("해시태그 이름"),
+                                fieldWithPath("channels[].channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
+
+
+
+
+
+    @Test
+    @Transactional
+    public void 해시태그채널목록_불러오기실패() throws Exception {
+        // given
+        List<ChannelResponse> responseList = new ArrayList<>();
+        int channelsSize = 2;
+        for(int i=1; i<=channelsSize; i++) {
+            Channel channel = new Channel(channelName1, text);
+            for(String tagName : hashTagList) {
+                HashTag hashTag = new HashTag(tagName);
+                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                channel.addChannelHashTag(channelHashTag);
+            }
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+            responseList.add(response);
+        }
+
+        doThrow(new NotExistHashTagException())
+                .when(channelService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/hashtag/{tagName}/{orderType}/{idx}",
+                                tag1, "partiDESC", "0")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(404))
+                .andDo(document("return-hashtagchannels-fail-notExistHashtag",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("tagName").description("채널 목록을 찾는데 사용되는 해시태그입니다."),
+                                parameterWithName("orderType").description("채널 목록을 불러올 정렬 기준입니다."),
+                                parameterWithName("idx").description("몇번째 채널 목록을 불러올지 알려주는 index 값입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        )
+                ));
+    }
+}
