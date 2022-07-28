@@ -24,6 +24,10 @@ before_deploy:
   - mkdir -p master
   - mv master.zip master/master.zip
 
+services:
+  - mysql
+  - redis-server
+
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY 
