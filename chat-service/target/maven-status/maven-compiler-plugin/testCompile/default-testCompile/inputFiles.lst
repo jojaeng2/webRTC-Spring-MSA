@@ -6,7 +6,6 @@
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/controller/hashtag/HashTagApiControllerTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/user/UserServiceImplTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/channel/ChannelServiceImplTest.java
-/Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/OpenviduApplicationTests.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/controller/point/PointApiControllerTest.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/config/TestRedisConfig.java
 /Users/jo/Desktop/webRTC/chat-service/src/test/java/webrtc/chatservice/service/jwt/JwtUserDetailsServiceTest.java

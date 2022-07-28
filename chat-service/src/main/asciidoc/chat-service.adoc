@@ -428,3 +428,7 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 4. 올바르지 않은 Jwt Hashing algorithm입니다.
 
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
+
+
+== 채팅관련 API
+=== 채널 로그 API

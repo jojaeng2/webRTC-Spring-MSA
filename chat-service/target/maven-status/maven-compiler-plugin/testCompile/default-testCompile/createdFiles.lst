@@ -1,4 +1,5 @@
 webrtc/chatservice/repository/chat/ChatLogRepositoryImplTest.class
+webrtc/chatservice/controller/hashtag/HashTagApiControllerTest.class
 webrtc/chatservice/service/channel/PointDecreaseMockTest.class
 webrtc/chatservice/service/chat/ChatServiceImplTest.class
 webrtc/chatservice/domain/UserTest.class
@@ -8,7 +9,6 @@ webrtc/chatservice/repository/user/UserRepositoryImplTest.class
 webrtc/chatservice/service/channel/ChannelServiceImplTest.class
 webrtc/chatservice/controller/chat/ChatApiControllerTest.class
 webrtc/chatservice/controller/jwt/JwtAuthenticationControllerTest.class
-webrtc/chatservice/OpenviduApplicationTests.class
 webrtc/chatservice/repository/hashtag/HashTagRepositoryImplTest.class
 webrtc/chatservice/service/channel/ChannelUserServiceImplTest.class
 webrtc/chatservice/controller/channel/ChannelApiControllerTest.class
