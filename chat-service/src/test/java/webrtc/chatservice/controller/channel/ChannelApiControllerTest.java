@@ -29,6 +29,8 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.User;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.dto.ChannelDto.FindAllChannelResponse;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
@@ -344,137 +346,110 @@ public class ChannelApiControllerTest {
                 ));
     }
 
-//
-//    @Test
-//    @DisplayName("20개 이하 Channels 정보 불러오기")
-//    public void loadAllChannelsLessThan20() throws Exception{
-//        // given
-//        int channelsSize = 15;
-//        for(int i=0; i<channelsSize; i++) {
-//            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
-//            ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                    .content(objectMapper.writeValueAsString(request))
-//                    .contentType(APPLICATION_JSON));
-//        }
-//
-//        // when
-//        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/channels/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//
-//        // then
-//        resultActions.andExpect(status().isOk());
-//        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//        FindAllChannelResponse response = FindAllChannelResponse.class.cast(obj);
-//        assertThat(response.getChannels().size()).isEqualTo(channelsSize);
-//    }
-//
-//    @Test
-//    @DisplayName("20개 이상 Channels 정보 불러오기")
-//    public void loadAllChannelsMoreThan20() throws Exception {
-//        // given
-//        int channelSize = 25;
-//        for(int i=0; i<channelSize; i++) {
-//            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
-//            ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                    .content(objectMapper.writeValueAsString(request))
-//                    .contentType(APPLICATION_JSON));
-//        }
-//
-//        // when
-//        ResultActions resultActions0 = mockMvc.perform(get("/api/v1/webrtc/channels/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//        ResultActions resultActions1 = mockMvc.perform(get("/api/v1/webrtc/channels/1").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//
-//
-//        // then
-//        resultActions0.andExpect(status().isOk());
-//        resultActions1.andExpect(status().isOk());
-//
-//        Object obj0 = customJsonMapper.jsonParse(resultActions0.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//        Object obj1 = customJsonMapper.jsonParse(resultActions1.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//
-//        FindAllChannelResponse response0 = FindAllChannelResponse.class.cast(obj0);
-//        FindAllChannelResponse response1 = FindAllChannelResponse.class.cast(obj1);
-//
-//        assertThat(response0.getChannels().size()).isEqualTo(20);
-//        assertThat(response1.getChannels().size()).isEqualTo(5);
-//    }
-//
-//    @Test
-//    @DisplayName("20개 이하 My Channels 불러오기")
-//    public void loadMyChannelsLessThan20() throws Exception{
-//        // given
-//        int channelsSize = 15;
-//        for(int i=0; i<channelsSize; i++) {
-//            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
-//            ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                    .content(objectMapper.writeValueAsString(request))
-//                    .contentType(APPLICATION_JSON));
-//        }
-//
-//        // when
-//        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/mychannel/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//
-//        // then
-//        resultActions.andExpect(status().isOk());
-//        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//        FindAllChannelResponse response = FindAllChannelResponse.class.cast(obj);
-//        assertThat(response.getChannels().size()).isEqualTo(channelsSize);
-//    }
-//
-//    @Test
-//    @DisplayName("20개 이상 My Channels 불러오기")
-//    public void loadMyChannelsMoreThan20() throws Exception {
-//
-//        // given
-//        int channelSize = 25;
-//        for(int i=0; i<channelSize; i++) {
-//            CreateChannelRequest request = CreateChannelRequest("testChannel" + i);
-//            ResultActions resultActions = mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                    .content(objectMapper.writeValueAsString(request))
-//                    .contentType(APPLICATION_JSON));
-//        }
-//
-//        // when
-//        ResultActions resultActions0 = mockMvc.perform(get("/api/v1/webrtc/mychannel/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//        ResultActions resultActions1 = mockMvc.perform(get("/api/v1/webrtc/mychannel/1").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-//
-//
-//        // then
-//        resultActions0.andExpect(status().isOk());
-//        resultActions1.andExpect(status().isOk());
-//
-//        Object obj0 = customJsonMapper.jsonParse(resultActions0.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//        Object obj1 = customJsonMapper.jsonParse(resultActions1.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-//
-//        FindAllChannelResponse response0 = FindAllChannelResponse.class.cast(obj0);
-//        FindAllChannelResponse response1 = FindAllChannelResponse.class.cast(obj1);
-//
-//        assertThat(response0.getChannels().size()).isEqualTo(20);
-//        assertThat(response1.getChannels().size()).isEqualTo(5);
-//    }
-//
-//    @Test
-//    @DisplayName("새로운 유저가 채널 입장 후 채널 정보 반환")
-//    public void enterNewUserReturnChannelInfo() throws Exception {
-//        // given
-//        CreateChannelRequest request = CreateChannelRequest("testChannel");
-//        mockMvc.perform(post("/api/v1/webrtc/channel").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
-//                .content(objectMapper.writeValueAsString(request))
-//                .contentType(APPLICATION_JSON));
-//
-//        // when
-////        /*Channel findChannel = channelService.findChannelByHashName("testTag1").get(0);
-////        channelService.enterChannel(findChannel, "enterEmail");
-////        ResultActions resultActions = mockMvc.perform(get("/api/v1/webrtc/channels/0").header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken));
-////        Object obj = customJsonMapper.jsonParse(resultActions.andReturn().getResponse().getContentAsString(), FindAllChannelResponse.class);
-////        FindAllChannelResponse allResponse = FindAllChannelResponse.class.cast(obj);
-////        ChannelResponse response = allResponse.getChannels().get(0);
-////
-////        // then
-////        resultActions.andExpect(status().isOk());
-////        assertThat(response.getCurrentParticipant*/s()).isEqualTo(2);
-//    }
-//
 
+    @Test
+    @Transactional
+    public void any채널목록불러오기성공() throws Exception{
+        // given
+        List<ChannelResponse> responseList = new ArrayList<>();
+        int channelsSize = 2;
+        for(int i=1; i<=channelsSize; i++) {
+            Channel channel = new Channel(channelName1, text);
+            for(String tagName : hashTagList) {
+                HashTag hashTag = new HashTag(tagName);
+                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                channel.addChannelHashTag(channelHashTag);
+            }
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+            responseList.add(response);
+        }
 
+        doReturn(responseList)
+                .when(channelService).findAnyChannel(any(String.class), any(Integer.class));
 
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/channels/{orderType}/{idx}", "partiDESC", "0")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(200))
+                .andDo(document("return-anychannels-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("orderType").description("채널 목록을 불러올 정렬 기준입니다."),
+                                parameterWithName("idx").description("몇번째 채널 목록을 불러올지 알려주는 index 값입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("channels").type(ARRAY).description("채널 정보를 담고있는 배열"),
+                                fieldWithPath("channels[].id").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].limitParticipants").type(NUMBER).description("채널에 참여할 수있는 제한인원"),
+                                fieldWithPath("channels[].currentParticipants").type(NUMBER).description("채널에 현재 참여중인 인원"),
+                                fieldWithPath("channels[].timeToLive").type(NUMBER).description("채널이 삭제되기까지 남은 시간"),
+                                fieldWithPath("channels[].channelHashTags").type(ARRAY).description("채널에 사용된 해시태그들"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag").type(OBJECT).description("채널에 사용된 해시태그"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag.tagName").type(STRING).description("해시태그 이름"),
+                                fieldWithPath("channels[].channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
+
+    @Test
+    @Transactional
+    public void my채널목록불러오기성공() throws Exception{
+        // given
+        List<ChannelResponse> responseList = new ArrayList<>();
+        int channelsSize = 2;
+        for(int i=1; i<=channelsSize; i++) {
+            Channel channel = new Channel(channelName1, text);
+            for(String tagName : hashTagList) {
+                HashTag hashTag = new HashTag(tagName);
+                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                channel.addChannelHashTag(channelHashTag);
+            }
+            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+            responseList.add(response);
+        }
+
+        doReturn(responseList)
+                .when(channelService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/mychannel/{orderType}/{idx}", "partiDESC", "0")
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(200))
+                .andDo(document("return-mychannels-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("orderType").description("채널 목록을 불러올 정렬 기준입니다."),
+                                parameterWithName("idx").description("몇번째 채널 목록을 불러올지 알려주는 index 값입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("channels").type(ARRAY).description("채널 정보를 담고있는 배열"),
+                                fieldWithPath("channels[].id").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].channelName").type(STRING).description("채널 이름"),
+                                fieldWithPath("channels[].limitParticipants").type(NUMBER).description("채널에 참여할 수있는 제한인원"),
+                                fieldWithPath("channels[].currentParticipants").type(NUMBER).description("채널에 현재 참여중인 인원"),
+                                fieldWithPath("channels[].timeToLive").type(NUMBER).description("채널이 삭제되기까지 남은 시간"),
+                                fieldWithPath("channels[].channelHashTags").type(ARRAY).description("채널에 사용된 해시태그들"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag").type(OBJECT).description("채널에 사용된 해시태그"),
+                                fieldWithPath("channels[].channelHashTags[].hashTag.tagName").type(STRING).description("해시태그 이름"),
+                                fieldWithPath("channels[].channelType").type(STRING).description("채널 타입")
+                        )
+                ));
+    }
 }
