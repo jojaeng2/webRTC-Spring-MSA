@@ -237,6 +237,90 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
 
+
+
+
+
+
+
+
+
+
+=== 채널 수명과 유저 포인트 조회 API
+채널의 현재 남은 수명과 유저의 포인트를 조회하는 API 입니다.
+요청을 보낼때 고려해야 하는 것은 크게 2가지입니다.
+
+1. Jwt Access 토큰을 Header에 넣어야 합니다.
+2. channelId를 PathParam으로 넣어주세요.
+
+Request 예시입니다.
+
+include::{snippets}/findTTLAndPoint-success/http-request.adoc[]
+
+Request Header 입니다.
+
+include::{snippets}/findTTLAndPoint-success/request-headers.adoc[]
+
+Request PathParameter 입니다.
+
+include::{snippets}/findTTLAndPoint-success/path-parameters.adoc[]
+
+요청이 정상적으로 성공했을때, Response 예시입니다.
+
+include::{snippets}/findTTLAndPoint-success/http-response.adoc[]
+include::{snippets}/findTTLAndPoint-success/response-fields.adoc[]
+
+존재하지 않는 채널에 대해 요청을 보냈을때 Response 입니다.
+
+include::{snippets}/findTTLAndPoint-fail-notExistChannel/http-response.adoc[]
+
+존재하지 않는 사용자일때 Response 입니다.
+
+include::{snippets}/findTTLAndPoint-fail-notExistUser/http-response.adoc[]
+
+
+jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
+
+1. 존재하지 않는 User token입니다.
+2. Jwt Access Token이 만료되었습니다.
+3. 올바르지 않은 Jwt Token 형식입니다.
+4. 올바르지 않은 Jwt Hashing algorithm입니다.
+
+include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 === 채널 수명 연장 API
 사용자가 보유한 포인트를 사용해 채널의 수명을 연장합니다.
 

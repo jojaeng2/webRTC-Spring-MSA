@@ -84,7 +84,6 @@ public class ChannelRedisRepositoryImplTest {
         Channel channel = new Channel(channelName1, text);
 
         // when
-
         // then
         assertThrows(IllegalArgumentException.class, ()-> {
             channelRedisRepository.findChannelTTL(null);

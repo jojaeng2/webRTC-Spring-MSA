@@ -11,6 +11,8 @@ import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
@@ -48,7 +50,9 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email) {
         FindUserWithPointByEmailResponse response = httpApiController.postFindUserWithPointByEmail(email);
-        return new ExtensionChannelInfoWithUserPointResponse(channelRedisRepository.findChannelTTL(channelId), response.getPoint());
+        Long ttl = channelRedisRepository.findChannelTTL(channelId);
+        if(ttl == -2) throw new NotExistChannelException();
+        return new ExtensionChannelInfoWithUserPointResponse(ttl, response.getPoint());
     }
 
     @Transactional

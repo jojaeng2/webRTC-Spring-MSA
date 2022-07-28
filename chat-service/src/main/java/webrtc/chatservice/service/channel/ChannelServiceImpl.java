@@ -179,7 +179,9 @@ public class ChannelServiceImpl implements ChannelService{
     @Transactional
     public Channel findOneChannelById(String channelId) {
         Channel channel = channelDBRepository.findChannelById(channelId);
-        channel.setTimeToLive(channelRedisRepository.findChannelTTL(channelId));
+        Long ttl = channelRedisRepository.findChannelTTL(channelId);
+        if(ttl == -2) throw new NotExistChannelException();
+        channel.setTimeToLive(ttl);
         return channel;
     }
 
@@ -209,7 +211,9 @@ public class ChannelServiceImpl implements ChannelService{
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
         List<ChannelResponse> responses = new ArrayList<>();
         for (Channel channel : channels) {
-            channel.setTimeToLive(channelRedisRepository.findChannelTTL(channel.getId()));
+            Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
+            if(ttl == -2) continue;
+            channel.setTimeToLive(ttl);
             ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
             responses.add(response);
         }

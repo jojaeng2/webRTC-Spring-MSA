@@ -26,12 +26,15 @@ import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.user.UserService;
@@ -113,6 +116,104 @@ public class PointApiControllerTest {
 
     @Test
     @Transactional
+    public void 채널수명_유저정보_요청성공() throws Exception{
+        // given
+        Channel channel = new Channel(channelName1, text);
+        int point = 100000;
+        Long channelTTL = 1234567L;
+
+        doReturn(new ExtensionChannelInfoWithUserPointResponse(channelTTL, point))
+                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/point/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("findTTLAndPoint-success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        ),
+                        responseFields(
+                                fieldWithPath("channelTTL").type(NUMBER).description("채널의 현재 남은 TTL 시간입니다."),
+                                fieldWithPath("point").type(NUMBER).description("유저가 현재 가지고 있는 포인트입니다.")
+                                )
+                ));
+    }
+
+
+
+    @Test
+    @Transactional
+    public void 채널수명_유저정보_요청실패_채널없음() throws Exception{
+        // given
+        Channel channel = new Channel(channelName1, text);
+
+        doThrow(new NotExistChannelException())
+                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/point/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(404))
+                .andDo(document("findTTLAndPoint-fail-notExistChannel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        )
+                ));
+    }
+
+
+    @Test
+    @Transactional
+    public void 채널수명_유저정보_요청실패_유저없음() throws Exception{
+        // given
+        Channel channel = new Channel(channelName1, text);
+
+        doThrow(new NotExistUserException())
+                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/point/{id}", channel.getId())
+                        .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().is(404))
+                .andDo(document("findTTLAndPoint-fail-notExistUser",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("채널ID입니다.")
+                        ),
+                        requestHeaders(
+                                headerWithName(AUTHORIZATION).description("Jwt Access 토큰")
+                        )
+                ));
+    }
+
+
+
+    @Test
+    @Transactional
     public void 채널연장성공() throws Exception{
 
         // given
@@ -154,7 +255,6 @@ public class PointApiControllerTest {
                         )
                 ));
     }
-
 
     @Test
     @Transactional
