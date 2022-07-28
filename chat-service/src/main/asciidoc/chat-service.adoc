@@ -1,12 +1,12 @@
 = CHAT-Service RESTful Notes API Guide
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 4
 :sectnums:
 :sectlinks:
 
-[[api]]
-== 회원가입 API
+== 회원관련 API
+=== 회원가입 API
 회원가입 기능을 제공하는 API이지만, 회원가입은 채팅 서비스에서 진행하지 않고, 메인 서버에서 진행합니다.
 
 따라서 임시 회원을 만들고 테스트 하는 용도로 사용합니다.
@@ -17,15 +17,13 @@ include::{snippets}/register-post/http-request.adoc[]
 include::{snippets}/register-post/request-fields.adoc[]
 
 요청 성공시 Response 예시입니다.
-
-include::{snippets}/register-post//http-response.adoc[]
-
 Email, Nickname 외의 정보는 채팅 서비스에서 사용되지 않습니다.
 
-include::{snippets}/register-post//response-fields.adoc[]
+include::{snippets}/register-post/http-response.adoc[]
+include::{snippets}/register-post/response-fields.adoc[]
 
-[[api]]
-== jwt 토큰발급 API
+
+=== jwt 토큰발급 API
 jwt Access token을 발급 받습니다.
 
 1. 토큰을 발급받을때는 Header에 별도의 처리를 안해도 됩니다.
@@ -36,26 +34,26 @@ jwt Access token을 발급 받습니다.
 Request 예시입니다.
 
 include::{snippets}/authenticate-post-success/http-request.adoc[]
-
 include::{snippets}/authenticate-post-success/request-fields.adoc[]
 
 토큰을 정상적으로 발급받을 때 Response 예시입니다.
+
 include::{snippets}/authenticate-post-success/http-response.adoc[]
 include::{snippets}/authenticate-post-success/response-fields.adoc[]
 
-존재하지 않은 Email 정보를 사용했을 때
+존재하지 않은 Email 정보를 사용했을 때 Response 입니다.
 
 include::{snippets}/authenticate-post-fail-notexistuser/http-response.adoc[]
 
 
-[[api]]
-== 채널생성 API
+== 채널관련 API
+=== 채널생성 API
 새로운 채널을 생성합니다.
 같은 이름의 채널이 이미 존재하거나, Jwt-Token이 올바르지 않은 경우 채널이 생성되지 않습니다.
 
 1. header에 jwt access 토큰을 넣어야 합니다.
 2. hashTags는 공백일 경우 최소 빈 배열을 넘겨주세요.
-3. hashTags 개수의 제한은 없으나, UI 디자인에 문제가 발생할 수도 있기에 정책의 설정이 필요합니다.
+3. hashTags 개수의 제한은 없으나, UI에 문제가 발생할 수도 있기에 정책의 설정이 필요합니다.
 4. 문자 채팅과 음성 채팅방은 분리가 되어 있습니다. 채널 타입이 추가되는 확장성을 위해 Enum 타입으로 정의합니다. 현재 존재하는 채널 타입의 종류는 아래와 같습니다.
 
     TEXT, VOIP
@@ -65,10 +63,19 @@ Request 예시입니다.
 include::{snippets}/create-channel-success/http-request.adoc[]
 include::{snippets}/create-channel-success/request-fields.adoc[]
 
+Request Header 입니다.
+
+include::{snippets}/create-channel-success/request-headers.adoc[]
+
+
 채널을 정상적으로 생성할 때 Response 예시입니다.
 
 include::{snippets}/create-channel-success/http-response.adoc[]
-include::{snippets}/create-channel-success//response-fields.adoc[]
+include::{snippets}/create-channel-success/response-fields.adoc[]
+
+이미 같은 이름을 사용하는 채널이 존재할때 Response 입니다.
+
+include::{snippets}/create-channel-fail-alreadyExistName/http-response.adoc[]
 
 jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
 
@@ -79,27 +86,36 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
-이미 같은 이름을 사용하는 채널이 존재할때 Response 입니다.
-include::{snippets}/create-channel-fail-alreadyExistName/http-response.adoc[]
-
-
-[[api]]
-== 특정 채널정보 반환 API
+=== 특정 채널정보 반환 API
 하나의 채널정보를 반환합니다.
 채널이 존재하지 않거나, Jwt-Token이 올바르지 않을 경우 예외가 발생합니다.
 
-1. header에 jwt access 토큰을 넣어야 합니다.
-2. PathParameter로 channelId를 추가 해야합니다.
+1. header에 jwt access 토큰을 넣어주세요.
+2. PathParameter로 channelId를 추가 해주세요.
 
 Request 예시입니다.
 
 include::{snippets}/return-channelInfo-success/http-request.adoc[]
+
+Request Header 입니다.
+
+include::{snippets}/return-channelInfo-success/request-headers.adoc[]
+
+Request PathParameter 입니다.
+
+include::{snippets}/return-channelInfo-success/path-parameters.adoc[]
+
 
 채널을 정상적으로 반환할 때 Response 예시입니다.
 
 include::{snippets}/return-channelInfo-success/http-response.adoc[]
 include::{snippets}/return-channelInfo-success//response-fields.adoc[]
 
+
+존재하지 않는 channelId를 PatParameter로 넣었을때 Response 입니다.
+include::{snippets}/return-channelInfo-fail-notexistchannel/http-response.adoc[]
+
+
 jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
 
 1. 존재하지 않는 User token입니다.
@@ -109,27 +125,24 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
-존재하지 않는 channelId를 PatParameter로 넣었을때 Response 입니다.
-include::{snippets}/return-channelInfo-fail-notexistchannel/http-response.adoc[]
 
-[[api]]
-== 전체 채널정목록들 반환 API
+=== 전체 채널정목록들 반환 API
 
 채널 목록들을 반환합니다.
-채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 입장하거나 입장하지 않은 채널 목록들을 불러오는 API가 존재합니다.
-해당 API는 입장하거나 입장하지 않은 모든 채널들을 불러오는 API 입니다.
+채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 전체 채널 목록들을 불러오는 API가 존재합니다.
+해당 API는 전체 채널들을 불러오는 API 입니다.
 
-요청을 보낼때 고려해야 하는 것은 크게 3가지가 존재합니다.
+요청을 보낼때 고려해야 하는 것은 크게 3가지입니다.
 
 1. Jwt Access 토큰을 Header에 넣어야 합니다.
 2. 몇번째 채널 목록을 불러올 것인지 index 값
 3. 채널 목록의 정렬 조건
 
 채널 목록에 대한 요청은 스크롤 페이징을 적용했습니다.
-한번에 모든 채널 목록을 불러오지 않고 페이징을 적용한 이유는 아래와 같으며, 한번에 최대 20개의 채널 목록을 반환합니다.
+한번에 모든 채널 목록을 불러오지 않고 페이징을 적용한 이유는 아래와 같으며, 한번에 최대 '20'개의 채널 목록을 반환합니다.
 
 1. 한번에 모든 채널을 불러오는 요청을 처리함으로써 request 처리 비용이 증가합니다. (ex : 서버 메모리 부하, DB 부하, 네트워크 부하 증가로 response 받는 시간 증가 등 )
-2. channel에는 TTL이 존재합니다. TTL은 DB에 따로 저장하지 않으며 채널 목록을 불러온 후 Redis로 response를 보내기 직전 처리합니다. 따라서 불러온 채널 목록의 양에따라 처리 시간이 증가합니다.
+2. 채널에는 TTL이 존재합니다. TTL은 DB에 따로 저장하지 않으며 채널 목록을 불러온 후 response를 보내기 직전 처리합니다. 따라서 불러온 채널 목록의 개수에 따라 처리 시간이 증가합니다.
 3. 사용자의 가독성이 떨어집니다.
 
 따라서 request를 보낼때 몇번째 페이지에 대한 요청인지 {idx} 값을 넣어서 보내주셔야 합니다.
@@ -145,7 +158,14 @@ include::{snippets}/return-channelInfo-fail-notexistchannel/http-response.adoc[]
 Request 예시입니다.
 
 include::{snippets}/return-anychannels-success/http-request.adoc[]
+
+Request Header 입니다.
+
 include::{snippets}/return-anychannels-success/request-headers.adoc[]
+
+Request PathParameter 입니다.
+
+include::{snippets}/return-anychannels-success/path-parameters.adoc[]
 
 채널을 정상적으로 반환할 때 Response 예시입니다.
 
@@ -161,11 +181,10 @@ jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입�
 
 include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 
-[[api]]
-== 나의 채널정목록들 반환 API
+=== 나의 채널정목록들 반환 API
 
 내가 입장한 채널 목록들을 반환합니다.
-채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 입장하거나 입장하지 않은 채널 목록들을 불러오는 API가 존재합니다.
+채널 목록을 불러오는 API는 현재 입장하고 있는 채널 목록을 불러오는 API와 전체 채널 목록들을 불러오는 API가 존재합니다.
 해당 API는 사용자가 입장한 모든 채널들을 불러오는 API 입니다.
 
 요청을 보낼때 고려해야 하는 것은 크게 3가지가 존재합니다.
@@ -178,7 +197,7 @@ include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 한번에 모든 채널 목록을 불러오지 않고 페이징을 적용한 이유는 아래와 같으며, 한번에 최대 20개의 채널 목록을 반환합니다.
 
 1. 한번에 모든 채널을 불러오는 요청을 처리함으로써 request 처리 비용이 증가합니다. (ex : 서버 메모리 부하, DB 부하, 네트워크 부하 증가로 response 받는 시간 증가 등 )
-2. channel에는 TTL이 존재합니다. TTL은 DB에 따로 저장하지 않으며 채널 목록을 불러온 후 Redis로 response를 보내기 직전 처리합니다. 따라서 불러온 채널 목록의 양에따라 처리 시간이 증가합니다.
+2. channel에는 TTL이 존재합니다. TTL은 DB에 따로 저장하지 않으며 채널 목록을 불러온 후 response를 보내기 직전 처리합니다. 따라서 불러온 채널 목록의 양에따라 처리 시간이 증가합니다.
 3. 사용자의 가독성이 떨어집니다.
 
 따라서 request를 보낼때 몇번째 페이지에 대한 요청인지 {idx} 값을 넣어서 보내주셔야 합니다.
@@ -194,7 +213,14 @@ include::{snippets}/jwt-accesstoken-invalid/http-response.adoc[]
 Request 예시입니다.
 
 include::{snippets}/return-mychannels-success/http-request.adoc[]
+
+Request Header 입니다.
+
 include::{snippets}/return-mychannels-success/request-headers.adoc[]
+
+Request PathParameter 입니다.
+
+include::{snippets}/return-mychannels-success/path-parameters.adoc[]
 
 채널을 정상적으로 반환할 때 Response 예시입니다.
 
