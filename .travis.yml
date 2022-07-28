@@ -28,6 +28,10 @@ services:
   - mysql
   - redis-server
 
+before_script:
+- mysql -u root -e "CREATE USER 'ds4ouj'@'localhost' IDENTIFIED BY 'ds4ouj';"
+- mysql -u root -e "GRANT ALL ON stockmarket.* TO 'ds4ouj'@'localhost';"  
+
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY 

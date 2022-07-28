@@ -8,7 +8,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Length: 386
 
 {
-  "id" : "59406a11-63f1-49aa-81d2-d0d44496cf5e",
+  "id" : "48d56b93-9bad-49ba-81fa-46d3286a3f74",
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,

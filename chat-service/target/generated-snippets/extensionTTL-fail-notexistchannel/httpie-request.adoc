@@ -2,8 +2,8 @@
 ----
 $ echo '{
   "requestTTL" : 10
-}' | http POST 'http://localhost:8080/api/v1/webrtc/chat/extension/cff525a2-4d6c-49d3-9247-f966f8deca53' \
+}' | http POST 'http://localhost:8080/api/v1/webrtc/chat/extension/0145eae3-e300-42f5-8395-07cf706a2290' \
     'Content-Type:application/json;charset=UTF-8' \
-    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMjkxMzUsImlhdCI6MTY1OTAxMTEzNX0.8NbsNHHvgLMVcSKMmxRCrGkQGQ2C7H5OUbOvnMo6LqxX4TtVwUCHITWNGg0iaQ1dWuVI50dsV1OapkARqr_rjw' \
+    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMzA3MDQsImlhdCI6MTY1OTAxMjcwNH0.zovBIdGLT5BxgLZbHJFqQeOygBEfu-OfctkkDE0w9Uj6FCtyIG5pzho5RY3MU09UyGDqb6gOEphMhs5vGyznvw' \
     'Accept:application/json'
 ----

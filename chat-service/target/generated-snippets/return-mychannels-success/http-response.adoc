@@ -9,7 +9,7 @@ Content-Length: 877
 
 {
   "channels" : [ {
-    "id" : "719cefad-30f6-4990-93f7-ec4ff4a43222",
+    "id" : "1e62c032-40a6-4c53-8b4e-08a09b4e4751",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
@@ -29,7 +29,7 @@ Content-Length: 877
     } ],
     "channelType" : "TEXT"
   }, {
-    "id" : "e183a379-080e-4f9a-8012-c8517bf55794",
+    "id" : "e19ac2b1-4c2f-456c-b5e3-ebbead31a87c",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,

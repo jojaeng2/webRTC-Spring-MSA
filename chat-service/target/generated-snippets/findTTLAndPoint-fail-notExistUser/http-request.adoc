@@ -1,8 +1,8 @@
 [source,http,options="nowrap"]
 ----
-GET /api/v1/webrtc/chat/point/40bd3915-b4cc-4566-88ca-ee9a5b107c2c HTTP/1.1
+GET /api/v1/webrtc/chat/point/aa8acd10-3fa6-405a-90d5-fceba7987bee HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMjkxMzYsImlhdCI6MTY1OTAxMTEzNn0.B5faPHHu2grTMlAZLvA4am3iOd-ZzS7-u_sYWzXP4xf1ewnSIemVAP7OdPeSeS3udqm7dcz1USTNmHnKFUpJTg
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkwMzA3MDQsImlhdCI6MTY1OTAxMjcwNH0.zovBIdGLT5BxgLZbHJFqQeOygBEfu-OfctkkDE0w9Uj6FCtyIG5pzho5RY3MU09UyGDqb6gOEphMhs5vGyznvw
 Accept: application/json
 Host: localhost:8080
 

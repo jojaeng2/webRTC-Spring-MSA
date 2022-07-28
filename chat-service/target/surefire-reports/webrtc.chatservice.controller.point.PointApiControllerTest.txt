@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.controller.point.PointApiControllerTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s - in webrtc.chatservice.controller.point.PointApiControllerTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s - in webrtc.chatservice.controller.point.PointApiControllerTest
