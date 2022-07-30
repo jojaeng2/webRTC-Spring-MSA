@@ -56,11 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
         httpSecurity
-//                .cors().and()
+                .cors().and()
                 .csrf().disable()
-                // dont authenticate this particular request
                 .authorizeRequests().antMatchers(
                         "/api/v1/webrtc/chat/authenticate",
                         "/api/v1/webrtc/chat/register"

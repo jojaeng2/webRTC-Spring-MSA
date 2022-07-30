@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional
-    @Cacheable(key = "#email", value = "user")
     public User findOneUserByEmail(String email) {
         try {
             return userRepository.findUserByEmail(email);
