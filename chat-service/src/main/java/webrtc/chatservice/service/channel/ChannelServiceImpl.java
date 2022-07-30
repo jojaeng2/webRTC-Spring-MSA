@@ -1,5 +1,6 @@
 package webrtc.chatservice.service.channel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -217,6 +218,7 @@ public class ChannelServiceImpl implements ChannelService{
             channel.setTimeToLive(ttl);
             ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
             responses.add(response);
+            System.out.println("response.getChannelName() = " + response.getChannelName());
         }
         return responses;
     }
