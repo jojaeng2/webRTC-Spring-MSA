@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public User save(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
         Point point = new Point("회원 가입", welcomePoint);
-        user.getPoints().add(point);
+        user.addPoint(point);
         userRepository.save(user);
         return user;
     }
@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findUserByEmail(email);
         List<Point> points = user.getPoints();
         int sum = user.sumOfPoint(points);
+        System.out.println(" points" + sum);
+        System.out.println("amount" + amount);
+        
         if(sum < amount) {
             throw new InsufficientPointException();
         }
