@@ -1,18 +1,18 @@
 [source,options="nowrap"]
 ----
 {
-  "id" : "48d56b93-9bad-49ba-81fa-46d3286a3f74",
+  "id" : "a4731321-8f54-48b5-8a90-3770168b8771",
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,
   "timeToLive" : 86400,
   "channelHashTags" : [ {
     "hashTag" : {
-      "tagName" : "tag2"
+      "tagName" : "tag1"
     }
   }, {
     "hashTag" : {
-      "tagName" : "tag1"
+      "tagName" : "tag2"
     }
   }, {
     "hashTag" : {

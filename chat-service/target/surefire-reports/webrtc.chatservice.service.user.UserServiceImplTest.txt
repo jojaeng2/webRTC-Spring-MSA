@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: webrtc.chatservice.service.user.UserServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s - in webrtc.chatservice.service.user.UserServiceImplTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s - in webrtc.chatservice.service.user.UserServiceImplTest
