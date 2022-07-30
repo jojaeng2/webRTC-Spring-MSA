@@ -33,8 +33,6 @@ before_script:
   - sudo mysql -u root -e 'CREATE DATABASE `webRTC`;'
   - sudo mysql -u root -e 'GRANT ALL ON *.* TO `ds4ouj`;'
   - sudo mysql -u root -e 'FLUSH PRIVILEGES;'
-  # - mysql -u root -e "CREATE USER 'ds4ouj'@'localhost' IDENTIFIED BY 'ds4ouj';"
-  # - mysql -u root -e "GRANT ALL ON stockmarket.* TO 'ds4ouj'@'localhost';"  
 
 deploy:
   - provider: s3

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
@@ -15,6 +16,7 @@ import webrtc.chatservice.utils.JwtTokenUtil;
 
 @RequiredArgsConstructor
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatMessageController {
 
     private final ChatService chatService;
