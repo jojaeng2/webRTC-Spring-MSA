@@ -13,7 +13,7 @@ services:
     image: chat
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://chat-database:3307/chat-db?useUnicode=true&serverTimezone=Asia/Seoul
-      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 1234
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.MySQL5Dialect
