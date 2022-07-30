@@ -55,12 +55,14 @@ public class ChannelDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class FindAllChannelResponse {
         private List<ChannelResponse> channels;
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class ChannelResponse {
         private String id;
