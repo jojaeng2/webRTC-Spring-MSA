@@ -77,7 +77,7 @@ public class ChannelServiceImpl implements ChannelService{
         }
 
         channelDBRepository.createChannel(channel, channelHashTagList);
-
+        channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
@@ -210,6 +210,7 @@ public class ChannelServiceImpl implements ChannelService{
 
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
         List<ChannelResponse> responses = new ArrayList<>();
+        System.out.println("channels.size() = " + channels.size());
         for (Channel channel : channels) {
             Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
             if(ttl == -2) continue;
