@@ -25,7 +25,7 @@ spring:
 server:
   port: 8080
   ssl :
-    key-store: /home/ec2-user/honeybee/master/chat-service/src/main/resources:keystore.p12
+    key-store: classpath:keystore.p12
     key-store-password: 1234
     key-store-type: PKCS12
   
