@@ -497,10 +497,6 @@ include::{snippets}/return-chatLog-success/path-parameters.adoc[]
 include::{snippets}/return-chatLog-success/http-response.adoc[]
 include::{snippets}/return-chatLog-success/response-fields.adoc[]
 
-존재하지 않는 채널에 대해 요청을 보냈을때 Response 입니다.
-
-include::{snippets}/extensionTTL-fail-notexistchannel/http-response.adoc[]
-
 
 jwt-token에 아래 4가지 문제중 하나가 존재할때 Response 예시입니다. 로그인을 다시하여 토큰을 다시 발급받아야 합니다.
 
