@@ -1,6 +1,6 @@
 [source,options="nowrap"]
 ----
 {
-  "jwttoken" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkxODgwNjEsImlhdCI6MTY1OTE3MDA2MX0.1UTUCvQNY9Ydl8CkgZnnyptdimkndlRnZrCpKg5yXUgf9gqYLcIAxp9Gu3LAH4QysChrgiC07JUvX-Zkaj8oSA"
+  "jwttoken" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjU3MTUsImlhdCI6MTY1OTI0NzcxNX0.SCldW9avz8cPia2B4L6CWQVz1JdzIkTGc4zOYlUO4AtH4Bn-p7jGiSvpzXbd7ouz3nxzFshcKeF4rJyEF_5_jQ"
 }
 ----

@@ -2,7 +2,7 @@
 ----
 POST /api/v1/webrtc/chat/channel HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkxODgwNjEsImlhdCI6MTY1OTE3MDA2MX0.1UTUCvQNY9Ydl8CkgZnnyptdimkndlRnZrCpKg5yXUgf9gqYLcIAxp9Gu3LAH4QysChrgiC07JUvX-Zkaj8oSA
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwNDAsImlhdCI6MTY1OTI1MDA0MH0.Z3V9nBJSG3Tlir3UXn7IYgO5LYNk4YdHeZNczTNVnajs78NO2bmtKODpZ4KOSAeJ89nqTjc_RICKreHA7QjZCQ
 Accept: application/json
 Content-Length: 105
 Host: localhost:8080

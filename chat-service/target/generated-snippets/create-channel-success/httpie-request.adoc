@@ -6,6 +6,6 @@ $ echo '{
   "channelType" : "TEXT"
 }' | http POST 'http://localhost:8080/api/v1/webrtc/chat/channel' \
     'Content-Type:application/json;charset=UTF-8' \
-    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkxODgwNjEsImlhdCI6MTY1OTE3MDA2MX0.1UTUCvQNY9Ydl8CkgZnnyptdimkndlRnZrCpKg5yXUgf9gqYLcIAxp9Gu3LAH4QysChrgiC07JUvX-Zkaj8oSA' \
+    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwMzksImlhdCI6MTY1OTI1MDAzOX0.XxrXhGi2-19SrOBreH9MM5QJdHHcmRxPE0qAEtVMDpLsk7qpGrSlRK9Eqnf5KV2qYho2GS6VuW34BNwKX_sUhQ' \
     'Accept:application/json'
 ----

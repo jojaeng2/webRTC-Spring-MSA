@@ -1,7 +1,7 @@
 [source,bash]
 ----
-$ http GET 'http://localhost:8080/api/v1/webrtc/chat/point/f9b373b1-0f57-4000-899f-939f3a016645' \
+$ http GET 'http://localhost:8080/api/v1/webrtc/chat/point/5982f9aa-25fb-4df8-bcb7-768f974f63b2' \
     'Content-Type:application/json;charset=UTF-8' \
-    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkxODgwNjEsImlhdCI6MTY1OTE3MDA2MX0.1UTUCvQNY9Ydl8CkgZnnyptdimkndlRnZrCpKg5yXUgf9gqYLcIAxp9Gu3LAH4QysChrgiC07JUvX-Zkaj8oSA' \
+    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjU3MTUsImlhdCI6MTY1OTI0NzcxNX0.SCldW9avz8cPia2B4L6CWQVz1JdzIkTGc4zOYlUO4AtH4Bn-p7jGiSvpzXbd7ouz3nxzFshcKeF4rJyEF_5_jQ' \
     'Accept:application/json'
 ----

@@ -15,7 +15,23 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<restdocs-api-spec.version>0.10.0</restdocs-api-spec.version>
+		<restdocs-spec.version>0.19</restdocs-spec.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>jcenter</id>
+			<url>https://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jcenter</id>
+			<url>https://jcenter.bintray.com</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -124,7 +140,19 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.epages</groupId>
+			<artifactId>restdocs-api-spec</artifactId>
+			<version>${restdocs-api-spec.version}</version>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>com.epages</groupId>
+			<artifactId>restdocs-api-spec-mockmvc</artifactId>
+			<version>${restdocs-api-spec.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -171,6 +199,24 @@
 				</dependencies>
 			</plugin>
 
+
+			<plugin>
+				<groupId>com.github.berkleytechnologyservices.restdocs-spec</groupId>
+				<artifactId>restdocs-spec-maven-plugin</artifactId>
+				<version>${restdocs-spec.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<specification>OPENAPI_V3</specification>
+							<format>JSON</format>
+							<outputDirectory>${project.build.directory}/classes/static/docs</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			
 		</plugins>
 	</build>

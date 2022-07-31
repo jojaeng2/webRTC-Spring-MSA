@@ -2,6 +2,6 @@
 ----
 $ curl 'http://localhost:8080/api/v1/webrtc/chat/mychannel/partiDESC/0' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkxODgwNjEsImlhdCI6MTY1OTE3MDA2MX0.1UTUCvQNY9Ydl8CkgZnnyptdimkndlRnZrCpKg5yXUgf9gqYLcIAxp9Gu3LAH4QysChrgiC07JUvX-Zkaj8oSA' \
+    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwNDEsImlhdCI6MTY1OTI1MDA0MX0.4AOx9qE6CktV3LShgHr-uqg-KZxAGxmJQn5tIuNBaqnw1_dS01A-oMw5O3klU5LTaT5tAGBRY9ifJbbYBfSrVw' \
     -H 'Accept: application/json'
 ----
