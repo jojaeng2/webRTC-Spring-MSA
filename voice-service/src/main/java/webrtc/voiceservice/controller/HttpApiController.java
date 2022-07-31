@@ -37,7 +37,11 @@ public class HttpApiController {
             Object obj = customJsonMapper.jsonParse(responseBody, User.class);
             return User.class.cast(obj);
         } catch (HttpClientErrorException e) {
-            throw new NotExistUserException();
+            switch (e.getStatusCode()) {
+                case NOT_FOUND:
+                    throw new NotExistUserException();
+            }
         }
+        return new User();
     }
 }

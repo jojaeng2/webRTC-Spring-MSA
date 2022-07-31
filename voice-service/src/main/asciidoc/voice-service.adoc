@@ -1,0 +1,30 @@
+= VOICE-Service RESTful Notes API Guide
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+
+== 토큰관련 API
+=== 토큰발급 API
+webRTC 서버를 이용하기 위해 필요한 토큰을 발급받는 API 입니다.
+음성 채팅에서 Spring 서버의 역할은 webRTC 서버와 통신을 통해 토큰을 발급받는 것입니다.
+클라이언트는 webRTC 서버와 통신하기 전에 해당 API로부터 토큰을 발급받고, 이 토큰을 이용해 webRTC 서버에 P2P 연결에 참여하겠다는 요청을 보내야 합니다.
+
+Request 예시입니다.
+
+include::{snippets}/create-token-success/http-request.adoc[]
+include::{snippets}/create-token-success/request-fields.adoc[]
+
+요청이 정상적으로 성공했을때, Response 입니다.
+
+include::{snippets}/create-token-success/http-response.adoc[]
+include::{snippets}/create-token-success/response-fields.adoc[]
+
+존재하지 않는 User Request를 넣었을때 Response 입니다.
+
+include::{snippets}/create-token-fail-NotExistUser/http-response.adoc[]
+
+OpenVidu 서버에 문제가 생겼을때 Response 입니다.
+
+include::{snippets}/create-token-fail-NotExistOpenviduServer/http-response.adoc[]

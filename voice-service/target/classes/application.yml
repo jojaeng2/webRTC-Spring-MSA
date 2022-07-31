@@ -1,18 +1,6 @@
 address: localhost
 port: 8080
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/webRTC
-    username: ds4ouj
-    password: hong971220!
-  jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-    hibernate:
-      ddl-auto: create
   session:
     storage-type: redis
   redis:
@@ -23,3 +11,10 @@ spring:
     secret: govlepel@$&
 
 
+server:
+  port: 8080
+  ssl :
+    key-store: classpath:keystore.p12
+    key-store-password: 1234
+    key-store-type: PKCS12
+  

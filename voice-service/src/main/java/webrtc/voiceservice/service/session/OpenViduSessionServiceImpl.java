@@ -63,7 +63,6 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
 
         // session이 이미 존재하는 경우
         if(openViduSession != null) {
-            System.out.println("openViduSession = " + openViduSession.getSessionId());
             try {
                 // session 객체와 연결 후 속성 설정
                 List<Session> sessions = this.openVidu.getActiveSessions();
@@ -81,9 +80,7 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
 
             } catch(OpenViduJavaClientException e) {
             } catch(OpenViduHttpException e) {
-                if(e.getStatus() == 404) {
-                    throw new NotExistOpenViduServerException();
-                }
+                throw new OpenViduClientException();
             }
         }
 
@@ -105,8 +102,8 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
 
             // Generate a new Connection With the recently created connectionProperties
             String token = session.createConnection(connectionProperties).getToken();
-            System.out.println("session.getSessionId() = " + session.getSessionId());
-             // Store the session and the token
+
+            // Store the session and the token
             createOpenViduSession(sessionName, user, token, session.getSessionId());
             return token;
         } catch(Exception e) {
