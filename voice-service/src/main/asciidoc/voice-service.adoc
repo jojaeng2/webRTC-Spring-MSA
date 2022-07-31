@@ -33,3 +33,24 @@ include::{snippets}/create-token-fail-NotExistUser/http-response.adoc[]
 OpenVidu 서버에 문제가 생겼을때 Response 입니다.
 
 include::{snippets}/create-token-fail-NotExistOpenviduServer/http-response.adoc[]
+
+
+
+=== 토큰반납 API
+연결이 끊길때 요청해야 하는 API 입니다. 예시로 아래와 같은 상황이 있습니다.
+강제 종료, 새로고침, 음성채팅 퇴장 등
+
+
+Request 예시입니다.
+
+include::{snippets}/removeuser-success/http-request.adoc[]
+include::{snippets}/removeuser-success/request-fields.adoc[]
+
+요청이 정상적으로 성공했을때, Response 입니다.
+
+include::{snippets}/removeuser-success/http-response.adoc[]
+
+존재하지 않는 User Request를 넣었을때 Response 입니다.
+
+include::{snippets}/removeuser-success/http-response.adoc[]
+
