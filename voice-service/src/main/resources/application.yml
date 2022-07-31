@@ -23,3 +23,10 @@ spring:
     secret: govlepel@$&
 
 
+server:
+  port: 8080
+  ssl :
+    key-store: ./keystore.p12
+    key-store-password: 1234
+    key-store-type: PKCS12
+  
