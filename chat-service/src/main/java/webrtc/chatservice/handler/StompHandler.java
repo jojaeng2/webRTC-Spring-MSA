@@ -44,7 +44,6 @@ public class StompHandler implements ChannelInterceptor {
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");
                 if(messageType != null && messageType.equals("ENTER")) {
                     Channel connectCheckedExistChannel = channelService.findOneChannelById(sendChannelId);
-                    System.out.println("sendUserEmail = " + sendUserEmail);
                     channelService.enterChannel(connectCheckedExistChannel, sendUserEmail);
                 }
                 channelService.findOneChannelById(sendChannelId);

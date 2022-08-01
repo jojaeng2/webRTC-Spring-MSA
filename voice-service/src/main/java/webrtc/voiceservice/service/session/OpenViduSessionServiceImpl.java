@@ -4,6 +4,7 @@ import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.voiceservice.controller.HttpApiController;
 import webrtc.voiceservice.domain.OpenViduSession;
