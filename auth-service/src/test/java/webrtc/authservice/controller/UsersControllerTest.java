@@ -32,7 +32,7 @@ import webrtc.authservice.service.user.UserService;
 @AutoConfigureRestDocs
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class UsersControllerTest {
 
     String email = "email";
     String nickname = "nickname";

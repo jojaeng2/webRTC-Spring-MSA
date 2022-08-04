@@ -10,7 +10,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import webrtc.authservice.domain.User;
+import webrtc.authservice.domain.Users;
 
 @RequiredArgsConstructor
 @Configuration
@@ -30,7 +30,7 @@ public class RedisConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(User.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Users.class));
         return redisTemplate;
     }
 

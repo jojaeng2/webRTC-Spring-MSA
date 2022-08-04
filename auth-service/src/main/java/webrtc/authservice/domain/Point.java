@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -24,9 +23,9 @@ public class Point implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

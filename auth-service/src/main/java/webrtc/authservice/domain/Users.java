@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class User implements Serializable {
+public class Users implements Serializable {
 
     @Id
     @Column(name = "user_id")
@@ -34,7 +34,7 @@ public class User implements Serializable {
     @JsonIgnore
     private List<Point> points;
 
-    public User(String nickname, String password, String email) {
+    public Users(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
         this.nickname = nickname;
         this.password = password;

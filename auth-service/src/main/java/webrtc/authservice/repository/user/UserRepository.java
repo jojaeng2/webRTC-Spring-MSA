@@ -1,10 +1,10 @@
 package webrtc.authservice.repository.user;
 
-import webrtc.authservice.domain.User;
+import webrtc.authservice.domain.Users;
 
 public interface UserRepository {
 
-    void save(User user);
+    void save(Users user);
 
-    User findUserByEmail(String email);
+    Users findUserByEmail(String email);
 }
