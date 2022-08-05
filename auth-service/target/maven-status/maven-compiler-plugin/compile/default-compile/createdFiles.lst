@@ -5,6 +5,7 @@ webrtc/authservice/controller/UserController.class
 webrtc/authservice/config/SwaggerConfig.class
 webrtc/authservice/AuthServiceApplication.class
 webrtc/authservice/dto/UserDto$DecreasePointRequest.class
+webrtc/authservice/domain/Users.class
 webrtc/authservice/repository/user/UserRepository.class
 webrtc/authservice/config/CustomPasswordEncoder.class
 webrtc/authservice/exception/UserException.class
@@ -18,6 +19,5 @@ webrtc/authservice/dto/UserDto$CreateUserRequest.class
 webrtc/authservice/config/WebSecurityConfig.class
 webrtc/authservice/service/user/UserService.class
 webrtc/authservice/repository/user/UserRepositoryImpl.class
-webrtc/authservice/domain/User.class
 webrtc/authservice/config/RedisConfig.class
 webrtc/authservice/domain/Point.class

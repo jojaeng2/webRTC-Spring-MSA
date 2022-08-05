@@ -2,13 +2,13 @@
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/repository/user/UserRepository.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/config/RedisConfig.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/config/EmbeddedRedisConfig.java
-/Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/domain/User.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/service/user/UserService.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/service/user/UserServiceImpl.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/config/CacheConfig.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/controller/UserController.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/domain/Point.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/dto/UserDto.java
+/Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/domain/Users.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/config/WebSecurityConfig.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/AuthServiceApplication.java
 /Users/jo/Desktop/webRTC/auth-service/src/main/java/webrtc/authservice/config/SwaggerConfig.java

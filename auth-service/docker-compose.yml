@@ -12,11 +12,11 @@ services:
     build: .
     image: auth
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://auth-database:3307/auth-db?useUnicode=true&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-database:5432/auth-db?useUnicode=true&serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 1234
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-      SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.MySQL5Dialect
+      SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL95Dialect
       SPRING_SESSION_STORAGE_TYPE: redis
       SPRING_REDIS_HOST: auth-redis
       SPRING_REDIS_PORT: 6379
@@ -33,13 +33,13 @@ services:
         java -jar auth.jar   
 
   auth-database:
-    image: mysql:5.7
+    image: postgres:latest
+    ports:
+      - 5432:5432
     environment:
       MYSQL_DATABASE: auth-db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1234
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_TCP_PORT: 3307
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 1234
     networks:
       - spring-network
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
