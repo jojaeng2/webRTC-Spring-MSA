@@ -9,7 +9,7 @@ Content-Length: 877
 
 {
   "channels" : [ {
-    "id" : "38eedf31-357f-45d8-a121-71aa084e7248",
+    "id" : "ddf4cc8a-8835-410e-bcc0-baf0222f1568",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
@@ -29,14 +29,14 @@ Content-Length: 877
     } ],
     "channelType" : "TEXT"
   }, {
-    "id" : "58d05645-feda-4787-99fd-944917432f0a",
+    "id" : "7414e102-5653-44cf-8ff4-fe83ca5b2275",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
     "timeToLive" : 86400,
     "channelHashTags" : [ {
       "hashTag" : {
-        "tagName" : "tag3"
+        "tagName" : "tag1"
       }
     }, {
       "hashTag" : {
@@ -44,7 +44,7 @@ Content-Length: 877
       }
     }, {
       "hashTag" : {
-        "tagName" : "tag1"
+        "tagName" : "tag3"
       }
     } ],
     "channelType" : "TEXT"

@@ -2,7 +2,7 @@
 ----
 GET /api/v1/webrtc/chat/mychannel/partiDESC/0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwNDEsImlhdCI6MTY1OTI1MDA0MX0.4AOx9qE6CktV3LShgHr-uqg-KZxAGxmJQn5tIuNBaqnw1_dS01A-oMw5O3klU5LTaT5tAGBRY9ifJbbYBfSrVw
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjIzMjgsImlhdCI6MTY1OTcwNDMyOH0.yvEnH2TYUOgpjzWCAocoF2WRap-HXFq5LSWSDkQZmroawlnChbP4yYgRK-Js1FC_C_Ytu_HHqR56HPHMf-qp6A
 Accept: application/json
 Host: localhost:8080
 

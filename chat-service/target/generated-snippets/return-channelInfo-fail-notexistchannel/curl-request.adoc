@@ -1,7 +1,7 @@
 [source,bash]
 ----
-$ curl 'http://localhost:8080/api/v1/webrtc/chat/channel/b3fbadb5-e00b-497b-9793-284e5312de43' -i -X GET \
+$ curl 'http://localhost:8080/api/v1/webrtc/chat/channel/0a25f5e2-1b07-4492-a875-47d1402c8e71' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwNDEsImlhdCI6MTY1OTI1MDA0MX0.4AOx9qE6CktV3LShgHr-uqg-KZxAGxmJQn5tIuNBaqnw1_dS01A-oMw5O3klU5LTaT5tAGBRY9ifJbbYBfSrVw' \
+    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjIzMjgsImlhdCI6MTY1OTcwNDMyOH0.yvEnH2TYUOgpjzWCAocoF2WRap-HXFq5LSWSDkQZmroawlnChbP4yYgRK-Js1FC_C_Ytu_HHqR56HPHMf-qp6A' \
     -H 'Accept: application/json'
 ----

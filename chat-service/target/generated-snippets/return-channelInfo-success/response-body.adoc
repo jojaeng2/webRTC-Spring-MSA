@@ -1,14 +1,14 @@
 [source,options="nowrap"]
 ----
 {
-  "id" : "1c75aa51-cab0-42bd-ae54-dd7654c024a8",
+  "id" : "60af1b1d-f5fe-4b18-b57d-7c176f144b7c",
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,
   "timeToLive" : 86400,
   "channelHashTags" : [ {
     "hashTag" : {
-      "tagName" : "tag2"
+      "tagName" : "tag3"
     }
   }, {
     "hashTag" : {
@@ -16,7 +16,7 @@
     }
   }, {
     "hashTag" : {
-      "tagName" : "tag3"
+      "tagName" : "tag2"
     }
   } ],
   "channelType" : "TEXT"

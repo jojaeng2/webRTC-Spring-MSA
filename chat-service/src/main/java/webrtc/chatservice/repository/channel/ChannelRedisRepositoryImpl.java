@@ -31,7 +31,6 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
 
     public Long findChannelTTL(String channelId) {
-        System.out.println("redisTemplate = " + redisTemplate.getExpire(channelId));
         return redisTemplate.getExpire(channelId);
     }
 

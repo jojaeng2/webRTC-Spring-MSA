@@ -2,7 +2,7 @@
 ----
 $ curl 'http://localhost:8080/api/v1/webrtc/chat/channel' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTkyNjgwNDAsImlhdCI6MTY1OTI1MDA0MH0.Z3V9nBJSG3Tlir3UXn7IYgO5LYNk4YdHeZNczTNVnajs78NO2bmtKODpZ4KOSAeJ89nqTjc_RICKreHA7QjZCQ' \
+    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjIzMjgsImlhdCI6MTY1OTcwNDMyOH0.yvEnH2TYUOgpjzWCAocoF2WRap-HXFq5LSWSDkQZmroawlnChbP4yYgRK-Js1FC_C_Ytu_HHqR56HPHMf-qp6A' \
     -H 'Accept: application/json' \
     -d '{
   "channelName" : "channelName1",

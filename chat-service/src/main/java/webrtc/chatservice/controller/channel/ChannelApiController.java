@@ -36,7 +36,6 @@ public class ChannelApiController {
     @GetMapping("/channels/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findAnyChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
         List<ChannelResponse> channels = channelService.findAnyChannel(orderType, Integer.parseInt(idx));
-        System.out.println("channels.size() = " + channels.size());
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
