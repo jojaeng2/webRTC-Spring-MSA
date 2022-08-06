@@ -37,7 +37,11 @@ public class ChannelServiceImpl implements ChannelService{
     private final UserRepository userRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;
+
+    // 30분당 100포인트
     private final Long pointUnit = 100L;
+    private final Long channelCreatePoint = 2L;
+    private final Long channelExtensionMinute = 30L;
     private final HttpApiController httpApiController;
 
     /**
@@ -58,6 +62,7 @@ public class ChannelServiceImpl implements ChannelService{
                 user = httpApiController.postFindUserByEmail(email);
                 userRepository.saveUser(user);
             }
+            httpApiController.postDecreaseUserPoint(user.getEmail(), channelCreatePoint * pointUnit);
         }
 
         List<String> hashTags = request.getHashTags();
@@ -202,7 +207,7 @@ public class ChannelServiceImpl implements ChannelService{
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
         Channel channel = channelDBRepository.findChannelById(channelId);
         httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
-        channelRedisRepository.extensionChannelTTL(channel, requestTTL * 30L * 60L);
+        channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
     }
 
     private void createChannelUser(User user, Channel channel) {
