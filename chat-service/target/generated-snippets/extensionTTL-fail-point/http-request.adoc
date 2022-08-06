@@ -1,8 +1,8 @@
 [source,http,options="nowrap"]
 ----
-POST /api/v1/webrtc/chat/extension/b5bf7af4-f7df-4729-b9e1-73d182b32c25 HTTP/1.1
+POST /api/v1/webrtc/chat/extension/4ad9f5e3-6a80-41cf-97e8-6c732c755138 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjIzNDUsImlhdCI6MTY1OTcwNDM0NX0.wQmtp6MTu9yZBOdkk5Tk5-EPVVqizgxSr8GwErcMCC1ccYHBZQR_RxebL43m0pAf1B6DY0SxnV0SspO8NxaFIg
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjMwODksImlhdCI6MTY1OTcwNTA4OX0.noA42NA--kMqXVknbZrwOFpsxD9QT2-gimhwoMIffRiknzi0-gUz2KtpakXwypQFPK8MbDIGnZjrRsJbWkOKZA
 Accept: application/json
 Content-Length: 23
 Host: localhost:8080

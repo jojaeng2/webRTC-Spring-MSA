@@ -1,4 +1,2 @@
-webrtc/voiceservice/config/TestRedisConfig.class
-webrtc/voiceservice/repository/session/OpenViduSessionRepositoryImplTest.class
 webrtc/voiceservice/controller/SessionControllerTest.class
 webrtc/voiceservice/VoiceServiceApplicationTests.class

@@ -2,27 +2,27 @@
 ----
 {
   "channels" : [ {
-    "id" : "ddf4cc8a-8835-410e-bcc0-baf0222f1568",
+    "id" : "42ef7b4a-0113-4d8f-b6ff-f361903376da",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
     "timeToLive" : 86400,
     "channelHashTags" : [ {
       "hashTag" : {
-        "tagName" : "tag2"
-      }
-    }, {
-      "hashTag" : {
         "tagName" : "tag3"
       }
     }, {
       "hashTag" : {
         "tagName" : "tag1"
+      }
+    }, {
+      "hashTag" : {
+        "tagName" : "tag2"
       }
     } ],
     "channelType" : "TEXT"
   }, {
-    "id" : "7414e102-5653-44cf-8ff4-fe83ca5b2275",
+    "id" : "3d43edc5-b466-4523-9a1b-02e079e6ded8",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
@@ -33,11 +33,11 @@
       }
     }, {
       "hashTag" : {
-        "tagName" : "tag2"
+        "tagName" : "tag3"
       }
     }, {
       "hashTag" : {
-        "tagName" : "tag3"
+        "tagName" : "tag2"
       }
     } ],
     "channelType" : "TEXT"

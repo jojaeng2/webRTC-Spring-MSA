@@ -8,7 +8,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Length: 386
 
 {
-  "id" : "60af1b1d-f5fe-4b18-b57d-7c176f144b7c",
+  "id" : "077960ec-e706-4e40-800d-fe6d7d57d799",
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,
@@ -19,11 +19,11 @@ Content-Length: 386
     }
   }, {
     "hashTag" : {
-      "tagName" : "tag1"
+      "tagName" : "tag2"
     }
   }, {
     "hashTag" : {
-      "tagName" : "tag2"
+      "tagName" : "tag1"
     }
   } ],
   "channelType" : "TEXT"

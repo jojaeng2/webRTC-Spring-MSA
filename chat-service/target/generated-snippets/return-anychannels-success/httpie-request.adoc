@@ -2,6 +2,6 @@
 ----
 $ http GET 'http://localhost:8080/api/v1/webrtc/chat/channels/partiDESC/0' \
     'Content-Type:application/json;charset=UTF-8' \
-    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjIzMjgsImlhdCI6MTY1OTcwNDMyOH0.yvEnH2TYUOgpjzWCAocoF2WRap-HXFq5LSWSDkQZmroawlnChbP4yYgRK-Js1FC_C_Ytu_HHqR56HPHMf-qp6A' \
+    'Authorization:jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjMwODksImlhdCI6MTY1OTcwNTA4OX0.noA42NA--kMqXVknbZrwOFpsxD9QT2-gimhwoMIffRiknzi0-gUz2KtpakXwypQFPK8MbDIGnZjrRsJbWkOKZA' \
     'Accept:application/json'
 ----

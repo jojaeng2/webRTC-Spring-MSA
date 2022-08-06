@@ -15,7 +15,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://auth-database:5432/auth-db?useUnicode=true&serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_DATASOURCE_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL95Dialect
       SPRING_SESSION_STORAGE_TYPE: redis
       SPRING_REDIS_HOST: auth-redis
@@ -37,12 +36,13 @@ services:
     ports:
       - 5432:5432
     environment:
-      MYSQL_DATABASE: auth-db
+      POSTGRES_DB: auth-db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 1234
     networks:
       - spring-network
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    # volumes:
+    #   - ./dump.rdb:/var/lib/postgresql/data
   
   auth-redis:
     image: redis:6.2.6
