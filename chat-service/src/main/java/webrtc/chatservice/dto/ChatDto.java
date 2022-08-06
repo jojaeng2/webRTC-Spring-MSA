@@ -17,8 +17,6 @@ public class ChatDto {
     @Getter
     @NoArgsConstructor
     public static class ClientMessage {
-        private ClientMessageType type;
-        private String channelId;
         private String senderName;
         private String message;
 

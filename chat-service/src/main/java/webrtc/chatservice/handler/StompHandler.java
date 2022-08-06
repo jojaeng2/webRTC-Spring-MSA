@@ -32,7 +32,6 @@ public class StompHandler implements ChannelInterceptor {
             case CONNECT:
                 String connectJwtToken = accessor.getFirstNativeHeader("jwt");
                 String connectUserEmail = jwtTokenUtil.getUserEmailFromToken(connectJwtToken);
-
                 UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(connectUserEmail);
                 jwtTokenUtil.validateToken(connectJwtToken, connectUserDetails);
                 break;
