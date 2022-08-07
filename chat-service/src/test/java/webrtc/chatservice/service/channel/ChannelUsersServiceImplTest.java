@@ -52,7 +52,7 @@ public class ChannelUsersServiceImplTest {
 
         // then
         assertThat(channelUser.getChannel().getId()).isEqualTo(channel.getId());
-        assertThat(channelUser.getUsers().getId()).isEqualTo(users.getId());
+        assertThat(channelUser.getUser().getId()).isEqualTo(users.getId());
     }
 
     @Test
