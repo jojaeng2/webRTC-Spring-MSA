@@ -1,16 +1,10 @@
-package webrtc.chatservice.service.user;
+package webrtc.chatservice.service.users;
 
-import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
-import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
-import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
 
-import java.util.List;
-
-public interface UserService {
+public interface UsersService {
 
 
     User saveUser(CreateUserRequest request);

@@ -10,7 +10,7 @@ import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.chat.ChatService;
-import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
 
@@ -22,7 +22,7 @@ public class ChatMessageController {
     private final ChatService chatService;
     private final ChannelService channelService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
+    private final UsersService usersService;
 
     /**
      * /pub/chat/room 으로 오는 메시지 반환
@@ -30,7 +30,7 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        User sender = userService.findOneUserByEmail(senderEmail);
+        User sender = usersService.findOneUserByEmail(senderEmail);
         String chatMessage = message.getMessage();
         switch(clientMessageType) {
             case CHAT:

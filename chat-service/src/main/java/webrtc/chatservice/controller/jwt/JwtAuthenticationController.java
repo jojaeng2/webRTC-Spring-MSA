@@ -1,6 +1,5 @@
 package webrtc.chatservice.controller.jwt;
 
-import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +9,9 @@ import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
-import webrtc.chatservice.dto.UserDto;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
-import webrtc.chatservice.dto.UserDto.CreateUserResponse;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.user.UserService;
-import webrtc.chatservice.utils.CustomJsonMapper;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
 
@@ -29,7 +25,7 @@ public class JwtAuthenticationController {
 
     private final JwtUserDetailsService jwtUserDetailsService;
 
-    private final UserService userService;
+    private final UsersService usersService;
 
     private final HttpApiController httpApiController;
 
@@ -46,7 +42,7 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        User user = userService.saveUser(request);
+        User user = usersService.saveUser(request);
         httpApiController.postSaveUser(request);
         return new ResponseEntity(user, HttpStatus.OK);
     }

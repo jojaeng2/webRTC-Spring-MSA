@@ -28,7 +28,7 @@ import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class PointApiControllerTest {
     @Mock
     private ChannelService channelService;
     @Mock
-    private UserService userService;
+    private UsersService usersService;
     @Mock
     private HttpApiController httpApiController;
 
@@ -107,7 +107,7 @@ public class PointApiControllerTest {
         Long channelTTL = 1234567L;
 
         doReturn(new ExtensionChannelInfoWithUserPointResponse(channelTTL, point))
-                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
 
         // when
 
@@ -142,7 +142,7 @@ public class PointApiControllerTest {
         Channel channel = new Channel(channelName1, text);
 
         doThrow(new NotExistChannelException())
-                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
 
         // when
 
@@ -172,7 +172,7 @@ public class PointApiControllerTest {
         Channel channel = new Channel(channelName1, text);
 
         doThrow(new NotExistUserException())
-                .when(userService).findUserWithPointByEmail(any(String.class), any(String.class));
+                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
 
         // when
 

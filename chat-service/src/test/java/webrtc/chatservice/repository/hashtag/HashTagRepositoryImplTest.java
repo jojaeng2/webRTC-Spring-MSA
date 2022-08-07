@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
         HashTagRepositoryImpl.class
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
 public class HashTagRepositoryImplTest {
 
     @Autowired

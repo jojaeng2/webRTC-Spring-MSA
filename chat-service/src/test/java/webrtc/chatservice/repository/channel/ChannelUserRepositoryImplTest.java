@@ -1,35 +1,21 @@
 package webrtc.chatservice.repository.channel;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelUserException;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.repository.user.UserRepositoryImpl;
-import webrtc.chatservice.service.user.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
-import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 
 @DataJpaTest
@@ -37,6 +23,7 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
         ChannelUserRepositoryImpl.class
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
 public class ChannelUserRepositoryImplTest {
 
     @Autowired

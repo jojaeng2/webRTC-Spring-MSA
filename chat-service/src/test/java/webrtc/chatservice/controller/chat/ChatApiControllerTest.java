@@ -13,21 +13,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.controller.hashtag.HashTagApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.chat.ChatService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -68,7 +64,7 @@ public class ChatApiControllerTest {
     @Mock
     private ChatService chatService;
     @Mock
-    private UserService userService;
+    private UsersService usersService;
     @Mock
     private HttpApiController httpApiController;
 

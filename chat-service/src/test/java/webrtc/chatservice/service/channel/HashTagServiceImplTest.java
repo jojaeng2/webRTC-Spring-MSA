@@ -1,23 +1,15 @@
 package webrtc.chatservice.service.channel;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
-import webrtc.chatservice.service.user.UserService;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;

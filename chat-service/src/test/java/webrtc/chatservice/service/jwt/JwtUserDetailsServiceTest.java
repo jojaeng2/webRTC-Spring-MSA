@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.service.users.UsersService;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
@@ -25,7 +25,7 @@ public class JwtUserDetailsServiceTest {
     @InjectMocks
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private UserService userService;
+    private UsersService usersService;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -45,7 +45,7 @@ public class JwtUserDetailsServiceTest {
     public void 유저이름으로_UserDetails_조회성공() {
         // given
         doReturn(new User(nickname1, password, email1))
-                .when(userService).findOneUserByEmail(email1);
+                .when(usersService).findOneUserByEmail(email1);
 
         // when
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email1);
@@ -59,7 +59,7 @@ public class JwtUserDetailsServiceTest {
     public void 유저이름으로_UserDetails_조회실패() {
         // given
         doThrow(new NotExistUserException())
-                .when(userService).findOneUserByEmail(email1);
+                .when(usersService).findOneUserByEmail(email1);
 
         // when
 

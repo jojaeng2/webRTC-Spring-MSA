@@ -1,4 +1,4 @@
-package webrtc.chatservice.service.user;
+package webrtc.chatservice.service.users;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +23,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+public class UsersServiceImplTest {
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private UsersServiceImpl userService;
     @Mock
     private ChannelRedisRepository channelRedisRepository;
     @Mock

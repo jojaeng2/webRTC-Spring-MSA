@@ -1,8 +1,7 @@
-package webrtc.chatservice.service.user;
+package webrtc.chatservice.service.users;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,19 +10,14 @@ import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.utils.CustomJsonMapper;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UsersServiceImpl implements UsersService {
     private final ChannelRedisRepository channelRedisRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLResponse;
 import webrtc.chatservice.service.channel.ChannelService;
-import webrtc.chatservice.service.user.UserService;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -20,7 +20,7 @@ public class PointApiController {
 
     private final ChannelService channelService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
+    private final UsersService usersService;
 
 
     @PostMapping("/extension/{id}")
@@ -34,6 +34,6 @@ public class PointApiController {
     @GetMapping("/point/{id}")
     public ResponseEntity<?> findUserPoint(@PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        return new ResponseEntity<>(userService.findUserWithPointByEmail(channelId, userEmail), OK);
+        return new ResponseEntity<>(usersService.findUserWithPointByEmail(channelId, userEmail), OK);
     }
 }

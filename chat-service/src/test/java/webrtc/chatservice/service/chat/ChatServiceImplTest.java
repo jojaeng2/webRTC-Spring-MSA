@@ -1,25 +1,20 @@
 package webrtc.chatservice.service.chat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
-import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

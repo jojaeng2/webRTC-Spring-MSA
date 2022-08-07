@@ -12,22 +12,15 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
-import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.service.user.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
-import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
-public class ChannelUserServiceImplTest {
+public class ChannelUsersServiceImplTest {
 
     @InjectMocks
     private ChannelUserServiceImpl channelUserService;

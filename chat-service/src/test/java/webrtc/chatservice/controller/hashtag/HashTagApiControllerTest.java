@@ -8,41 +8,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.controller.hashtag.HashTagApiController;
-import webrtc.chatservice.controller.point.PointApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
-import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
-import webrtc.chatservice.dto.JwtDto.JwtRequest;
-import webrtc.chatservice.dto.JwtDto.JwtResponse;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.user.UserService;
-import webrtc.chatservice.utils.CustomJsonMapper;
+import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -85,7 +69,7 @@ public class HashTagApiControllerTest {
     @Mock
     private ChannelService channelService;
     @Mock
-    private UserService userService;
+    private UsersService usersService;
     @Mock
     private HttpApiController httpApiController;
 

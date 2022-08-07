@@ -1,31 +1,21 @@
 package webrtc.chatservice.service.channel;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.ChannelUserException;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
@@ -34,14 +24,11 @@ import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.service.chat.ChatService;
-import webrtc.chatservice.service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
