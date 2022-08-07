@@ -1,0 +1,8 @@
+|===
+|Path|Type|Description
+
+|`+token+`
+|`+String+`
+|OpenVidu 서버와 통신하기 위해 필요한 token
+
+|===

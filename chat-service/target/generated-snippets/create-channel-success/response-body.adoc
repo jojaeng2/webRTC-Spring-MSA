@@ -1,9 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "channelName" : "channelName1",
-  "limitParticipants" : 15,
-  "currentParticipants" : 0,
-  "timeToLive" : 3600
-}
-----

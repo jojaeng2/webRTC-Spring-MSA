@@ -1,6 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "channelTTL" : 3600
-}
-----

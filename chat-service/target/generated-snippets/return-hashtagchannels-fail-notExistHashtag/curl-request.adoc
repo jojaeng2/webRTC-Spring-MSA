@@ -1,7 +1,0 @@
-[source,bash]
-----
-$ curl 'http://localhost:8080/api/v1/webrtc/chat/hashtag/tag1/partiDESC/0' -i -X GET \
-    -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxNzUsImlhdCI6MTY1OTc3NzE3NX0.NBz9eYif_z2XBU90apS8fC4m9OLM50FXrIxljeRkoRQ__ihs9IJBpcP3H2AqrrNgeLCM9LGHVVvzbq9s3X8zvA' \
-    -H 'Accept: application/json'
-----

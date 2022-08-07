@@ -1,6 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "jwttoken" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxOTIsImlhdCI6MTY1OTc3NzE5Mn0.xgEy0c4-6khvPqTFKgEoItMpw5Rc1Sas3UZp4kJL-EP_Cf06lC5cr4VqgWftMWPbp-7fkeLz6vLAUFSEDnH4Mg"
-}
-----

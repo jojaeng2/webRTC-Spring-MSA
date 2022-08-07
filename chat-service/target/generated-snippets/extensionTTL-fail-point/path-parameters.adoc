@@ -1,8 +1,0 @@
-.+/api/v1/webrtc/chat/extension/{id}+
-|===
-|Parameter|Description
-
-|`+id+`
-|채널ID입니다.
-
-|===

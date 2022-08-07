@@ -1,0 +1,16 @@
+|===
+|Path|Type|Description
+
+|`+sessionName+`
+|`+String+`
+|세션 이름
+
+|`+email+`
+|`+String+`
+|유저 Email
+
+|`+token+`
+|`+String+`
+|발급받았던 토큰
+
+|===

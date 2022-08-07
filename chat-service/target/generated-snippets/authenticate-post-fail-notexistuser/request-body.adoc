@@ -1,7 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "email" : "email1",
-  "password" : "password"
-}
-----

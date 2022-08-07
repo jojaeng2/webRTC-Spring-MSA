@@ -1,0 +1,146 @@
+[source,options="nowrap"]
+----
+{
+  "logs" : [ {
+    "idx" : 19,
+    "type" : "CHAT",
+    "message" : "19 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 20,
+    "type" : "CHAT",
+    "message" : "20 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 21,
+    "type" : "CHAT",
+    "message" : "21 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 22,
+    "type" : "CHAT",
+    "message" : "22 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 23,
+    "type" : "CHAT",
+    "message" : "23 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 24,
+    "type" : "CHAT",
+    "message" : "24 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 25,
+    "type" : "CHAT",
+    "message" : "25 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 26,
+    "type" : "CHAT",
+    "message" : "26 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 27,
+    "type" : "CHAT",
+    "message" : "27 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 28,
+    "type" : "CHAT",
+    "message" : "28 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 29,
+    "type" : "CHAT",
+    "message" : "29 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 30,
+    "type" : "CHAT",
+    "message" : "30 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 31,
+    "type" : "CHAT",
+    "message" : "31 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 32,
+    "type" : "CHAT",
+    "message" : "32 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 33,
+    "type" : "CHAT",
+    "message" : "33 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 34,
+    "type" : "CHAT",
+    "message" : "34 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 35,
+    "type" : "CHAT",
+    "message" : "35 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 36,
+    "type" : "CHAT",
+    "message" : "36 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 37,
+    "type" : "CHAT",
+    "message" : "37 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  }, {
+    "idx" : 38,
+    "type" : "CHAT",
+    "message" : "38 번째 메시지",
+    "senderNickname" : "user1",
+    "senderEmail" : "email1",
+    "sendTime" : 1659777192651
+  } ]
+}
+----

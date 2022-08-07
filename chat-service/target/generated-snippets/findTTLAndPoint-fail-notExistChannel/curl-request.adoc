@@ -1,7 +1,0 @@
-[source,bash]
-----
-$ curl 'http://localhost:8080/api/v1/webrtc/chat/point/7ea61137-1d1d-4992-995a-8ba5e04cb633' -i -X GET \
-    -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxOTEsImlhdCI6MTY1OTc3NzE5MX0._uNKeDmeMkRhi7Nvpn22gKzSXrDkwp1j1eC7vCV9KCLqbTLs2hcSFE9ZYJalgjIDAoTJw5A6tGDopVln3Yv4SQ' \
-    -H 'Accept: application/json'
-----

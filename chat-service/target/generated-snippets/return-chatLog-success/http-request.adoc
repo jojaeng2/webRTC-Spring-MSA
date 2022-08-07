@@ -1,0 +1,9 @@
+[source,http,options="nowrap"]
+----
+GET /api/v1/webrtc/chat/channel/fbeac9f7-710d-4999-9267-b3b7d75ceec8/39 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxOTIsImlhdCI6MTY1OTc3NzE5Mn0.xgEy0c4-6khvPqTFKgEoItMpw5Rc1Sas3UZp4kJL-EP_Cf06lC5cr4VqgWftMWPbp-7fkeLz6vLAUFSEDnH4Mg
+Accept: application/json
+Host: localhost:8080
+
+----

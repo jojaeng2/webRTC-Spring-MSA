@@ -1,18 +1,8 @@
-/.idea
 .travis.yml
 appspec.yml
 
-/auth-service/.idea
-/auth-service/.mvn
-/auth-service/target
+./auth-service/target
 
-/chat-service/.idea
-/chat-service/.mvn
-/chat-service/target
+./chat-service/target
 
-/voice-service/.idea
-/voice-service/.mvn
-/voice-service/target
-
-
-/voice-service/.idea
+./voice-service/target
