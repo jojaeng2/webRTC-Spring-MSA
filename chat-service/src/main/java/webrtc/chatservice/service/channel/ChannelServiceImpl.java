@@ -48,19 +48,19 @@ public class ChannelServiceImpl implements ChannelService{
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
         Channel channel;
-        Users users;
+        Users user;
         try {
             channel = channelDBRepository.findChannelByChannelName(request.getChannelName());
             throw new AlreadyExistChannelException();
         } catch (NotExistChannelException ex1) {
             channel = new Channel(request.getChannelName(), request.getChannelType());
             try {
-                users = usersRepository.findUserByEmail(email);
+                user = usersRepository.findUserByEmail(email);
             } catch (NotExistUserException ex2) {
-                users = httpApiController.postFindUserByEmail(email);
-                usersRepository.saveUser(users);
+                user = httpApiController.postFindUserByEmail(email);
+                usersRepository.saveUser(user);
             }
-            httpApiController.postDecreaseUserPoint(users.getEmail(), channelCreatePoint * pointUnit);
+            httpApiController.postDecreaseUserPoint(user.getEmail(), channelCreatePoint * pointUnit);
         }
 
         List<String> hashTags = request.getHashTags();
@@ -82,10 +82,10 @@ public class ChannelServiceImpl implements ChannelService{
 
         channelDBRepository.createChannel(channel, channelHashTagList);
         channelRedisRepository.createChannel(channel);
-        createChannelUser(users, channel);
+        createChannelUser(user, channel);
 
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
-        ChatLog chatLog = new ChatLog(CREATE, "[알림] " + users.getNickname() + "님이 채팅방을 생성했습니다.", users.getNickname(), "NOTICE");
+        ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
         if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
         else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
         chatLog.setChannel(channel);
@@ -99,27 +99,27 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public void enterChannel(Channel channel, String email) {
-        Users users;
+        Users user;
 
         // 무조건 users 객체 가져와야함
         try {
-            users = usersRepository.findUserByEmail(email);
+            user = usersRepository.findUserByEmail(email);
         } catch (NotExistUserException e) {
-            users = httpApiController.postFindUserByEmail(email);
-            usersRepository.saveUser(users);
+            user = httpApiController.postFindUserByEmail(email);
+            usersRepository.saveUser(user);
         }
 
 
         String channelId = channel.getId();
         try {
-            channelDBRepository.findChannelsByChannelIdAndUserId(channelId, users.getId());
+            channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
             throw new AlreadyExistUserInChannelException();
         } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
-                createChannelUser(users, channel);
+                createChannelUser(user, channel);
             }
         }
     }
@@ -168,12 +168,12 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
-        Users users = usersRepository.findUserByEmail(email);
+        Users user = usersRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(users.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(user.getId(), idx));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiDESC(users.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiDESC(user.getId(), idx));
         }
         return new ArrayList<>();
     }
@@ -208,8 +208,8 @@ public class ChannelServiceImpl implements ChannelService{
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
     }
 
-    private void createChannelUser(Users users, Channel channel) {
-        ChannelUser channelUser = new ChannelUser(users, channel);
+    private void createChannelUser(Users user, Channel channel) {
+        ChannelUser channelUser = new ChannelUser(user, channel);
     }
 
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {

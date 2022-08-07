@@ -26,11 +26,11 @@ public class ChannelUser implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users users;
+    private Users user;
 
-    public ChannelUser(Users users, Channel channel) {
+    public ChannelUser(Users user, Channel channel) {
         this.channel = channel;
-        this.users = users;
+        this.user = user;
         channel.enterChannelUser(this);
     }
 
@@ -38,7 +38,7 @@ public class ChannelUser implements Serializable {
         this.channel = channel;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUsers(Users user) {
+        this.user = user;
     }
 }
