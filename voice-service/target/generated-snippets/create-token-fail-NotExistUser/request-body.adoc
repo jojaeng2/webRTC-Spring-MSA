@@ -1,7 +1,0 @@
-[source,options="nowrap"]
-----
-{
-  "sessionName" : "sessionName1",
-  "email" : "email1"
-}
-----

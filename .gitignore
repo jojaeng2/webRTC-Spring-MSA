@@ -1,8 +1,8 @@
 .travis.yml
 appspec.yml
 
-./auth-service/target
+/auth-service/target
 
-./chat-service/target
+/chat-service/target
 
-./voice-service/target
+/voice-service/target
