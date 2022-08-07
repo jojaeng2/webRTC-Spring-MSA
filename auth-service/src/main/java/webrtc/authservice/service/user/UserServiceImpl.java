@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public Users save(CreateUserRequest request) {
+        
         Users user = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
         Point point = new Point("회원 가입", welcomePoint);
         user.addPoint(point);
