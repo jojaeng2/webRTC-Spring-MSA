@@ -1,8 +1,8 @@
 [source,http,options="nowrap"]
 ----
-GET /api/v1/webrtc/chat/channel/5cdb46bf-841b-41af-bfbc-acd5aa71d4b8 HTTP/1.1
+GET /api/v1/webrtc/chat/channel/c8a4297a-772b-4907-a36e-b31b234c4131 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjMwOTAsImlhdCI6MTY1OTcwNTA5MH0.MTTQTMMUyy_onVsvXJ1EYWJvGr-PN__bpz2_M8Jj_hZdOaNLR312Hzl8B8QyLBSKAM89ZmiJttaYgw-bR_PFBg
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxNzYsImlhdCI6MTY1OTc3NzE3Nn0.OCV2AxF8UCaX_fULc9qtrxIAj9scV_NIMHKXRKn8dF0aYJ35Klvy1gU6GS0FqKr_Ji-E1-XD35Z07TR63PepPQ
 Accept: application/json
 Host: localhost:8080
 

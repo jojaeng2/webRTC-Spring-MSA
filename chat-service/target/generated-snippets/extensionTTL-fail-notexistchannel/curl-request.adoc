@@ -1,8 +1,8 @@
 [source,bash]
 ----
-$ curl 'http://localhost:8080/api/v1/webrtc/chat/extension/ca572074-4599-493d-b445-f99b2544113b' -i -X POST \
+$ curl 'http://localhost:8080/api/v1/webrtc/chat/extension/6c316360-86d5-4271-a42d-e98d6e1b7b8f' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjMwODksImlhdCI6MTY1OTcwNTA4OX0.noA42NA--kMqXVknbZrwOFpsxD9QT2-gimhwoMIffRiknzi0-gUz2KtpakXwypQFPK8MbDIGnZjrRsJbWkOKZA' \
+    -H 'Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxOTEsImlhdCI6MTY1OTc3NzE5MX0._uNKeDmeMkRhi7Nvpn22gKzSXrDkwp1j1eC7vCV9KCLqbTLs2hcSFE9ZYJalgjIDAoTJw5A6tGDopVln3Yv4SQ' \
     -H 'Accept: application/json' \
     -d '{
   "requestTTL" : 10

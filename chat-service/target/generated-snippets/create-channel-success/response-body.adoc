@@ -4,6 +4,6 @@
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,
-  "timeToLive" : 86400
+  "timeToLive" : 3600
 }
 ----

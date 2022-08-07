@@ -2,22 +2,22 @@
 ----
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 877
+Content-Length: 875
 
 {
   "channels" : [ {
-    "id" : "6c3fb3ab-9873-44c0-8298-65ae078690a8",
+    "id" : "a8a403df-6f9f-4768-be5f-802dc418df91",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
-    "timeToLive" : 86400,
+    "timeToLive" : 3600,
     "channelHashTags" : [ {
       "hashTag" : {
-        "tagName" : "tag2"
+        "tagName" : "tag3"
       }
     }, {
       "hashTag" : {
-        "tagName" : "tag3"
+        "tagName" : "tag2"
       }
     }, {
       "hashTag" : {
@@ -26,11 +26,11 @@ Content-Length: 877
     } ],
     "channelType" : "TEXT"
   }, {
-    "id" : "a1275dee-e7dd-4c2a-a1f5-9d429c3cd509",
+    "id" : "e6d73d4a-ce98-4835-8693-ffae1a719275",
     "channelName" : "channelName1",
     "limitParticipants" : 15,
     "currentParticipants" : 0,
-    "timeToLive" : 86400,
+    "timeToLive" : 3600,
     "channelHashTags" : [ {
       "hashTag" : {
         "tagName" : "tag3"

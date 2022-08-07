@@ -2,7 +2,7 @@
 ----
 GET /api/v1/webrtc/chat/hashtag/tag1/partiDESC/0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3MjMwODksImlhdCI6MTY1OTcwNTA4OX0.noA42NA--kMqXVknbZrwOFpsxD9QT2-gimhwoMIffRiknzi0-gUz2KtpakXwypQFPK8MbDIGnZjrRsJbWkOKZA
+Authorization: jwt eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDEiLCJleHAiOjE2NTk3OTUxNzUsImlhdCI6MTY1OTc3NzE3NX0.NBz9eYif_z2XBU90apS8fC4m9OLM50FXrIxljeRkoRQ__ihs9IJBpcP3H2AqrrNgeLCM9LGHVVvzbq9s3X8zvA
 Accept: application/json
 Host: localhost:8080
 

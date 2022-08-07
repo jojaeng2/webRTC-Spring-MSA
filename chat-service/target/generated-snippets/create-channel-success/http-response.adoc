@@ -5,12 +5,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 117
+Content-Length: 116
 
 {
   "channelName" : "channelName1",
   "limitParticipants" : 15,
   "currentParticipants" : 0,
-  "timeToLive" : 86400
+  "timeToLive" : 3600
 }
 ----
