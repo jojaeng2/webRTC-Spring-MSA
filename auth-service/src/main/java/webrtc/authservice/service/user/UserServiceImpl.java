@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptEncoder;
-    private static int welcomePoint = 1000000;
+    private static int welcomePoint = 1000;
 
     @Transactional
     public Users save(CreateUserRequest request) {
