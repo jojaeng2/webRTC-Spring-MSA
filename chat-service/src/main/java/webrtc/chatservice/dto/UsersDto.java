@@ -1,6 +1,5 @@
 package webrtc.chatservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class UserDto {
+public class UsersDto {
 
     @Getter
     @NoArgsConstructor

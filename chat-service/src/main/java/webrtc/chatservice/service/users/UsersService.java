@@ -2,7 +2,7 @@ package webrtc.chatservice.service.users;
 
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 
 public interface UsersService {
 

@@ -28,7 +28,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;

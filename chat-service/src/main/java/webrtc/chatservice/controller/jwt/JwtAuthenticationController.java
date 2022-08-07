@@ -9,7 +9,7 @@ import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
-import webrtc.chatservice.dto.UserDto.CreateUserRequest;
+import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
