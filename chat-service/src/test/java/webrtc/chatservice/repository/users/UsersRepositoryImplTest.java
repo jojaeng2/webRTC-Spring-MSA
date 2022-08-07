@@ -1,4 +1,4 @@
-package webrtc.chatservice.repository.user;
+package webrtc.chatservice.repository.users;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +22,16 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @DataJpaTest
 @Import({
-        UserRepositoryImpl.class
+        UsersRepositoryImpl.class
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
-public class UserRepositoryImplTest {
+public class UsersRepositoryImplTest {
 
     @Autowired
     private TestEntityManager em;
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -53,7 +53,7 @@ public class UserRepositoryImplTest {
         User user = new User("user", "user", "email");
 
         // when
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
 
         // then
 
@@ -64,10 +64,10 @@ public class UserRepositoryImplTest {
     public void 유저저장_성공_AND_이메일로조회_성공() {
         //given
         User user = new User(nickname1, password, email1);
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
 
         //when
-        User findUser = userRepository.findUserByEmail(email1);
+        User findUser = usersRepository.findUserByEmail(email1);
 
         //then
         assertThat(findUser).isEqualTo(user);
@@ -78,14 +78,14 @@ public class UserRepositoryImplTest {
     public void 유저저장_성공_AND_이메일로조회_실패() {
         //given
         User user = new User(nickname1, password, email1);
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
 
         //when
 
 
         //then
         assertThrows(NotExistUserException.class,
-                () -> userRepository.findUserByEmail(email2));
+                () -> usersRepository.findUserByEmail(email2));
     }
 
     @Test
@@ -93,13 +93,13 @@ public class UserRepositoryImplTest {
     public void 유저채널입장성공_AND_채널ID로조회_성공() {
         //given
         User user = new User(nickname1, password, email1);
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
         Channel channel = new Channel(channelName1, text);
         ChannelUser channelUser = new ChannelUser(user, channel);
         em.persist(channel);
         //when
 
-        List<User> findUsers = userRepository.findUsersByChannelId(channel.getId());
+        List<User> findUsers = usersRepository.findUsersByChannelId(channel.getId());
 
         //then
         assertThat(findUsers.get(0)).isEqualTo(user);
@@ -110,13 +110,13 @@ public class UserRepositoryImplTest {
     public void 유저채널입장성공_AND_채널ID로조회_실패() {
         //given
         User user = new User(nickname1, password, email1);
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
         Channel channel = new Channel(channelName1, text);
         ChannelUser channelUser = new ChannelUser(user, channel);
 
         //when
 
-        List<User> userList = userRepository.findUsersByChannelId("NotExistChannelId");
+        List<User> userList = usersRepository.findUsersByChannelId("NotExistChannelId");
 
         //then
         assertThat(userList.isEmpty()).isEqualTo(true);

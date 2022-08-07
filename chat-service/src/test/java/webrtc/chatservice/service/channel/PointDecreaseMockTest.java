@@ -1,51 +1,24 @@
 package webrtc.chatservice.service.channel;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.dto.UserDto.DecreasePointRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.PointException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
-import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.user.UserRepository;
-import webrtc.chatservice.utils.CustomJsonMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 
 @ExtendWith(MockitoExtension.class)

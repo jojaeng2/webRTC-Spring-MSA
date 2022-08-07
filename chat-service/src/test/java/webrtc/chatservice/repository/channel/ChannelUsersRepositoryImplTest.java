@@ -24,7 +24,7 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
-public class ChannelUserRepositoryImplTest {
+public class ChannelUsersRepositoryImplTest {
 
     @Autowired
     private TestEntityManager em;

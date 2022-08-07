@@ -1,11 +1,7 @@
-package webrtc.chatservice.repository.user;
+package webrtc.chatservice.repository.users;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 
 import javax.persistence.EntityManager;
@@ -13,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository{
+public class UsersRepositoryImpl implements UsersRepository {
 
     @PersistenceContext
     private EntityManager em;

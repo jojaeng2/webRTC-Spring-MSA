@@ -16,7 +16,7 @@ import webrtc.chatservice.dto.UserDto.CreateUserRequest;
 import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +30,7 @@ public class UsersServiceImplTest {
     @Mock
     private ChannelRedisRepository channelRedisRepository;
     @Mock
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
     @Mock
     private HttpApiController httpApiController;
     @Mock
@@ -53,7 +53,7 @@ public class UsersServiceImplTest {
         doReturn(password)
                 .when(encoder).encode(any(String.class));
         doNothing()
-                .when(userRepository)
+                .when(usersRepository)
                 .saveUser(any(User.class));
 
         // when
@@ -71,7 +71,7 @@ public class UsersServiceImplTest {
         String email = "email";
 
         doReturn(new User(nickname1, password, email))
-                .when(userRepository).findUserByEmail(email);
+                .when(usersRepository).findUserByEmail(email);
 
         //when
         User user = userService.findOneUserByEmail(email);
@@ -92,7 +92,7 @@ public class UsersServiceImplTest {
                 .when(httpApiController).postFindUserByEmail(email);
 
         doThrow(new NotExistUserException())
-                .when(userRepository).findUserByEmail(email);
+                .when(usersRepository).findUserByEmail(email);
 
         //when
         User user = userService.findOneUserByEmail(email);
@@ -112,7 +112,7 @@ public class UsersServiceImplTest {
 
 
         doThrow(new NotExistUserException())
-                .when(userRepository).findUserByEmail(email1);
+                .when(usersRepository).findUserByEmail(email1);
 
         //when
 

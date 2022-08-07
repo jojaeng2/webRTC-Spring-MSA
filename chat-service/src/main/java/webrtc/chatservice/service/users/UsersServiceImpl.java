@@ -13,27 +13,27 @@ import webrtc.chatservice.dto.UserDto.FindUserWithPointByEmailResponse;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
     private final ChannelRedisRepository channelRedisRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final PasswordEncoder bcryptEncoder;
     private final HttpApiController httpApiController;
 
     @Transactional
     public User saveUser(CreateUserRequest request) {
         User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        userRepository.saveUser(user);
+        usersRepository.saveUser(user);
         return user;
     }
 
     @Transactional
     public User findOneUserByEmail(String email) {
         try {
-            return userRepository.findUserByEmail(email);
+            return usersRepository.findUserByEmail(email);
         }
         catch (NotExistUserException e) {
             return httpApiController.postFindUserByEmail(email);

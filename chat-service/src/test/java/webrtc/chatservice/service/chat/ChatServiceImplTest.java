@@ -14,7 +14,7 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
 public class ChatServiceImplTest {
 
     @InjectMocks private ChatServiceImpl chatService;
-    @Mock private UserRepository userRepository;
+    @Mock private UsersRepository usersRepository;
     @Mock private ChannelDBRepository channelDBRepository;
     @Mock private ChatLogRepository chatLogRepository;
     @Mock private ChannelTopic channelTopic;

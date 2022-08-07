@@ -1,6 +1,5 @@
 package webrtc.chatservice.service.channel;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +8,6 @@ import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.exception.ChannelException.*;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
@@ -18,7 +16,7 @@ import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
-import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,7 @@ public class ChannelServiceImpl implements ChannelService{
     private final ChannelRedisRepository channelRedisRepository;
     private final ChatLogRepository chatLogRepository;
     private final ChannelHashTagRepository channelHashTagRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;
 
@@ -57,10 +55,10 @@ public class ChannelServiceImpl implements ChannelService{
         } catch (NotExistChannelException ex1) {
             channel = new Channel(request.getChannelName(), request.getChannelType());
             try {
-                user = userRepository.findUserByEmail(email);
+                user = usersRepository.findUserByEmail(email);
             } catch (NotExistUserException ex2) {
                 user = httpApiController.postFindUserByEmail(email);
-                userRepository.saveUser(user);
+                usersRepository.saveUser(user);
             }
             httpApiController.postDecreaseUserPoint(user.getEmail(), channelCreatePoint * pointUnit);
         }
@@ -105,10 +103,10 @@ public class ChannelServiceImpl implements ChannelService{
 
         // 무조건 user 객체 가져와야함
         try {
-            user = userRepository.findUserByEmail(email);
+            user = usersRepository.findUserByEmail(email);
         } catch (NotExistUserException e) {
             user = httpApiController.postFindUserByEmail(email);
-            userRepository.saveUser(user);
+            usersRepository.saveUser(user);
         }
 
 
@@ -170,7 +168,7 @@ public class ChannelServiceImpl implements ChannelService{
      */
     @Transactional
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
-        User user = userRepository.findUserByEmail(email);
+        User user = usersRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
                 return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(user.getId(), idx));

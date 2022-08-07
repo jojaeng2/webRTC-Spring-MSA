@@ -12,7 +12,7 @@ import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.user.UserRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.List;
 import static webrtc.chatservice.enums.SocketServerMessageType.*;
@@ -25,7 +25,7 @@ public class ChatServiceImpl implements ChatService{
     private final RedisTemplate redisTemplate;
 
     private final ChatLogRepository chatLogRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final ChannelDBRepository channelDBRepository;
 
     @Transactional
@@ -48,7 +48,7 @@ public class ChatServiceImpl implements ChatService{
         Channel channel = channelDBRepository.findChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        List<User> currentUsers = userRepository.findUsersByChannelId(channelId);
+        List<User> currentUsers = usersRepository.findUsersByChannelId(channelId);
         Long logId;
         switch (type) {
             case CHAT:

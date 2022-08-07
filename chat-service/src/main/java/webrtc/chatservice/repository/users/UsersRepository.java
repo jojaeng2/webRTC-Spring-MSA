@@ -1,11 +1,10 @@
-package webrtc.chatservice.repository.user;
+package webrtc.chatservice.repository.users;
 
-import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.User;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UsersRepository {
 
     void saveUser(User user);
 

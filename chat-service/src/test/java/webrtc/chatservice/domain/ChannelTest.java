@@ -5,7 +5,7 @@ package webrtc.chatservice.domain;
 //public class ChannelTest {
 //
 //    @Autowired
-//    private UserRepository userRepository;
+//    private UsersRepository userRepository;
 //
 //    @Autowired
 //    private UsersService userService;
