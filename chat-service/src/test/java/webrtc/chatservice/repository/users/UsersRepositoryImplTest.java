@@ -24,8 +24,6 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
 @Import({
         UsersRepositoryImpl.class
 })
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-
 public class UsersRepositoryImplTest {
 
     @Autowired

@@ -21,7 +21,6 @@ import static webrtc.chatservice.enums.ClientMessageType.ENTER;
 @Import({
         ChatLogRepositoryImpl.class
 })
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ChatLogRepositoryImplTest {
 
     @Autowired

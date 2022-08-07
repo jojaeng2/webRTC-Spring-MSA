@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Import;
 @Import({
         ChannelHashTagRepositoryImpl.class
 })
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ChannelHashTagRepositoryTest {
 
     @Autowired
