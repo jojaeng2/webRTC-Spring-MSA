@@ -16,8 +16,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-@RedisHash("user")
-public class User implements Serializable {
+@RedisHash("users")
+public class Users implements Serializable {
 
     @Id
     @Column(name = "user_id")
@@ -34,11 +34,11 @@ public class User implements Serializable {
     private String nickname;
     private Timestamp nickname_expire_at;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
     @JsonIgnore
     private Set<ChannelUser> channelUsers = new HashSet<>();
 
-    public User(String nickname, String password, String email) {
+    public Users(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
         this.nickname = nickname;
         this.password = password;

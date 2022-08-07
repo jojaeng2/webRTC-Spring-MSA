@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.dto.UsersDto.FindUserWithPointByEmailResponse;
@@ -54,10 +54,10 @@ public class UsersServiceImplTest {
                 .when(encoder).encode(any(String.class));
         doNothing()
                 .when(usersRepository)
-                .saveUser(any(User.class));
+                .saveUser(any(Users.class));
 
         // when
-        User response = userService.saveUser(request);
+        Users response = userService.saveUser(request);
 
         // then
         assertThat(request.getEmail()).isEqualTo(response.getEmail());
@@ -70,14 +70,14 @@ public class UsersServiceImplTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String email = "email";
 
-        doReturn(new User(nickname1, password, email))
+        doReturn(new Users(nickname1, password, email))
                 .when(usersRepository).findUserByEmail(email);
 
         //when
-        User user = userService.findOneUserByEmail(email);
+        Users users = userService.findOneUserByEmail(email);
 
         //then
-        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(users.getEmail()).isEqualTo(email);
     }
 
 
@@ -88,17 +88,17 @@ public class UsersServiceImplTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String email = "email";
 
-        doReturn(new User(nickname1, password, email))
+        doReturn(new Users(nickname1, password, email))
                 .when(httpApiController).postFindUserByEmail(email);
 
         doThrow(new NotExistUserException())
                 .when(usersRepository).findUserByEmail(email);
 
         //when
-        User user = userService.findOneUserByEmail(email);
+        Users users = userService.findOneUserByEmail(email);
 
         //then
-        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(users.getEmail()).isEqualTo(email);
     }
 
     @Test

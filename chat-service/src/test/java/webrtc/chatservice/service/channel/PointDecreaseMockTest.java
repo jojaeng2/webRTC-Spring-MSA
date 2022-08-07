@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
@@ -45,7 +45,7 @@ public class PointDecreaseMockTest {
     public void 채널수명연장성공() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
         doReturn(channel)
@@ -56,7 +56,7 @@ public class PointDecreaseMockTest {
                 .when(channelRedisRepository).extensionChannelTTL(any(Channel.class), any(Long.class));
 
         // when
-        channelService.extensionChannelTTL(channel.getId(), user.getEmail(), requestTTL);
+        channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
 
         // then
 
@@ -67,7 +67,7 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_채널없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
         doThrow(new NotExistChannelException())
@@ -77,7 +77,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistChannelException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), user.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
         });
     }
 
@@ -86,7 +86,7 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_유저없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
         doReturn(channel)
@@ -98,7 +98,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistUserException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), user.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
         });
     }
 
@@ -107,7 +107,7 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_포인트부족() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
         doReturn(channel)
@@ -119,7 +119,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(InsufficientPointException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), user.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
         });
     }
 

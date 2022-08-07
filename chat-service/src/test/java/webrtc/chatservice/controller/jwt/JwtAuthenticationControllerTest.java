@@ -26,7 +26,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
@@ -90,12 +90,12 @@ public class JwtAuthenticationControllerTest {
         // given
         CreateUserRequest ObjRequest = new CreateUserRequest(nickname1, password, email1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersService).saveUser(any(CreateUserRequest.class));
 
-        doReturn(user)
+        doReturn(users)
                 .when(httpApiController).postSaveUser(any(CreateUserRequest.class));
 
         // when
@@ -136,7 +136,7 @@ public class JwtAuthenticationControllerTest {
         // given
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
@@ -170,7 +170,7 @@ public class JwtAuthenticationControllerTest {
         // given
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         doThrow(new NotExistUserException())
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));

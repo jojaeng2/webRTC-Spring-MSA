@@ -14,7 +14,7 @@ public class GlobalUserExceptionHandler {
 
     @ExceptionHandler(NotExistUserException.class)
     protected ResponseEntity<?> handleNotExistUserException(NotExistUserException e) {
-        final HttpStatusResponse httpStatusResponse = new HttpStatusResponse("존재하지 않는 User 입니다.", e.getMessage());
+        final HttpStatusResponse httpStatusResponse = new HttpStatusResponse("존재하지 않는 Users 입니다.", e.getMessage());
         return new ResponseEntity<>(httpStatusResponse, HttpStatus.NOT_FOUND);
     }
 

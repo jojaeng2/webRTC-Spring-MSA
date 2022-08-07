@@ -1,7 +1,6 @@
 package webrtc.chatservice.service.channel;
 
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.User;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 

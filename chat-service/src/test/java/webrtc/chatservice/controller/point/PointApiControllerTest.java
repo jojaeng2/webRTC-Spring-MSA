@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.enums.ChannelType;
@@ -202,7 +202,7 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -246,7 +246,7 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -286,7 +286,7 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);

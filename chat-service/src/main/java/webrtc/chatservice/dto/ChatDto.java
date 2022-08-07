@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.chatservice.domain.ChatLog;
-import webrtc.chatservice.domain.User;
-import webrtc.chatservice.enums.ClientMessageType;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.SocketServerMessageType;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class ChatDto {
         private String senderName;
         private String chatMessage;
         private Long currentParticipants;
-        private List<User> users = new ArrayList<>();
+        private List<Users> users = new ArrayList<>();
         private Long logId;
         private String senderEmail;
 
@@ -65,7 +64,7 @@ public class ChatDto {
             super(channelId);
         }
 
-        public void setMessageType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<User> users, String senderEmail) {
+        public void setMessageType(SocketServerMessageType type, String senderName, String chatMessage, Long currentParticipants, List<Users> users, String senderEmail) {
             this.setType(type);
             this.senderName = senderName;
             this.chatMessage = chatMessage;

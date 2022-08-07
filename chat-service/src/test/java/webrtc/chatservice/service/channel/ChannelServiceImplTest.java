@@ -86,7 +86,7 @@ public class ChannelServiceImplTest {
                 .when(channelHashTagRepository).save(any(ChannelHashTag.class));
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository).findUserByEmail(email1);
 
         doReturn(new HashTag(tag1))
@@ -115,7 +115,7 @@ public class ChannelServiceImplTest {
                 .when(channelHashTagRepository).save(any(ChannelHashTag.class));
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository).findUserByEmail(email1);
 
         doThrow(NotExistHashTagException.class)
@@ -146,7 +146,7 @@ public class ChannelServiceImplTest {
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
         doThrow(new NotExistUserException())
                 .when(usersRepository).findUserByEmail(any(String.class));
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(httpApiController).postFindUserByEmail(any(String.class));
         doReturn(new HashTag(tag1))
                 .when(hashTagRepository).findHashTagByName(any(String.class));
@@ -218,7 +218,7 @@ public class ChannelServiceImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
 
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository).findUserByEmail(email1);
 
         doThrow(new NotExistChannelException())
@@ -237,7 +237,7 @@ public class ChannelServiceImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
 
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository).findUserByEmail(email1);
 
         doReturn(new ArrayList<>())
@@ -258,7 +258,7 @@ public class ChannelServiceImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
         channel.setCurrentParticipants(15L);
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository).findUserByEmail(email1);
 
         doThrow(new NotExistChannelException())
@@ -281,10 +281,10 @@ public class ChannelServiceImplTest {
         doThrow(new NotExistUserException())
                 .when(usersRepository).findUserByEmail(any(String.class));
 
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(httpApiController).postFindUserByEmail(email1);
         doNothing()
-                .when(usersRepository).saveUser(any(User.class));
+                .when(usersRepository).saveUser(any(Users.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
@@ -322,18 +322,18 @@ public class ChannelServiceImplTest {
     @Transactional
     public void 채널퇴장성공() {
         // given
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
         Channel channel = new Channel(channelName1, text);
 
         doReturn(new Channel(channelName1, text))
                 .when(channelDBRepository).findChannelById(any(String.class));
-        doReturn(new ChannelUser(user, channel))
+        doReturn(new ChannelUser(users, channel))
                 .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
         doNothing()
                 .when(channelDBRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));
 
         // when
-        channelService.exitChannel(channel.getId(), user.getId());
+        channelService.exitChannel(channel.getId(), users.getId());
 
         // then
     }
@@ -344,7 +344,7 @@ public class ChannelServiceImplTest {
     public void 채널퇴장실패_채널없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelById(channel.getId());
@@ -353,7 +353,7 @@ public class ChannelServiceImplTest {
 
         // then
         assertThrows(NotExistChannelException.class, ()->{
-            channelService.exitChannel(channel.getId(), user.getId());
+            channelService.exitChannel(channel.getId(), users.getId());
         });
 
     }
@@ -363,7 +363,7 @@ public class ChannelServiceImplTest {
     public void 채널퇴장실패_채널유저없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         doReturn(channel)
                 .when(channelDBRepository).findChannelById(any(String.class));
@@ -375,7 +375,7 @@ public class ChannelServiceImplTest {
 
         // then
         assertThrows(NotExistChannelUserException.class, ()->{
-            channelService.exitChannel(channel.getId(), user.getId());
+            channelService.exitChannel(channel.getId(), users.getId());
         });
 
     }

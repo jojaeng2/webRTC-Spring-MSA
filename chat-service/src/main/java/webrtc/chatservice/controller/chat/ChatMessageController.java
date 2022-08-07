@@ -5,7 +5,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelService;
@@ -30,7 +30,7 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        User sender = usersService.findOneUserByEmail(senderEmail);
+        Users sender = usersService.findOneUserByEmail(senderEmail);
         String chatMessage = message.getMessage();
         switch(clientMessageType) {
             case CHAT:

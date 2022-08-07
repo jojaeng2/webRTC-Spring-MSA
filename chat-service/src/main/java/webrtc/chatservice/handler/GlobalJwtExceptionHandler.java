@@ -17,7 +17,7 @@ public class GlobalJwtExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<?> handleUsernameNotFoundExceptionHandler(UsernameNotFoundException e) {
-        final HttpStatusResponse httpStatusResponse = new HttpStatusResponse("존재하지 않는 User token입니다.", e.getMessage());
+        final HttpStatusResponse httpStatusResponse = new HttpStatusResponse("존재하지 않는 Users token입니다.", e.getMessage());
         return new ResponseEntity<>(httpStatusResponse, UNAUTHORIZED);
     }
 

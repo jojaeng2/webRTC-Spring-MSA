@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
@@ -42,8 +42,8 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        User user = usersService.saveUser(request);
+        Users users = usersService.saveUser(request);
         httpApiController.postSaveUser(request);
-        return new ResponseEntity(user, HttpStatus.OK);
+        return new ResponseEntity(users, HttpStatus.OK);
     }
 }

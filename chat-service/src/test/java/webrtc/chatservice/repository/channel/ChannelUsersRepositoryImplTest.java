@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 
@@ -44,8 +44,8 @@ public class ChannelUsersRepositoryImplTest {
     public void 채널유저_저장성공() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        Users users = new Users(nickname1, password, email1);
+        ChannelUser channelUser = new ChannelUser(users, channel);
 
         // when
         em.persist(channel);
@@ -58,14 +58,14 @@ public class ChannelUsersRepositoryImplTest {
     public void 채널유저_저장후_채널ID_AND_유저ID로_조회_성공() {
         //given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        Users users = new Users(nickname1, password, email1);
+        ChannelUser channelUser = new ChannelUser(users, channel);
         em.persist(channel);
-        em.persist(user);
+        em.persist(users);
 
         //when
 
-        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), user.getId());
+        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), users.getId());
 
         //then
         assertThat(findChannelUser).isEqualTo(channelUser);
@@ -76,8 +76,8 @@ public class ChannelUsersRepositoryImplTest {
     public void 채널유저_저장후_채널ID_AND_유저ID로_조회_실패() {
         //given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        Users users = new Users(nickname1, password, email1);
+        ChannelUser channelUser = new ChannelUser(users, channel);
 
         //when
 

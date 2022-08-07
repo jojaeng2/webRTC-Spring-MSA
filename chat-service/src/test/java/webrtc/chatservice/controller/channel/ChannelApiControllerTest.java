@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -22,7 +21,7 @@ import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.enums.ChannelType;
@@ -31,7 +30,6 @@ import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.utils.CustomJsonMapper;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -116,7 +114,7 @@ public class ChannelApiControllerTest {
     public void 새로운_채널생성_성공() throws Exception{
         // given
 
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -163,12 +161,12 @@ public class ChannelApiControllerTest {
     @Transactional
     public void 채널생성_실패_중복된채널이름() throws Exception{
         // given
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(user.getEmail())
+        doReturn(users.getEmail())
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
@@ -202,12 +200,12 @@ public class ChannelApiControllerTest {
     @Transactional
     public void jwt토큰문제발생() throws Exception{
         // given
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(user.getEmail())
+        doReturn(users.getEmail())
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())

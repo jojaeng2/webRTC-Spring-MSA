@@ -21,7 +21,6 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 @Import({
         ChannelDBRepositoryImpl.class
 })
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ChannelDBRepositoryImplTest {
 
     @Autowired
@@ -126,10 +125,10 @@ public class ChannelDBRepositoryImplTest {
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
         channelDBRepository.createChannel(channel, channelHashTags);
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
 
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        ChannelUser channelUser = new ChannelUser(users, channel);
 
         // when
 
@@ -147,10 +146,10 @@ public class ChannelDBRepositoryImplTest {
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
         channelDBRepository.createChannel(channel, channelHashTags);
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
 
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        ChannelUser channelUser = new ChannelUser(users, channel);
 
         // when
         channelDBRepository.exitChannelUserInChannel(channel, channelUser);
@@ -205,9 +204,9 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -236,9 +235,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -268,9 +267,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -299,9 +298,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -355,9 +354,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -385,9 +384,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -416,9 +415,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
         // when
@@ -448,9 +447,9 @@ public class ChannelDBRepositoryImplTest {
             channelDBRepository.createChannel(channel, channelHashTags);
 
             if(i == firstEnteridx) {
-                User user = new User(nickname1, password, email1);
-                em.persist(user);
-                ChannelUser channelUser = new ChannelUser(user, channel);
+                Users users = new Users(nickname1, password, email1);
+                em.persist(users);
+                ChannelUser channelUser = new ChannelUser(users, channel);
             }
         }
 
@@ -472,8 +471,8 @@ public class ChannelDBRepositoryImplTest {
         int testcase = 0;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -482,11 +481,11 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            ChannelUser channelUser = new ChannelUser(user, channel);
+            ChannelUser channelUser = new ChannelUser(users, channel);
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(user.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users.getId(), 0);
 
 
         // then
@@ -499,8 +498,8 @@ public class ChannelDBRepositoryImplTest {
         int testcase = 0;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -509,11 +508,11 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            ChannelUser channelUser = new ChannelUser(user, channel);
+            ChannelUser channelUser = new ChannelUser(users, channel);
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(user.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users.getId(), 0);
 
 
         // then
@@ -527,8 +526,8 @@ public class ChannelDBRepositoryImplTest {
         int firstEnteridx = 10;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user1 = new User(nickname1, password, email1);
-        em.persist(user1);
+        Users users1 = new Users(nickname1, password, email1);
+        em.persist(users1);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -537,16 +536,16 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            new ChannelUser(user1, channel);
+            new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
-                User user2 = new User(nickname2, password, email2);
-                em.persist(user2);
-                new ChannelUser(user2, channel);
+                Users users2 = new Users(nickname2, password, email2);
+                em.persist(users2);
+                new ChannelUser(users2, channel);
             }
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(user1.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 0);
 
 
         // then
@@ -562,8 +561,8 @@ public class ChannelDBRepositoryImplTest {
         int firstEnteridx = 10;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user1 = new User(nickname1, password, email1);
-        em.persist(user1);
+        Users users1 = new Users(nickname1, password, email1);
+        em.persist(users1);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -572,16 +571,16 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            new ChannelUser(user1, channel);
+            new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
-                User user2 = new User(nickname2, password, email2);
-                em.persist(user2);
-                new ChannelUser(user2, channel);
+                Users users2 = new Users(nickname2, password, email2);
+                em.persist(users2);
+                new ChannelUser(users2, channel);
             }
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(user1.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 0);
 
         // then
         assertThat(findChannels0.get((testcase-1)%20).getChannelName()).isEqualTo(firstEnteridx + " channel");
@@ -596,8 +595,8 @@ public class ChannelDBRepositoryImplTest {
         int firstEnteridx = 10;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user1 = new User(nickname1, password, email1);
-        em.persist(user1);
+        Users users1 = new Users(nickname1, password, email1);
+        em.persist(users1);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -606,17 +605,17 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            new ChannelUser(user1, channel);
+            new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
-                User user2 = new User(nickname2, password, email2);
-                em.persist(user2);
-                new ChannelUser(user2, channel);
+                Users users2 = new Users(nickname2, password, email2);
+                em.persist(users2);
+                new ChannelUser(users2, channel);
             }
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(user1.getId(), 0);
-        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiDESC(user1.getId(), 1);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 0);
+        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 1);
 
 
         // then
@@ -633,8 +632,8 @@ public class ChannelDBRepositoryImplTest {
         int firstEnteridx = 10;
         HashTag hashTag1 = new HashTag(tag1);
 
-        User user1 = new User(nickname1, password, email1);
-        em.persist(user1);
+        Users users1 = new Users(nickname1, password, email1);
+        em.persist(users1);
 
         for(int i=0; i<testcase; i++) {
             Channel channel = new Channel(i+" channel", text);
@@ -643,17 +642,17 @@ public class ChannelDBRepositoryImplTest {
             channelHashTags.add(channelHashTag1);
             channelDBRepository.createChannel(channel, channelHashTags);
 
-            new ChannelUser(user1, channel);
+            new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
-                User user2 = new User(nickname2, password, email2);
-                em.persist(user2);
-                new ChannelUser(user2, channel);
+                Users users2 = new Users(nickname2, password, email2);
+                em.persist(users2);
+                new ChannelUser(users2, channel);
             }
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(user1.getId(), 0);
-        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiASC(user1.getId(), 1);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 0);
+        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 1);
 
 
         // then
@@ -672,12 +671,12 @@ public class ChannelDBRepositoryImplTest {
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
         channelDBRepository.createChannel(channel, channelHashTags);
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
-        new ChannelUser(user, channel);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
+        new ChannelUser(users, channel);
 
         // when
-        List<Channel> findChannels = channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
+        List<Channel> findChannels = channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), users.getId());
 
         // then
         assertThat(findChannels.get(0)).isEqualTo(channel);
@@ -692,14 +691,14 @@ public class ChannelDBRepositoryImplTest {
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
         channelDBRepository.createChannel(channel, channelHashTags);
-        User user = new User(nickname1, password, email1);
-        em.persist(user);
+        Users users = new Users(nickname1, password, email1);
+        em.persist(users);
 
         // when
 
         // then
         assertThrows(NotExistChannelException.class, ()-> {
-            channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
+            channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), users.getId());
         });
     }
 }

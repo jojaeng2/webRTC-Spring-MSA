@@ -1,15 +1,15 @@
 package webrtc.chatservice.repository.users;
 
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 
 import java.util.List;
 
 public interface UsersRepository {
 
-    void saveUser(User user);
+    void saveUser(Users users);
 
-    User findUserByEmail(String email);
+    Users findUserByEmail(String email);
 
-    List<User> findUsersByChannelId(String channelId);
+    List<Users> findUsersByChannelId(String channelId);
 
 }

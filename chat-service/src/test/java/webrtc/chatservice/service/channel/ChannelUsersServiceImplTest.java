@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
@@ -42,17 +42,17 @@ public class ChannelUsersServiceImplTest {
     public void 채널유저_조회성공() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
-        doReturn(new ChannelUser(user, channel))
+        Users users = new Users(nickname1, password, email1);
+        doReturn(new ChannelUser(users, channel))
                 .when(channelUserRepository)
-                .findOneChannelUser(channel.getId(), user.getId());
+                .findOneChannelUser(channel.getId(), users.getId());
 
         // when
-        ChannelUser channelUser = channelUserService.findOneChannelUser(channel.getId(), user.getId());
+        ChannelUser channelUser = channelUserService.findOneChannelUser(channel.getId(), users.getId());
 
         // then
         assertThat(channelUser.getChannel().getId()).isEqualTo(channel.getId());
-        assertThat(channelUser.getUser().getId()).isEqualTo(user.getId());
+        assertThat(channelUser.getUsers().getId()).isEqualTo(users.getId());
     }
 
     @Test
@@ -60,17 +60,17 @@ public class ChannelUsersServiceImplTest {
     public void 채널유저_조회실패() {
         // given
         Channel channel = new Channel(channelName1, text);
-        User user = new User(nickname1, password, email1);
+        Users users = new Users(nickname1, password, email1);
 
         doThrow(new NotExistChannelUserException())
                 .when(channelUserRepository)
-                .findOneChannelUser(channel.getId(), user.getId());
+                .findOneChannelUser(channel.getId(), users.getId());
 
         // when
 
         // then
         Assertions.assertThrows(NotExistChannelUserException.class, ()-> {
-           channelUserRepository.findOneChannelUser(channel.getId(), user.getId());
+           channelUserRepository.findOneChannelUser(channel.getId(), users.getId());
         });
     }
 

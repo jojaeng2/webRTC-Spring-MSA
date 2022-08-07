@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
@@ -48,7 +48,7 @@ public class ChatServiceImpl implements ChatService{
         Channel channel = channelDBRepository.findChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
-        List<User> currentUsers = usersRepository.findUsersByChannelId(channelId);
+        List<Users> currentUsers = usersRepository.findUsersByChannelId(channelId);
         Long logId;
         switch (type) {
             case CHAT:

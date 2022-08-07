@@ -18,7 +18,7 @@ package webrtc.chatservice.domain;
 //
 //    @BeforeEach
 //    public void createUser() {
-//        User user1 = new User("user", "user", "email");
+//        Users user1 = new Users("user", "user", "email");
 //        userRepository.saveUser(user1);
 //
 //    }
@@ -38,7 +38,7 @@ package webrtc.chatservice.domain;
 //    public void addChannelUser() {
 //        //given
 //        Channel channel = new Channel("TestChannel", "chat");
-//        User user = userRepository.findUserByEmail("email");
+//        Users user = userRepository.findUserByEmail("email");
 //        ChannelUser channelUser = new ChannelUser(user, channel);
 //
 //        //when

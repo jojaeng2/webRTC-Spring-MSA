@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.users.UsersService;
@@ -20,7 +20,7 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtUserDetailsServiceTest {
+public class JwtUsersDetailsServiceTest {
 
     @InjectMocks
     private JwtUserDetailsService jwtUserDetailsService;
@@ -44,7 +44,7 @@ public class JwtUserDetailsServiceTest {
     @Transactional
     public void 유저이름으로_UserDetails_조회성공() {
         // given
-        doReturn(new User(nickname1, password, email1))
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersService).findOneUserByEmail(email1);
 
         // when

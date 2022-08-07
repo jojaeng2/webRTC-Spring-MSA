@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.UsersDto.*;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
@@ -30,19 +30,19 @@ public class HttpApiController {
         return restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
-    public User postFindUserByEmail(String email) {
+    public Users postFindUserByEmail(String email) {
         try {
             ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/user", new FindUserByEmailRequest(email));
             String responseBody = response.getBody();
-            Object obj = customJsonMapper.jsonParse(responseBody, User.class);
-            return User.class.cast(obj);
+            Object obj = customJsonMapper.jsonParse(responseBody, Users.class);
+            return Users.class.cast(obj);
         } catch (HttpClientErrorException e) {
             switch (e.getStatusCode()) {
                 case NOT_FOUND:
                     throw new NotExistUserException();
             }
         }
-        return new User();
+        return new Users();
     }
 
     public FindUserWithPointByEmailResponse postFindUserWithPointByEmail(String email) {
@@ -73,10 +73,10 @@ public class HttpApiController {
         }
     }
 
-    public User postSaveUser(CreateUserRequest request) {
+    public Users postSaveUser(CreateUserRequest request) {
         String response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/register", request).getBody();
-        Object obj = customJsonMapper.jsonParse(response, User.class );
-        return User.class.cast(obj);
+        Object obj = customJsonMapper.jsonParse(response, Users.class );
+        return Users.class.cast(obj);
     }
 
     public void postDeletedChannel(String channelId) {

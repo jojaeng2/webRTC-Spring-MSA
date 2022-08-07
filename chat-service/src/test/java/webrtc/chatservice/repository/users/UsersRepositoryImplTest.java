@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 
@@ -50,10 +50,10 @@ public class UsersRepositoryImplTest {
     @Transactional
     public void 유저저장_성공() {
         // given
-        User user = new User("user", "user", "email");
+        Users users = new Users("users", "users", "email");
 
         // when
-        usersRepository.saveUser(user);
+        usersRepository.saveUser(users);
 
         // then
 
@@ -63,22 +63,22 @@ public class UsersRepositoryImplTest {
     @Transactional
     public void 유저저장_성공_AND_이메일로조회_성공() {
         //given
-        User user = new User(nickname1, password, email1);
-        usersRepository.saveUser(user);
+        Users users = new Users(nickname1, password, email1);
+        usersRepository.saveUser(users);
 
         //when
-        User findUser = usersRepository.findUserByEmail(email1);
+        Users findUsers = usersRepository.findUserByEmail(email1);
 
         //then
-        assertThat(findUser).isEqualTo(user);
+        assertThat(findUsers).isEqualTo(users);
     }
 
     @Test
     @Transactional
     public void 유저저장_성공_AND_이메일로조회_실패() {
         //given
-        User user = new User(nickname1, password, email1);
-        usersRepository.saveUser(user);
+        Users users = new Users(nickname1, password, email1);
+        usersRepository.saveUser(users);
 
         //when
 
@@ -92,34 +92,34 @@ public class UsersRepositoryImplTest {
     @Transactional
     public void 유저채널입장성공_AND_채널ID로조회_성공() {
         //given
-        User user = new User(nickname1, password, email1);
-        usersRepository.saveUser(user);
+        Users users = new Users(nickname1, password, email1);
+        usersRepository.saveUser(users);
         Channel channel = new Channel(channelName1, text);
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        ChannelUser channelUser = new ChannelUser(users, channel);
         em.persist(channel);
         //when
 
-        List<User> findUsers = usersRepository.findUsersByChannelId(channel.getId());
+        List<Users> findUsers = usersRepository.findUsersByChannelId(channel.getId());
 
         //then
-        assertThat(findUsers.get(0)).isEqualTo(user);
+        assertThat(findUsers.get(0)).isEqualTo(users);
     }
 
     @Test
     @Transactional
     public void 유저채널입장성공_AND_채널ID로조회_실패() {
         //given
-        User user = new User(nickname1, password, email1);
-        usersRepository.saveUser(user);
+        Users users = new Users(nickname1, password, email1);
+        usersRepository.saveUser(users);
         Channel channel = new Channel(channelName1, text);
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        ChannelUser channelUser = new ChannelUser(users, channel);
 
         //when
 
-        List<User> userList = usersRepository.findUsersByChannelId("NotExistChannelId");
+        List<Users> usersList = usersRepository.findUsersByChannelId("NotExistChannelId");
 
         //then
-        assertThat(userList.isEmpty()).isEqualTo(true);
+        assertThat(usersList.isEmpty()).isEqualTo(true);
     }
 
 }

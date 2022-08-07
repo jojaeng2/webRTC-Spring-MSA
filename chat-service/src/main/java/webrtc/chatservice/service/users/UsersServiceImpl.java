@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
-import webrtc.chatservice.domain.User;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.dto.UsersDto.FindUserWithPointByEmailResponse;
@@ -24,14 +24,14 @@ public class UsersServiceImpl implements UsersService {
     private final HttpApiController httpApiController;
 
     @Transactional
-    public User saveUser(CreateUserRequest request) {
-        User user = new User(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        usersRepository.saveUser(user);
-        return user;
+    public Users saveUser(CreateUserRequest request) {
+        Users users = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
+        usersRepository.saveUser(users);
+        return users;
     }
 
     @Transactional
-    public User findOneUserByEmail(String email) {
+    public Users findOneUserByEmail(String email) {
         try {
             return usersRepository.findUserByEmail(email);
         }
