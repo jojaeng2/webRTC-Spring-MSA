@@ -26,6 +26,8 @@ public class SessionController {
     public ResponseEntity<?> getToken(@RequestBody GetTokenRequest request) {
         User user = httpApiController.postFindUserByEmail(request.getEmail());
         String token = openViduSessionService.createToken(request, user);
+        System.out.println("token = " + token);
+
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }
 

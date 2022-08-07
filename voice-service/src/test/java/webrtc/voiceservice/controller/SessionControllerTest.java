@@ -7,11 +7,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.voiceservice.controller.session.SessionController;
 import webrtc.voiceservice.domain.User;
@@ -38,6 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
 @ExtendWith(MockitoExtension.class)
+@DataRedisTest
+@TestExecutionListeners({})
 public class SessionControllerTest {
 
     @InjectMocks
@@ -52,11 +57,11 @@ public class SessionControllerTest {
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    String nickname1 = "user1";
-    String password = "password";
-    String email1 = "email1";
-    String sessionName1 = "sessionName1";
-    String token = "token";
+    private final String nickname1 = "user1";
+    private final String password = "password";
+    private final String email1 = "email1";
+    private final String sessionName1 = "sessionName1";
+    private final String token = "token";
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider restDocumentationContextProvider) throws Exception {
