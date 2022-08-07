@@ -7,6 +7,7 @@ import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.SocketServerMessageType;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class ChatDto {
         private List<Users> users = new ArrayList<>();
         private Long logId;
         private String senderEmail;
+        private Timestamp sendTime;
 
         public ChatServerMessage(String channelId) {
             super(channelId);
@@ -71,6 +73,7 @@ public class ChatDto {
             this.currentParticipants = currentParticipants;
             this.users = users;
             this.senderEmail = senderEmail;
+            this.sendTime = new Timestamp(System.currentTimeMillis());
         }
 
         public void setChatLogId(Long logId) {
