@@ -13,10 +13,11 @@ services:
     networks:
       - spring-network
     ports:
-      - 9443:443
+      # - 9443:443
+      - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /home/ec2-user/honeybee/master/chat-service/target/generated-docs/chat-service.html:/home/ec2-user/honeybee/master/chat-service/target/generated-docs/chat-service.html
-      - /home/ec2-user/honeybee/master/voice-service/target/generated-docs/voice-service.html:/home/ec2-user/honeybee/master/voice-service/target/generated-docs/voice-service.html
+      # - /etc/letsencrypt:/etc/letsencrypt
+      # - /home/ec2-user/honeybee/master/chat-service/target/generated-docs/chat-service.html:/home/ec2-user/honeybee/master/chat-service/target/generated-docs/chat-service.html
+      # - /home/ec2-user/honeybee/master/voice-service/target/generated-docs/voice-service.html:/home/ec2-user/honeybee/master/voice-service/target/generated-docs/voice-service.html
   
