@@ -51,14 +51,3 @@ services:
       - spring-network
     command: [ "redis-server", "--protected-mode", "no" ]
 
-  # nginx-service:
-  #   image: nginx
-  #   networks:
-  #     - spring-network
-  #   ports:
-  #     - 81:80
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf
-  #     - /etc/letsencrypt:/etc/letsencrypt
-    
-    

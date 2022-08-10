@@ -49,11 +49,7 @@ public class Channel implements Serializable {
 
     public void enterChannelUser(ChannelUser channelUser) {
         this.currentParticipants++;
-        System.out.println("this.currentParticipants = " + this.currentParticipants);
-        System.out.println("여기다 1 =====================================================");
         this.channelUsers.add(channelUser);
-        System.out.println("여기다 2 =====================================================");
-
     }
 
 

@@ -120,7 +120,6 @@ public class ChannelServiceImpl implements ChannelService{
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
-                System.out.println("createChannelUser(user, channel);==============================================");
                 createChannelUser(user, channel);
             }
         }

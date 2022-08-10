@@ -49,10 +49,13 @@ public class StompHandler implements ChannelInterceptor {
                 UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUserEmail);
                 jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");
+
+                // interceptor에서 예외를 터뜨리기 위해 존재.
+                channelService.findOneChannelById(sendChannelId);
+
                 if(messageType != null && messageType.equals("ENTER")) {
                     channelService.enterChannel(sendChannelId, sendUserEmail);
                 }
-                channelService.findOneChannelById(sendChannelId);
                 break;
         }
         return message;
