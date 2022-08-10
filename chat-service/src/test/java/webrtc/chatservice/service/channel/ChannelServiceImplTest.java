@@ -82,8 +82,6 @@ public class ChannelServiceImplTest {
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
-        doNothing()
-                .when(channelHashTagRepository).save(any(ChannelHashTag.class));
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
         doReturn(new Users(nickname1, password, email1))
@@ -111,8 +109,6 @@ public class ChannelServiceImplTest {
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
-        doNothing()
-                .when(channelHashTagRepository).save(any(ChannelHashTag.class));
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
         doReturn(new Users(nickname1, password, email1))
@@ -140,8 +136,7 @@ public class ChannelServiceImplTest {
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
-        doNothing()
-                .when(channelHashTagRepository).save(any(ChannelHashTag.class));
+
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
         doThrow(new NotExistUserException())

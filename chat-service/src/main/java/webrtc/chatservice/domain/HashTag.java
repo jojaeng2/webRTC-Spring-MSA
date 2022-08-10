@@ -8,7 +8,9 @@ import org.springframework.data.redis.core.RedisHash;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,15 +27,16 @@ public class HashTag implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hashTag")
     @JsonIgnore
-    private List<ChannelHashTag> channelHashTags = new ArrayList<ChannelHashTag>();
+    private Set<ChannelHashTag> channelHashTags = new HashSet<>();
+
+    public HashTag(String tagName) {
+        this.tagName = tagName;
+    }
 
     public void addChannelHashTag(ChannelHashTag channelHashTag) {
         this.channelHashTags.add(channelHashTag);
     }
 
-    public HashTag(String tagName) {
-        this.tagName = tagName;
-    }
 
 
 }

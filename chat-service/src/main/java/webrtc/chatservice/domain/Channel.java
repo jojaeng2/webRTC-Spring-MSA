@@ -40,7 +40,7 @@ public class Channel implements Serializable {
         this.channelName = channelName;
         this.limitParticipants = 15L;
         this.currentParticipants = 0L;
-        this.timeToLive = 1*60*60L;
+        this.timeToLive = 60L*60L;
         this.channelUsers = new HashSet<>();
         this.channelHashTags = new HashSet<>();
         this.chatLogs = new ArrayList<>();

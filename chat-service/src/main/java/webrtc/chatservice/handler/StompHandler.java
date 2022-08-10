@@ -45,7 +45,6 @@ public class StompHandler implements ChannelInterceptor {
                 String sendJwtToken = accessor.getFirstNativeHeader("jwt");
                 String messageType = accessor.getFirstNativeHeader("type");
                 String sendUserEmail = jwtTokenUtil.getUserEmailFromToken(sendJwtToken);
-
                 UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUserEmail);
                 jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");

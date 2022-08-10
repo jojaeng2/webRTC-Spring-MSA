@@ -54,17 +54,17 @@ public class ChannelServiceImpl implements ChannelService{
             throw new AlreadyExistChannelException();
         } catch (NotExistChannelException ex1) {
             channel = new Channel(request.getChannelName(), request.getChannelType());
+            httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
             try {
                 user = usersRepository.findUserByEmail(email);
             } catch (NotExistUserException ex2) {
                 user = httpApiController.postFindUserByEmail(email);
                 usersRepository.saveUser(user);
             }
-            httpApiController.postDecreaseUserPoint(user.getEmail(), channelCreatePoint * pointUnit);
         }
-
         List<String> hashTags = request.getHashTags();
         List<ChannelHashTag> channelHashTagList = new ArrayList<>();
+
         for (String tagName : hashTags) {
             HashTag hashTag;
             try {
@@ -75,14 +75,16 @@ public class ChannelServiceImpl implements ChannelService{
 
             ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
             channelHashTagList.add(channelHashTag);
-            hashTag.addChannelHashTag(channelHashTag);
             channel.addChannelHashTag(channelHashTag);
-            channelHashTagRepository.save(channelHashTag);
+            hashTag.addChannelHashTag(channelHashTag);
         }
 
-        channelDBRepository.createChannel(channel, channelHashTagList);
+
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
+        channelDBRepository.save(channel);
+
+
 
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");

@@ -49,8 +49,6 @@ public class UserServiceImpl implements UserService {
         Users user = userRepository.findUserByEmail(email);
         List<Point> points = user.getPoints();
         int sum = user.sumOfPoint(points);
-        System.out.println(" points" + sum);
-        System.out.println("amount" + amount);
         
         if(sum < amount) {
             throw new InsufficientPointException();
