@@ -82,16 +82,12 @@ public class ChannelServiceImpl implements ChannelService{
 
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
-        channelDBRepository.save(channel);
 
-
-
-        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
-        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
-        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
-        chatLog.setChannel(channel);
-        chatLogRepository.save(chatLog);
+        chatLog.setChatLogIdx(1L);
+        channel.addChatLog(chatLog);
+
+        channelDBRepository.save(channel);
 
         return channel;
     }
