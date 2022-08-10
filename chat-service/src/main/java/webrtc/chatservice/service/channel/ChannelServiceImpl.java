@@ -90,6 +90,7 @@ public class ChannelServiceImpl implements ChannelService{
         else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
         chatLog.setChannel(channel);
         chatLogRepository.save(chatLog);
+
         return channel;
     }
 
@@ -98,7 +99,7 @@ public class ChannelServiceImpl implements ChannelService{
      *
      */
     @Transactional
-    public void enterChannel(Channel channel, String email) {
+    public Channel enterChannel(String channelId, String email) {
         Users user;
 
         // 무조건 users 객체 가져와야함
@@ -109,8 +110,8 @@ public class ChannelServiceImpl implements ChannelService{
             usersRepository.saveUser(user);
         }
 
+        Channel channel = findOneChannelById(channelId);
 
-        String channelId = channel.getId();
         try {
             channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
             throw new AlreadyExistUserInChannelException();
@@ -119,9 +120,11 @@ public class ChannelServiceImpl implements ChannelService{
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
+                System.out.println("createChannelUser(user, channel);==============================================");
                 createChannelUser(user, channel);
             }
         }
+        return channel;
     }
 
     /*

@@ -10,7 +10,7 @@ public interface ChannelService {
 
     Channel createChannel(CreateChannelRequest request, String email);
 
-    void enterChannel(Channel channel, String email);
+    Channel enterChannel(String channelId, String email);
 
     void exitChannel(String channelId, String userId);
 
