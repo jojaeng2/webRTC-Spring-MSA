@@ -63,8 +63,6 @@ public class ChatServiceImpl implements ChatService{
         Long currentParticipants = channel.getCurrentParticipants();
         ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<Users> currentUsers = usersRepository.findUsersByChannelId(channelId);
-        System.out.println("currentUsers = " + currentUsers);
-        System.out.println("currentUsers.size() = " + currentUsers.size());
         Long logId;
         switch (type) {
             case CHAT:
@@ -75,7 +73,6 @@ public class ChatServiceImpl implements ChatService{
                     String chatRabbitMessage = objectMapper.writeValueAsString(serverMessage);
                     rabbitTemplate.convertAndSend(exchangeName, chatTextRoutingKey, chatRabbitMessage);
                 } catch (Exception e) {
-                    System.out.println("e = " + e);
                     System.out.println("chatRabbitMessage Send Fail!!");
                 }
                 break;
@@ -87,7 +84,6 @@ public class ChatServiceImpl implements ChatService{
                 try {
                     String enterRabbitMessage = objectMapper.writeValueAsString(serverMessage);
                     rabbitTemplate.convertAndSend(exchangeName, chatEnterRoutingKey, enterRabbitMessage);
-                    System.out.println("enterRabbitMessage = " + enterRabbitMessage);
                 } catch (Exception e) {
                     System.out.println("enterRabbitMessage Send Fail!!");
                 }
@@ -100,7 +96,6 @@ public class ChatServiceImpl implements ChatService{
                 try {
                     String exitRabbitMessage = objectMapper.writeValueAsString(serverMessage);
                     rabbitTemplate.convertAndSend(exchangeName, chatExitRoutingKey, exitRabbitMessage);
-                    System.out.println("exitRabbitMessage = " + exitRabbitMessage);
                 } catch (Exception e) {
                     System.out.println("exitRabbitMessage Send Fail!!");
                 }
@@ -112,7 +107,6 @@ public class ChatServiceImpl implements ChatService{
                 try {
                     String closeRabbitMessage = objectMapper.writeValueAsString(serverMessage);
                     rabbitTemplate.convertAndSend(exchangeName, chatExitRoutingKey, closeRabbitMessage);
-                    System.out.println("exitRabbitMessage = " + closeRabbitMessage);
                 } catch (Exception e) {
                     System.out.println("exitRabbitMessage Send Fail!!");
                 }
@@ -122,7 +116,6 @@ public class ChatServiceImpl implements ChatService{
                 try {
                     String reRabbitMessage = objectMapper.writeValueAsString(serverMessage);
                     rabbitTemplate.convertAndSend(exchangeName, chatEnterRoutingKey, reRabbitMessage);
-                    System.out.println("enterRabbitMessage = " + reRabbitMessage);
                 } catch (Exception e) {
                     System.out.println("reenterRabbitMessage Send Fail!!");
                 }

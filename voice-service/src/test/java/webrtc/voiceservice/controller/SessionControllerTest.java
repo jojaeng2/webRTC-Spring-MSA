@@ -132,7 +132,7 @@ public class SessionControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("sessionName").type(STRING).description("세션 이름"),
+                                fieldWithPath("sessionName").type(STRING).description("세션 이름 - 채널 id를 넣어주시면 됩니다."),
                                 fieldWithPath("email").type(STRING).description("유저 Email")
                         )
                 ));

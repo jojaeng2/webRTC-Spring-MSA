@@ -83,12 +83,12 @@ public class ChannelServiceImpl implements ChannelService{
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 
+        // 채팅방 생성 로그
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
         chatLog.setChatLogIdx(1L);
         channel.addChatLog(chatLog);
 
         channelDBRepository.save(channel);
-
         return channel;
     }
 
@@ -209,7 +209,7 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     private void createChannelUser(Users user, Channel channel) {
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        new ChannelUser(user, channel);
     }
 
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
