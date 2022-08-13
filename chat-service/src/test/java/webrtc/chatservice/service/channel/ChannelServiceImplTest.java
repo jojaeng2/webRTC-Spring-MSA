@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
+import webrtc.chatservice.dto.ChatDto;
+import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
@@ -24,6 +27,7 @@ import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,8 @@ public class ChannelServiceImplTest {
     @Mock
     private ChannelHashTagRepository channelHashTagRepository;
     @Mock
+    private RabbitPublish rabbitPublish;
+    @Mock
     private UsersRepository usersRepository;
     @Mock
     private ChannelUserRepository channelUserRepository;
@@ -55,6 +61,7 @@ public class ChannelServiceImplTest {
     private HashTagRepository hashTagRepository;
     @Mock
     private HttpApiController httpApiController;
+
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -81,6 +88,10 @@ public class ChannelServiceImplTest {
         hashTags.add(tag3);
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
+
+
+        doNothing()
+                .when(rabbitPublish).publishMessage(any(ChatServerMessage.class), any(ClientMessageType.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
@@ -109,6 +120,9 @@ public class ChannelServiceImplTest {
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
+
+        doNothing()
+                .when(rabbitPublish).publishMessage(any(ChatServerMessage.class), any(ClientMessageType.class));
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);
         doReturn(new Users(nickname1, password, email1))
@@ -136,6 +150,8 @@ public class ChannelServiceImplTest {
 
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
+        doNothing()
+                .when(rabbitPublish).publishMessage(any(ChatServerMessage.class), any(ClientMessageType.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelDBRepository).findChannelByChannelName(channelName1);

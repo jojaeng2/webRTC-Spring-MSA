@@ -26,5 +26,4 @@ public interface ChannelService {
 
     void extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
 
-
 }

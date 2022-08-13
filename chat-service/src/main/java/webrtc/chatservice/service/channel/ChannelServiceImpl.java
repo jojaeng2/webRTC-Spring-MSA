@@ -23,11 +23,13 @@ import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
+import static webrtc.chatservice.enums.SocketServerMessageType.*;
 
 
 @RequiredArgsConstructor
@@ -41,16 +43,13 @@ public class ChannelServiceImpl implements ChannelService{
     private final UsersRepository usersRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;
-    private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper;
+    private final RabbitPublish rabbitPublish;
 
     // 30분당 100포인트
     private final Long pointUnit = 100L;
     private final Long channelCreatePoint = 2L;
     private final Long channelExtensionMinute = 30L;
     private final HttpApiController httpApiController;
-    private final String exchangeName = RabbitmqConfig.topicExchangeName;
-    private final String chatEnterRoutingKey = RabbitmqConfig.chatEnterRoutingKey;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -97,20 +96,17 @@ public class ChannelServiceImpl implements ChannelService{
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
         chatLog.setChatLogIdx(1L);
         channel.addChatLog(chatLog);
-
         channelDBRepository.save(channel);
 
-        try {
-            ChatServerMessage serverMessage = new ChatServerMessage(channel.getId());
-            List<Users> currentUsers = new ArrayList<>();
-            currentUsers.add(user);
-            serverMessage.setMessageType(SocketServerMessageType.CREATE, user.getNickname(),"[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", channel.getCurrentParticipants(), currentUsers,user.getEmail());
 
-            String createRabbitMessage = objectMapper.writeValueAsString(serverMessage);
-            rabbitTemplate.convertAndSend(exchangeName, chatEnterRoutingKey, createRabbitMessage);
-        } catch (Exception e) {
-            System.out.println("enterRabbitMessage Send Fail!!");
-        }
+        // rabbitMQ 전용 메시지 생성
+        ChatServerMessage serverMessage = new ChatServerMessage(channel.getId());
+        List<Users> currentUsers = new ArrayList<>();
+        currentUsers.add(user);
+        serverMessage.setMessageType(SocketServerMessageType.CREATE, user.getNickname(),"[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", channel.getCurrentParticipants(), currentUsers,user.getEmail());
+
+        rabbitPublish.publishMessage(serverMessage, CREATE);
+
 
         return channel;
     }
