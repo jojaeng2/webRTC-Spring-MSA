@@ -1,12 +1,18 @@
 package webrtc.chatservice.service.channel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.config.RabbitmqConfig;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
+import webrtc.chatservice.dto.ChatDto;
+import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
+import webrtc.chatservice.enums.SocketServerMessageType;
 import webrtc.chatservice.exception.ChannelException.*;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
@@ -35,12 +41,16 @@ public class ChannelServiceImpl implements ChannelService{
     private final UsersRepository usersRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;
+    private final RabbitTemplate rabbitTemplate;
+    private final ObjectMapper objectMapper;
 
     // 30분당 100포인트
     private final Long pointUnit = 100L;
     private final Long channelCreatePoint = 2L;
     private final Long channelExtensionMinute = 30L;
     private final HttpApiController httpApiController;
+    private final String exchangeName = RabbitmqConfig.topicExchangeName;
+    private final String chatEnterRoutingKey = RabbitmqConfig.chatEnterRoutingKey;
 
     /**
      * 비즈니스 로직 - 채널 생성
@@ -89,6 +99,19 @@ public class ChannelServiceImpl implements ChannelService{
         channel.addChatLog(chatLog);
 
         channelDBRepository.save(channel);
+
+        try {
+            ChatServerMessage serverMessage = new ChatServerMessage(channel.getId());
+            List<Users> currentUsers = new ArrayList<>();
+            currentUsers.add(user);
+            serverMessage.setMessageType(SocketServerMessageType.CREATE, user.getNickname(),"[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", channel.getCurrentParticipants(), currentUsers,user.getEmail());
+
+            String createRabbitMessage = objectMapper.writeValueAsString(serverMessage);
+            rabbitTemplate.convertAndSend(exchangeName, chatEnterRoutingKey, createRabbitMessage);
+        } catch (Exception e) {
+            System.out.println("enterRabbitMessage Send Fail!!");
+        }
+
         return channel;
     }
 
