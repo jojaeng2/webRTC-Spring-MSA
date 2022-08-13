@@ -117,15 +117,8 @@ public class JwtAuthenticationControllerTest {
                     ),
                     responseFields(
                             fieldWithPath("id").type(STRING).description("회원 PK"),
-                            fieldWithPath("created_at").type(null).description("회원 생성 시간"),
-                            fieldWithPath("updated_at").type(null).description("회원 정보 업데이트 시간"),
                             fieldWithPath("email").type(STRING).description("회원 Email"),
-                            fieldWithPath("birthdate").type(null).description("회원 생일"),
-                            fieldWithPath("phone_number").type(null).description("회원 휴대폰 번호"),
-                            fieldWithPath("school").type(null).description("회원 학교 정보"),
-                            fieldWithPath("company").type(null).description("회원 회사 정보"),
-                            fieldWithPath("nickname").type(null).description("회원 Nickname"),
-                            fieldWithPath("nickname_expire_at").type(null).description("회원 닉네임 만료시간")
+                            fieldWithPath("nickname").type(STRING).description("회원 Nickname")
                     )
             ));
     }
