@@ -8,9 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -25,6 +30,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import webrtc.chatservice.config.CustomPasswordEncoder;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
@@ -53,6 +59,8 @@ public class JwtAuthenticationControllerTest {
     private JwtAuthenticationController jwtAuthenticationController;
     @Spy
     private JwtTokenUtilImpl jwtTokenUtil;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
@@ -134,6 +142,8 @@ public class JwtAuthenticationControllerTest {
         doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
+        doReturn(password)
+                .when(passwordEncoder).encode(any(String.class));
 
         // when
 

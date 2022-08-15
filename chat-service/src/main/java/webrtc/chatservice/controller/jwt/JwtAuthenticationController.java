@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
@@ -28,15 +31,21 @@ public class JwtAuthenticationController {
     private final UsersService usersService;
 
     private final HttpApiController httpApiController;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
 
-        final UserDetails userDetails = jwtUserDetailsService
-                .loadUserByUsername(authenticationRequest.getEmail());
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
+        System.out.println("userDetails.getPassword() = " + userDetails.getPassword());
+        System.out.println("passwordEncoder.encode(request.getPassword()) = " + passwordEncoder.encode(request.getPassword()));
+        if(passwordEncoder.encode(request.getPassword()).equals(userDetails.getPassword())) {
+            final String token = jwtTokenUtil.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(token));
+        }
+        else {
+            throw new NotExistUserException();
+        }
     }
 
 
