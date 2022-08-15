@@ -51,6 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @AutoConfigureRestDocs
+@Import(CustomPasswordEncoder.class)
 @ExtendWith(RestDocumentationExtension.class)
 @ExtendWith(MockitoExtension.class)
 public class JwtAuthenticationControllerTest {
@@ -65,8 +66,6 @@ public class JwtAuthenticationControllerTest {
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
     private UsersService usersService;
-    @Mock
-    private ChannelService channelService;
     @Mock
     private HttpApiController httpApiController;
 
@@ -95,6 +94,7 @@ public class JwtAuthenticationControllerTest {
     @Test
     @Transactional
     public void 유저등록성공() throws Exception {
+        System.out.println("passwordEncoder = " + passwordEncoder);
         // given
         CreateUserRequest ObjRequest = new CreateUserRequest(nickname1, password, email1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -137,13 +137,12 @@ public class JwtAuthenticationControllerTest {
         // given
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        Users users = new Users(nickname1, password, email1);
 
-        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+        doReturn(new org.springframework.security.core.userdetails.User(email1, new BCryptPasswordEncoder().encode(password), new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
-        doReturn(password)
-                .when(passwordEncoder).encode(any(String.class));
+        doReturn(true)
+                .when(passwordEncoder).matches(any(String.class), any(String.class));
 
         // when
 

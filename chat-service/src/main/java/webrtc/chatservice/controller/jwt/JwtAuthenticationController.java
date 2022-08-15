@@ -31,15 +31,14 @@ public class JwtAuthenticationController {
     private final UsersService usersService;
 
     private final HttpApiController httpApiController;
+
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
-        System.out.println("userDetails.getPassword() = " + userDetails.getPassword());
-        System.out.println("passwordEncoder.encode(request.getPassword()) = " + passwordEncoder.encode(request.getPassword()));
-        if(passwordEncoder.encode(request.getPassword()).equals(userDetails.getPassword())) {
+        if(passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtResponse(token));
         }
