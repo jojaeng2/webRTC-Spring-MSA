@@ -84,12 +84,12 @@ public class ChatServiceImpl implements ChatService{
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
         return chatLogRepository.findChatLogsByChannelId(channelId, idx);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ChatLog findLastChatLogsByChannelId(String channelId) {
         return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
     }

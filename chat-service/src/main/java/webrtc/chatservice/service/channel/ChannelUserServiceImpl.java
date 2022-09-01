@@ -12,7 +12,7 @@ public class ChannelUserServiceImpl implements ChannelUserService{
 
     private final ChannelUserRepository channelUserRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ChannelUser findOneChannelUser(String channelId, String userId) {
         return channelUserRepository.findOneChannelUser(channelId, userId);
     }

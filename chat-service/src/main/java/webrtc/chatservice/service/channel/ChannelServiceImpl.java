@@ -170,7 +170,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 모든 채널 불러오기
      *
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
         switch (orderType) {
             case "partiASC" :
@@ -185,7 +185,7 @@ public class ChannelServiceImpl implements ChannelService{
      * 비즈니스 로직 - 입장한 모든 채널 불러오기
      *
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
         Users user = usersRepository.findUserByEmail(email);
         switch (orderType) {
@@ -200,7 +200,7 @@ public class ChannelServiceImpl implements ChannelService{
     /*
      * 비즈니스 로직 - 특정 채널 ID로 찾기
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public Channel findOneChannelById(String channelId) {
         Channel channel = channelDBRepository.findChannelById(channelId);
         Long ttl = channelRedisRepository.findChannelTTL(channelId);
@@ -208,7 +208,7 @@ public class ChannelServiceImpl implements ChannelService{
         return channel;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         switch (orderType) {

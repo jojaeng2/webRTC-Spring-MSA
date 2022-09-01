@@ -1,4 +1,4 @@
-git pull origin main
+# git pull origin main
 
 cd ./auth-service
 mvn clean package

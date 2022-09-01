@@ -13,7 +13,7 @@ import java.util.List;
 public class HashTagServiceImpl implements HashTagService{
     private final HashTagRepository hashTagRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public HashTag findHashTagByName(String tagName) {
         return hashTagRepository.findHashTagByName(tagName);
     }

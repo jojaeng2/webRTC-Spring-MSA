@@ -30,7 +30,7 @@ public class UsersServiceImpl implements UsersService {
         return user;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Users findOneUserByEmail(String email) {
         try {
             return usersRepository.findUserByEmail(email);
@@ -40,7 +40,7 @@ public class UsersServiceImpl implements UsersService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email) {
         FindUserWithPointByEmailResponse response = httpApiController.postFindUserWithPointByEmail(email);
         Long ttl = channelRedisRepository.findChannelTTL(channelId);
