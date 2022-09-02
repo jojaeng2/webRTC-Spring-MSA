@@ -27,6 +27,7 @@ import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 import static webrtc.chatservice.enums.SocketServerMessageType.*;
@@ -232,13 +233,13 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
-        List<ChannelResponse> responses = new ArrayList<>();
-        for (Channel channel : channels) {
-            Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
-            channel.setTimeToLive(ttl);
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-            responses.add(response);
-        }
-        return responses;
+
+        return channels.stream()
+                .map(channel -> {
+                    Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
+                    channel.setTimeToLive(ttl);
+                    return new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+                })
+                .collect(Collectors.toList());
     }
 }
