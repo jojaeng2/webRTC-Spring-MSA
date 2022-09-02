@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelService;
-import webrtc.chatservice.service.chat.ChatService;
+import webrtc.chatservice.service.chat.ChattingService;
 
 @Component
 public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Autowired
-    private ChatService chatService;
+    private ChattingService chattingService;
     @Autowired
     private ChannelService channelService;
     @Autowired
@@ -26,7 +26,7 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
-        chatService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "[알림] ", "채팅방의 수명이 끝났습니다.", "Notice");
+        chattingService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "[알림] ", "채팅방의 수명이 끝났습니다.", "Notice");
         channelService.deleteChannel(message.toString());
         httpApiController.postDeletedChannel(message.toString());
     }

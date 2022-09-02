@@ -25,10 +25,12 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
-public class ChatServiceImplTest {
+public class ChatLogServiceTest {
 
-    @InjectMocks private ChatServiceImpl chatService;
-    @Mock private UsersRepository usersRepository;
+    @InjectMocks
+    private ChatLogServiceImpl chatLogService;
+    @Mock
+    private UsersRepository usersRepository;
     @Mock private ChannelDBRepository channelDBRepository;
     @Mock private ChatLogRepository chatLogRepository;
     @Mock private ChannelTopic channelTopic;
@@ -56,7 +58,7 @@ public class ChatServiceImplTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(channel.getId());
 
         // when
-        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
+        Long chatId = chatLogService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
 
         // then
         assertThat(chatId).isEqualTo(1L);
@@ -77,7 +79,7 @@ public class ChatServiceImplTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(channel.getId());
 
         // when
-        Long chatId = chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
+        Long chatId = chatLogService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
 
         // then
         assertThat(chatId).isEqualTo(testcase + 1L);

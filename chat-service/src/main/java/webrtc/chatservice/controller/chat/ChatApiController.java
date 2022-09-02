@@ -1,12 +1,12 @@
 package webrtc.chatservice.controller.chat;
 
-import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.dto.ChatDto.FindChatLogsResponse;
-import webrtc.chatservice.service.chat.ChatService;
+import webrtc.chatservice.service.chat.ChatLogService;
+import webrtc.chatservice.service.chat.ChattingService;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,10 +14,11 @@ import webrtc.chatservice.service.chat.ChatService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatApiController {
 
-    private final ChatService chatService;
+    private final ChattingService chattingService;
+    private final ChatLogService chatLogService;
 
     @GetMapping("/channel/{channelId}/{idx}")
     public ResponseEntity<FindChatLogsResponse> findChatLogs(@PathVariable("channelId") String channelId, @PathVariable("idx") String idx) {
-        return new ResponseEntity<>(new FindChatLogsResponse(chatService.findChatLogsByIndex(channelId, Long.parseLong(idx))), HttpStatus.OK);
+        return new ResponseEntity<>(new FindChatLogsResponse(chatLogService.findChatLogsByIndex(channelId, Long.parseLong(idx))), HttpStatus.OK);
     }
 }

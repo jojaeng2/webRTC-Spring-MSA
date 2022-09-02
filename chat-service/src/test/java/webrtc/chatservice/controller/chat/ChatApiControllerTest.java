@@ -21,7 +21,7 @@ import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.service.chat.ChatService;
+import webrtc.chatservice.service.chat.ChatLogService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
@@ -62,7 +62,7 @@ public class ChatApiControllerTest {
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private ChatService chatService;
+    private ChatLogService chatLogService;
     @Mock
     private UsersService usersService;
     @Mock
@@ -116,7 +116,7 @@ public class ChatApiControllerTest {
         }
 
         doReturn(chatLogList)
-                .when(chatService).findChatLogsByIndex(channel.getId(), testCase);
+                .when(chatLogService).findChatLogsByIndex(channel.getId(), testCase);
 
         // when
 

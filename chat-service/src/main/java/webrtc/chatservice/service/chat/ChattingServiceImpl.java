@@ -6,7 +6,6 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ClientMessageType;
@@ -20,7 +19,7 @@ import static webrtc.chatservice.enums.SocketServerMessageType.*;
 
 @RequiredArgsConstructor
 @Service
-public class ChatServiceImpl implements ChatService{
+public class ChattingServiceImpl implements ChattingService {
 
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
@@ -29,19 +28,7 @@ public class ChatServiceImpl implements ChatService{
     private final UsersRepository usersRepository;
     private final ChannelDBRepository channelDBRepository;
     private final RabbitPublish rabbitPublish;
-
-
-    @Transactional
-    public Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
-        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
-        ChatLog chatLog = new ChatLog(type, chatMessage, nickname, senderEmail);
-
-        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
-        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
-        channel.addChatLog(chatLog);
-        chatLogRepository.save(chatLog);
-        return chatLog.getIdx();
-    }
+    private final ChatLogService chatLogService;
 
     /**
      * Chatting Room에 message 발송
@@ -56,24 +43,24 @@ public class ChatServiceImpl implements ChatService{
         switch (type) {
             case CHAT:
                 serverMessage.setMessageType(CHAT, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = saveChatLog(type, chatMessage, nickname, channel, senderEmail);
+                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
                 break;
             case ENTER:
                 chatMessage = "[알림] " + nickname+ " 님이 채팅방에 입장했습니다.";
                 serverMessage.setMessageType(RENEWAL, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = saveChatLog(type, chatMessage, nickname, channel, senderEmail);
+                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
                 break;
             case EXIT:
                 chatMessage = "[알림]" + nickname+ " 님이 채팅방에서 퇴장했습니다.";
                 serverMessage.setMessageType(RENEWAL, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = saveChatLog(type, chatMessage, nickname, channel, senderEmail);
+                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
                 break;
             case CLOSE:
                 serverMessage.setMessageType(CLOSE, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = saveChatLog(type, chatMessage, nickname, channel, senderEmail);
+                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
                 serverMessage.setChatLogId(logId);
                 break;
             case REENTER:
@@ -84,13 +71,4 @@ public class ChatServiceImpl implements ChatService{
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
-    @Transactional(readOnly = true)
-    public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
-        return chatLogRepository.findChatLogsByChannelId(channelId, idx);
-    }
-
-    @Transactional(readOnly = true)
-    public ChatLog findLastChatLogsByChannelId(String channelId) {
-        return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
-    }
 }

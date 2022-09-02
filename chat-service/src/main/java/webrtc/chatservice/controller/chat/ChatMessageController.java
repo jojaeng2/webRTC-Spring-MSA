@@ -9,7 +9,7 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelService;
-import webrtc.chatservice.service.chat.ChatService;
+import webrtc.chatservice.service.chat.ChattingService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
@@ -19,7 +19,7 @@ import webrtc.chatservice.utils.JwtTokenUtil;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatMessageController {
 
-    private final ChatService chatService;
+    private final ChattingService chattingService;
     private final ChannelService channelService;
     private final JwtTokenUtil jwtTokenUtil;
     private final UsersService usersService;
@@ -40,6 +40,6 @@ public class ChatMessageController {
                 channelService.exitChannel(channelId, sender.getId());
                 break;
         }
-        chatService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);
+        chattingService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);
     }
 }
