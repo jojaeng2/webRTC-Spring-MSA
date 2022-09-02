@@ -24,7 +24,6 @@ public class ChattingServiceImpl implements ChattingService {
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
 
-    private final ChatLogRepository chatLogRepository;
     private final UsersRepository usersRepository;
     private final ChannelDBRepository channelDBRepository;
     private final RabbitPublish rabbitPublish;

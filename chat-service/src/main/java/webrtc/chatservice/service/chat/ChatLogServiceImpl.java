@@ -16,7 +16,6 @@ public class ChatLogServiceImpl implements ChatLogService{
 
     private final ChatLogRepository chatLogRepository;
 
-    @Transactional
     public Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, nickname, senderEmail);
