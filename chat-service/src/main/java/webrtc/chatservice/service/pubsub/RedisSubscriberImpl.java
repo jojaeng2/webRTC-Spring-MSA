@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
-import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
+import webrtc.chatservice.dto.ChatDto;
+import webrtc.chatservice.dto.ChatDto.ChattingMessage;
 
 @RequiredArgsConstructor
 @Service
@@ -17,7 +18,7 @@ public class RedisSubscriberImpl implements RedisSubscriber {
      */
     public void sendMessage(String chatMessage) {
         try {
-            ChatServerMessage publishMessage = objectMapper.readValue(chatMessage, ChatServerMessage.class);
+            ChattingMessage publishMessage = objectMapper.readValue(chatMessage, ChattingMessage.class);
             // WebSocket Subscriber들에게 message send
             messagingTemplate.convertAndSend("/sub/chat/room/" + publishMessage.getChannelId(), publishMessage);
         } catch (Exception e) {

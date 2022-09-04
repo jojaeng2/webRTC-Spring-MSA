@@ -30,16 +30,21 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        Users sender = usersService.findOneUserByEmail(senderEmail);
+        String nickname = usersService.findOneUserByEmail(senderEmail).getNickname();
         String chatMessage = message.getMessage();
         switch(clientMessageType) {
             case CHAT:
-                message.setSenderName(sender.getNickname());
+                message.setSenderName(nickname);
                 break;
             case EXIT:
-                channelIOService.exitChannel(channelId, sender.getId());
+                channelIOService.exitChannel(channelId, nickname);
+                chatMessage = "[알림]" + nickname+ " 님이 채팅방에서 퇴장했습니다.";
                 break;
+            case ENTER:
+                chatMessage = "[알림] " + nickname+ " 님이 채팅방에 입장했습니다.";
+                break;
+
         }
-        chattingService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);
+        chattingService.sendChatMessage(clientMessageType, channelId, nickname, chatMessage, senderEmail);
     }
 }

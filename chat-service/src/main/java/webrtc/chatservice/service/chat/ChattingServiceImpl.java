@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
+import webrtc.chatservice.dto.ChatDto;
+import webrtc.chatservice.dto.ChatDto.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.List;
+
+import static webrtc.chatservice.enums.ClientMessageType.REENTER;
 import static webrtc.chatservice.enums.SocketServerMessageType.*;
 
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class ChattingServiceImpl implements ChattingService {
     private final ChannelDBRepository channelDBRepository;
     private final RabbitPublish rabbitPublish;
     private final ChatLogService chatLogService;
+    private final ChattingMessageFactory chattingMessageFactory;
 
     /**
      * Chatting Room에 message 발송
@@ -35,36 +39,17 @@ public class ChattingServiceImpl implements ChattingService {
     public void sendChatMessage(ClientMessageType type, String channelId, String nickname, String chatMessage, String senderEmail) {
         Channel channel = channelDBRepository.findChannelById(channelId);
         Long currentParticipants = channel.getCurrentParticipants();
-        ChatServerMessage serverMessage = new ChatServerMessage(channelId);
         List<Users> currentUsers = usersRepository.findUsersByChannelId(channelId);
-        Long logId;
-        switch (type) {
-            case CHAT:
-                serverMessage.setMessageType(CHAT, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
-                serverMessage.setChatLogId(logId);
-                break;
-            case ENTER:
-                chatMessage = "[알림] " + nickname+ " 님이 채팅방에 입장했습니다.";
-                serverMessage.setMessageType(RENEWAL, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
-                serverMessage.setChatLogId(logId);
-                break;
-            case EXIT:
-                chatMessage = "[알림]" + nickname+ " 님이 채팅방에서 퇴장했습니다.";
-                serverMessage.setMessageType(RENEWAL, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
-                serverMessage.setChatLogId(logId);
-                break;
-            case CLOSE:
-                serverMessage.setMessageType(CLOSE, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                logId = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
-                serverMessage.setChatLogId(logId);
-                break;
-            case REENTER:
-                serverMessage.setMessageType(RENEWAL, nickname, chatMessage, currentParticipants, currentUsers, senderEmail);
-                break;
+        ChattingMessage serverMessage;
+
+        if(type != REENTER) {
+            Long logIdx = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
+            serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, currentUsers, logIdx, senderEmail);
         }
+        else {
+            serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, currentUsers, 0L, senderEmail);
+        }
+
         rabbitPublish.publishMessage(serverMessage, type);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }

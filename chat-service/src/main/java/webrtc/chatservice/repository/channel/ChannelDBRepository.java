@@ -31,6 +31,4 @@ public interface ChannelDBRepository {
 
     Channel findChannelByChannelName(String channelName);
 
-
-
 }

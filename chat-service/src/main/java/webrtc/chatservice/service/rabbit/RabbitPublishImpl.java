@@ -6,7 +6,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.config.RabbitmqConfig;
 import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
+import webrtc.chatservice.dto.ChatDto.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 
 import static webrtc.chatservice.config.RabbitmqConfig.*;
@@ -19,7 +19,7 @@ public class RabbitPublishImpl implements RabbitPublish {
     private final ObjectMapper objectMapper;
 
 
-    public void publishMessage(ChatServerMessage serverMessage, ClientMessageType type) {
+    public void publishMessage(ChattingMessage serverMessage, ClientMessageType type) {
         // try {
         //     String message = objectMapper.writeValueAsString(serverMessage);
         //     switch (type) {

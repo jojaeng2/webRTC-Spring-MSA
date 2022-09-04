@@ -6,7 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
+import webrtc.chatservice.dto.ChatDto;
+import webrtc.chatservice.dto.ChatDto.ChattingMessage;
 import webrtc.chatservice.enums.SocketServerMessageType;
 import webrtc.chatservice.exception.ChannelException.*;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
@@ -16,6 +17,7 @@ import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+import webrtc.chatservice.service.chat.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
     private final RabbitPublish rabbitPublish;
+    private final ChattingMessageFactory chattingMessageFactory;
 
 
     // 30분당 100포인트
@@ -105,10 +108,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
 
         // rabbitMQ 전용 메시지 생성
-        ChatServerMessage serverMessage = new ChatServerMessage(channel.getId());
         List<Users> currentUsers = new ArrayList<>();
         currentUsers.add(user);
-        serverMessage.setMessageType(SocketServerMessageType.CREATE, user.getNickname(),"[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", channel.getCurrentParticipants(), currentUsers,user.getEmail());
+        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel.getId(), CREATE, user.getNickname(), "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", 1L, currentUsers, 1L, user.getEmail());
 
         rabbitPublish.publishMessage(serverMessage, CREATE);
 
