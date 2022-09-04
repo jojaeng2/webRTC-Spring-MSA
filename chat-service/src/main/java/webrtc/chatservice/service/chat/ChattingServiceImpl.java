@@ -10,7 +10,6 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
-import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 

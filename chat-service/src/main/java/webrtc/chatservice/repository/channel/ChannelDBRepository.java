@@ -18,19 +18,16 @@ public interface ChannelDBRepository {
 
     void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
 
-    List<Channel> findAnyChannelByPartiASC(int idx);
-    List<Channel> findAnyChannelByPartiDESC(int idx);
+    List<Channel> findAnyChannels(int idx, String type);
 
 
-    List<Channel> findMyChannelByPartiASC(String userId, int idx);
-    List<Channel> findMyChannelByPartiDESC(String userId, int idx);
+    List<Channel> findMyChannels(String userId, int idx, String type);
 
     Channel findChannelById(String id);
 
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 
-    List<Channel> findChannelsByHashNameAndPartiASC(HashTag hashTag, int idx);
-    List<Channel> findChannelsByHashNameAndPartiDESC(HashTag hashTag, int idx);
+    List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type);
 
     Channel findChannelByChannelName(String channelName);
 

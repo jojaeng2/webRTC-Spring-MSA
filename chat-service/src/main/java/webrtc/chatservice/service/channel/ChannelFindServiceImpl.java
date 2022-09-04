@@ -34,9 +34,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiASC(idx));
+                return setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiDESC(idx));
+                return setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -50,9 +50,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         Users user = usersRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(user.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiDESC(user.getId(), idx));
+                return setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -73,9 +73,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag, idx));
+                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag, idx));
+                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "desc"));
         }
         return new ArrayList<>();
     }

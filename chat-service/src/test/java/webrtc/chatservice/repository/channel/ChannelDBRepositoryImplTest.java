@@ -212,7 +212,7 @@ public class ChannelDBRepositoryImplTest {
 
 
         // when
-        List<Channel> findChannels = channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag1, 0);
+        List<Channel> findChannels = channelDBRepository.findChannelsByHashName(hashTag1, 0, "desc");
 
         // then
         assertThat(findChannels.get(0).getCurrentParticipants()).isEqualTo(1);
@@ -242,8 +242,8 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag1, 0);
-        List<Channel> findChannels1 = channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag1, 1);
+        List<Channel> findChannels0 = channelDBRepository.findChannelsByHashName(hashTag1, 0, "desc");
+        List<Channel> findChannels1 = channelDBRepository.findChannelsByHashName(hashTag1, 1, "desc");
 
         // then
         assertThat(findChannels0.get(0).getCurrentParticipants()).isEqualTo(1);
@@ -275,7 +275,7 @@ public class ChannelDBRepositoryImplTest {
 
 
         // when
-        List<Channel> findChannels = channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag1, 0);
+        List<Channel> findChannels = channelDBRepository.findChannelsByHashName(hashTag1, 0, "asc");
 
         // then
         assertThat(findChannels.get(testcase-1).getCurrentParticipants()).isEqualTo(1);
@@ -305,8 +305,8 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag1, 0);
-        List<Channel> findChannels1 = channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag1, 1);
+        List<Channel> findChannels0 = channelDBRepository.findChannelsByHashName(hashTag1, 0, "asc");
+        List<Channel> findChannels1 = channelDBRepository.findChannelsByHashName(hashTag1, 1, "asc");
 
         // then
         assertThat(findChannels1.get((testcase-1)%20).getCurrentParticipants()).isEqualTo(1);
@@ -322,7 +322,7 @@ public class ChannelDBRepositoryImplTest {
         // given
 
         // when
-        List<Channel> findChannels = channelDBRepository.findAnyChannelByPartiDESC(0);
+        List<Channel> findChannels = channelDBRepository.findAnyChannels(0, "desc");
 
         // then
         assertThat(findChannels.size()).isEqualTo(0);
@@ -333,7 +333,7 @@ public class ChannelDBRepositoryImplTest {
         // given
 
         // when
-        List<Channel> findChannels = channelDBRepository.findAnyChannelByPartiASC(0);
+        List<Channel> findChannels = channelDBRepository.findAnyChannels(0, "asc");
 
         // then
         assertThat(findChannels.size()).isEqualTo(0);
@@ -361,7 +361,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels = channelDBRepository.findAnyChannelByPartiDESC(0);
+        List<Channel> findChannels = channelDBRepository.findAnyChannels(0, "desc");
 
         // then
         assertThat(findChannels.get(0).getCurrentParticipants()).isEqualTo(1);
@@ -391,7 +391,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels = channelDBRepository.findAnyChannelByPartiASC(0);
+        List<Channel> findChannels = channelDBRepository.findAnyChannels(0, "asc");
 
         // then
         assertThat(findChannels.get(testcase-1).getCurrentParticipants()).isEqualTo(1);
@@ -421,8 +421,8 @@ public class ChannelDBRepositoryImplTest {
             }
         }
         // when
-        List<Channel> findChannels0 = channelDBRepository.findAnyChannelByPartiDESC(0);
-        List<Channel> findChannels1 = channelDBRepository.findAnyChannelByPartiDESC(1);
+        List<Channel> findChannels0 = channelDBRepository.findAnyChannels(0, "desc");
+        List<Channel> findChannels1 = channelDBRepository.findAnyChannels(1, "desc");
 
 
         // then
@@ -454,8 +454,8 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findAnyChannelByPartiASC(0);
-        List<Channel> findChannels1 = channelDBRepository.findAnyChannelByPartiASC(1);
+        List<Channel> findChannels0 = channelDBRepository.findAnyChannels(0, "asc");
+        List<Channel> findChannels1 = channelDBRepository.findAnyChannels(1, "asc");
 
 
         // then
@@ -485,7 +485,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users.getId(), 0, "desc");
 
 
         // then
@@ -512,7 +512,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users.getId(), 0, "asc");
 
 
         // then
@@ -545,7 +545,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users1.getId(), 0, "desc");
 
 
         // then
@@ -580,7 +580,7 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 0);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users1.getId(), 0, "asc");
 
         // then
         assertThat(findChannels0.get((testcase-1)%20).getChannelName()).isEqualTo(firstEnteridx + " channel");
@@ -614,8 +614,8 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 0);
-        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiDESC(users1.getId(), 1);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users1.getId(), 0, "desc");
+        List<Channel> findChannels1 = channelDBRepository.findMyChannels(users1.getId(), 1, "desc");
 
 
         // then
@@ -651,8 +651,8 @@ public class ChannelDBRepositoryImplTest {
         }
 
         // when
-        List<Channel> findChannels0 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 0);
-        List<Channel> findChannels1 = channelDBRepository.findMyChannelByPartiASC(users1.getId(), 1);
+        List<Channel> findChannels0 = channelDBRepository.findMyChannels(users1.getId(), 0, "asc");
+        List<Channel> findChannels1 = channelDBRepository.findMyChannels(users1.getId(), 1, "asc");
 
 
         // then
