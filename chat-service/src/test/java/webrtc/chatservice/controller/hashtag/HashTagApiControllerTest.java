@@ -24,6 +24,7 @@ import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
+import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
@@ -67,7 +68,7 @@ public class HashTagApiControllerTest {
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private ChannelService channelService;
+    private ChannelFindService channelFindService;
     @Mock
     private UsersService usersService;
     @Mock
@@ -122,7 +123,7 @@ public class HashTagApiControllerTest {
         }
 
         doReturn(responseList)
-                .when(channelService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
 
         // when
 
@@ -181,7 +182,7 @@ public class HashTagApiControllerTest {
         }
 
         doThrow(new NotExistHashTagException())
-                .when(channelService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
 
         // when
 

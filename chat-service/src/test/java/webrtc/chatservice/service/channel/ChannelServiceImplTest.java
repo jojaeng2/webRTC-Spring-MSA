@@ -43,6 +43,8 @@ public class ChannelServiceImplTest {
 
     @InjectMocks
     private ChannelServiceImpl channelService;
+
+
     @Mock
     private ChannelDBRepository channelDBRepository;
     @Mock
@@ -313,90 +315,6 @@ public class ChannelServiceImplTest {
 //
 //        assertThat(enterChannel.getCurrentParticipants()).isEqualTo(1);
 //    }
-
-    @Test
-    @Transactional
-    public void 채널입장실패_유저통신실패() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-
-        doThrow(new NotExistUserException())
-                .when(usersRepository).findUserByEmail(any(String.class));
-
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postFindUserByEmail(email1);
-
-        // when
-
-        // then
-        assertThrows(NotExistUserException.class, ()-> {
-            channelService.enterChannel(channel.getId(), email1);
-        });
-    }
-
-
-
-    @Test
-    @Transactional
-    public void 채널퇴장성공() {
-        // given
-        Users users = new Users(nickname1, password, email1);
-        Channel channel = new Channel(channelName1, text);
-
-        doReturn(new Channel(channelName1, text))
-                .when(channelDBRepository).findChannelById(any(String.class));
-        doReturn(new ChannelUser(users, channel))
-                .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
-        doNothing()
-                .when(channelDBRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));
-
-        // when
-        channelService.exitChannel(channel.getId(), users.getId());
-
-        // then
-    }
-
-
-    @Test
-    @Transactional
-    public void 채널퇴장실패_채널없음() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
-
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelById(channel.getId());
-
-        // when
-
-        // then
-        assertThrows(NotExistChannelException.class, ()->{
-            channelService.exitChannel(channel.getId(), users.getId());
-        });
-
-    }
-
-    @Test
-    @Transactional
-    public void 채널퇴장실패_채널유저없음() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
-
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(any(String.class));
-
-        doThrow(new NotExistChannelUserException())
-                .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
-
-        // when
-
-        // then
-        assertThrows(NotExistChannelUserException.class, ()->{
-            channelService.exitChannel(channel.getId(), users.getId());
-        });
-
-    }
 
     @Test
     @Transactional

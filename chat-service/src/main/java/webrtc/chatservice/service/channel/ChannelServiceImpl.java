@@ -44,6 +44,7 @@ public class ChannelServiceImpl implements ChannelService{
     private final HashTagRepository hashTagRepository;
     private final RabbitPublish rabbitPublish;
 
+
     // 30분당 100포인트
     private final Long pointUnit = 100L;
     private final Long channelCreatePoint = 2L;
@@ -111,112 +112,14 @@ public class ChannelServiceImpl implements ChannelService{
     }
 
     /*
-     * 비즈니스 로직 - 채널 입장
-     *
-     */
-    @Transactional
-    public Channel enterChannel(String channelId, String email) {
-        Users user;
-
-        // 무조건 users 객체 가져와야함
-        try {
-            user = usersRepository.findUserByEmail(email);
-        } catch (NotExistUserException e) {
-            user = httpApiController.postFindUserByEmail(email);
-            usersRepository.saveUser(user);
-        }
-
-        Channel channel = findOneChannelById(channelId);
-
-        try {
-            channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
-            throw new AlreadyExistUserInChannelException();
-        } catch (NotExistChannelException e) {
-            Long limitParticipants = channel.getLimitParticipants();
-            Long currentParticipants = channel.getCurrentParticipants();
-            if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
-            else {
-                createChannelUser(user, channel);
-            }
-        }
-        return channel;
-    }
-
-    /*
-     * 비즈니스 로직 - 채널 퇴장
-     *
-     */
-    @Transactional
-    public void exitChannel(String channelId, String userId) {
-        Channel channel = findOneChannelById(channelId);
-        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId);
-        channelDBRepository.exitChannelUserInChannel(channel, channelUser);
-    }
-
-    /*
      * 비즈니스 로직 - 채널 삭제
      *
      */
     @Transactional
     public void deleteChannel(String channelId) {
-        Channel channel = findOneChannelById(channelId);
+        Channel channel = channelDBRepository.findChannelById(channelId);
         channelDBRepository.deleteChannel(channel);
         channelRedisRepository.delete(channelId);
-    }
-
-
-    /*
-     * 비즈니스 로직 - 모든 채널 불러오기
-     *
-     */
-    @Transactional(readOnly = true)
-    public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
-        switch (orderType) {
-            case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiASC(idx));
-            case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannelByPartiDESC(idx));
-        }
-        return new ArrayList<>();
-    }
-
-    /*
-     * 비즈니스 로직 - 입장한 모든 채널 불러오기
-     *
-     */
-    @Transactional(readOnly = true)
-    public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
-        Users user = usersRepository.findUserByEmail(email);
-        switch (orderType) {
-            case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiASC(user.getId(), idx));
-            case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannelByPartiDESC(user.getId(), idx));
-        }
-        return new ArrayList<>();
-    }
-
-    /*
-     * 비즈니스 로직 - 특정 채널 ID로 찾기
-     */
-    @Transactional(readOnly = true)
-    public Channel findOneChannelById(String channelId) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
-        Long ttl = channelRedisRepository.findChannelTTL(channelId);
-        channel.setTimeToLive(ttl);
-        return channel;
-    }
-
-    @Transactional(readOnly = true)
-    public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
-        HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
-        switch (orderType) {
-            case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiASC(hashTag, idx));
-            case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashNameAndPartiDESC(hashTag, idx));
-        }
-        return new ArrayList<>();
     }
 
     @Transactional
@@ -230,14 +133,4 @@ public class ChannelServiceImpl implements ChannelService{
         new ChannelUser(user, channel);
     }
 
-    private List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
-
-        return channels.stream()
-                .map(channel -> {
-                    Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
-                    channel.setTimeToLive(ttl);
-                    return new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-                })
-                .collect(Collectors.toList());
-    }
 }

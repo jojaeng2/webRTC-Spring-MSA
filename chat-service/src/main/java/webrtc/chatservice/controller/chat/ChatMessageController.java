@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
+import webrtc.chatservice.service.channel.ChannelIOService;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.chat.ChattingService;
 import webrtc.chatservice.service.users.UsersService;
@@ -20,7 +21,7 @@ import webrtc.chatservice.utils.JwtTokenUtil;
 public class ChatMessageController {
 
     private final ChattingService chattingService;
-    private final ChannelService channelService;
+    private final ChannelIOService channelIOService;
     private final JwtTokenUtil jwtTokenUtil;
     private final UsersService usersService;
 
@@ -37,7 +38,7 @@ public class ChatMessageController {
                 message.setSenderName(sender.getNickname());
                 break;
             case EXIT:
-                channelService.exitChannel(channelId, sender.getId());
+                channelIOService.exitChannel(channelId, sender.getId());
                 break;
         }
         chattingService.sendChatMessage(clientMessageType, channelId, sender.getNickname(), chatMessage, senderEmail);

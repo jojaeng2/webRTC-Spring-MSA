@@ -10,6 +10,7 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
+import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelService;
 
 import java.util.List;
@@ -19,11 +20,11 @@ import java.util.List;
 @RequestMapping("/api/v1/webrtc/chat")
 public class HashTagApiController {
 
-    private final ChannelService channelService;
+    private final ChannelFindService channelFindService;
 
     @GetMapping("/hashtag/{tagName}/{orderType}/{idx}")
     public ResponseEntity<HashTagResponse> searchHashTag(@NotNull @PathVariable("orderType") String orderType, @PathVariable String tagName, @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
+        List<ChannelResponse> channels = channelFindService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new HashTagResponse(channels), HttpStatus.OK);
     }
 }

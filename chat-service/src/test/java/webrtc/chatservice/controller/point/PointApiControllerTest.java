@@ -26,6 +26,7 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
+import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
@@ -64,6 +65,8 @@ public class PointApiControllerTest {
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
     private ChannelService channelService;
+    @Mock
+    private ChannelFindService channelFindService;
     @Mock
     private UsersService usersService;
     @Mock
@@ -211,7 +214,7 @@ public class PointApiControllerTest {
         doNothing()
                 .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
         doReturn(channel)
-                .when(channelService).findOneChannelById(channel.getId());
+                .when(channelFindService).findOneChannelById(channel.getId());
 
         // when
 

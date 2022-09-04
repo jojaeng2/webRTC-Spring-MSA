@@ -28,6 +28,7 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.JwtException;
+import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
@@ -71,9 +72,9 @@ public class ChannelApiControllerTest {
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
     private ChannelService channelService;
-    @Mock
-    private HttpApiController httpApiController;
 
+    @Mock
+    private ChannelFindService channelFindService;
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -250,7 +251,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channel)
-                .when(channelService).findOneChannelById(any(String.class));
+                .when(channelFindService).findOneChannelById(any(String.class));
 
 
         // when
@@ -300,7 +301,7 @@ public class ChannelApiControllerTest {
         Channel channel = new Channel(channelName1, text);
 
         doThrow(new NotExistChannelException())
-                .when(channelService).findOneChannelById(any(String.class));
+                .when(channelFindService).findOneChannelById(any(String.class));
 
 
         // when
@@ -343,7 +344,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(responseList)
-                .when(channelService).findAnyChannel(any(String.class), any(Integer.class));
+                .when(channelFindService).findAnyChannel(any(String.class), any(Integer.class));
 
         // when
 
@@ -396,7 +397,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(responseList)
-                .when(channelService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
 
         // when
 

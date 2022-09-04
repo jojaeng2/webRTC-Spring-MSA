@@ -10,6 +10,8 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.service.channel.ChannelFindService;
+import webrtc.chatservice.service.channel.ChannelIOService;
 import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.JwtTokenUtil;
@@ -22,6 +24,8 @@ public class StompHandler implements ChannelInterceptor {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
     private final ChannelService channelService;
+    private final ChannelIOService channelIOService;
+    private final ChannelFindService channelFindService;
 
     // websocket을 통해 들어온 요청이 처리 되기전 실행
     @SneakyThrows
@@ -44,10 +48,10 @@ public class StompHandler implements ChannelInterceptor {
                 String sendChannelId = accessor.getFirstNativeHeader("channelId");
 
                 // interceptor에서 예외를 터뜨리기 위해 존재.
-                channelService.findOneChannelById(sendChannelId);
+                channelFindService.findOneChannelById(sendChannelId);
 
                 if(messageType != null && messageType.equals("ENTER")) {
-                    channelService.enterChannel(sendChannelId, sendUserEmail);
+                    channelIOService.enterChannel(sendChannelId, sendUserEmail);
                 }
                 break;
         }
