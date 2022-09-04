@@ -32,6 +32,8 @@ public class ChannelHashTag implements Serializable {
     public ChannelHashTag(Channel channel, HashTag hashTag) {
         this.channel = channel;
         this.hashTag = hashTag;
+        channel.addChannelHashTag(this);
+        hashTag.addChannelHashTag(this);
     }
 }
 

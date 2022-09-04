@@ -20,6 +20,7 @@ import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 
@@ -31,7 +32,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final ChannelDBRepository channelDBRepository;
     private final ChannelRedisRepository channelRedisRepository;
     private final UsersRepository usersRepository;
-    private final ChannelUserRepository channelUserRepository;
     private final HashTagRepository hashTagRepository;
     private final RabbitPublish rabbitPublish;
 
@@ -62,8 +62,25 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
                 usersRepository.saveUser(user);
             }
         }
+
         List<String> hashTags = request.getHashTags();
-        List<ChannelHashTag> channelHashTagList = new ArrayList<>();
+
+//                hashTags.stream()
+//                        .map(tagName -> {
+//                            HashTag hashTag;
+//                            try {
+//                                hashTag = hashTagRepository.findHashTagByName(tagName);
+//                            } catch (NotExistHashTagException e) {
+//                                hashTag = new HashTag(tagName);
+//                            }
+//                            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+//
+//                            channel.addChannelHashTag(channelHashTag);
+//                            hashTag.addChannelHashTag(channelHashTag);
+//                            return channelHashTag;
+//                        })
+//                        .collect(Collectors.toList());
+
 
         for (String tagName : hashTags) {
             HashTag hashTag;
@@ -72,12 +89,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
             } catch (NotExistHashTagException e) {
                 hashTag = new HashTag(tagName);
             }
-
-            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
-            channelHashTagList.add(channelHashTag);
-            channel.addChannelHashTag(channelHashTag);
-            hashTag.addChannelHashTag(channelHashTag);
+            createChannelHashTag(channel, hashTag);
         }
+
 
 
         channelRedisRepository.createChannel(channel);
@@ -124,4 +138,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         new ChannelUser(user, channel);
     }
 
+    private void createChannelHashTag(Channel channel, HashTag hashTag) {
+        new ChannelHashTag(channel, hashTag);
+    }
 }
