@@ -1,17 +1,13 @@
 package webrtc.chatservice.controller.hashtag;
 
 import com.sun.istack.NotNull;
-import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
 import webrtc.chatservice.service.channel.ChannelFindService;
-import webrtc.chatservice.service.channel.ChannelService;
 
 import java.util.List;
 

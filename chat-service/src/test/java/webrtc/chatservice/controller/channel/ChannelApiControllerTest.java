@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
@@ -29,7 +28,7 @@ import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelExceptio
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelFindService;
-import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
 
@@ -71,7 +70,7 @@ public class ChannelApiControllerTest {
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private ChannelService channelService;
+    private ChannelLifeService channelLifeService;
 
     @Mock
     private ChannelFindService channelFindService;
@@ -122,7 +121,7 @@ public class ChannelApiControllerTest {
 
 
         doReturn(new Channel(channelName1, text))
-                .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -171,7 +170,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
-                .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -210,7 +209,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
-                .when(channelService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
 
         // when
 

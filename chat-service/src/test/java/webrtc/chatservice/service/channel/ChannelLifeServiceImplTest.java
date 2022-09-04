@@ -9,15 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.ChatDto;
 import webrtc.chatservice.dto.ChatDto.ChatServerMessage;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
-import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
@@ -39,10 +35,10 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
-public class ChannelServiceImplTest {
+public class ChannelLifeServiceImplTest {
 
     @InjectMocks
-    private ChannelServiceImpl channelService;
+    private ChannelLifeServiceImpl channelService;
 
 
     @Mock

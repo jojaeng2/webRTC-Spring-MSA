@@ -32,7 +32,7 @@ public class PointDecreaseMockTest {
 
 
     @InjectMocks
-    private ChannelServiceImpl channelService;
+    private ChannelLifeServiceImpl channelService;
     @Mock
     private ChannelDBRepository channelDBRepository;
     @Mock

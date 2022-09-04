@@ -9,10 +9,9 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
@@ -23,7 +22,7 @@ public class StompHandler implements ChannelInterceptor {
 
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final ChannelService channelService;
+    private final ChannelLifeService channelLifeService;
     private final ChannelIOService channelIOService;
     private final ChannelFindService channelFindService;
 

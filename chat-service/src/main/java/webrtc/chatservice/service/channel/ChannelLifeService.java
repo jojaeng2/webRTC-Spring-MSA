@@ -1,12 +1,9 @@
 package webrtc.chatservice.service.channel;
 
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 
-import java.util.List;
-
-public interface ChannelService {
+public interface ChannelLifeService {
 
     Channel createChannel(CreateChannelRequest request, String email);
 

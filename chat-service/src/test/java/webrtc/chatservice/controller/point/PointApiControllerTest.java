@@ -27,7 +27,7 @@ import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelFindService;
-import webrtc.chatservice.service.channel.ChannelService;
+import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
@@ -64,7 +64,7 @@ public class PointApiControllerTest {
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private ChannelService channelService;
+    private ChannelLifeService channelLifeService;
     @Mock
     private ChannelFindService channelFindService;
     @Mock
@@ -212,7 +212,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doNothing()
-                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
         doReturn(channel)
                 .when(channelFindService).findOneChannelById(channel.getId());
 
@@ -256,7 +256,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistChannelException())
-                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -296,7 +296,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new InsufficientPointException())
-                .when(channelService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
 
         // when
 

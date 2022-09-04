@@ -9,7 +9,6 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChatDto.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.channel.ChannelService;
 import webrtc.chatservice.service.chat.ChattingService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
