@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChattingMessage;
+import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
@@ -17,7 +16,6 @@ import webrtc.chatservice.service.rabbit.RabbitPublish;
 import java.util.List;
 
 import static webrtc.chatservice.enums.ClientMessageType.REENTER;
-import static webrtc.chatservice.enums.SocketServerMessageType.*;
 
 @RequiredArgsConstructor
 @Service

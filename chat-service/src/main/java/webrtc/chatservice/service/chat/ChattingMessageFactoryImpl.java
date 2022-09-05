@@ -3,10 +3,8 @@ package webrtc.chatservice.service.chat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.*;
+import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.enums.SocketServerMessageType;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

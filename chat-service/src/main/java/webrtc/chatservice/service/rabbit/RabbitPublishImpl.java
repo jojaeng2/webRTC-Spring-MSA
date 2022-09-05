@@ -4,12 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-import webrtc.chatservice.config.RabbitmqConfig;
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChattingMessage;
+import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-
-import static webrtc.chatservice.config.RabbitmqConfig.*;
 
 @Component
 @RequiredArgsConstructor

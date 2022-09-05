@@ -1,8 +1,7 @@
 package webrtc.chatservice.service.chat;
 
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChattingMessage;
+import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 
 import java.util.List;

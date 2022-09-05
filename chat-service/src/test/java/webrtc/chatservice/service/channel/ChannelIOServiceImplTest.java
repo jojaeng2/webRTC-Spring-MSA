@@ -9,15 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto;
-import webrtc.chatservice.dto.ChatDto;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelUserException;
-import webrtc.chatservice.exception.HashTagException;
 import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
@@ -27,9 +22,6 @@ import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

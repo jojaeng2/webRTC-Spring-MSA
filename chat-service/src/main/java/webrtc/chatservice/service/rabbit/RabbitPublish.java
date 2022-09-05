@@ -1,7 +1,6 @@
 package webrtc.chatservice.service.rabbit;
 
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChattingMessage;
+import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 
 public interface RabbitPublish {

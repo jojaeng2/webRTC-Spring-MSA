@@ -6,15 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.ChatDto;
-import webrtc.chatservice.dto.ChatDto.ChattingMessage;
-import webrtc.chatservice.enums.SocketServerMessageType;
+import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.exception.ChannelException.*;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.ChattingMessageFactory;
@@ -22,7 +19,6 @@ import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 
