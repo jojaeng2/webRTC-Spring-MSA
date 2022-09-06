@@ -24,27 +24,16 @@ public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
 
     @PostConstruct
     public void messageFactoryConst() {
-        this.messageTypes.put(ClientMessageType.CHAT, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, CHAT, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
-        this.messageTypes.put(ClientMessageType.ENTER, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, RENEWAL, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
-        this.messageTypes.put(ClientMessageType.EXIT, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, RENEWAL, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
-        this.messageTypes.put(ClientMessageType.CLOSE, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, CLOSE, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
-        this.messageTypes.put(ClientMessageType.REENTER, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, RENEWAL, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
-        this.messageTypes.put(ClientMessageType.CREATE, (String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) ->
-            new ChattingMessage(channelId, CREATE, nickname, chatMessage, currentParticipants, users, logId, senderEmail)
-        );
+        this.messageTypes.put(ClientMessageType.CHAT, (ChattingMessage message) -> message.setType(CHAT));
+        this.messageTypes.put(ClientMessageType.ENTER, (ChattingMessage message) -> message.setType(RENEWAL));
+        this.messageTypes.put(ClientMessageType.EXIT, (ChattingMessage message) -> message.setType(RENEWAL));
+        this.messageTypes.put(ClientMessageType.CLOSE, (ChattingMessage message) -> message.setType(CLOSE));
+        this.messageTypes.put(ClientMessageType.REENTER, (ChattingMessage message) -> message.setType(RENEWAL));
+        this.messageTypes.put(ClientMessageType.CREATE, (ChattingMessage message) -> message.setType(CREATE));
     }
     @Override
     public ChattingMessage createMessage(String channelId, ClientMessageType type, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
-        return this.messageTypes.get(type).setFields(channelId, nickname, chatMessage, currentParticipants, users, logId, senderEmail);
+        ChattingMessage chattingMessage = new ChattingMessage(channelId, nickname, chatMessage, currentParticipants, users, logId, senderEmail);
+        return this.messageTypes.get(type).setMessageType(chattingMessage);
     }
 }

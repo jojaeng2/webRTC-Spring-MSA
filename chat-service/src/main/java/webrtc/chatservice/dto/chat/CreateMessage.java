@@ -1,10 +1,12 @@
 package webrtc.chatservice.dto.chat;
 
 import webrtc.chatservice.domain.Users;
+import webrtc.chatservice.enums.SocketServerMessageType;
 
 import java.util.List;
 
 public interface CreateMessage {
-    ChattingMessage setFields(String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail);
+
+    ChattingMessage setMessageType(ChattingMessage type);
 
 }
