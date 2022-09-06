@@ -53,10 +53,10 @@ import static webrtc.chatservice.enums.ClientMessageType.CHAT;
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
 @ExtendWith(MockitoExtension.class)
-public class ChatApiControllerTest {
+public class ChatLogApiControllerTest {
 
     @InjectMocks
-    private ChatApiController chatApiController;
+    private ChatLogApiController chatLogApiController;
     @Spy
     private JwtTokenUtilImpl jwtTokenUtil;
     @Mock
@@ -88,7 +88,7 @@ public class ChatApiControllerTest {
         hashTagList.add(tag1);
         hashTagList.add(tag2);
         hashTagList.add(tag3);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(chatApiController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(chatLogApiController)
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();

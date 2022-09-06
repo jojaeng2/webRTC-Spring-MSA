@@ -6,15 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.dto.chat.FindChatLogsResponse;
 import webrtc.chatservice.service.chat.ChatLogService;
-import webrtc.chatservice.service.chat.ChattingService;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/webrtc/chat")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class ChatApiController {
+public class ChatLogApiController {
 
-    private final ChattingService chattingService;
     private final ChatLogService chatLogService;
 
     @GetMapping("/channel/{channelId}/{idx}")
