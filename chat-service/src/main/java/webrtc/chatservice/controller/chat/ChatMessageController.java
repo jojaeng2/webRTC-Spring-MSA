@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
@@ -29,20 +30,22 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        String nickname = usersService.findOneUserByEmail(senderEmail).getNickname();
         String chatMessage = message.getMessage();
+        Users user = usersService.findOneUserByEmail(senderEmail);
+        String nickname = user.getNickname();
+        String userId = user.getId();
+
         switch(clientMessageType) {
             case CHAT:
                 message.setSenderName(nickname);
                 break;
             case EXIT:
-                channelIOService.exitChannel(channelId, nickname);
+                channelIOService.exitChannel(channelId, userId);
                 chatMessage = "[알림]" + nickname+ " 님이 채팅방에서 퇴장했습니다.";
                 break;
             case ENTER:
                 chatMessage = "[알림] " + nickname+ " 님이 채팅방에 입장했습니다.";
                 break;
-
         }
         chattingService.sendChatMessage(clientMessageType, channelId, nickname, chatMessage, senderEmail);
     }

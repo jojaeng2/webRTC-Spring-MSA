@@ -10,13 +10,14 @@ import webrtc.chatservice.dto.ChannelDto.*;
 import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.utils.JwtTokenUtil;
+import webrtc.chatservice.utils.log.callback.LogTemplate;
+import webrtc.chatservice.utils.log.trace.LogTrace;
 
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/webrtc/chat")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,29 +28,46 @@ public class ChannelApiController {
 
     private final JwtTokenUtil jwtTokenUtil;
 
+    private final LogTemplate logTemplate;
+
+    public ChannelApiController(ChannelLifeService channelLifeService, ChannelFindService channelFindService, JwtTokenUtil jwtTokenUtil, LogTrace trace) {
+        this.channelLifeService = channelLifeService;
+        this.channelFindService = channelFindService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.logTemplate = new LogTemplate(trace);
+    }
+
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
-        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        Channel channel = channelLifeService.createChannel(request, userEmail);
-        return new ResponseEntity<>(new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive()), HttpStatus.OK);
+        return logTemplate.execute("ChannelApiController.createChannel", () -> {
+            String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
+            Channel channel = channelLifeService.createChannel(request, userEmail);
+            return new ResponseEntity<>(new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive()), HttpStatus.OK);
+        });
     }
 
     @GetMapping("/channels/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findAnyChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
-        return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
+        return logTemplate.execute("ChannelApiController.findAnyChannel", () -> {
+            List<ChannelResponse> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
+            return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
+        });
     }
 
     @GetMapping("/mychannel/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @RequestHeader("Authorization") String jwtAccessToken, @NotNull @PathVariable("idx") String idx) {
-        String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        List<ChannelResponse> channels = channelFindService.findMyChannel(orderType, userEmail, Integer.parseInt(idx));
-        return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
+        return logTemplate.execute("ChannelApiController.findMyAllChannel", () -> {
+            String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
+            List<ChannelResponse> channels = channelFindService.findMyChannel(orderType, userEmail, Integer.parseInt(idx));
+            return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
+        });
     }
 
     @GetMapping("/channel/{id}")
     public ResponseEntity<ChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
-        Channel channel = channelFindService.findOneChannelById(channelId);
-        return new ResponseEntity<>(new ChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType()), OK);
+        return logTemplate.execute("ChannelApiController.findOneChannel", () -> {
+            Channel channel = channelFindService.findOneChannelById(channelId);
+            return new ResponseEntity<>(new ChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType()), OK);
+        });
     }
 }

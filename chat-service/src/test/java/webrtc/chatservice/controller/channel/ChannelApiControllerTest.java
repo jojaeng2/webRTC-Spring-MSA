@@ -31,6 +31,7 @@ import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.JwtTokenUtilImpl;
+import webrtc.chatservice.utils.log.trace.ThreadLocalLogTrace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,8 @@ public class ChannelApiControllerTest {
     private ChannelApiController channelApiController;
     @Spy
     private JwtTokenUtilImpl jwtTokenUtil;
+    @Spy
+    private ThreadLocalLogTrace logTrace;
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
