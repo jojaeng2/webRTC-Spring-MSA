@@ -11,9 +11,9 @@ public interface ChannelDBRepository {
 
     void save(Channel channel);
 
-    Channel createChannel(Channel channel, List<ChannelHashTag> hashTags);
+    Channel create(Channel channel, List<ChannelHashTag> hashTags);
 
-    void deleteChannel(Channel channel);
+    void delete(Channel channel);
 
 
     void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);

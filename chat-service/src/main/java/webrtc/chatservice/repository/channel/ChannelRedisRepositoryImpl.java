@@ -17,7 +17,7 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
     private final RedisTemplate<String, Object> redisTemplate;
     private  ValueOperations<String, Object> opsValueOperation;
-    private final Long channelTTL = 60L * 60L;
+    private final long channelTTL = 60L * 60L;
 
     @PostConstruct
     private void init() {
@@ -35,7 +35,7 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
     }
 
     public void extensionChannelTTL(Channel channel, Long requestTTL) {
-        Long newTTL = findChannelTTL(channel.getId()) + requestTTL;
+        long newTTL = findChannelTTL(channel.getId()) + requestTTL;
         channel.setTimeToLive(newTTL);
         redisTemplate.expire(channel.getId(), newTTL, TimeUnit.SECONDS);
     }

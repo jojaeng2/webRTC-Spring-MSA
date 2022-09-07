@@ -8,12 +8,16 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,30 +31,34 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Override
     @Transactional
     public Channel enterChannel(String channelId, String email) {
-        Users user;
-
-        // 무조건 users 객체 가져와야함
-        try {
-            user = usersRepository.findUserByEmail(email);
-        } catch (NotExistUserException e) {
-            user = httpApiController.postFindUserByEmail(email);
-            usersRepository.saveUser(user);
-        }
-
+        Users user = findUser(email);
         Channel channel = channelDBRepository.findChannelById(channelId);
+        createChannelUser(user, channel);
+        return channel;
+    }
 
+    private Users findUser(String email) {
         try {
-            channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
-            throw new ChannelException.AlreadyExistUserInChannelException();
+            return usersRepository.findUserByEmail(email);
+        } catch (NotExistUserException e) {
+            Users user = httpApiController.postFindUserByEmail(email);
+            usersRepository.saveUser(user);
+            return user;
+        }
+    }
+
+    private void createChannelUser(Users user, Channel channel) {
+        try {
+            channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
+            throw new AlreadyExistUserInChannelException();
         } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
             if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
-                createChannelUser(user, channel);
+                new ChannelUser(user, channel);
             }
         }
-        return channel;
     }
 
     @Override
@@ -61,7 +69,5 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         channelDBRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
-    private void createChannelUser(Users user, Channel channel) {
-        new ChannelUser(user, channel);
-    }
+
 }

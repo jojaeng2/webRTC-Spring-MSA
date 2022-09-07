@@ -323,7 +323,7 @@ public class ChannelLifeServiceImplTest {
         doReturn(channel)
                 .when(channelDBRepository).findChannelById(any(String.class));
         doNothing()
-                .when(channelDBRepository).deleteChannel(any(Channel.class));
+                .when(channelDBRepository).delete(any(Channel.class));
 
         // when
         channelService.deleteChannel(channel.getId());

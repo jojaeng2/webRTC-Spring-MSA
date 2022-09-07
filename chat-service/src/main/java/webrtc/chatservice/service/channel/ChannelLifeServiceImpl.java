@@ -79,7 +79,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private Users pointDecreaseAndReturnUser(String email) {
         httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
-
         try {
             return usersRepository.findUserByEmail(email);
         } catch (NotExistUserException ex2) {
@@ -104,7 +103,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public void deleteChannel(String channelId) {
         Channel channel = channelDBRepository.findChannelById(channelId);
-        channelDBRepository.deleteChannel(channel);
+        channelDBRepository.delete(channel);
         channelRedisRepository.delete(channelId);
     }
 

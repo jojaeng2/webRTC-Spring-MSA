@@ -1,20 +1,13 @@
 package webrtc.chatservice.repository.channel;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
-import webrtc.chatservice.repository.hashtag.HashTagRepository;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RequiredArgsConstructor
 @Repository
@@ -29,10 +22,8 @@ public class ChannelDBRepositoryImpl implements ChannelDBRepository {
         em.persist(channel);
     }
 
-    public Channel createChannel(Channel channel, List<ChannelHashTag> hashTags) {
-        for(ChannelHashTag hashTag : hashTags) {
-            channel.addChannelHashTag(hashTag);
-        }
+    public Channel create(Channel channel, List<ChannelHashTag> hashTags) {
+        hashTags.forEach(channel::addChannelHashTag);
         save(channel);
         return channel;
     }
@@ -40,7 +31,7 @@ public class ChannelDBRepositoryImpl implements ChannelDBRepository {
     /*
      * 채널 삭제
      */
-    public void deleteChannel(Channel channel) {
+    public void delete(Channel channel) {
         if(channel == null) throw new NotExistChannelException();
         em.remove(channel);
     }

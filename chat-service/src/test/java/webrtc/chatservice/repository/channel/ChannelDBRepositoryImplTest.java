@@ -2,7 +2,6 @@ package webrtc.chatservice.repository.channel;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
@@ -50,7 +49,7 @@ public class ChannelDBRepositoryImplTest {
         channelHashTags.add(channelHashTag1);
 
         // when
-        Channel createdChannel = channelDBRepository.createChannel(channel, channelHashTags);
+        Channel createdChannel = channelDBRepository.create(channel, channelHashTags);
 
         // then
         assertThat(createdChannel).isEqualTo(channel);
@@ -65,7 +64,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
 
         // when
         Channel findChannel = channelDBRepository.findChannelById(channel.getId());
@@ -95,10 +94,10 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
 
         // when
-        channelDBRepository.deleteChannel(channel);
+        channelDBRepository.delete(channel);
 
         // then
     }
@@ -111,7 +110,7 @@ public class ChannelDBRepositoryImplTest {
 
         // then
         assertThrows(NotExistChannelException.class, () -> {
-            channelDBRepository.deleteChannel(null);
+            channelDBRepository.delete(null);
         });
     }
 
@@ -124,7 +123,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
         Users users = new Users(nickname1, password, email1);
         em.persist(users);
 
@@ -145,7 +144,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
         Users users = new Users(nickname1, password, email1);
         em.persist(users);
 
@@ -167,7 +166,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
 
         // when
         Channel findChannel = channelDBRepository.findChannelByChannelName(channelName1);
@@ -202,7 +201,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
                 em.persist(users);
@@ -232,7 +231,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -264,7 +263,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -295,7 +294,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -351,7 +350,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -381,7 +380,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -412,7 +411,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -444,7 +443,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             if(i == firstEnteridx) {
                 Users users = new Users(nickname1, password, email1);
@@ -479,7 +478,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             ChannelUser channelUser = new ChannelUser(users, channel);
         }
@@ -506,7 +505,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             ChannelUser channelUser = new ChannelUser(users, channel);
         }
@@ -534,7 +533,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
@@ -569,7 +568,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
@@ -603,7 +602,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
@@ -640,7 +639,7 @@ public class ChannelDBRepositoryImplTest {
             List<ChannelHashTag> channelHashTags = new ArrayList<>();
             ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
             channelHashTags.add(channelHashTag1);
-            channelDBRepository.createChannel(channel, channelHashTags);
+            channelDBRepository.create(channel, channelHashTags);
 
             new ChannelUser(users1, channel);
             if(i == firstEnteridx) {
@@ -670,7 +669,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
         Users users = new Users(nickname1, password, email1);
         em.persist(users);
         new ChannelUser(users, channel);
@@ -690,7 +689,7 @@ public class ChannelDBRepositoryImplTest {
         List<ChannelHashTag> channelHashTags = new ArrayList<>();
         ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
         channelHashTags.add(channelHashTag1);
-        channelDBRepository.createChannel(channel, channelHashTags);
+        channelDBRepository.create(channel, channelHashTags);
         Users users = new Users(nickname1, password, email1);
         em.persist(users);
 
