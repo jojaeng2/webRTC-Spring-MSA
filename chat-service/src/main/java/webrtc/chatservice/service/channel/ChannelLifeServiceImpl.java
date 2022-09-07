@@ -16,8 +16,6 @@ import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
@@ -46,72 +44,57 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
-        Channel channel;
-        Users user;
-        try {
-            channel = channelDBRepository.findChannelByChannelName(request.getChannelName());
-            throw new AlreadyExistChannelException();
-        } catch (NotExistChannelException ex1) {
-            channel = new Channel(request.getChannelName(), request.getChannelType());
-            httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
-            try {
-                user = usersRepository.findUserByEmail(email);
-            } catch (NotExistUserException ex2) {
-                user = httpApiController.postFindUserByEmail(email);
-                usersRepository.saveUser(user);
-            }
-        }
+        Channel channel = createChannelIfNotExist(request);
+        Users user = pointDecreaseAndReturnUser(email);
 
-        List<String> hashTags = request.getHashTags();
-
-//                hashTags.stream()
-//                        .map(tagName -> {
-//                            HashTag hashTag;
-//                            try {
-//                                hashTag = hashTagRepository.findHashTagByName(tagName);
-//                            } catch (NotExistHashTagException e) {
-//                                hashTag = new HashTag(tagName);
-//                            }
-//                            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
-//
-//                            channel.addChannelHashTag(channelHashTag);
-//                            hashTag.addChannelHashTag(channelHashTag);
-//                            return channelHashTag;
-//                        })
-//                        .collect(Collectors.toList());
-
-
-        for (String tagName : hashTags) {
-            HashTag hashTag;
-            try {
-                hashTag = hashTagRepository.findHashTagByName(tagName);
-            } catch (NotExistHashTagException e) {
-                hashTag = new HashTag(tagName);
-            }
+        for (String tagName : request.getHashTags()) {
+            HashTag hashTag = findHashTag(tagName);
             createChannelHashTag(channel, hashTag);
         }
-
-
 
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 
         // 채팅방 생성 로그
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
-        chatLog.setChatLogIdx(1L);
         channel.addChatLog(chatLog);
         channelDBRepository.save(channel);
 
 
         // rabbitMQ 전용 메시지 생성
-        List<Users> currentUsers = new ArrayList<>();
-        currentUsers.add(user);
-        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel.getId(), CREATE, user.getNickname(), "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", 1L, currentUsers, 1L, user.getEmail());
-
+        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel.getId(), CREATE, user.getNickname(), "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", 1L, List.of(user), 1L, user.getEmail());
         rabbitPublish.publishMessage(serverMessage, CREATE);
 
-
         return channel;
+    }
+
+    private Channel createChannelIfNotExist(CreateChannelRequest request) {
+        try {
+            channelDBRepository.findChannelByChannelName(request.getChannelName());
+            throw new AlreadyExistChannelException();
+        } catch (NotExistChannelException ex1) {
+            return new Channel(request.getChannelName(), request.getChannelType());
+        }
+    }
+
+    private Users pointDecreaseAndReturnUser(String email) {
+        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
+
+        try {
+            return usersRepository.findUserByEmail(email);
+        } catch (NotExistUserException ex2) {
+            Users user = httpApiController.postFindUserByEmail(email);
+            usersRepository.saveUser(user);
+            return user;
+        }
+    }
+
+    private HashTag findHashTag(String tagName) {
+        try {
+            return hashTagRepository.findHashTagByName(tagName);
+        } catch (NotExistHashTagException e) {
+            return new HashTag(tagName);
+        }
     }
 
     /*

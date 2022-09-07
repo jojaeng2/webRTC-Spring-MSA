@@ -3,7 +3,6 @@ package webrtc.chatservice.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
 
     private final ChannelRedisRepository channelRedisRepository;
-
 
     public List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
         return channels.stream()

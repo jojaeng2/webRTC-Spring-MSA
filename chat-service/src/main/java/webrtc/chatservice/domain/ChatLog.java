@@ -30,8 +30,6 @@ public class ChatLog {
 
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
-
-
     private String message;
     private String senderNickname;
     private String senderEmail;
@@ -43,6 +41,7 @@ public class ChatLog {
         this.senderNickname = senderNickname;
         this.senderEmail = senderEmail;
         this.sendTime = new Timestamp(System.currentTimeMillis());
+        this.idx = 1L;
     }
 
     public void setChatLogIdx(Long idx) {

@@ -90,7 +90,7 @@ public class ChannelLifeServiceImplTest {
         CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 
         doReturn(null)
-                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(ArrayList.class), any(Long.class), any(String.class));
+                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(List.class), any(Long.class), any(String.class));
         doNothing()
                 .when(rabbitPublish).publishMessage(any(), any());
         doThrow(new NotExistChannelException())

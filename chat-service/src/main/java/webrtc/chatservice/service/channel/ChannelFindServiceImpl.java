@@ -22,10 +22,8 @@ import java.util.stream.Collectors;
 public class ChannelFindServiceImpl implements ChannelFindService {
 
     private final ChannelDBRepository channelDBRepository;
-    private final ChannelRedisRepository channelRedisRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
-
     private final ChannelInfoInjectService channelInfoInjectService;
 
     /*
