@@ -1,6 +1,7 @@
 package webrtc.chatservice.controller.chat;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -10,19 +11,23 @@ import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
 import webrtc.chatservice.service.chat.ChattingService;
+import webrtc.chatservice.service.chat.SocketMessageFactory;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.JwtTokenUtil;
 
+import static webrtc.chatservice.enums.ClientMessageType.*;
 
+
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChatMessageController {
 
     private final ChattingService chattingService;
-    private final ChannelIOService channelIOService;
     private final JwtTokenUtil jwtTokenUtil;
     private final UsersService usersService;
+    private final SocketMessageFactory socketMessageFactory;
 
     /**
      * /pub/chat/room 으로 오는 메시지 반환
@@ -30,23 +35,14 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        String chatMessage = message.getMessage();
         Users user = usersService.findOneUserByEmail(senderEmail);
         String nickname = user.getNickname();
         String userId = user.getId();
 
-        switch(clientMessageType) {
-            case CHAT:
-                message.setSenderName(nickname);
-                break;
-            case EXIT:
-                channelIOService.exitChannel(channelId, userId);
-                chatMessage = "[알림]" + nickname+ " 님이 채팅방에서 퇴장했습니다.";
-                break;
-            case ENTER:
-                chatMessage = "[알림] " + nickname+ " 님이 채팅방에 입장했습니다.";
-                break;
+        if(clientMessageType.equals(ENTER) || clientMessageType.equals(EXIT) || clientMessageType.equals(CHAT)) {
+            socketMessageFactory.execute(clientMessageType, message, nickname, userId, channelId);
         }
-        chattingService.sendChatMessage(clientMessageType, channelId, nickname, chatMessage, senderEmail);
+
+        chattingService.sendChatMessage(clientMessageType, channelId, nickname, message.getMessage(), senderEmail);
     }
 }

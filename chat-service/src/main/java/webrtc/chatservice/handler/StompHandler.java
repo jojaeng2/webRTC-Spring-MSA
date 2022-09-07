@@ -22,7 +22,6 @@ public class StompHandler implements ChannelInterceptor {
 
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final ChannelLifeService channelLifeService;
     private final ChannelIOService channelIOService;
     private final ChannelFindService channelFindService;
 
