@@ -8,7 +8,9 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.exception.ChannelException;
-import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelDBRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
@@ -30,7 +32,7 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         // 무조건 users 객체 가져와야함
         try {
             user = usersRepository.findUserByEmail(email);
-        } catch (UserException.NotExistUserException e) {
+        } catch (NotExistUserException e) {
             user = httpApiController.postFindUserByEmail(email);
             usersRepository.saveUser(user);
         }
@@ -40,10 +42,10 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         try {
             channelDBRepository.findChannelsByChannelIdAndUserId(channelId, user.getId());
             throw new ChannelException.AlreadyExistUserInChannelException();
-        } catch (ChannelException.NotExistChannelException e) {
+        } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
             Long currentParticipants = channel.getCurrentParticipants();
-            if(limitParticipants.equals(currentParticipants)) throw new ChannelException.ChannelParticipantsFullException();
+            if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
             else {
                 createChannelUser(user, channel);
             }

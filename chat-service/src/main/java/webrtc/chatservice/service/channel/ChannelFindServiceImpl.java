@@ -65,9 +65,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     @Transactional(readOnly = true)
     public Channel findOneChannelById(String channelId) {
         Channel channel = channelDBRepository.findChannelById(channelId);
-        Long ttl = channelRedisRepository.findChannelTTL(channelId);
-        channel.setTimeToLive(ttl);
-        return channel;
+        return channelInfoInjectService.setChannelTTL(channel);
     }
 
     @Transactional(readOnly = true)

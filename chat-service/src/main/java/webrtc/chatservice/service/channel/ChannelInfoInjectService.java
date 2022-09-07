@@ -9,4 +9,6 @@ import java.util.List;
 public interface ChannelInfoInjectService {
 
     List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels);
+
+    public Channel setChannelTTL(Channel channel);
 }
