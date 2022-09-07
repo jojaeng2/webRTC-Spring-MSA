@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22df15de-f549-43ff-8bfb-79eca64db4b8" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/k6script.js" beforeDir="false" afterPath="$PROJECT_DIR$/k6script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelRedisRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/repository/channel/ChannelRedisRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelFindService.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelFindService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelFindServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chat-service/src/main/java/webrtc/chatservice/service/channel/ChannelFindServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,13 +48,13 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/jo/Desktop/webRTC-Spring-MSA"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jo/Desktop/webRTC-Spring-MSA&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />

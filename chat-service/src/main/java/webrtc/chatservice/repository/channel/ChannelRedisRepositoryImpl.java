@@ -17,7 +17,7 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
     private final RedisTemplate<String, Object> redisTemplate;
     private  ValueOperations<String, Object> opsValueOperation;
-    private final Long channelTTL = 1L * 60L * 60L;
+    private final Long channelTTL = 60L * 60L;
 
     @PostConstruct
     private void init() {

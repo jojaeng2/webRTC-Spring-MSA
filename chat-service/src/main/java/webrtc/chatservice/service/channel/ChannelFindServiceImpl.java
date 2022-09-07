@@ -26,6 +26,8 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
 
+    private final ChannelInfoInjectService channelInfoInjectService;
+
     /*
      * 비즈니스 로직 - 모든 채널 불러오기
      *
@@ -34,9 +36,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -50,9 +52,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         Users user = usersRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -73,21 +75,10 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         switch (orderType) {
             case "partiASC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "asc"));
             case "partiDESC" :
-                return setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "desc"));
         }
         return new ArrayList<>();
-    }
-
-    public List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels) {
-
-        return channels.stream()
-                .map(channel -> {
-                    Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
-                    channel.setTimeToLive(ttl);
-                    return new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-                })
-                .collect(Collectors.toList());
     }
 }

@@ -16,5 +16,4 @@ public interface ChannelFindService {
 
     List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx);
 
-    List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels);
 }
