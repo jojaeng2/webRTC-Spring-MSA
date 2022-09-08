@@ -1,4 +1,4 @@
-package webrtc.chatservice.dto.rabbit;
+package webrtc.chatservice.utils.rabbit;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -8,7 +8,7 @@ import static webrtc.chatservice.config.RabbitmqConfig.*;
 
 @Component
 @RequiredArgsConstructor
-public class EnterTypeRabbitMessage extends CreateRabbitMessage{
+public class EnterTypeRabbitMessageTemplate extends RabbitMessageTemplate {
 
     private final RabbitTemplate rabbitTemplate;
 

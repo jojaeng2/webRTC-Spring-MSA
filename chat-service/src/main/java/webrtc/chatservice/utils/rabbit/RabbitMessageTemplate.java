@@ -1,9 +1,9 @@
-package webrtc.chatservice.dto.rabbit;
+package webrtc.chatservice.utils.rabbit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 
-public abstract class CreateRabbitMessage {
+public abstract class RabbitMessageTemplate {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

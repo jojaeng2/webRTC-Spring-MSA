@@ -11,9 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.utils.JwtTokenUtil;
+import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 @Slf4j
 @RequiredArgsConstructor

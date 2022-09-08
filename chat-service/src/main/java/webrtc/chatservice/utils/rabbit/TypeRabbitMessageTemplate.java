@@ -1,4 +1,4 @@
-package webrtc.chatservice.dto.rabbit;
+package webrtc.chatservice.utils.rabbit;
 
 
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import static webrtc.chatservice.config.RabbitmqConfig.*;
 
 @Component
 @RequiredArgsConstructor
-public class CreateTypeRabbitMessage extends CreateRabbitMessage{
+public class TypeRabbitMessageTemplate extends RabbitMessageTemplate {
 
     private final RabbitTemplate rabbitTemplate;
 

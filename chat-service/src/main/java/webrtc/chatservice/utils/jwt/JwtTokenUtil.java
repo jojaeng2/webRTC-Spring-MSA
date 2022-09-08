@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils;
+package webrtc.chatservice.utils.jwt;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,7 @@
-package webrtc.chatservice.dto.chat;
+package webrtc.chatservice.utils.chat;
 
 import lombok.RequiredArgsConstructor;
+import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
 

@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils;
+package webrtc.chatservice.utils.json;
 
 public interface CustomJsonMapper {
 

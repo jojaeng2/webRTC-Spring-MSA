@@ -11,11 +11,10 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
-import webrtc.chatservice.utils.JwtTokenUtil;
+import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 
 @RestController

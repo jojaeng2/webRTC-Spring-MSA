@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils;
+package webrtc.chatservice.utils.json;
 
 import com.google.gson.Gson;
 import org.springframework.stereotype.Component;

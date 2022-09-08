@@ -24,7 +24,7 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.service.chat.ChatLogService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
-import webrtc.chatservice.utils.JwtTokenUtilImpl;
+import webrtc.chatservice.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
 import java.util.List;

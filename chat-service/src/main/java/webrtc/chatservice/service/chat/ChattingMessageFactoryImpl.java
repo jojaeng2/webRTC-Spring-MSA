@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
+import webrtc.chatservice.utils.chat.CreateChattingMessage;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

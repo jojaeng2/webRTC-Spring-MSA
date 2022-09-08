@@ -1,4 +1,6 @@
-package webrtc.chatservice.dto.chat;
+package webrtc.chatservice.utils.chat;
+
+import webrtc.chatservice.dto.chat.ChattingMessage;
 
 public interface CreateChattingMessage {
 

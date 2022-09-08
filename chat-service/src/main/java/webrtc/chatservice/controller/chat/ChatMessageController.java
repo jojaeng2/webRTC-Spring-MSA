@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.service.channel.ChannelIOService;
 import webrtc.chatservice.service.chat.ChattingService;
 import webrtc.chatservice.service.chat.SocketMessageFactory;
 import webrtc.chatservice.service.users.UsersService;
-import webrtc.chatservice.utils.JwtTokenUtil;
+import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 import static webrtc.chatservice.enums.ClientMessageType.*;
 

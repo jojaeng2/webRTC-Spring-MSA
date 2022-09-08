@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils;
+package webrtc.chatservice.utils.jwt;
 
 import java.io.IOException;
 

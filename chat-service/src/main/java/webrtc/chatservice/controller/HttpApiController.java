@@ -11,7 +11,7 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.UsersDto.*;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.utils.CustomJsonMapper;
+import webrtc.chatservice.utils.json.CustomJsonMapper;
 
 @RestController
 @RequiredArgsConstructor

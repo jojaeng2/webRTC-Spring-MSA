@@ -30,7 +30,7 @@ import webrtc.chatservice.exception.JwtException;
 import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.utils.JwtTokenUtilImpl;
+import webrtc.chatservice.utils.jwt.JwtTokenUtilImpl;
 import webrtc.chatservice.utils.log.trace.ThreadLocalLogTrace;
 
 import java.util.ArrayList;
