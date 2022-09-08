@@ -22,7 +22,7 @@ import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
-import webrtc.chatservice.service.chat.ChattingMessageFactory;
+import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;

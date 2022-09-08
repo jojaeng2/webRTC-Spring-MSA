@@ -1,4 +1,4 @@
-package webrtc.chatservice.service.chat;
+package webrtc.chatservice.service.chat.factory;
 
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ChattingMessage;

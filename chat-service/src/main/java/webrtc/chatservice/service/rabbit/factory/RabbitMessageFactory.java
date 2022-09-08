@@ -1,4 +1,4 @@
-package webrtc.chatservice.service.rabbit;
+package webrtc.chatservice.service.rabbit.factory;
 
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;

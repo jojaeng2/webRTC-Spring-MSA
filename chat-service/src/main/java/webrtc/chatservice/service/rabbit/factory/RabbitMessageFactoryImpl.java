@@ -1,10 +1,10 @@
-package webrtc.chatservice.service.rabbit;
+package webrtc.chatservice.service.rabbit.factory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.utils.rabbit.*;
+import webrtc.chatservice.service.rabbit.template.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils.rabbit;
+package webrtc.chatservice.service.rabbit.template;
 
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package webrtc.chatservice.utils.chat;
+package webrtc.chatservice.service.chat.template;
 
 import lombok.RequiredArgsConstructor;
 import webrtc.chatservice.dto.chat.ClientMessage;
@@ -6,7 +6,7 @@ import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
 
 @RequiredArgsConstructor
-public class ExitTypeClientMessage implements CreateClientMessage{
+public class ExitTypeClientMessageTemplate implements CreateClientMessageTemplate {
 
     private final ChannelIOService channelIOService;
 

@@ -1,14 +1,14 @@
-package webrtc.chatservice.service.chat;
+package webrtc.chatservice.service.chat.factory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.utils.chat.ChatTypeClientMessage;
-import webrtc.chatservice.utils.chat.CreateClientMessage;
-import webrtc.chatservice.utils.chat.EnterTypeClientMessage;
-import webrtc.chatservice.utils.chat.ExitTypeClientMessage;
+import webrtc.chatservice.service.chat.template.ChatTypeClientMessageTemplate;
+import webrtc.chatservice.service.chat.template.CreateClientMessageTemplate;
+import webrtc.chatservice.service.chat.template.EnterTypeClientMessageTemplate;
+import webrtc.chatservice.service.chat.template.ExitTypeClientMessageTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -21,13 +21,13 @@ import static webrtc.chatservice.enums.ClientMessageType.*;
 public class SocketMessageFactoryImpl implements SocketMessageFactory{
 
     private final ChannelIOService channelIOService;
-    private final Map<ClientMessageType, CreateClientMessage> messageTypes = new HashMap<>();
+    private final Map<ClientMessageType, CreateClientMessageTemplate> messageTypes = new HashMap<>();
 
     @PostConstruct
     public void messageFactoryConst() {
-        this.messageTypes.put(CHAT, new ChatTypeClientMessage());
-        this.messageTypes.put(EXIT, new ExitTypeClientMessage(channelIOService));
-        this.messageTypes.put(ENTER, new EnterTypeClientMessage());
+        this.messageTypes.put(CHAT, new ChatTypeClientMessageTemplate());
+        this.messageTypes.put(EXIT, new ExitTypeClientMessageTemplate(channelIOService));
+        this.messageTypes.put(ENTER, new EnterTypeClientMessageTemplate());
     }
 
     public void execute(ClientMessageType type, ClientMessage overallMessage, String nickname, String userId, String channelId) {

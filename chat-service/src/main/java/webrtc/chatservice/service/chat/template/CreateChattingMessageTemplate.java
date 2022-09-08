@@ -1,8 +1,8 @@
-package webrtc.chatservice.utils.chat;
+package webrtc.chatservice.service.chat.template;
 
 import webrtc.chatservice.dto.chat.ChattingMessage;
 
-public interface CreateChattingMessage {
+public interface CreateChattingMessageTemplate {
 
     ChattingMessage setMessageType(ChattingMessage type);
 
