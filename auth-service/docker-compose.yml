@@ -41,14 +41,19 @@ services:
       POSTGRES_PASSWORD: 1234
     networks:
       - spring-network
-    # volumes:
-    #   - ./dump.rdb:/var/lib/postgresql/data
+    volumes:
+      - users-db-postgresql:/var/lib/postgresql/data
   
   auth-redis:
     image: redis:6.2.6
     networks:
       - spring-network
     command: [ "redis-server", "--protected-mode", "no" ]
+    volumes:
+      - users-db-redis:/data
 
-    
-    
+volumes:
+  users-db-postgresql:
+    external: true
+  users-db-redis:
+    external: true

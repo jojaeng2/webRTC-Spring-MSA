@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
@@ -25,7 +26,7 @@ public class JwtUsersDetailsServiceTest {
     @InjectMocks
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private UsersService usersService;
+    private HttpApiController httpApiController;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -44,8 +45,9 @@ public class JwtUsersDetailsServiceTest {
     @Transactional
     public void 유저이름으로_UserDetails_조회성공() {
         // given
+
         doReturn(new Users(nickname1, password, email1))
-                .when(usersService).findOneUserByEmail(email1);
+                .when(httpApiController).postFindUserByEmail(email1);
 
         // when
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email1);
@@ -59,7 +61,7 @@ public class JwtUsersDetailsServiceTest {
     public void 유저이름으로_UserDetails_조회실패() {
         // given
         doThrow(new NotExistUserException())
-                .when(usersService).findOneUserByEmail(email1);
+                .when(httpApiController).postFindUserByEmail(email1);
 
         // when
 
