@@ -1,4 +1,4 @@
-package webrtc.chatservice.service.channel;
+package webrtc.chatservice.service.hashtag;
 
 import webrtc.chatservice.domain.HashTag;
 

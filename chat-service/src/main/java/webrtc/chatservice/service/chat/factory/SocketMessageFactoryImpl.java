@@ -1,7 +1,7 @@
 package webrtc.chatservice.service.chat.factory;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static webrtc.chatservice.enums.ClientMessageType.*;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class SocketMessageFactoryImpl implements SocketMessageFactory{
 

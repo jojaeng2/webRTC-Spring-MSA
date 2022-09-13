@@ -1,12 +1,10 @@
-package webrtc.chatservice.service.channel;
+package webrtc.chatservice.service.hashtag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

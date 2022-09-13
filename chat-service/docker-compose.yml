@@ -44,10 +44,20 @@ services:
     networks:
       - spring-network
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    volumes:
+      - chat-db-mysql:/var/lib/mysql/
   
   chat-redis:
     image: redis:6.2.6
     networks:
       - spring-network
     command: [ "redis-server", "--protected-mode", "no" ]
+    volumes:
+      - chat-db-redis:/data
 
+# docker volume 사용
+volumes:
+  chat-db-mysql:
+    external: true
+  chat-db-redis:
+    external: true

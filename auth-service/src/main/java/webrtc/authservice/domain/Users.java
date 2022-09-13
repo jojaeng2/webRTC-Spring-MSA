@@ -57,8 +57,8 @@ public class Users implements Serializable {
     }
 
     public int sumOfPoint(List<Point> points) {
-        int sum = 0;
-        for (Point point : points) sum += point.getAmount();
-        return sum;
+        return points.stream()
+                .map(Point::getAmount)
+                .reduce(0, Integer::sum);
     }
 }

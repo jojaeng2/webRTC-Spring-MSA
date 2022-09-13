@@ -44,8 +44,7 @@ public class ChattingServiceImpl implements ChattingService {
         if(type != REENTER) {
             Long logIdx = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
             serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, currentUsers, logIdx, senderEmail);
-        }
-        else {
+        } else {
             serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, currentUsers, 0L, senderEmail);
         }
 

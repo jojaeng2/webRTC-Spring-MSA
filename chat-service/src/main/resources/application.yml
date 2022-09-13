@@ -9,10 +9,10 @@ spring:
   jpa:
     properties:
       hibernate:
-        show_sql: true
+        show_sql: false
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
   session:
     storage-type: redis
   redis:

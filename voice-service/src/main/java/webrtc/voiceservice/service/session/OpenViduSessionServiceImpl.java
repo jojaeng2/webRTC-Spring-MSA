@@ -69,7 +69,6 @@ public class OpenViduSessionServiceImpl implements OpenViduSessionService {
                 List<Session> sessions = this.openVidu.getActiveSessions();
                 String token;
                 for (Session session : sessions) {
-                    System.out.println("session = " + session.getSessionId());
                     if(session.getSessionId().equals(openViduSession.getSessionId())) {
                         token = session.createConnection(connectionProperties).getToken();
                         System.out.println("token = " + token);

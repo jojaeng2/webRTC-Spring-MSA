@@ -26,14 +26,11 @@ public class SessionController {
     public ResponseEntity<?> getToken(@RequestBody GetTokenRequest request) {
         User user = httpApiController.postFindUserByEmail(request.getEmail());
         String token = openViduSessionService.createToken(request, user);
-        System.out.println("token = " + token);
-
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }
 
     @PostMapping("/remove-user")
     public ResponseEntity<?> removeUser(@RequestBody RemoveUserInSessionRequest request) throws Exception{
-
         String email = request.getEmail();
         User user = httpApiController.postFindUserByEmail(email);
         openViduSessionService.removeUserInOpenViduSession(request, user);
@@ -42,7 +39,6 @@ public class SessionController {
 
     @PostMapping("/remove-channel")
     public ResponseEntity<?> removeChannel(@RequestBody String channelId) {
-
         openViduSessionService.deletedChannel(channelId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

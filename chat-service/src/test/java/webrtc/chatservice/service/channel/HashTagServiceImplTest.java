@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
+import webrtc.chatservice.service.hashtag.HashTagServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;

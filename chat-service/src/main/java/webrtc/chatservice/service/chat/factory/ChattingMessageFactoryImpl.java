@@ -1,6 +1,6 @@
 package webrtc.chatservice.service.chat.factory;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
@@ -16,7 +16,7 @@ import static webrtc.chatservice.enums.SocketServerMessageType.CHAT;
 import static webrtc.chatservice.enums.SocketServerMessageType.CLOSE;
 import static webrtc.chatservice.enums.SocketServerMessageType.CREATE;
 
-@Service
+@Component
 public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
 
     private final Map<ClientMessageType, CreateChattingMessageTemplate> messageTypes = new HashMap();
