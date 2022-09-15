@@ -5,8 +5,8 @@ spring:
     storage-type: redis
   redis:
     timeout: 600
-    host: 127.0.0.1
-    port: 6379
+    host: 172.18.0.1
+    port: 6381
   jwt:
     secret: govlepel@$&
 

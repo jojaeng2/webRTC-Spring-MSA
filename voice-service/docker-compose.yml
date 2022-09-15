@@ -11,12 +11,6 @@ services:
   voice-service:
     build: .
     image: voice
-    environment:
-      SPRING_SESSION_STORAGE_TYPE: redis
-      SPRING_REDIS_HOST: voice-redis
-      SPRING_REDIS_PORT: 6379
-    depends_on:
-      - voice-redis
     restart: always
     networks:
       - spring-network
@@ -25,15 +19,3 @@ services:
       - |
         sleep 15s
         java -jar voice.jar   
-
-  voice-redis:
-    image: redis:6.2.6
-    networks:
-      - spring-network
-    command: [ "redis-server", "--protected-mode", "no" ] 
-    volumes:
-      - voice-db-redis:/data
-
-volumes:
-  voice-db-redis:
-    external: true

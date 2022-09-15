@@ -10,20 +10,20 @@ echo ''
 sleep 3
 
 cd ./auth-service
-./deploy.sh &
+./deploy-service.sh &
 cd ..
 
 sleep 3
 
 cd ./chat-service
-./deploy.sh &
+./deploy-service.sh &
 cd ..
 
 
 sleep 3
 
 cd ./voice-service
-./deploy.sh & 
+./deploy-service.sh & 
 cd ..
 
 sleep 3

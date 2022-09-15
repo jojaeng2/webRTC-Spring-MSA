@@ -9,18 +9,18 @@ echo "          \/            \/          \/        \/     \/             \/    
 sleep 3
 
 cd ./auth-service
-./docker-container-down.sh &
+./docker-local-down.sh &
 cd ..
 sleep 3
 
 cd ./chat-service
-./docker-container-down.sh &
+./docker-local-down.sh &
 cd ..
 
 sleep 3
 
 cd ./voice-service
-./docker-container-down.sh &
+./docker-local-down.sh &
 cd ..
 sleep 3
 

@@ -8,22 +8,22 @@ echo "  |__|__|_|  (____  /\___  / \___  >  |___  /____/|__|____/\____ |  /____ 
 echo "           \/     \//_____/      \/       \/                    \/       \/            \/             \/\/ "
 echo ''
 
-sleep 3
+sleep 4
 
 cd ./auth-service
-./image-build.sh &
+./service-image-build.sh &
 cd ..
 
-sleep 3
+sleep 4
 
 cd ./chat-service
-./image-build.sh &
+./service-image-build.sh &
 cd ..
 
-sleep 3
+sleep 4
 
 cd ./voice-service
-./image-build.sh &
+./service-image-build.sh &
 cd ..
 
 

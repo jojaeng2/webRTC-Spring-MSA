@@ -3,7 +3,7 @@ port: 8080
 spring:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/users
+    url: jdbc:postgresql://172.18.0.1:5432/users
     username: user
     password: 1234
   jpa:
@@ -13,12 +13,12 @@ spring:
         show_sql: false
         format_sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   session:
     storage-type: redis
   redis:
     timeout: 600
-    host: 127.0.0.1
+    host: 172.18.0.1
     port: 6379
   jwt:
     secret: govlepel@$&
