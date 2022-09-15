@@ -3,7 +3,7 @@ port: 8080
 spring:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://172.18.0.1:5432/users
+    url: jdbc:postgresql://192.168.0.24:5432/users
     username: user
     password: 1234
   jpa:
@@ -18,7 +18,7 @@ spring:
     storage-type: redis
   redis:
     timeout: 600
-    host: 172.18.0.1
+    host: 192.168.0.24
     port: 6379
   jwt:
     secret: govlepel@$&
