@@ -2,11 +2,12 @@ address: localhost
 port: 8080
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/webRTC
-    username: ds4ouj
-    password: hong971220!
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/chat
+    username: user
+    password: 1234
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     properties:
       hibernate:
         show_sql: false
