@@ -5,6 +5,8 @@ echo " \  \___|   Y  \/ __ \|  |    \___ \  |  |  / __ \|  | \/|  |   "
 echo "  \___  >___|  (____  /__|   /____  > |__| (____  /__|   |__|   "
 echo "     \/     \/     \/            \/            \/               "
 
+mvn clean package
+docker-compose -f docker-compose.local.yml build
 docker-compose -f docker-compose.local.yml up
 
 echo "       .__            __              __                   "

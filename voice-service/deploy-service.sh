@@ -5,6 +5,8 @@ echo "  \   (  <_> )  \  \__\  ___/   \___ \  |  |  / __ \|  | \/|  |   "
 echo "   \_/ \____/|__|\___  >___  > /____  > |__| (____  /__|   |__|   "
 echo "                     \/    \/       \/            \/              "
 
+mvn clean package
+docker-compose build
 docker-compose up
 
 echo "            .__                         __                   "  

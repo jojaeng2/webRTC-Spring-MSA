@@ -11,25 +11,20 @@ sleep 3
 cd ./auth-service
 ./docker-local-down.sh &
 cd ..
-sleep 3
 
 cd ./chat-service
 ./docker-local-down.sh &
 cd ..
 
-sleep 3
 
 cd ./voice-service
 ./docker-local-down.sh &
 cd ..
-sleep 3
 
 
 cd ./openvidu-service
 ./docker-container-down.sh &
 cd .. 
-
-sleep 3
 
 
 cd ./nginx-service
