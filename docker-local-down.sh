@@ -28,5 +28,5 @@ cd ..
 
 
 cd ./nginx-service
-./docker-container-down.sh &
+./docker-local-down.sh &
 cd ..

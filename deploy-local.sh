@@ -39,5 +39,5 @@ sleep 3
 sleep 50
 
 cd ./nginx-service
-./deploy.sh &
+./deploy-local.sh &
 cd ..
