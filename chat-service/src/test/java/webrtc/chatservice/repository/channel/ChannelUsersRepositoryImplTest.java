@@ -13,15 +13,14 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 
 
 @DataJpaTest
-@Import({
-        ChannelUserRepositoryImpl.class
-})
 public class ChannelUsersRepositoryImplTest {
 
     @Autowired
@@ -63,7 +62,7 @@ public class ChannelUsersRepositoryImplTest {
 
         //when
 
-        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), users.getId());
+        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), users.getId()).orElseThrow(NotExistChannelUserException::new);
 
         //then
         assertThat(findChannelUser).isEqualTo(channelUser);
@@ -77,11 +76,11 @@ public class ChannelUsersRepositoryImplTest {
         Users users = new Users(nickname1, password, email1);
         ChannelUser channelUser = new ChannelUser(users, channel);
 
+
         //when
+        boolean result = channelUserRepository.findOneChannelUser(channel.getId(), "notExist").isPresent();
 
         //then
-        assertThrows(NotExistChannelUserException.class, () -> {
-            channelUserRepository.findOneChannelUser(channel.getId(), "notExist");
-        });
+        assertThat(result).isEqualTo(false);
     }
 }

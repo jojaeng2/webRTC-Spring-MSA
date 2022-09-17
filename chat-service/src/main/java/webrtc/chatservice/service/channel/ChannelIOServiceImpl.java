@@ -11,11 +11,15 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.ChannelUserException;
+import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,16 +51,22 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     }
 
     private void createChannelUser(Users user, Channel channel) {
-        try {
-            channelListRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
-            throw new AlreadyExistUserInChannelException();
-        } catch (NotExistChannelException e) {
-            Long limitParticipants = channel.getLimitParticipants();
-            Long currentParticipants = channel.getCurrentParticipants();
-            if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
-            else {
-                new ChannelUser(user, channel);
-            }
+
+        /*
+            channel이랑 Users로 ChannelUsers 조회
+
+            if(!Empty) 채널에 입장한 적이 있음
+            else 처음 입장하는 채널 -> {자리 있는지 확인 후 채널에 입장시킴}
+         */
+
+        List<Channel> channels = channelListRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
+        if(!channels.isEmpty()) throw new AlreadyExistUserInChannelException();
+
+        Long limitParticipants = channel.getLimitParticipants();
+        Long currentParticipants = channel.getCurrentParticipants();
+        if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
+        else {
+            new ChannelUser(user, channel);
         }
     }
 
@@ -64,7 +74,7 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Transactional
     public void exitChannel(String channelId, String userId) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId);
+        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId).orElseThrow(NotExistChannelUserException::new);
         channelListRepository.exitChannelUserInChannel(channel, channelUser);
     }
 

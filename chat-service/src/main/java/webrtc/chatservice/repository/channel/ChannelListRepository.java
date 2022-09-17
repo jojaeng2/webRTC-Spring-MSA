@@ -6,6 +6,7 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.HashTag;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChannelListRepository {
 
@@ -29,6 +30,6 @@ public interface ChannelListRepository {
 
     List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type);
 
-    Channel findChannelByChannelName(String channelName);
+    Optional<Channel> findChannelByChannelName(String channelName);
 
 }

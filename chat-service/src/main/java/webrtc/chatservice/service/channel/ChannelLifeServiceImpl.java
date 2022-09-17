@@ -18,6 +18,7 @@ import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 import java.util.List;
+import java.util.Optional;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 
@@ -72,12 +73,13 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        try {
-            channelListRepository.findChannelByChannelName(request.getChannelName());
+        boolean exist = channelListRepository.findChannelByChannelName(request.getChannelName()).isPresent();
+
+        // 만약 채널이 존재하면 예외 터뜨리고, 없다면 새로 생성
+        if(exist) {
             throw new AlreadyExistChannelException();
-        } catch (NotExistChannelException ex1) {
-            return new Channel(request.getChannelName(), request.getChannelType());
         }
+        return new Channel(request.getChannelName(), request.getChannelType());
     }
 
     private Users pointDecreaseAndReturnUser(String email) {

@@ -79,7 +79,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
      * 특정 채널을 channel_id + user_id로 찾기
      */
     public List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId) {
-        List<Channel> channelList = em.createQuery(
+        return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelUsers " +
                         "where user_id = :user_id " +
@@ -87,12 +87,9 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
                 .setParameter("channel_id", channelId)
                 .setParameter("user_id", userId)
                 .getResultList();
-        if(channelList.size() == 0) throw new NotExistChannelException();
-        return channelList;
     }
 
     public List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type) {
-        System.out.println("hashTag.getName() = " + hashTag.getTagName());
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +
@@ -108,14 +105,12 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
      * 특정 채널을 channelName으로 찾기
      *
      */
-    public Channel findChannelByChannelName(String channelName) {
-        List<Channel> channels = em.createQuery(
+    public Optional<Channel> findChannelByChannelName(String channelName) {
+        return Optional.of(em.createQuery(
                         "select c from Channel c " +
                                 "where c.channelName = :channelName"
                         , Channel.class)
                 .setParameter("channelName", channelName)
-                .getResultList();
-        if(channels.isEmpty()) throw new NotExistChannelException();
-        return channels.get(0);
+                .getSingleResult());
     }
 }

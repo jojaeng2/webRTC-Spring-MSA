@@ -193,7 +193,7 @@ public class ChannelIOServiceImplTest {
 
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(channel.getId());
-        doReturn(new ChannelUser(users, channel))
+        doReturn(Optional.of(new ChannelUser(users, channel)))
                 .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
         doNothing()
                 .when(channelListRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));

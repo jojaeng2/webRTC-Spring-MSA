@@ -14,6 +14,8 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -43,7 +45,7 @@ public class ChannelUsersServiceImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
         Users users = new Users(nickname1, password, email1);
-        doReturn(new ChannelUser(users, channel))
+        doReturn(Optional.of(new ChannelUser(users, channel)))
                 .when(channelUserRepository)
                 .findOneChannelUser(channel.getId(), users.getId());
 
