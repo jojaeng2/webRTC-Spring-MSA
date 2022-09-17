@@ -1,35 +1,17 @@
 package webrtc.chatservice.service.chat;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.ChatLog;
-import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
-import webrtc.chatservice.repository.chat.ChatLogRepository;
-import webrtc.chatservice.repository.users.UsersRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static webrtc.chatservice.enums.ChannelType.TEXT;
-import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
 public class ChattingServiceImplTest {
 
 //    @InjectMocks private ChattingServiceImpl chatService;
 //    @Mock private UsersRepository usersRepository;
-//    @Mock private ChannelDBRepository channelDBRepository;
+//    @Mock private ChannelListRepository channelDBRepository;
 //    @Mock private ChatLogRepository chatLogRepository;
 //    @Mock private ChannelTopic channelTopic;
 //    @Mock private RedisTemplate redisTemplate;

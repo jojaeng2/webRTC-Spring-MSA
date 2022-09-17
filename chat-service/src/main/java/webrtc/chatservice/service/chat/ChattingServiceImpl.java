@@ -9,7 +9,10 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
@@ -26,7 +29,7 @@ public class ChattingServiceImpl implements ChattingService {
     private final RedisTemplate redisTemplate;
 
     private final UsersRepository usersRepository;
-    private final ChannelDBRepository channelDBRepository;
+    private final ChannelCrudRepository channelCrudRepository;
     private final RabbitPublish rabbitPublish;
     private final ChatLogService chatLogService;
     private final ChattingMessageFactory chattingMessageFactory;
@@ -36,7 +39,7 @@ public class ChattingServiceImpl implements ChattingService {
      */
     @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String nickname, String chatMessage, String senderEmail) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         Long currentParticipants = channel.getCurrentParticipants();
         List<Users> currentUsers = usersRepository.findUsersByChannelId(channelId);
         ChattingMessage serverMessage;

@@ -1,29 +1,28 @@
 package webrtc.chatservice.service.channel;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
-
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ChannelIOServiceImpl implements ChannelIOService{
 
-    private final ChannelDBRepository channelDBRepository;
+    private final ChannelListRepository channelListRepository;
+    private final ChannelCrudRepository channelCrudRepository;
     private final UsersRepository usersRepository;
     private final ChannelUserRepository channelUserRepository;
     private final HttpApiController httpApiController;
@@ -32,7 +31,7 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Transactional
     public Channel enterChannel(String channelId, String email) {
         Users user = findUser(email);
-        Channel channel = channelDBRepository.findChannelById(channelId);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         createChannelUser(user, channel);
         return channel;
     }
@@ -49,7 +48,7 @@ public class ChannelIOServiceImpl implements ChannelIOService{
 
     private void createChannelUser(Users user, Channel channel) {
         try {
-            channelDBRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
+            channelListRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
             throw new AlreadyExistUserInChannelException();
         } catch (NotExistChannelException e) {
             Long limitParticipants = channel.getLimitParticipants();
@@ -64,9 +63,9 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Override
     @Transactional
     public void exitChannel(String channelId, String userId) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId);
-        channelDBRepository.exitChannelUserInChannel(channel, channelUser);
+        channelListRepository.exitChannelUserInChannel(channel, channelUser);
     }
 
 

@@ -6,22 +6,23 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
-import webrtc.chatservice.repository.channel.ChannelRedisRepository;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ChannelFindServiceImpl implements ChannelFindService {
 
-    private final ChannelDBRepository channelDBRepository;
+    private final ChannelListRepository channelListRepository;
+    private final ChannelCrudRepository channelCrudRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
     private final ChannelInfoInjectService channelInfoInjectService;
@@ -34,9 +35,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
         switch (orderType) {
             case "partiASC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findAnyChannels(idx, "asc"));
             case "partiDESC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findAnyChannels(idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findAnyChannels(idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -50,9 +51,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         Users user = usersRepository.findUserByEmail(email);
         switch (orderType) {
             case "partiASC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findMyChannels(user.getId(), idx, "asc"));
             case "partiDESC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findMyChannels(user.getId(), idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findMyChannels(user.getId(), idx, "desc"));
         }
         return new ArrayList<>();
     }
@@ -62,7 +63,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @Transactional(readOnly = true)
     public Channel findOneChannelById(String channelId) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         return channelInfoInjectService.setChannelTTL(channel);
     }
 
@@ -71,9 +72,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName);
         switch (orderType) {
             case "partiASC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "asc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findChannelsByHashName(hashTag, idx, "asc"));
             case "partiDESC" :
-                return channelInfoInjectService.setReturnChannelsTTL(channelDBRepository.findChannelsByHashName(hashTag, idx, "desc"));
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findChannelsByHashName(hashTag, idx, "desc"));
         }
         return new ArrayList<>();
     }

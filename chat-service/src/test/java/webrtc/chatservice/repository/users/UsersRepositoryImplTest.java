@@ -109,8 +109,6 @@ public class UsersRepositoryImplTest {
         //given
         Users users = new Users(nickname1, password, email1);
         usersRepository.saveUser(users);
-        Channel channel = new Channel(channelName1, text);
-        ChannelUser channelUser = new ChannelUser(users, channel);
 
         //when
 

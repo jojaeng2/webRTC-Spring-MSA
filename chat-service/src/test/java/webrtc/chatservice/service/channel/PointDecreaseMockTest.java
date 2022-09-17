@@ -13,8 +13,11 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,9 +37,11 @@ public class PointDecreaseMockTest {
     @InjectMocks
     private ChannelLifeServiceImpl channelService;
     @Mock
-    private ChannelDBRepository channelDBRepository;
+    private ChannelListRepository channelListRepository;
     @Mock
     private ChannelRedisRepository channelRedisRepository;
+    @Mock
+    private ChannelCrudRepository channelCrudRepository;
     @Mock
     private HttpApiController httpApiController;
 
@@ -48,8 +53,8 @@ public class PointDecreaseMockTest {
         Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(channel.getId());
+        doReturn(Optional.of(channel))
+                .when(channelCrudRepository).findById(channel.getId());
         doNothing()
                 .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class));
         doNothing()
@@ -70,8 +75,8 @@ public class PointDecreaseMockTest {
         Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelById(channel.getId());
+        doReturn(Optional.empty())
+                .when(channelCrudRepository).findById(channel.getId());
 
         // when
 
@@ -89,8 +94,8 @@ public class PointDecreaseMockTest {
         Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(any(String.class));
+        doReturn(Optional.of(channel))
+                .when(channelCrudRepository).findById(any(String.class));
         doThrow(new NotExistUserException())
                 .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class));
 
@@ -110,8 +115,8 @@ public class PointDecreaseMockTest {
         Users users = new Users(nickname1, password, email1);
         Long requestTTL = 100L;
 
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(any(String.class));
+        doReturn(Optional.of(channel))
+                .when(channelCrudRepository).findById(any(String.class));
         doThrow(new InsufficientPointException())
                 .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class));
 

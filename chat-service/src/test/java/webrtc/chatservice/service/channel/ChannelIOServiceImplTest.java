@@ -14,14 +14,13 @@ import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelUserException;
 import webrtc.chatservice.exception.UserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
-import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
-import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
+import webrtc.chatservice.repository.channel.*;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,13 +36,15 @@ public class ChannelIOServiceImplTest {
     private ChannelIOServiceImpl channelIOService;
 
     @Mock
-    private ChannelDBRepository channelDBRepository;
+    private ChannelListRepository channelListRepository;
     @Mock
     private ChannelRedisRepository channelRedisRepository;
     @Mock
     private ChatLogRepository chatLogRepository;
     @Mock
     private ChannelHashTagRepository channelHashTagRepository;
+    @Mock
+    private ChannelCrudRepository channelCrudRepository;
     @Mock
     private RabbitPublish rabbitPublish;
     @Mock
@@ -80,7 +81,7 @@ public class ChannelIOServiceImplTest {
 //                .when(usersRepository).findUserByEmail(email1);
 //
 //        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
 //
 //        // when
 //
@@ -99,7 +100,7 @@ public class ChannelIOServiceImplTest {
 //                .when(usersRepository).findUserByEmail(email1);
 //
 //        doReturn(new ArrayList<>())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
 //
 //        // when
 //
@@ -122,7 +123,7 @@ public class ChannelIOServiceImplTest {
 //                .when(channelRedisRepository).findChannelTTL(channel.getId());
 //
 //        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
 //
 //        for(int i=0; i<14; i++) {
 //            channelService.enterChannel(channel.getId(), email1+ i);
@@ -151,7 +152,7 @@ public class ChannelIOServiceImplTest {
 //                .when(usersRepository).saveUser(any(Users.class));
 //
 //        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
 //
 //        // when
 //
@@ -190,12 +191,12 @@ public class ChannelIOServiceImplTest {
         Users users = new Users(nickname1, password, email1);
         Channel channel = new Channel(channelName1, text);
 
-        doReturn(new Channel(channelName1, text))
-                .when(channelDBRepository).findChannelById(any(String.class));
+        doReturn(Optional.of(channel))
+                .when(channelCrudRepository).findById(channel.getId());
         doReturn(new ChannelUser(users, channel))
                 .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
         doNothing()
-                .when(channelDBRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));
+                .when(channelListRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));
 
         // when
         channelIOService.exitChannel(channel.getId(), users.getId());
@@ -212,7 +213,7 @@ public class ChannelIOServiceImplTest {
         Users users = new Users(nickname1, password, email1);
 
         doThrow(new ChannelException.NotExistChannelException())
-                .when(channelDBRepository).findChannelById(channel.getId());
+                .when(channelCrudRepository).findById(channel.getId());
 
         // when
 
@@ -230,8 +231,8 @@ public class ChannelIOServiceImplTest {
         Channel channel = new Channel(channelName1, text);
         Users users = new Users(nickname1, password, email1);
 
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(any(String.class));
+        doReturn(Optional.of(channel))
+                .when(channelCrudRepository).findById(channel.getId());
 
         doThrow(new ChannelUserException.NotExistChannelUserException())
                 .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));

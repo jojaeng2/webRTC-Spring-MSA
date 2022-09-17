@@ -12,7 +12,7 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
@@ -31,7 +31,7 @@ public class ChatLogServiceTest {
     private ChatLogServiceImpl chatLogService;
     @Mock
     private UsersRepository usersRepository;
-    @Mock private ChannelDBRepository channelDBRepository;
+    @Mock private ChannelListRepository channelListRepository;
     @Mock private ChatLogRepository chatLogRepository;
     @Mock private ChannelTopic channelTopic;
     @Mock private RedisTemplate redisTemplate;
@@ -109,7 +109,7 @@ public class ChatLogServiceTest {
 //    public void 채팅로그_20개초과_불러오기_성공() {
 //        // given
 //        Long testcase = 30L;
-//        Channel channel = channelDBRepository.findChannelByChannelName(channelName1);
+//        Channel channel = channelListRepository.findChannelByChannelName(channelName1);
 //
 //        for(Long i=0L; i<testcase; i++) {
 //            chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);

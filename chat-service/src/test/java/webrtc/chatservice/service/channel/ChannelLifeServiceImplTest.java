@@ -15,10 +15,7 @@ import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelExceptio
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
-import webrtc.chatservice.repository.channel.ChannelHashTagRepository;
-import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
+import webrtc.chatservice.repository.channel.*;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
@@ -27,6 +24,7 @@ import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,631 +34,629 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
 public class ChannelLifeServiceImplTest {
-
-    @InjectMocks
-    private ChannelLifeServiceImpl channelService;
-
-
-    @Mock
-    private ChannelDBRepository channelDBRepository;
-    @Mock
-    private ChannelRedisRepository channelRedisRepository;
-    @Mock
-    private ChatLogRepository chatLogRepository;
-    @Mock
-    private ChannelHashTagRepository channelHashTagRepository;
-    @Mock
-    private RabbitPublish rabbitPublish;
-    @Mock
-    private UsersRepository usersRepository;
-    @Mock
-    private ChannelUserRepository channelUserRepository;
-    @Mock
-    private HashTagRepository hashTagRepository;
-    @Mock
-    private ChattingMessageFactory chattingMessageFactory;
-    @Mock
-    private HttpApiController httpApiController;
-
-
-    String nickname1 = "nickname1";
-    String nickname2 = "nickname2";
-    String password = "password";
-    String email1 = "email1";
-    String email2 = "email2";
-    String channelName1 = "channelName1";
-    String channelName2 = "channelName2";
-    String tag1 = "tag1";
-    String tag2 = "tag2";
-    String tag3 = "tag3";
-    ChannelType text = TEXT;
-    ChannelType voip = VOIP;
-
-
-
-    @Test
-    @Transactional
-    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그이미존재() {
-        // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add(tag1);
-        hashTags.add(tag2);
-        hashTags.add(tag3);
-
-        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-
-        doReturn(null)
-                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(List.class), any(Long.class), any(String.class));
-        doNothing()
-                .when(rabbitPublish).publishMessage(any(), any());
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doReturn(new Users(nickname1, password, email1))
-                .when(usersRepository).findUserByEmail(email1);
-
-        doReturn(new HashTag(tag1))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
-
-        // when
-        Channel channel = channelService.createChannel(request, email1);
-
-        // then
-        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-    }
-
-    @Test
-    @Transactional
-    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그새로생성() {
-        // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add(tag1);
-        hashTags.add(tag2);
-        hashTags.add(tag3);
-
-        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-
-
-        doNothing()
-                .when(rabbitPublish).publishMessage(any(), any());
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doReturn(new Users(nickname1, password, email1))
-                .when(usersRepository).findUserByEmail(email1);
-
-        doThrow(NotExistHashTagException.class)
-                .when(hashTagRepository).findHashTagByName(any(String.class));
-
-        // when
-        Channel channel = channelService.createChannel(request, email1);
-
-        // then
-        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-    }
-
-    @Test
-    @Transactional
-    public void 채널생성성공_채널이름_중복아님_유저통신성공_해시태그이미존재() {
-        // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add(tag1);
-        hashTags.add(tag2);
-        hashTags.add(tag3);
-
-        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-
-        doNothing()
-                .when(rabbitPublish).publishMessage(any(), any());
-
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doThrow(new NotExistUserException())
-                .when(usersRepository).findUserByEmail(any(String.class));
-        doReturn(new Users(nickname1, password, email1))
-                .when(httpApiController).postFindUserByEmail(any(String.class));
-        doReturn(new HashTag(tag1))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
-
-
-        // when
-        Channel channel = channelService.createChannel(request, email1);
-
-        // then
-        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-    }
-
-    @Test
-    @Transactional
-    public void 채널생성실패_채널이름_중복아님_유저통신실패() {
-        // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add(tag1);
-        hashTags.add(tag2);
-        hashTags.add(tag3);
-
-        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelByChannelName(channelName1);
-        doThrow(new NotExistUserException())
-                .when(usersRepository).findUserByEmail(any(String.class));
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postFindUserByEmail(any(String.class));
-
-
-        // when
-
-        // then
-        assertThrows(NotExistUserException.class, () -> {
-           channelService.createChannel(request, email1);
-        });
-    }
-
-
-
-    @Test
-    @Transactional
-    public void 채널생성실패_채널이름_중복() {
-        // given
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add(tag1);
-        hashTags.add(tag2);
-        hashTags.add(tag3);
-
-        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-        doReturn(new Channel(channelName1, text))
-                .when(channelDBRepository).findChannelByChannelName(channelName1);
-
-
-        // when
-
-        // then
-        assertThrows(AlreadyExistChannelException.class, ()-> {
-            channelService.createChannel(request, email1);
-        });
-    }
-
-
+//
+//    @InjectMocks
+//    private ChannelLifeServiceImpl channelService;
+//
+//
+//    @Mock
+//    private ChannelCrudRepository crudRepository;
+//    @Mock
+//    private ChannelListRepository channelListRepository;
+//    @Mock
+//    private ChannelRedisRepository channelRedisRepository;
+//
+//    @Mock
+//    private RabbitPublish rabbitPublish;
+//    @Mock
+//    private UsersRepository usersRepository;
+//    @Mock
+//    private HashTagRepository hashTagRepository;
+//    @Mock
+//    private ChattingMessageFactory chattingMessageFactory;
+//    @Mock
+//    private HttpApiController httpApiController;
+//
+//
+//    String nickname1 = "nickname1";
+//    String nickname2 = "nickname2";
+//    String password = "password";
+//    String email1 = "email1";
+//    String email2 = "email2";
+//    String channelName1 = "channelName1";
+//    String channelName2 = "channelName2";
+//    String tag1 = "tag1";
+//    String tag2 = "tag2";
+//    String tag3 = "tag3";
+//    ChannelType text = TEXT;
+//    ChannelType voip = VOIP;
+//
+//
+//
 //    @Test
 //    @Transactional
-//    public void 채널입장성공_유저이미존재_처음입장() {
+//    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그이미존재() {
 //        // given
-//        Channel channel = new Channel(channelName1, text);
+//        List<String> hashTags = new ArrayList<>();
+//        hashTags.add(tag1);
+//        hashTags.add(tag2);
+//        hashTags.add(tag3);
 //
+//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
+//
+//        doReturn(null)
+//                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(List.class), any(Long.class), any(String.class));
+//        doNothing()
+//                .when(rabbitPublish).publishMessage(any(), any());
+//        doThrow(new NotExistChannelException())
+//                .when(channelListRepository).findChannelByChannelName(channelName1);
 //        doReturn(new Users(nickname1, password, email1))
 //                .when(usersRepository).findUserByEmail(email1);
 //
-//        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//        doReturn(new HashTag(tag1))
+//                .when(hashTagRepository).findHashTagByName(any(String.class));
 //
 //        // when
+//        Channel channel = channelService.createChannel(request, email1);
 //
 //        // then
-//        Channel enterChannel = channelService.enterChannel(channel.getId(), email1);
-//        assertThat(enterChannel.getCurrentParticipants()).isEqualTo(1);
+//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
+//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
 //    }
-
+//
 //    @Test
 //    @Transactional
-//    public void 채널입장실패_유저이미존재_이전에입장() {
+//    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그새로생성() {
 //        // given
-//        Channel channel = new Channel(channelName1, text);
+//        List<String> hashTags = new ArrayList<>();
+//        hashTags.add(tag1);
+//        hashTags.add(tag2);
+//        hashTags.add(tag3);
 //
+//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
+//
+//
+//        doNothing()
+//                .when(rabbitPublish).publishMessage(any(), any());
+//        doThrow(new NotExistChannelException())
+//                .when(channelListRepository).findChannelByChannelName(channelName1);
 //        doReturn(new Users(nickname1, password, email1))
 //                .when(usersRepository).findUserByEmail(email1);
 //
-//        doReturn(new ArrayList<>())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//        doThrow(NotExistHashTagException.class)
+//                .when(hashTagRepository).findHashTagByName(any(String.class));
 //
 //        // when
+//        Channel channel = channelService.createChannel(request, email1);
 //
 //        // then
-//        assertThat(channel.getCurrentParticipants()).isEqualTo(0);
-//        assertThrows(AlreadyExistUserInChannelException.class, ()->{
-//            channelService.enterChannel(channel.getId(), email1);
-//        });
+//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
+//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
 //    }
-
+//
 //    @Test
 //    @Transactional
-//    public void 채널입장실패_유저이미존재_인원제한() {
+//    public void 채널생성성공_채널이름_중복아님_유저통신성공_해시태그이미존재() {
 //        // given
-//        Channel channel = new Channel(channelName1, text);
-//        doReturn(new Users(nickname1, password, email1))
-//                .when(usersRepository).findUserByEmail(any(String.class));
+//        List<String> hashTags = new ArrayList<>();
+//        hashTags.add(tag1);
+//        hashTags.add(tag2);
+//        hashTags.add(tag3);
 //
-//        doReturn(111L)
-//                .when(channelRedisRepository).findChannelTTL(channel.getId());
+//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
+//
+//        doNothing()
+//                .when(rabbitPublish).publishMessage(any(), any());
 //
 //        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
-//
-//        for(int i=0; i<14; i++) {
-//            channelService.enterChannel(channel.getId(), email1+ i);
-//
-//        }
-//        // when
-//
-//        // then
-//        assertThrows(ChannelParticipantsFullException.class, ()->{
-//            channelService.enterChannel(channel.getId(), email1);
-//        });
-//    }
-
-//    @Test
-//    @Transactional
-//    public void 채널입장성공_유저통신성공() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//
+//                .when(channelListRepository).findChannelByChannelName(channelName1);
 //        doThrow(new NotExistUserException())
 //                .when(usersRepository).findUserByEmail(any(String.class));
-//
 //        doReturn(new Users(nickname1, password, email1))
-//                .when(httpApiController).postFindUserByEmail(email1);
-//        doNothing()
-//                .when(usersRepository).saveUser(any(Users.class));
+//                .when(httpApiController).postFindUserByEmail(any(String.class));
+//        doReturn(new HashTag(tag1))
+//                .when(hashTagRepository).findHashTagByName(any(String.class));
+//
+//
+//        // when
+//        Channel channel = channelService.createChannel(request, email1);
+//
+//        // then
+//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
+//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
+//    }
+//
+//    @Test
+//    @Transactional
+//    public void 채널생성실패_채널이름_중복아님_유저통신실패() {
+//        // given
+//        List<String> hashTags = new ArrayList<>();
+//        hashTags.add(tag1);
+//        hashTags.add(tag2);
+//        hashTags.add(tag3);
+//
+//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 //
 //        doThrow(new NotExistChannelException())
-//                .when(channelDBRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+//                .when(channelListRepository).findChannelByChannelName(channelName1);
+//        doThrow(new NotExistUserException())
+//                .when(usersRepository).findUserByEmail(any(String.class));
+//        doThrow(new NotExistUserException())
+//                .when(httpApiController).postFindUserByEmail(any(String.class));
+//
 //
 //        // when
 //
 //        // then
-//        Channel enterChannel = channelService.enterChannel(channel.getId(), email1);
-//
-//        assertThat(enterChannel.getCurrentParticipants()).isEqualTo(1);
-//    }
-
-    @Test
-    @Transactional
-    public void 채널삭제성공() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-
-        doReturn(channel)
-                .when(channelDBRepository).findChannelById(any(String.class));
-        doNothing()
-                .when(channelDBRepository).delete(any(Channel.class));
-
-        // when
-        channelService.deleteChannel(channel.getId());
-
-        // then
-    }
-
-    @Test
-    @Transactional
-    public void 채널삭제실패_채널없음() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-
-        doThrow(new NotExistChannelException())
-                .when(channelDBRepository).findChannelById(any(String.class));
-
-        // when
-
-
-        // then
-        assertThrows(NotExistChannelException.class, () -> {
-            channelService.deleteChannel(channel.getId());
-        });
-    }
-//
-//    @Test
-//    @Transactional
-//    public void 모든채널불러오기_20개미만_참가자내림차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findAnyChannel("partiDESC", 0);
-//
-//        // then
-//        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 모든채널불러오기_20개미만_참가자오름차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findAnyChannel("partiASC", 0);
-//
-//        // then
-//        assertThat(channels.get(testCase).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 모든채널불러오기_20개초과_참가자내림차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels0 = channelService.findAnyChannel("partiDESC", 0);
-//
-//        // then
-//        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 모든채널불러오기_20개초과_참가자오름차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels1 = channelService.findAnyChannel("partiASC", 1);
-//
-//        // then
-//        assertThat(channels1.get((testCase)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 나의채널불러오기_20개미만_참가자내림차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            channelService.enterChannel(channel, email1);
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email2);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findMyChannel("partiDESC", email1,0);
-//
-//        // then
-//        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 나의채널불러오기_20개미만_참가자오름차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            channelService.enterChannel(channel, email1);
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email2);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findMyChannel("partiASC", email1,0);
-//
-//        // then
-//        assertThat(channels.get(testCase-1).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 나의채널불러오기_20개초과_참가자내림차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            channelService.enterChannel(channel, email1);
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email2);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels0 = channelService.findMyChannel("partiDESC", email1, 0);
-//
-//        // then
-//        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 나의채널불러오기_20개초과_참가자오름차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            channelService.enterChannel(channel, email1);
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email2);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels1 = channelService.findMyChannel("partiASC", email1,1);
-//
-//        // then
-//        assertThat(channels1.get((testCase-1)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 해시태그로_채널불러오기_20개미만_참가자내림차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findChannelByHashName(tag1, "partiDESC",0);
-//
-//        // then
-//        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 해시태그로_채널불러오기_20개미만_참가자오름차순() {
-//        // given
-//        int testCase = 10;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels = channelService.findChannelByHashName(tag1, "partiASC",0);
-//
-//        // then
-//        assertThat(channels.get(testCase).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 해시태그로_채널불러오기_20개초과_참가자내림차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels0 = channelService.findChannelByHashName(tag1, "partiDESC",0);
-//
-//        // then
-//        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 해시태그로_채널불러오기_20개초과_참가자오름차순() {
-//        // given
-//        int testCase = 30;
-//        int firstIndex = 1;
-//        for(int i=1; i<=testCase; i++) {
-//            Channel channel = new Channel(i + channelName1, text);
-//            channelDBRepository.createChannel(channel, returnHashTags());
-//            if(i == firstIndex) {
-//                channelService.enterChannel(channel, email1);
-//            }
-//        }
-//
-//        // when
-//        List<ChannelResponse> channels1 = channelService.findChannelByHashName(tag1, "partiASC",1);
-//
-//        // then
-//        assertThat(channels1.get((testCase)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널ID로_채널찾기성공() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//        channelDBRepository.createChannel(channel, returnHashTags());
-//
-//        // when
-//        Channel findChannel = channelService.findOneChannelById(channel.getId());
-//
-//        // then
-//        assertThat(findChannel).isEqualTo(channel);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널ID로_채널찾기실패() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//
-//        // when
-//
-//
-//        // then
-//        assertThrows(NotExistChannelException.class, ()-> {
-//            channelService.findOneChannelById(channel.getId());
+//        assertThrows(NotExistUserException.class, () -> {
+//           channelService.createChannel(request, email1);
 //        });
 //    }
-
-
+//
+//
+//
 //    @Test
 //    @Transactional
-//    public void 채널수명연장성공() {
+//    public void 채널생성실패_채널이름_중복() {
 //        // given
-//        Channel channel = new Channel(channelName1, text);
-//        channelRepository.createChannel(channel, returnHashTags());
+//        List<String> hashTags = new ArrayList<>();
+//        hashTags.add(tag1);
+//        hashTags.add(tag2);
+//        hashTags.add(tag3);
+//
+//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
+//        doReturn(new Channel(channelName1, text))
+//                .when(channelListRepository).findChannelByChannelName(channelName1);
+//
 //
 //        // when
-//        channelService.extensionChannelTTL(channel.getId(), email1, 100L);
 //
 //        // then
+//        assertThrows(AlreadyExistChannelException.class, ()-> {
+//            channelService.createChannel(request, email1);
+//        });
+//    }
 //
+//
+////    @Test
+////    @Transactional
+////    public void 채널입장성공_유저이미존재_처음입장() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////
+////        doReturn(new Users(nickname1, password, email1))
+////                .when(usersRepository).findUserByEmail(email1);
+////
+////        doThrow(new NotExistChannelException())
+////                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+////
+////        // when
+////
+////        // then
+////        Channel enterChannel = channelService.enterChannel(channel.getId(), email1);
+////        assertThat(enterChannel.getCurrentParticipants()).isEqualTo(1);
+////    }
+//
+////    @Test
+////    @Transactional
+////    public void 채널입장실패_유저이미존재_이전에입장() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////
+////        doReturn(new Users(nickname1, password, email1))
+////                .when(usersRepository).findUserByEmail(email1);
+////
+////        doReturn(new ArrayList<>())
+////                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+////
+////        // when
+////
+////        // then
+////        assertThat(channel.getCurrentParticipants()).isEqualTo(0);
+////        assertThrows(AlreadyExistUserInChannelException.class, ()->{
+////            channelService.enterChannel(channel.getId(), email1);
+////        });
+////    }
+//
+////    @Test
+////    @Transactional
+////    public void 채널입장실패_유저이미존재_인원제한() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////        doReturn(new Users(nickname1, password, email1))
+////                .when(usersRepository).findUserByEmail(any(String.class));
+////
+////        doReturn(111L)
+////                .when(channelRedisRepository).findChannelTTL(channel.getId());
+////
+////        doThrow(new NotExistChannelException())
+////                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+////
+////        for(int i=0; i<14; i++) {
+////            channelService.enterChannel(channel.getId(), email1+ i);
+////
+////        }
+////        // when
+////
+////        // then
+////        assertThrows(ChannelParticipantsFullException.class, ()->{
+////            channelService.enterChannel(channel.getId(), email1);
+////        });
+////    }
+//
+////    @Test
+////    @Transactional
+////    public void 채널입장성공_유저통신성공() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////
+////        doThrow(new NotExistUserException())
+////                .when(usersRepository).findUserByEmail(any(String.class));
+////
+////        doReturn(new Users(nickname1, password, email1))
+////                .when(httpApiController).postFindUserByEmail(email1);
+////        doNothing()
+////                .when(usersRepository).saveUser(any(Users.class));
+////
+////        doThrow(new NotExistChannelException())
+////                .when(channelListRepository).findChannelsByChannelIdAndUserId(any(String.class), any(String.class));
+////
+////        // when
+////
+////        // then
+////        Channel enterChannel = channelService.enterChannel(channel.getId(), email1);
+////
+////        assertThat(enterChannel.getCurrentParticipants()).isEqualTo(1);
+////    }
+//
+//    @Test
+//    @Transactional
+//    public void 채널삭제성공() {
+//        // given
+//        Channel channel = new Channel(channelName1, text);
+//
+//        doReturn(Optional.of(channel))
+//                .when(crudRepository).findById(any(String.class));
+//
+//        doNothing()
+//                .when(crudRepository).delete(any(Channel.class));
+//
+//        // when
+//        channelService.deleteChannel(channel.getId());
+//
+//        // then
 //    }
 //
 //    @Test
-//    @DisplayName("Extension ChannelTTL 실패 by InsufficientPointException")
-//    public void extensionChannelTTLFailByInsufficientPointException() {
+//    @Transactional
+//    public void 채널삭제실패_채널없음() {
 //        // given
-//        Channel channel = createChannelTemp();
+//        Channel channel = new Channel(channelName1, text);
+//
+//        doThrow(new NotExistChannelException())
+//                .when(crudRepository).findById(any(String.class));
 //
 //        // when
 //
-//        // then
 //
-//        assertThrows(InsufficientPointException.class,
-//                () -> channelService.extensionChannelTTL(channel.getId(), "email", 1000000L));
+//        // then
+//        assertThrows(NotExistChannelException.class, () -> {
+//            channelService.deleteChannel(channel.getId());
+//        });
 //    }
+////
+////    @Test
+////    @Transactional
+////    public void 모든채널불러오기_20개미만_참가자내림차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findAnyChannel("partiDESC", 0);
+////
+////        // then
+////        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 모든채널불러오기_20개미만_참가자오름차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findAnyChannel("partiASC", 0);
+////
+////        // then
+////        assertThat(channels.get(testCase).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 모든채널불러오기_20개초과_참가자내림차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels0 = channelService.findAnyChannel("partiDESC", 0);
+////
+////        // then
+////        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 모든채널불러오기_20개초과_참가자오름차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels1 = channelService.findAnyChannel("partiASC", 1);
+////
+////        // then
+////        assertThat(channels1.get((testCase)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 나의채널불러오기_20개미만_참가자내림차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            channelService.enterChannel(channel, email1);
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email2);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findMyChannel("partiDESC", email1,0);
+////
+////        // then
+////        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 나의채널불러오기_20개미만_참가자오름차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            channelService.enterChannel(channel, email1);
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email2);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findMyChannel("partiASC", email1,0);
+////
+////        // then
+////        assertThat(channels.get(testCase-1).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 나의채널불러오기_20개초과_참가자내림차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            channelService.enterChannel(channel, email1);
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email2);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels0 = channelService.findMyChannel("partiDESC", email1, 0);
+////
+////        // then
+////        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 나의채널불러오기_20개초과_참가자오름차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            channelService.enterChannel(channel, email1);
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email2);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels1 = channelService.findMyChannel("partiASC", email1,1);
+////
+////        // then
+////        assertThat(channels1.get((testCase-1)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 해시태그로_채널불러오기_20개미만_참가자내림차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findChannelByHashName(tag1, "partiDESC",0);
+////
+////        // then
+////        assertThat(channels.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 해시태그로_채널불러오기_20개미만_참가자오름차순() {
+////        // given
+////        int testCase = 10;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels = channelService.findChannelByHashName(tag1, "partiASC",0);
+////
+////        // then
+////        assertThat(channels.get(testCase).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 해시태그로_채널불러오기_20개초과_참가자내림차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels0 = channelService.findChannelByHashName(tag1, "partiDESC",0);
+////
+////        // then
+////        assertThat(channels0.get(0).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 해시태그로_채널불러오기_20개초과_참가자오름차순() {
+////        // given
+////        int testCase = 30;
+////        int firstIndex = 1;
+////        for(int i=1; i<=testCase; i++) {
+////            Channel channel = new Channel(i + channelName1, text);
+////            channelListRepository.createChannel(channel, returnHashTags());
+////            if(i == firstIndex) {
+////                channelService.enterChannel(channel, email1);
+////            }
+////        }
+////
+////        // when
+////        List<ChannelResponse> channels1 = channelService.findChannelByHashName(tag1, "partiASC",1);
+////
+////        // then
+////        assertThat(channels1.get((testCase)%20).getChannelName()).isEqualTo(firstIndex + channelName1);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 채널ID로_채널찾기성공() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////        channelListRepository.createChannel(channel, returnHashTags());
+////
+////        // when
+////        Channel findChannel = channelService.findOneChannelById(channel.getId());
+////
+////        // then
+////        assertThat(findChannel).isEqualTo(channel);
+////    }
+////
+////    @Test
+////    @Transactional
+////    public void 채널ID로_채널찾기실패() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////
+////        // when
+////
+////
+////        // then
+////        assertThrows(NotExistChannelException.class, ()-> {
+////            channelService.findOneChannelById(channel.getId());
+////        });
+////    }
+//
+//
+////    @Test
+////    @Transactional
+////    public void 채널수명연장성공() {
+////        // given
+////        Channel channel = new Channel(channelName1, text);
+////        channelRepository.createChannel(channel, returnHashTags());
+////
+////        // when
+////        channelService.extensionChannelTTL(channel.getId(), email1, 100L);
+////
+////        // then
+////
+////    }
+////
+////    @Test
+////    @DisplayName("Extension ChannelTTL 실패 by InsufficientPointException")
+////    public void extensionChannelTTLFailByInsufficientPointException() {
+////        // given
+////        Channel channel = createChannelTemp();
+////
+////        // when
+////
+////        // then
+////
+////        assertThrows(InsufficientPointException.class,
+////                () -> channelService.extensionChannelTTL(channel.getId(), "email", 1000000L));
+////    }
 
 }

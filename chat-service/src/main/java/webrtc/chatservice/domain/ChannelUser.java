@@ -32,6 +32,7 @@ public class ChannelUser implements Serializable {
         this.channel = channel;
         this.user = user;
         channel.enterChannelUser(this);
+        user.addChannelUser(this);
     }
 
     public void setChannel(Channel channel) {

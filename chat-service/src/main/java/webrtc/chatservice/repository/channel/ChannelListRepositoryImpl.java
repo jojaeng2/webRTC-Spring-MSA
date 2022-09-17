@@ -11,30 +11,30 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
-public class ChannelDBRepositoryImpl implements ChannelDBRepository {
+public class ChannelListRepositoryImpl implements ChannelListRepository {
 
     private final int LoadingChannel = 20;
 
     @PersistenceContext
     private EntityManager em;
 
-    public void save(Channel channel) {
-        em.persist(channel);
-    }
+//    public void save(Channel channel) {
+//        em.persist(channel);
+//    }
 
-    public Channel create(Channel channel, List<ChannelHashTag> hashTags) {
-        hashTags.forEach(channel::addChannelHashTag);
-        save(channel);
-        return channel;
-    }
+//    public Channel create(Channel channel, List<ChannelHashTag> hashTags) {
+//        hashTags.forEach(channel::addChannelHashTag);
+//        save(channel);
+//        return channel;
+//    }
 
     /*
      * 채널 삭제
      */
-    public void delete(Channel channel) {
-        if(channel == null) throw new NotExistChannelException();
-        em.remove(channel);
-    }
+//    public void delete(Channel channel) {
+//        if(channel == null) throw new NotExistChannelException();
+//        em.remove(channel);
+//    }
 
 
 
@@ -69,11 +69,11 @@ public class ChannelDBRepositoryImpl implements ChannelDBRepository {
      * 특정 채널을 ID로 찾기
      *
      */
-    public Channel findChannelById(String id) {
-        Channel channel = em.find(Channel.class, id);
-        if(channel == null) throw new NotExistChannelException();
-        return channel;
-    }
+//    public Channel findChannelById(String id) {
+//        Channel channel = em.find(Channel.class, id);
+//        if(channel == null) throw new NotExistChannelException();
+//        return channel;
+//    }
 
     /*
      * 특정 채널을 channel_id + user_id로 찾기
@@ -92,6 +92,7 @@ public class ChannelDBRepositoryImpl implements ChannelDBRepository {
     }
 
     public List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type) {
+        System.out.println("hashTag.getName() = " + hashTag.getTagName());
         return em.createQuery(
                 "select c from Channel c " +
                         "join c.channelHashTags " +

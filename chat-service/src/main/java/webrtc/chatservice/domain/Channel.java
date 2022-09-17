@@ -29,6 +29,7 @@ public class Channel implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
     private Set<ChannelHashTag> channelHashTags;
+
     private static final Long serialVersionUID = 1L;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")

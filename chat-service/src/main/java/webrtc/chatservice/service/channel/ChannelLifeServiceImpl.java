@@ -10,7 +10,8 @@ import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.exception.ChannelException.*;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
-import webrtc.chatservice.repository.channel.ChannelDBRepository;
+import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
@@ -25,7 +26,8 @@ import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 @Service
 public class ChannelLifeServiceImpl implements ChannelLifeService {
 
-    private final ChannelDBRepository channelDBRepository;
+    private final ChannelListRepository channelListRepository;
+    private final ChannelCrudRepository channelCrudRepository;
     private final ChannelRedisRepository channelRedisRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
@@ -52,13 +54,14 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
             createChannelHashTag(channel, hashTag);
         }
 
+
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 
         // 채팅방 생성 로그
         ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
         channel.addChatLog(chatLog);
-        channelDBRepository.save(channel);
+        channelCrudRepository.save(channel);
 
 
         // rabbitMQ 전용 메시지 생성
@@ -70,7 +73,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
         try {
-            channelDBRepository.findChannelByChannelName(request.getChannelName());
+            channelListRepository.findChannelByChannelName(request.getChannelName());
             throw new AlreadyExistChannelException();
         } catch (NotExistChannelException ex1) {
             return new Channel(request.getChannelName(), request.getChannelType());
@@ -102,14 +105,14 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     @Transactional
     public void deleteChannel(String channelId) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
-        channelDBRepository.delete(channel);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
+        channelCrudRepository.delete(channel);
         channelRedisRepository.delete(channelId);
     }
 
     @Transactional
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
-        Channel channel = channelDBRepository.findChannelById(channelId);
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
     }

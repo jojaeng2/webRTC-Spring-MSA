@@ -7,13 +7,13 @@ import webrtc.chatservice.domain.HashTag;
 
 import java.util.List;
 
-public interface ChannelDBRepository {
+public interface ChannelListRepository {
 
-    void save(Channel channel);
+//    void save(Channel channel);
 
-    Channel create(Channel channel, List<ChannelHashTag> hashTags);
+//    Channel create(Channel channel, List<ChannelHashTag> hashTags);
 
-    void delete(Channel channel);
+//    void delete(Channel channel);
 
 
     void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
@@ -23,7 +23,7 @@ public interface ChannelDBRepository {
 
     List<Channel> findMyChannels(String userId, int idx, String type);
 
-    Channel findChannelById(String id);
+//    Channel findChannelById(String id);
 
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 
