@@ -1,10 +1,14 @@
 package webrtc.authservice.repository.user;
 
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import webrtc.authservice.domain.Users;
 
-public interface UserRepository {
+import java.util.Optional;
 
-    void save(Users user);
+public interface UserRepository extends JpaRepository<Users, String>{
 
-    Users findUserByEmail(String email);
+    @Query("select u from Users u where u.email = :email")
+    Optional<Users> findUserByEmail(@Param("email") String email);
 }

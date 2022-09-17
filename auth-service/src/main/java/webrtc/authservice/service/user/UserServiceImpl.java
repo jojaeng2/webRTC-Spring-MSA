@@ -8,7 +8,9 @@ import webrtc.authservice.domain.Point;
 import webrtc.authservice.domain.Users;
 import webrtc.authservice.dto.UserDto.CreateUserRequest;
 import webrtc.authservice.dto.UserDto.FindUserWithPointByEmailResponse;
+import webrtc.authservice.exception.UserException;
 import webrtc.authservice.exception.UserException.InsufficientPointException;
+import webrtc.authservice.exception.UserException.NotExistUserException;
 import webrtc.authservice.repository.user.UserRepository;
 
 import java.util.List;
@@ -23,7 +25,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public Users save(CreateUserRequest request) {
-        
         Users user = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
         Point point = new Point("회원 가입", welcomePoint);
         user.addPoint(point);
@@ -34,19 +35,20 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     // @Cacheable(key = "#email", value = "users")
     public Users findOneUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
     }
     
     @Transactional(readOnly = true)
     public FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email) {
-        Users user = userRepository.findUserByEmail(email);
+        Users user = userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
         List<Point> points = user.getPoints();
         return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), user.sumOfPoint(points));
     }
 
     @Transactional
     public void decreasePoint(String email, int amount) {
-        Users user = userRepository.findUserByEmail(email);
+        Users user = userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
+
         List<Point> points = user.getPoints();
         int sum = user.sumOfPoint(points);
         
