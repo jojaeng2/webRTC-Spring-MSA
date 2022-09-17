@@ -1,6 +1,5 @@
 package webrtc.chatservice.repository.chat;
 
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.ChatLog;
 
@@ -23,16 +22,19 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
     }
 
 
-    public List<ChatLog> findChatLogsByChannelId(@Param("channel_id") String channel_id, Long idx) {
+    public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
         return em.createQuery(
             "select cl from ChatLog cl where channel_id = :channel_id and cl.idx BETWEEN :start AND :end", ChatLog.class)
+        .setParameter("channel_id", channelId)
         .setParameter("start", max(1L, idx-(LoadingChatCount)))
         .setParameter("end", idx-1L)
         .getResultList();
     }
 
-    public List<ChatLog> findLastChatLogsByChannelId(@Param("channel_id") String channel_id) {
-        return em.createQuery("select cl from ChatLog cl where channel_id = :channel_id order by idx desc ", ChatLog.class)
+    public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
+        return em.createQuery(
+                "select cl from ChatLog cl where channel_id = :channel_id order by idx desc ", ChatLog.class)
+                .setParameter("channel_id", channelId)
                 .setFirstResult(0)
                 .setMaxResults(1)
                 .getResultList();

@@ -21,8 +21,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
     private EntityManager em;
 
     public List<Channel> findAnyChannels(int idx, String type) {
-        return em.createQuery(
-                        "select c from Channel c order by c.currentParticipants " + type, Channel.class)
+        return em.createQuery("select c from Channel c order by c.currentParticipants " + type, Channel.class)
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)
                 .getResultList();
@@ -40,8 +39,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
      * 특정 채널을 channel_id + user_id로 찾기
      */
     public List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId) {
-        return em.createQuery(
-                "select c from Channel c join c.channelUsers where user_id = :user_id and c.id = :channel_id", Channel.class)
+        return em.createQuery("select c from Channel c join c.channelUsers where user_id = :user_id and c.id = :channel_id", Channel.class)
                 .setParameter("channel_id", channelId)
                 .setParameter("user_id", userId)
                 .getResultList();
@@ -61,8 +59,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
      *
      */
     public List<Channel> findChannelByChannelName(String channelName) {
-        return em.createQuery(
-                        "select c from Channel c where c.channelName = :channelName", Channel.class)
+        return em.createQuery("select c from Channel c where c.channelName = :channelName", Channel.class)
                 .setParameter("channelName", channelName)
                 .getResultList();
     }
