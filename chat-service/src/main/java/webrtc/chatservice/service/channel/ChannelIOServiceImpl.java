@@ -33,12 +33,11 @@ public class ChannelIOServiceImpl implements ChannelIOService{
 
     @Override
     @Transactional
-    public Channel enterChannel(String channelId, String email) {
+    public void enterChannel(String channelId, String email) {
         Users user = findUser(email);
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
         createChannelUser(user, channel);
-        return channel;
     }
 
     private Users findUser(String email) {

@@ -46,7 +46,7 @@ public class HashTagRepositoryImplTest {
         hashTagRepository.save(hashTag);
 
         //when
-        HashTag findHashTag = hashTagRepository.findHashTagByName(hashTag.getTagName());
+        HashTag findHashTag = hashTagRepository.findHashTagByName(hashTag.getTagName()).orElse(null);
 
         //then
         Assertions.assertThat(findHashTag).isEqualTo(hashTag);
@@ -55,7 +55,7 @@ public class HashTagRepositoryImplTest {
     @Test
     public void 해시태그_저장성공_AND_해시태그이름조회_실패() {
         //given
-        Optional<HashTag> hashTag = Optional.ofNullable(hashTagRepository.findHashTagByName(tag1));
+        Optional<HashTag> hashTag = hashTagRepository.findHashTagByName(tag1);
 
         //when
 

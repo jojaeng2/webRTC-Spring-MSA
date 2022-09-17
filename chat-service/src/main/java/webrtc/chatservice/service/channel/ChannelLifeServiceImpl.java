@@ -93,11 +93,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private HashTag findHashTag(String tagName) {
-        try {
-            return hashTagRepository.findHashTagByName(tagName);
-        } catch (NotExistHashTagException e) {
-            return new HashTag(tagName);
-        }
+        return hashTagRepository.findHashTagByName(tagName)
+                .orElse(new HashTag(tagName));
     }
 
     /*

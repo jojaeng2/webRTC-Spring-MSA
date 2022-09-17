@@ -12,6 +12,8 @@ import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.service.hashtag.HashTagServiceImpl;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -31,7 +33,7 @@ public class HashTagServiceImplTest {
     public void HashTag_이름으로_조회성공() {
         // given
         HashTag hashTag = new HashTag(tagName);
-        doReturn(new HashTag(tagName))
+        doReturn(Optional.of(new HashTag(tagName)))
                 .when(hashTagRepository).findHashTagByName(tagName);
 
         // when
