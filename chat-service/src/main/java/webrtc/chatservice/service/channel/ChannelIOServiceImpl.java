@@ -35,7 +35,8 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Transactional
     public Channel enterChannel(String channelId, String email) {
         Users user = findUser(email);
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
         createChannelUser(user, channel);
         return channel;
     }

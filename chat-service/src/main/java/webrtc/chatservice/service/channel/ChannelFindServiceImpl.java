@@ -67,7 +67,8 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @Transactional(readOnly = true)
     public Channel findOneChannelById(String channelId) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
         return channelInfoInjectService.setChannelTTL(channel);
     }
 
