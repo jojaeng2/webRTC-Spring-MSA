@@ -1,8 +1,8 @@
 package webrtc.chatservice.repository.channel;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import webrtc.chatservice.domain.ChannelHashTag;
 
-public interface ChannelHashTagRepository {
+public interface ChannelHashTagRepository extends JpaRepository<ChannelHashTag, Long> {
 
-    void save(ChannelHashTag channelHashTag);
 }

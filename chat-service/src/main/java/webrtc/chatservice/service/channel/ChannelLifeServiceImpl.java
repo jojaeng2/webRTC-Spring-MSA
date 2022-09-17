@@ -55,8 +55,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
             createChannelHashTag(channel, hashTag);
         }
 
-
-
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 

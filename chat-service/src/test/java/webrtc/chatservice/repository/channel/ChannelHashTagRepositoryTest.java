@@ -6,9 +6,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 @DataJpaTest
-@Import({
-        ChannelHashTagRepositoryImpl.class
-})
 public class ChannelHashTagRepositoryTest {
 
     @Autowired
