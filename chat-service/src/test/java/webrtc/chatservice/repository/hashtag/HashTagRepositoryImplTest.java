@@ -12,12 +12,11 @@ import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Import({
-        HashTagRepositoryImpl.class
-})
 public class HashTagRepositoryImplTest {
 
     @Autowired
@@ -56,13 +55,12 @@ public class HashTagRepositoryImplTest {
     @Test
     public void 해시태그_저장성공_AND_해시태그이름조회_실패() {
         //given
-        HashTag hashTag = new HashTag(tag1);
+        Optional<HashTag> hashTag = Optional.ofNullable(hashTagRepository.findHashTagByName(tag1));
 
         //when
 
         //then
-        assertThrows(NotExistHashTagException.class, ()->{
-            hashTagRepository.findHashTagByName(hashTag.getTagName());
-        });
+        Assertions.assertThat(hashTag.isPresent()).isEqualTo(false);
+
     }
 }

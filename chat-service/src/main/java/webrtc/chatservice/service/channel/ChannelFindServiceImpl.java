@@ -9,6 +9,8 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
@@ -48,7 +50,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
-        Users user = usersRepository.findUserByEmail(email);
+        Users user = usersRepository.findUserByEmail(email)
+                .orElseThrow(NotExistUserException::new);
+
         switch (orderType) {
             case "partiASC" :
                 return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findMyChannels(user.getId(), idx, "asc"));

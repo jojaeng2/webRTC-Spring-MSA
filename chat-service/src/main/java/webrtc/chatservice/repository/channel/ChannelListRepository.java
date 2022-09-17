@@ -1,5 +1,6 @@
 package webrtc.chatservice.repository.channel;
 
+import org.springframework.data.jpa.repository.Query;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.ChannelUser;
@@ -10,26 +11,14 @@ import java.util.Optional;
 
 public interface ChannelListRepository {
 
-//    void save(Channel channel);
-
-//    Channel create(Channel channel, List<ChannelHashTag> hashTags);
-
-//    void delete(Channel channel);
-
-
-    void exitChannelUserInChannel(Channel channel, ChannelUser channelUser);
-
     List<Channel> findAnyChannels(int idx, String type);
 
-
     List<Channel> findMyChannels(String userId, int idx, String type);
-
-//    Channel findChannelById(String id);
 
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
 
     List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type);
 
-    Optional<Channel> findChannelByChannelName(String channelName);
+    List<Channel> findChannelByChannelName(String channelName);
 
 }

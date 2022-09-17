@@ -1,12 +1,14 @@
 package webrtc.chatservice.repository.hashtag;
 
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import webrtc.chatservice.domain.HashTag;
 
 import java.util.List;
 
-public interface HashTagRepository {
+public interface HashTagRepository extends JpaRepository<HashTag, Long> {
 
-    void save(HashTag hashTag);
-
-    HashTag findHashTagByName(String tagName);
+    @Query("select h from HashTag h where h.tagName = :tagName")
+    HashTag findHashTagByName(@Param("tagName") String tagName);
 }

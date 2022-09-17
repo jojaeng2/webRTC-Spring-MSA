@@ -41,13 +41,10 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     }
 
     private Users findUser(String email) {
-        try {
-            return usersRepository.findUserByEmail(email);
-        } catch (NotExistUserException e) {
-            Users user = httpApiController.postFindUserByEmail(email);
-            usersRepository.saveUser(user);
-            return user;
-        }
+        Users user = usersRepository.findUserByEmail(email)
+                .orElse(httpApiController.postFindUserByEmail(email));
+        usersRepository.save(user);
+        return user;
     }
 
     private void createChannelUser(Users user, Channel channel) {
@@ -75,8 +72,11 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     public void exitChannel(String channelId, String userId) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId).orElseThrow(NotExistChannelUserException::new);
-        channelListRepository.exitChannelUserInChannel(channel, channelUser);
+        exitChannelUserInChannel(channel, channelUser);
     }
 
+    private void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
+        channel.exitChannelUser(channelUser);
+    }
 
 }

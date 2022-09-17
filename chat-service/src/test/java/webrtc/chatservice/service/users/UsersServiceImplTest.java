@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
@@ -17,6 +18,10 @@ import webrtc.chatservice.dto.UsersDto.FindUserWithPointByEmailResponse;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,9 +57,9 @@ public class UsersServiceImplTest {
 
         doReturn(password)
                 .when(encoder).encode(any(String.class));
-        doNothing()
+        doReturn(new Users(nickname1, password, email1))
                 .when(usersRepository)
-                .saveUser(any(Users.class));
+                .save(any(Users.class));
 
         // when
         Users response = userService.saveUser(request);
@@ -70,7 +75,7 @@ public class UsersServiceImplTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String email = "email";
 
-        doReturn(new Users(nickname1, password, email))
+        doReturn(Optional.of(new Users(nickname1, password, email)))
                 .when(usersRepository).findUserByEmail(email);
 
         //when
@@ -91,7 +96,7 @@ public class UsersServiceImplTest {
         doReturn(new Users(nickname1, password, email))
                 .when(httpApiController).postFindUserByEmail(email);
 
-        doThrow(new NotExistUserException())
+        doReturn(Optional.empty())
                 .when(usersRepository).findUserByEmail(email);
 
         //when
@@ -111,7 +116,7 @@ public class UsersServiceImplTest {
                 .when(httpApiController).postFindUserByEmail(email1);
 
 
-        doThrow(new NotExistUserException())
+        doReturn(Optional.empty())
                 .when(usersRepository).findUserByEmail(email1);
 
         //when

@@ -56,6 +56,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         }
 
 
+
         channelRedisRepository.createChannel(channel);
         createChannelUser(user, channel);
 
@@ -73,7 +74,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        boolean exist = channelListRepository.findChannelByChannelName(request.getChannelName()).isPresent();
+        boolean exist = channelListRepository.findChannelByChannelName(request.getChannelName()).isEmpty();
 
         // 만약 채널이 존재하면 예외 터뜨리고, 없다면 새로 생성
         if(exist) {
@@ -84,13 +85,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private Users pointDecreaseAndReturnUser(String email) {
         httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
-        try {
-            return usersRepository.findUserByEmail(email);
-        } catch (NotExistUserException ex2) {
-            Users user = httpApiController.postFindUserByEmail(email);
-            usersRepository.saveUser(user);
-            return user;
-        }
+        Users user = usersRepository.findUserByEmail(email)
+                .orElse(httpApiController.postFindUserByEmail(email));
+        usersRepository.save(user);
+        return user;
+
     }
 
     private HashTag findHashTag(String tagName) {

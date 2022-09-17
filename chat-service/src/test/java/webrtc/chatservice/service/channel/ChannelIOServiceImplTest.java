@@ -168,7 +168,7 @@ public class ChannelIOServiceImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
 
-        doThrow(new UserException.NotExistUserException())
+        doReturn(Optional.empty())
                 .when(usersRepository).findUserByEmail(any(String.class));
 
         doThrow(new UserException.NotExistUserException())
@@ -195,8 +195,6 @@ public class ChannelIOServiceImplTest {
                 .when(channelCrudRepository).findById(channel.getId());
         doReturn(Optional.of(new ChannelUser(users, channel)))
                 .when(channelUserRepository).findOneChannelUser(any(String.class), any(String.class));
-        doNothing()
-                .when(channelListRepository).exitChannelUserInChannel(any(Channel.class), any(ChannelUser.class));
 
         // when
         channelIOService.exitChannel(channel.getId(), users.getId());

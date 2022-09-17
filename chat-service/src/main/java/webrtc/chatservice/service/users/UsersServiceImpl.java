@@ -26,18 +26,14 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public Users saveUser(CreateUserRequest request) {
         Users user = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        usersRepository.saveUser(user);
+        usersRepository.save(user);
         return user;
     }
 
     @Transactional(readOnly = true)
     public Users findOneUserByEmail(String email) {
-        try {
-            return usersRepository.findUserByEmail(email);
-        }
-        catch (NotExistUserException e) {
-            return httpApiController.postFindUserByEmail(email);
-        }
+        return usersRepository.findUserByEmail(email)
+                .orElse(httpApiController.postFindUserByEmail(email));
     }
 
     @Transactional(readOnly = true)
