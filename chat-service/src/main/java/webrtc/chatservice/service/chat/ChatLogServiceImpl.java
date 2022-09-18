@@ -28,7 +28,6 @@ public class ChatLogServiceImpl implements ChatLogService{
         }
 
         channel.addChatLog(chatLog);
-        chatLogRepository.save(chatLog);
         return chatLog.getIdx();
     }
 

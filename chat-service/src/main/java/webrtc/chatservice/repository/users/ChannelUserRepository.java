@@ -1,4 +1,4 @@
-package webrtc.chatservice.repository.channel;
+package webrtc.chatservice.repository.users;
 
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;

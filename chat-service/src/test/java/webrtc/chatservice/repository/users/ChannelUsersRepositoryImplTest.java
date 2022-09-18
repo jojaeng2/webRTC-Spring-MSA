@@ -1,16 +1,13 @@
-package webrtc.chatservice.repository.channel;
+package webrtc.chatservice.repository.users;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
+import webrtc.chatservice.repository.users.ChannelUserRepository;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

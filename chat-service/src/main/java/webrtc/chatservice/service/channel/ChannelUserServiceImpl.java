@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.exception.ChannelUserException;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
+import webrtc.chatservice.repository.users.ChannelUserRepository;
 
 @RequiredArgsConstructor
 @Service

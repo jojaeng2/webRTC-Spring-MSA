@@ -12,7 +12,7 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.repository.channel.ChannelUserRepository;
+import webrtc.chatservice.repository.users.ChannelUserRepository;
 
 import java.util.Optional;
 

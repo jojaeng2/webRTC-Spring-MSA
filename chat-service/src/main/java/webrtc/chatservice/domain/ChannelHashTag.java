@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,10 +16,9 @@ import java.io.Serializable;
 public class ChannelHashTag implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "channel_hashtag_id")
     @JsonIgnore
-    private Long id;
+    private String id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +30,7 @@ public class ChannelHashTag implements Serializable {
     private HashTag hashTag;
 
     public ChannelHashTag(Channel channel, HashTag hashTag) {
+        this.id = UUID.randomUUID().toString();
         this.channel = channel;
         this.hashTag = hashTag;
         channel.addChannelHashTag(this);

@@ -17,6 +17,7 @@ import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.repository.channel.*;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
+import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 

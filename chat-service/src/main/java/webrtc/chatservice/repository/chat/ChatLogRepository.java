@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface ChatLogRepository {
 
-    void save(ChatLog chatLog);
 
     List<ChatLog> findChatLogsByChannelId(String channelId, Long idx);
 

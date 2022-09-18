@@ -17,10 +17,6 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public void save(ChatLog chatLog) {
-        em.persist(chatLog);
-    }
-
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
         return em.createQuery(

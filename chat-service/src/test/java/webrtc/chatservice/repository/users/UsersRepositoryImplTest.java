@@ -28,7 +28,7 @@ public class UsersRepositoryImplTest {
     @Autowired
     private TestEntityManager em;
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersRepository repository;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -44,78 +44,109 @@ public class UsersRepositoryImplTest {
     ChannelType voip = VOIP;
 
     @Test
-    @Transactional
-    public void 유저저장_성공() {
+    void 유저저장성공() {
         // given
-        Users users = new Users("users", "users", "email");
+        Users users = createUsers(nickname1, password, email1);
+
 
         // when
-        usersRepository.save(users);
+        Users createUsers = repository.save(users);
 
         // then
-
+        assertThat(users.getId()).isEqualTo(createUsers.getId());
     }
 
     @Test
-    @Transactional
-    public void 유저저장_성공_AND_이메일로조회_성공() {
+    void findById성공() {
         //given
-        Users users = new Users(nickname1, password, email1);
-        usersRepository.save(users);
+        Users users = createUsers(nickname1, password, email1);
+        repository.save(users);
 
         //when
-        Users findUsers = usersRepository.findUserByEmail(email1)
-                .get();
+        Optional<Users> findUsers = repository.findById(users.getId());
 
         //then
-        assertThat(findUsers.getId()).isEqualTo(users.getId());
+        assertThat(findUsers.isPresent()).isTrue();
     }
 
     @Test
-    @Transactional
-    public void 유저저장_성공_AND_이메일로조회_실패() {
+    void findById실패() {
         //given
-        Users users = new Users(nickname1, password, email1);
-        usersRepository.save(users);
+        Users users = createUsers(nickname1, password, email1);
 
         //when
-        Optional<Users> op = usersRepository.findUserByEmail(email2);
+        Optional<Users> findUsers = repository.findById(users.getId());
 
         //then
-        Assertions.assertThat(op.isPresent()).isFalse();
+        assertThat(findUsers.isPresent()).isFalse();
     }
 
     @Test
-    @Transactional
-    public void 유저채널입장성공_AND_채널ID로조회_성공() {
+    void 이메일로유저찾기성공() {
+        //given
+        Users users = createUsers(nickname1, password, email1);
+        repository.save(users);
+
+        //when
+        Optional<Users> OpUsers = repository.findUserByEmail(email1);
+
+        //then
+        assertThat(OpUsers.isPresent()).isTrue();
+    }
+
+    @Test
+    void 이메일로유저찾기실패() {
+        //given
+        Users users = createUsers(nickname1, password, email1);
+
+        //when
+        Optional<Users> OpUsers = repository.findUserByEmail(email1);
+
+        //then
+        assertThat(OpUsers.isPresent()).isFalse();
+    }
+
+    @Test
+    void 채널ID로유저찾기성공() {
         //given
         Users users = new Users(nickname1, password, email1);
-        usersRepository.save(users);
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = createChannel(channelName1, text);
         ChannelUser channelUser = new ChannelUser(users, channel);
+        repository.save(users);
         em.persist(channel);
+        em.persist(channelUser);
 
         //when
 
-        List<Users> findUsers = usersRepository.findUsersByChannelId(channel.getId());
+        List<Users> findUsers = repository.findUsersByChannelId(channel.getId());
 
         //then
         assertThat(findUsers.get(0).getId()).isEqualTo(users.getId());
     }
 
     @Test
-    @Transactional
-    public void 유저채널입장성공_AND_채널ID로조회_실패() {
+    void 채널ID로유저찾기실패() {
         //given
         Users users = new Users(nickname1, password, email1);
-        usersRepository.save(users);
+        Channel channel = createChannel(channelName1, text);
+        repository.save(users);
+        em.persist(channel);
 
         //when
 
-        List<Users> usersList = usersRepository.findUsersByChannelId("NotExistChannelId");
+        List<Users> findUsers = repository.findUsersByChannelId(channel.getId());
 
         //then
-        assertThat(usersList.isEmpty()).isEqualTo(true);
+        assertThat(findUsers.isEmpty()).isTrue();
     }
 
+
+
+    private Users createUsers(String name, String password, String email) {
+        return new Users(name, password, email);
+    }
+
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
+    }
 }

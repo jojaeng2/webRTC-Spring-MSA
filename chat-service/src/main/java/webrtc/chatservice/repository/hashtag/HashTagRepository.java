@@ -8,7 +8,7 @@ import webrtc.chatservice.domain.HashTag;
 import java.util.List;
 import java.util.Optional;
 
-public interface HashTagRepository extends JpaRepository<HashTag, Long> {
+public interface HashTagRepository extends JpaRepository<HashTag, String> {
 
     @Query("select h from HashTag h where h.tagName = :tagName")
     Optional<HashTag> findHashTagByName(@Param("tagName") String tagName);

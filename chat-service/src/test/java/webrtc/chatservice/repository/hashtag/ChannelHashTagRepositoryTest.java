@@ -1,10 +1,12 @@
-package webrtc.chatservice.repository.channel;
+package webrtc.chatservice.repository.hashtag;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.junit4.SpringRunner;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
@@ -18,90 +20,90 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 
 @DataJpaTest
-public class ChannelCrudRepositoryTest {
+public class ChannelHashTagRepositoryTest {
 
     @Autowired
     private TestEntityManager em;
-
     @Autowired
-    private ChannelCrudRepository repository;
+    private ChannelHashTagRepository repository;
 
-
+    String nickname1 = "nickname1";
+    String password = "password";
+    String email1 = "email1";
+    String desc = "DESC";
     String channelName1 = "channelName1";
     String tag1 = "tag1";
     ChannelType text = TEXT;
 
     @Test
-    void 채널생성성공() {
+    void 채널해시태그저장() {
         // given
         Channel channel = createChannel(channelName1, text);
         HashTag hashTag = createHashTag(tag1);
-
         ChannelHashTag channelHashTag = createChannelHashTag(channel, hashTag);
+        em.persist(channel);
         em.persist(hashTag);
-        em.persist(channelHashTag);
 
         // when
-        Channel createChannel = repository.save(channel);
+        ChannelHashTag channelHashTag2 = repository.save(channelHashTag);
 
         // then
-        assertThat(createChannel.getId()).isEqualTo(channel.getId());
-        assertThat(createChannel.getChannelHashTags().size()).isEqualTo(1);
+        assertThat(channelHashTag2.getId()).isEqualTo(channelHashTag.getId());
     }
 
     @Test
     void findById성공() {
         // given
         Channel channel = createChannel(channelName1, text);
-        repository.save(channel);
+        HashTag hashTag = createHashTag(tag1);
+        ChannelHashTag channelHashTag = createChannelHashTag(channel, hashTag);
+        em.persist(channel);
+        em.persist(hashTag);
+        ChannelHashTag channelHashTag2 = repository.save(channelHashTag);
 
         // when
-        Optional<Channel> OpChannel = repository.findById(channel.getId());
-        Channel findChannel = OpChannel.get();
+        Optional<ChannelHashTag> OpCH = repository.findById(channelHashTag.getId());
 
         // then
-        assertThat(channel.getId()).isEqualTo(findChannel.getId());
+        assertThat(OpCH.isPresent()).isTrue();
     }
 
     @Test
     void findById실패() {
         // given
         Channel channel = createChannel(channelName1, text);
+        HashTag hashTag = createHashTag(tag1);
+        ChannelHashTag channelHashTag = createChannelHashTag(channel, hashTag);
+        em.persist(channel);
+        em.persist(hashTag);
 
         // when
-        Optional<Channel> OpChannel = repository.findById(channel.getId());
+        Optional<ChannelHashTag> OpCH = repository.findById(channelHashTag.getId());
 
         // then
-        assertThrows(NoSuchElementException.class, OpChannel::get);
+        assertThat(OpCH.isPresent()).isFalse();
     }
 
     @Test
-    void 채널삭제성공() {
+    void 채널해시태그삭제성공() {
         // given
         Channel channel = createChannel(channelName1, text);
-        repository.save(channel);
+        HashTag hashTag = createHashTag(tag1);
+        ChannelHashTag channelHashTag = createChannelHashTag(channel, hashTag);
+        em.persist(channel);
+        em.persist(hashTag);
+        repository.save(channelHashTag);
 
         // when
-        Optional<Channel> OpChannel = repository.findById(channel.getId());
-        repository.delete(OpChannel.get());
-        Optional<Channel> OpChannel2 = repository.findById(channel.getId());
+
+        Optional<ChannelHashTag> OpCH1 = repository.findById(channelHashTag.getId());
+        repository.delete(OpCH1.get());
+        Optional<ChannelHashTag> OpCH2 = repository.findById(channelHashTag.getId());
 
         // then
-        assertThrows(NoSuchElementException.class, OpChannel2::get);
+        assertThrows(NoSuchElementException.class, OpCH2::get);
     }
 
-    @Test
-    void 채널삭제실패() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-
-        // when
-        Optional<Channel> OpChannel = repository.findById(channel.getId());
-
-        // then
-        repository.delete(channel);
-
-    }
 
     private Channel createChannel(String name, ChannelType type) {
         return new Channel(name, type);

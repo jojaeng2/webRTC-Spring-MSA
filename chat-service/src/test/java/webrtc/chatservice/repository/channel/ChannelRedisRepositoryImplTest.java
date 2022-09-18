@@ -31,14 +31,7 @@ public class ChannelRedisRepositoryImplTest {
     @Autowired
     private ChannelRedisRepository channelRedisRepository;
 
-    String nickname1 = "nickname1";
-    String nickname2 = "nickname2";
-    String password = "password";
-    String email1 = "email1";
-    String email2 = "email2";
     String channelName1 = "channelName1";
-    String notExistChannelId = "null";
-    String tag1 = "tag1";
     ChannelType text = TEXT;
 
     @Test

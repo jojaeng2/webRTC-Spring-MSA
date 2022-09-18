@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.enums.ClientMessageType;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import static webrtc.chatservice.enums.ClientMessageType.ENTER;
 public class ChatLogRepositoryImplTest {
 
     @Autowired
-    private ChatLogRepository chatLogRepository;
+    private ChatLogRepository repository;
     @Autowired
     private TestEntityManager em;
 
@@ -34,82 +35,73 @@ public class ChatLogRepositoryImplTest {
     String message = "message";
     ChannelType text = TEXT;
 
-
     @Test
-    @Transactional
-    public void 채팅로그_저장_성공() {
-        //given
-        Channel channel = new Channel(channelName1, text);
-        em.persist(channel);
-        ChatLog chatLog = new ChatLog(ENTER, message, nickname1, email1);
-        chatLog.setChannel(channel);
-
-        //when
-        chatLogRepository.save(chatLog);
-
-        //then
-
-    }
-
-    @Test
-    @Transactional
-    public void 특정채널의_마지막_채팅로그_불러오기_성공() {
+    void 채널의마지막채팅로그불러오기성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Long testcase = 23L;
+        Channel channel = createChannel(channelName1, text);
+
+        for(Long i=0L; i<testcase; i++) {
+            ChatLog chatLog = createChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
+            chatLog.setChatLogIdx(i);
+            channel.addChatLog(chatLog);
+        }
         em.persist(channel);
 
-        for(Long i=0L; i<23L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
-            chatLog.setChatLogIdx(i);
-            chatLog.setChannel(channel);
-            chatLogRepository.save(chatLog);
-        }
 
         // when
-        List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
+        List<ChatLog> findChatLogs = repository.findLastChatLogsByChannelId(channel.getId());
 
         // then
         assertThat(findChatLogs.get(0).getIdx()).isEqualTo(22L);
     }
 
+
     @Test
-    @Transactional
-    public void 채팅로그_20개씩_불러오기_성공() {
+    public void 채팅로그불러오기_20개미만() {
         // given
         Channel channel = new Channel(channelName1, text);
+        for(Long i=0L; i<20L; i++) {
+            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
+            chatLog.setChatLogIdx(i);
+            channel.addChatLog(chatLog);
+        }
+
         em.persist(channel);
+
+        // when
+        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 15L);
+
+        // then
+        assertThat(chatLogs.size()).isEqualTo(14L);
+    }
+    @Test
+    void 채팅로그불러오기_20개초과() {
+        // given
+        Channel channel = new Channel(channelName1, text);
         for(Long i=0L; i<100L; i++) {
             ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
             chatLog.setChatLogIdx(i);
-            chatLog.setChannel(channel);
-            chatLogRepository.save(chatLog);
+            channel.addChatLog(chatLog);
         }
 
+        em.persist(channel);
+
         // when
-        List<ChatLog> chatLogs = chatLogRepository.findChatLogsByChannelId(channel.getId(), 30L);
+        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 30L);
+
 
         // then
         assertThat(chatLogs.size()).isEqualTo(20);
     }
 
-    @Test
-    @Transactional
-    public void 로그20개이하_불러오기_성공() {
-        // given
-        Channel channel = new Channel(channelName1, text);
-        em.persist(channel);
-        for(Long i=0L; i<20L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
-            chatLog.setChatLogIdx(i);
-            chatLog.setChannel(channel);
-            chatLogRepository.save(chatLog);
-        }
 
-        // when
-        List<ChatLog> chatLogs = chatLogRepository.findChatLogsByChannelId(channel.getId(), 15L);
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
+    }
 
-        // then
-        assertThat(chatLogs.size()).isEqualTo(14L);
+    private ChatLog createChatLog(ClientMessageType type, String message, String nickname, String email) {
+        return new ChatLog(type, message, nickname, email);
     }
 
 }

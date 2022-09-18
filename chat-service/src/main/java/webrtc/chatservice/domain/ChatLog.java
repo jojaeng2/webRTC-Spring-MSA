@@ -8,6 +8,7 @@ import webrtc.chatservice.enums.ClientMessageType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,9 +18,8 @@ public class ChatLog {
 
     @Id
     @Column(name = "chat_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
-    private Long id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "channel_id")
@@ -36,6 +36,7 @@ public class ChatLog {
     private Timestamp sendTime;
 
     public ChatLog(ClientMessageType type, String message, String senderNickname, String senderEmail) {
+        this.id = UUID.randomUUID().toString();
         this.type = type;
         this.message = message;
         this.senderNickname = senderNickname;

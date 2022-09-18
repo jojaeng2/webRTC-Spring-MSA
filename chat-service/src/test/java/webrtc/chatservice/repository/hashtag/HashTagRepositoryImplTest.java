@@ -12,55 +12,85 @@ import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class HashTagRepositoryImplTest {
 
     @Autowired
-    private HashTagRepository hashTagRepository;
+    private HashTagRepository repository;
 
 
     String tag1 = "tag1";
-    String tag2 = "tag2";
-    String tag3 = "tag3";
-
 
     @Test
-    public void 해시태그_저장성공() {
-        //given
-        HashTag hashTag = new HashTag(tag1);
+    void 해시태그저장() {
+        // given
+        HashTag hashTag = createHashTag(tag1);
 
-        //when
-        hashTagRepository.save(hashTag);
+        // when
+        HashTag createHashTag = repository.save(hashTag);
 
-        //then
+        // then
+        assertThat(createHashTag.getId()).isEqualTo(hashTag.getId());
     }
 
     @Test
-    public void 해시태그_저장성공_AND_해시태그이름조회_성공() {
-        //given
-        HashTag hashTag = new HashTag(tag1);
-        hashTagRepository.save(hashTag);
+    void findById성공() {
 
-        //when
-        HashTag findHashTag = hashTagRepository.findHashTagByName(hashTag.getTagName()).orElse(null);
+        // given
+        HashTag hashTag = createHashTag(tag1);
+        repository.save(hashTag);
 
-        //then
-        Assertions.assertThat(findHashTag).isEqualTo(hashTag);
+        // when
+        Optional<HashTag> OpHashTag = repository.findById(hashTag.getId());
+
+        // then
+        assertThat(OpHashTag.isPresent()).isTrue();
     }
 
     @Test
-    public void 해시태그_저장성공_AND_해시태그이름조회_실패() {
-        //given
-        Optional<HashTag> hashTag = hashTagRepository.findHashTagByName(tag1);
+    void findById실패() {
+        // given
+        HashTag hashTag = createHashTag(tag1);
 
-        //when
+        // when
+        Optional<HashTag> OpHashTag = repository.findById(hashTag.getId());
 
-        //then
-        Assertions.assertThat(hashTag.isPresent()).isEqualTo(false);
+        // then
+        assertThat(OpHashTag.isPresent()).isFalse();
+    }
 
+    @Test
+    void 해시태그이름으로찾기성공() {
+        // given
+        HashTag hashTag = createHashTag(tag1);
+        repository.save(hashTag);
+
+        // when
+        Optional<HashTag> findHashTag = repository.findHashTagByName(hashTag.getTagName());
+
+        // then
+        assertThat(findHashTag.get().getTagName()).isEqualTo(hashTag.getTagName());
+    }
+
+    @Test
+    void 해시태그이름으로찾기실패() {
+        // given
+        HashTag hashTag = createHashTag(tag1);
+
+        // when
+        Optional<HashTag> findHashTag = repository.findHashTagByName(hashTag.getTagName());
+
+        // then
+        assertThrows(NoSuchElementException.class, findHashTag::get);
+    }
+
+    private HashTag createHashTag(String name) {
+        return new HashTag(name);
     }
 }

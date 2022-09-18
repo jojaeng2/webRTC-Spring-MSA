@@ -32,7 +32,7 @@ public class Channel implements Serializable {
 
     private static final Long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ChatLog> chatLogs;
 
 
