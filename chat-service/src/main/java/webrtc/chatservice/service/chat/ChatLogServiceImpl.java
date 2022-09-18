@@ -20,8 +20,12 @@ public class ChatLogServiceImpl implements ChatLogService{
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = new ChatLog(type, chatMessage, nickname, senderEmail);
 
-        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
-        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx()+1);
+        if(findChatLogs.isEmpty()) {
+            chatLog.setChatLogIdx(1L);
+        }
+        else {
+            chatLog.setChatLogIdx(findChatLogs.get(0).getIdx() + 1);
+        }
 
         channel.addChatLog(chatLog);
         chatLogRepository.save(chatLog);

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
@@ -34,42 +35,63 @@ import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
 public class ChannelLifeServiceImplTest {
-//
-//    @InjectMocks
-//    private ChannelLifeServiceImpl channelService;
-//
-//
-//    @Mock
-//    private ChannelCrudRepository crudRepository;
-//    @Mock
-//    private ChannelListRepository channelListRepository;
-//    @Mock
-//    private ChannelRedisRepository channelRedisRepository;
-//
-//    @Mock
-//    private RabbitPublish rabbitPublish;
-//    @Mock
-//    private UsersRepository usersRepository;
-//    @Mock
-//    private HashTagRepository hashTagRepository;
-//    @Mock
-//    private ChattingMessageFactory chattingMessageFactory;
-//    @Mock
-//    private HttpApiController httpApiController;
-//
-//
-//    String nickname1 = "nickname1";
-//    String nickname2 = "nickname2";
-//    String password = "password";
-//    String email1 = "email1";
-//    String email2 = "email2";
-//    String channelName1 = "channelName1";
-//    String channelName2 = "channelName2";
-//    String tag1 = "tag1";
-//    String tag2 = "tag2";
-//    String tag3 = "tag3";
-//    ChannelType text = TEXT;
-//    ChannelType voip = VOIP;
+
+    @InjectMocks
+    private ChannelLifeServiceImpl channelService;
+
+
+    @Mock
+    private ChannelCrudRepository crudRepository;
+    @Mock
+    private ChannelListRepository channelListRepository;
+    @Mock
+    private ChannelRedisRepository channelRedisRepository;
+
+    @Mock
+    private RabbitPublish rabbitPublish;
+    @Mock
+    private UsersRepository usersRepository;
+    @Mock
+    private HashTagRepository hashTagRepository;
+    @Mock
+    private ChattingMessageFactory chattingMessageFactory;
+    @Mock
+    private HttpApiController httpApiController;
+
+
+    String nickname1 = "nickname1";
+    String nickname2 = "nickname2";
+    String password = "password";
+    String email1 = "email1";
+    String email2 = "email2";
+    String email = "email";
+
+    String channelName1 = "channelName1";
+    String channelName2 = "channelName2";
+    String tag1 = "tag1";
+    String tag2 = "tag2";
+    String tag3 = "tag3";
+    ChannelType text = TEXT;
+    ChannelType voip = VOIP;
+
+    @Test
+    void 채널생성성공() {
+        // given
+        doReturn(new ArrayList<>())
+                .when(channelListRepository).findChannelByChannelName(any(String.class));
+
+        doReturn(Optional.of(createUser()))
+                .when(usersRepository).findUserByEmail(any(String.class));
+
+        // when
+        Channel channel = channelService.createChannel(createChannelRequest(), email);
+
+        //then
+        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
+        assertThat(channel.getChannelUsers().size()).isEqualTo(1);
+        assertThat(channel.getChatLogs().size()).isEqualTo(1);
+    }
+
 //
 //
 //
@@ -77,12 +99,7 @@ public class ChannelLifeServiceImplTest {
 //    @Transactional
 //    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그이미존재() {
 //        // given
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add(tag1);
-//        hashTags.add(tag2);
-//        hashTags.add(tag3);
 //
-//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
 //
 //        doReturn(null)
 //                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(List.class), any(Long.class), any(String.class));
@@ -659,4 +676,16 @@ public class ChannelLifeServiceImplTest {
 ////                () -> channelService.extensionChannelTTL(channel.getId(), "email", 1000000L));
 ////    }
 
+    private CreateChannelRequest createChannelRequest() {
+        List<String> hashTags = new ArrayList<>();
+        hashTags.add(tag1);
+        hashTags.add(tag2);
+        hashTags.add(tag3);
+
+        return new CreateChannelRequest(channelName1, hashTags, text);
+    }
+
+    private Users createUser() {
+        return new Users(nickname1, password, email1);
+    }
 }

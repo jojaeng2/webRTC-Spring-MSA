@@ -27,8 +27,8 @@ public class Channel implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
     private Set<ChannelUser> channelUsers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "channel")
-    private Set<ChannelHashTag> channelHashTags;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    private List<ChannelHashTag> channelHashTags;
 
     private static final Long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class Channel implements Serializable {
         this.currentParticipants = 0L;
         this.timeToLive = 60L*60L;
         this.channelUsers = new HashSet<>();
-        this.channelHashTags = new HashSet<>();
+        this.channelHashTags = new ArrayList<>();
         this.chatLogs = new ArrayList<>();
         this.channelType = channelType;
     }

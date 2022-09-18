@@ -48,7 +48,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
         Channel channel = createChannelIfNotExist(request);
-        Users user = pointDecreaseAndReturnUser(email);
 
         for (String tagName : request.getHashTags()) {
             HashTag hashTag = findHashTag(tagName);
@@ -56,6 +55,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         }
 
         channelRedisRepository.createChannel(channel);
+
+        Users user = pointDecreaseAndReturnUser(email);
         createChannelUser(user, channel);
 
         // 채팅방 생성 로그
@@ -72,10 +73,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        boolean exist = channelListRepository.findChannelByChannelName(request.getChannelName()).isEmpty();
+        int exist = channelListRepository.findChannelByChannelName(request.getChannelName()).size();
 
         // 만약 채널이 존재하면 예외 터뜨리고, 없다면 새로 생성
-        if(exist) {
+
+        if(exist != 0) {
             throw new AlreadyExistChannelException();
         }
         return new Channel(request.getChannelName(), request.getChannelType());

@@ -70,7 +70,7 @@ public class ChannelDto {
         private Long limitParticipants;
         private Long currentParticipants;
         private Long timeToLive;
-        private Set<ChannelHashTag> channelHashTags;
+        private List<ChannelHashTag> channelHashTags;
         private ChannelType channelType;
     }
 

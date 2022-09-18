@@ -25,12 +25,13 @@ public class HashTag implements Serializable {
     private Long id;
     private String tagName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hashTag")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "hashTag")
     @JsonIgnore
-    private Set<ChannelHashTag> channelHashTags = new HashSet<>();
+    private List<ChannelHashTag> channelHashTags;
 
     public HashTag(String tagName) {
         this.tagName = tagName;
+        this.channelHashTags = new ArrayList<>();
     }
 
     public void addChannelHashTag(ChannelHashTag channelHashTag) {

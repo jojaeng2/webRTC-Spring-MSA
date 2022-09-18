@@ -59,6 +59,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
      *
      */
     public List<Channel> findChannelByChannelName(String channelName) {
+        System.out.println("channelName = " + channelName);
         return em.createQuery("select c from Channel c where c.channelName = :channelName", Channel.class)
                 .setParameter("channelName", channelName)
                 .getResultList();

@@ -29,13 +29,14 @@ public class Users implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
-    private Set<ChannelUser> channelUsers = new HashSet<>();
+    private Set<ChannelUser> channelUsers;
 
     public Users(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
         this.nickname = nickname;
         this.password = password;
         this.email = email;
+        this.channelUsers = new HashSet<>();
 
     }
 

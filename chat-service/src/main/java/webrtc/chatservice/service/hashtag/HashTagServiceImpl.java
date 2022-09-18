@@ -1,6 +1,7 @@
 package webrtc.chatservice.service.hashtag;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.HashTag;
@@ -14,6 +15,7 @@ public class HashTagServiceImpl implements HashTagService{
     private final HashTagRepository hashTagRepository;
 
     @Transactional(readOnly = true)
+    @Cacheable(key = "#tagname", value = "users")
     public HashTag findHashTagByName(String tagName) {
         return hashTagRepository.findHashTagByName(tagName).orElseThrow(NotExistHashTagException::new);
     }

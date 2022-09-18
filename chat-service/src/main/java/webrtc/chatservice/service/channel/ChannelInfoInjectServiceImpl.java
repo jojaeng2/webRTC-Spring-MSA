@@ -19,7 +19,8 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
         return channels.stream()
                 .map(channel -> {
                     setChannelTTL(channel);
-                    return new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
+                    return new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags
+                            (), channel.getChannelType());
                 })
                 .collect(Collectors.toList());
     }
