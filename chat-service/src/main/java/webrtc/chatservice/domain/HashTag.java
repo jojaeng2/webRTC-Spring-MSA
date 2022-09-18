@@ -25,7 +25,7 @@ public class HashTag implements Serializable {
     private Long id;
     private String tagName;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "hashTag")
+    @OneToMany(mappedBy = "hashTag")
     @JsonIgnore
     private List<ChannelHashTag> channelHashTags;
 

@@ -9,9 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -27,16 +25,16 @@ public class Users implements Serializable {
     private String password;
     private String nickname;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private Set<ChannelUser> channelUsers;
+    private List<ChannelUser> channelUsers;
 
     public Users(String nickname, String password, String email) {
         this.id = UUID.randomUUID().toString();
         this.nickname = nickname;
         this.password = password;
         this.email = email;
-        this.channelUsers = new HashSet<>();
+        this.channelUsers = new ArrayList<>();
 
     }
 

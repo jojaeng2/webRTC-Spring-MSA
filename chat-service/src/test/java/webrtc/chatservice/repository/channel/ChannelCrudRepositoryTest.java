@@ -26,13 +26,8 @@ public class ChannelCrudRepositoryTest {
     @Autowired
     private ChannelCrudRepository repository;
 
-    String nickname1 = "nickname1";
-    String nickname2 = "nickname2";
-    String password = "password";
-    String email1 = "email1";
-    String email2 = "email2";
+
     String channelName1 = "channelName1";
-    String notExistChannelId = "null";
     String tag1 = "tag1";
     ChannelType text = TEXT;
 
@@ -76,6 +71,21 @@ public class ChannelCrudRepositoryTest {
 
         // then
         assertThrows(NoSuchElementException.class, OpChannel::get);
+    }
+
+    @Test
+    void 채널삭제성공() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        repository.save(channel);
+
+        // when
+        Optional<Channel> OpChannel = repository.findById(channel.getId());
+        repository.delete(OpChannel.get());
+        Optional<Channel> OpChannel2 = repository.findById(channel.getId());
+
+        // then
+        assertThrows(NoSuchElementException.class, OpChannel2::get);
     }
 
     private Channel createChannel(String name, ChannelType type) {

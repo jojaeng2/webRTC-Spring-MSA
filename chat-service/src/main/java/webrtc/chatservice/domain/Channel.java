@@ -24,15 +24,15 @@ public class Channel implements Serializable {
     private Long timeToLive;
     private ChannelType channelType;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(mappedBy = "channel")
     private Set<ChannelUser> channelUsers;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(mappedBy = "channel")
     private List<ChannelHashTag> channelHashTags;
 
     private static final Long serialVersionUID = 1L;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "channel")
+    @OneToMany(mappedBy = "channel")
     private List<ChatLog> chatLogs;
 
 

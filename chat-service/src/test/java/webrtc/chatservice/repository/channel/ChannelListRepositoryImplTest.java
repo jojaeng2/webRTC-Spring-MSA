@@ -23,93 +23,23 @@ import static webrtc.chatservice.enums.ChannelType.TEXT;
 })
 public class ChannelListRepositoryImplTest {
 
-//    @Autowired
-//    private TestEntityManager em;
-//    @Autowired
-//    private ChannelListRepository channelListRepository;
-//    @Autowired
-//    private ChannelCrudRepository crudRepository;
-//    String nickname1 = "nickname1";
-//    String nickname2 = "nickname2";
-//    String password = "password";
-//    String email1 = "email1";
-//    String email2 = "email2";
-//    String channelName1 = "channelName1";
-//    String notExistChannelId = "null";
-//    String tag1 = "tag1";
-//    ChannelType text = TEXT;
-//
-//
-//
-//    @Test
-//    public void 채널생성_성공() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//        HashTag hashTag1 = new HashTag(tag1);
-//
-//        new ChannelHashTag(channel, hashTag1);
-//
-//        // when
-//        Channel createdChannel = crudRepository.save(channel);
-//
-//        // then
-//        assertThat(createdChannel.getId()).isEqualTo(channel.getId());
-//    }
-//
-//    @Test
-//    public void 채널ID로_채널찾기_성공() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//        HashTag hashTag1 = new HashTag(tag1);
-//
-//        ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
-//        Channel createdChannel = crudRepository.save(channel);
-//
-//        // when
-//        Channel findChannel = crudRepository.findById(channel.getId()).get();
-//
-//        // then
-//        assertThat(channel.getId()).isEqualTo(findChannel.getId());
-//    }
-//
-//    @Test
-//    public void 채널ID로_채널찾기_실패() {
-//        // given
-//
-//        // when
-//
-//        // then
-//        assertThrows(NotExistChannelException.class, () -> {
-//            Channel findChannel = crudRepository.findById(notExistChannelId).orElseThrow(NotExistChannelException::new);
-//        });
-//    }
-//
-//    @Test
-//    public void 채널삭제_성공() {
-//        // given
-//        Channel channel = new Channel(channelName1, text);
-//        HashTag hashTag1 = new HashTag(tag1);
-//
-//        ChannelHashTag channelHashTag1 = new ChannelHashTag(channel, hashTag1);
-//        crudRepository.save(channel);
-//
-//        // when
-//        crudRepository.delete(channel);
-//
-//        // then
-//    }
-//
-////    @Test
-////    public void 채널삭제_실패() {
-////        // given
-////
-////        // when
-////
-////        // then
-////        assertThrows(NotExistChannelException.class, () -> {
-////            crudRepository.delete();
-////        });
-////    }
+    @Autowired
+    private TestEntityManager em;
+    @Autowired
+    private ChannelListRepository channelListRepository;
+
+    String nickname1 = "nickname1";
+    String nickname2 = "nickname2";
+    String password = "password";
+    String email1 = "email1";
+    String email2 = "email2";
+    String channelName1 = "channelName1";
+    String notExistChannelId = "null";
+    String tag1 = "tag1";
+    ChannelType text = TEXT;
+
+
+
 //
 //    @Test
 //    public void 채널_유저입장_성공() {
@@ -656,4 +586,17 @@ public class ChannelListRepositoryImplTest {
 //            channelListRepository.findChannelsByChannelIdAndUserId(channel.getId(), users.getId());
 //        });
 //    }
+
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
+    }
+
+    private HashTag createHashTag(String name) {
+        return new HashTag(name);
+    }
+
+    private void createChannelHashTag(Channel channel, HashTag tag) {
+        new ChannelHashTag(channel, tag);
+    }
+
 }

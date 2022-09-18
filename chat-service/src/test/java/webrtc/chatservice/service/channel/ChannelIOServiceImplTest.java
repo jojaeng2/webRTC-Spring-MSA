@@ -42,8 +42,6 @@ public class ChannelIOServiceImplTest {
     @Mock
     private ChatLogRepository chatLogRepository;
     @Mock
-    private ChannelHashTagRepository channelHashTagRepository;
-    @Mock
     private ChannelCrudRepository channelCrudRepository;
     @Mock
     private RabbitPublish rabbitPublish;

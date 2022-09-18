@@ -1,5 +1,6 @@
 package webrtc.chatservice.repository.channel;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -7,12 +8,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.Users;
+import webrtc.chatservice.domain.*;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +26,7 @@ public class ChannelUsersRepositoryImplTest {
     @Autowired
     private TestEntityManager em;
     @Autowired
-    private ChannelUserRepository channelUserRepository;
+    private ChannelUserRepository repository;
 
     String nickname1 = "nickname1";
     String password = "password";
@@ -38,49 +38,61 @@ public class ChannelUsersRepositoryImplTest {
 
     @Test
     @Transactional
-    public void 채널유저_저장성공() {
+    void 채널유저저장성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
+        Channel channel = createChannel(channelName1, text);
+        Users users = createUsers(nickname1, password, email1);
         ChannelUser channelUser = new ChannelUser(users, channel);
 
         // when
-        em.persist(channel);
+        ChannelUser findChannelUser = repository.save(channelUser);
 
         // then
-
+        assertThat(channelUser.getId()).isEqualTo(findChannelUser.getId());
     }
+
     @Test
-    @Transactional
-    public void 채널유저_저장후_채널ID_AND_유저ID로_조회_성공() {
-        //given
-        Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(users, channel);
-        em.persist(channel);
+    void 채널유저조회성공() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        Users users = createUsers(nickname1, password, email1);
+        ChannelUser channelUser = createChannelUser(users, channel);
+
         em.persist(users);
+        em.persist(channel);
+        repository.save(channelUser);
 
-        //when
+        // when
+        Optional<ChannelUser> OpCU = repository.findOneChannelUser(channel.getId(), users.getId());
+        ChannelUser findChannelUser = OpCU.get();
 
-        ChannelUser findChannelUser = channelUserRepository.findOneChannelUser(channel.getId(), users.getId()).orElseThrow(NotExistChannelUserException::new);
-
-        //then
-        assertThat(findChannelUser).isEqualTo(channelUser);
+        // then
+        assertThat(channelUser.getId()).isEqualTo(findChannelUser.getId());
     }
 
     @Test
-    @Transactional
-    public void 채널유저_저장후_채널ID_AND_유저ID로_조회_실패() {
-        //given
-        Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(users, channel);
+    void 채널유저조회실패() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        Users users = createUsers(nickname1, password, email1);
+
+        // when
+        Optional<ChannelUser> OpCU = repository.findOneChannelUser(channel.getId(), users.getId());
+
+        // then
+        assertThrows(NoSuchElementException.class, () -> OpCU.get());
+    }
 
 
-        //when
-        boolean result = channelUserRepository.findOneChannelUser(channel.getId(), "notExist").isPresent();
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
+    }
 
-        //then
-        assertThat(result).isEqualTo(false);
+    private Users createUsers(String name, String password, String email) {
+        return new Users(name, password, email);
+    }
+
+    private ChannelUser createChannelUser( Users user, Channel channel) {
+        return new ChannelUser(user, channel);
     }
 }
