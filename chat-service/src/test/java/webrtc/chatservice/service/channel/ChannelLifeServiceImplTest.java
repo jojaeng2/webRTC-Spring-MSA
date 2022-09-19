@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
+import webrtc.chatservice.exception.PointException;
+import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.*;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
@@ -24,6 +27,7 @@ import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,13 +79,15 @@ public class ChannelLifeServiceImplTest {
     ChannelType voip = VOIP;
 
     @Test
-    void 채널생성성공() {
+    void 채널생성성공_회원존재_태그존재_포인트존재() {
         // given
         doReturn(new ArrayList<>())
                 .when(channelListRepository).findChannelByChannelName(any(String.class));
 
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findUserByEmail(any(String.class));
+        doReturn(Optional.of(createTag(tag1)))
+                .when(hashTagRepository).findHashTagByName(any(String.class));
 
         // when
         Channel channel = channelService.createChannel(createChannelRequest(), email);
@@ -92,125 +98,83 @@ public class ChannelLifeServiceImplTest {
         assertThat(channel.getChatLogs().size()).isEqualTo(1);
     }
 
-//
-//
-//
-//    @Test
-//    @Transactional
-//    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그이미존재() {
-//        // given
-//
-//
-//        doReturn(null)
-//                .when(chattingMessageFactory).createMessage(any(String.class), any(ClientMessageType.class), any(String.class), any(String.class), any(Long.class), any(List.class), any(Long.class), any(String.class));
-//        doNothing()
-//                .when(rabbitPublish).publishMessage(any(), any());
-//        doThrow(new NotExistChannelException())
-//                .when(channelListRepository).findChannelByChannelName(channelName1);
-//        doReturn(new Users(nickname1, password, email1))
-//                .when(usersRepository).findUserByEmail(email1);
-//
-//        doReturn(new HashTag(tag1))
-//                .when(hashTagRepository).findHashTagByName(any(String.class));
-//
-//        // when
-//        Channel channel = channelService.createChannel(request, email1);
-//
-//        // then
-//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널생성성공_채널이름_중복아님_유저이미존재_해시태그새로생성() {
-//        // given
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add(tag1);
-//        hashTags.add(tag2);
-//        hashTags.add(tag3);
-//
-//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-//
-//
-//        doNothing()
-//                .when(rabbitPublish).publishMessage(any(), any());
-//        doThrow(new NotExistChannelException())
-//                .when(channelListRepository).findChannelByChannelName(channelName1);
-//        doReturn(new Users(nickname1, password, email1))
-//                .when(usersRepository).findUserByEmail(email1);
-//
-//        doThrow(NotExistHashTagException.class)
-//                .when(hashTagRepository).findHashTagByName(any(String.class));
-//
-//        // when
-//        Channel channel = channelService.createChannel(request, email1);
-//
-//        // then
-//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널생성성공_채널이름_중복아님_유저통신성공_해시태그이미존재() {
-//        // given
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add(tag1);
-//        hashTags.add(tag2);
-//        hashTags.add(tag3);
-//
-//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-//
-//        doNothing()
-//                .when(rabbitPublish).publishMessage(any(), any());
-//
-//        doThrow(new NotExistChannelException())
-//                .when(channelListRepository).findChannelByChannelName(channelName1);
-//        doThrow(new NotExistUserException())
-//                .when(usersRepository).findUserByEmail(any(String.class));
-//        doReturn(new Users(nickname1, password, email1))
-//                .when(httpApiController).postFindUserByEmail(any(String.class));
-//        doReturn(new HashTag(tag1))
-//                .when(hashTagRepository).findHashTagByName(any(String.class));
-//
-//
-//        // when
-//        Channel channel = channelService.createChannel(request, email1);
-//
-//        // then
-//        assertThat(channel.getChannelName()).isEqualTo(channelName1);
-//        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채널생성실패_채널이름_중복아님_유저통신실패() {
-//        // given
-//        List<String> hashTags = new ArrayList<>();
-//        hashTags.add(tag1);
-//        hashTags.add(tag2);
-//        hashTags.add(tag3);
-//
-//        CreateChannelRequest request = new CreateChannelRequest(channelName1, hashTags, text);
-//
-//        doThrow(new NotExistChannelException())
-//                .when(channelListRepository).findChannelByChannelName(channelName1);
-//        doThrow(new NotExistUserException())
-//                .when(usersRepository).findUserByEmail(any(String.class));
-//        doThrow(new NotExistUserException())
-//                .when(httpApiController).postFindUserByEmail(any(String.class));
-//
-//
-//        // when
-//
-//        // then
-//        assertThrows(NotExistUserException.class, () -> {
-//           channelService.createChannel(request, email1);
-//        });
-//    }
-//
-//
+
+
+
+    @Test
+    void 채널생성성공_회원존재_태그없음_포인트존재() {
+        // given
+        doReturn(new ArrayList<>())
+                .when(channelListRepository).findChannelByChannelName(channelName1);
+
+        doReturn(Optional.of(createUser()))
+                .when(usersRepository).findUserByEmail(email1);
+
+        doReturn(Optional.ofNullable(null))
+                .when(hashTagRepository).findHashTagByName(any(String.class));
+
+        // when
+        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+
+        // then
+        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
+        assertThat(channel.getChannelUsers().size()).isEqualTo(1);
+    }
+
+
+
+    @Test
+    void 채널생성성공_회원통신성공_태그존재_포인트존재() {
+        // given
+
+        doReturn(new ArrayList<>())
+                .when(channelListRepository).findChannelByChannelName(channelName1);
+
+        doReturn(Optional.ofNullable(null))
+                .when(usersRepository).findUserByEmail(any(String.class));
+
+        doReturn(createUser())
+                .when(httpApiController).postFindUserByEmail(any(String.class));
+
+        doReturn(Optional.of(createTag(tag1)))
+                .when(hashTagRepository).findHashTagByName(any(String.class));
+
+
+        // when
+        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+
+        // then
+        assertThat(channel.getChannelName()).isEqualTo(channelName1);
+        assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
+    }
+
+
+    @Test
+    void 채널생성실패_채널이름중복() {
+        // given
+        doReturn(List.of(createChannel(channelName1, text)))
+                .when(channelListRepository).findChannelByChannelName(any(String.class));
+
+        // when
+
+        // then
+        assertThrows(AlreadyExistChannelException.class, () -> {
+            channelService.createChannel(createChannelRequest(), email1);
+        });
+    }
+
+    @Test
+    void 채널생성실패_포인트부족() {
+        // given
+//        doThrow(InsufficientPointException::new)
+//                .when(httpApiController).postDecreaseUserPoint(any(), any());
+        // when
+        channelService.createChannel(createChannelRequest(), email);
+
+        // then
+
+    }
+
 //
 //    @Test
 //    @Transactional
@@ -687,5 +651,13 @@ public class ChannelLifeServiceImplTest {
 
     private Users createUser() {
         return new Users(nickname1, password, email1);
+    }
+
+    private HashTag createTag(String name) {
+        return new HashTag(name);
+    }
+
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
     }
 }

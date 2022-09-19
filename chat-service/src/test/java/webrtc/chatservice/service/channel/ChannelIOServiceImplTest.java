@@ -70,6 +70,8 @@ public class ChannelIOServiceImplTest {
     ChannelType voip = VOIP;
 
 
+
+
 //    @Test
 //    @Transactional
 //    public void 채널입장성공_유저이미존재_처음입장() {
