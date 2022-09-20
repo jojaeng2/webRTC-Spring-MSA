@@ -37,8 +37,4 @@ public class Users implements Serializable {
         this.channelUsers = new ArrayList<>();
 
     }
-
-    public void removeChannelUser(ChannelUser channelUser) {
-        this.channelUsers.remove(channelUser);
-    }
 }

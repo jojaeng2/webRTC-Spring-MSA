@@ -1,5 +1,6 @@
 package webrtc.chatservice.service.chat.factory;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
@@ -19,7 +20,11 @@ import static webrtc.chatservice.enums.SocketServerMessageType.CREATE;
 @Component
 public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
 
-    private final Map<ClientMessageType, CreateChattingMessageTemplate> messageTypes = new HashMap();
+    private final Map<ClientMessageType, CreateChattingMessageTemplate> messageTypes;
+
+    public ChattingMessageFactoryImpl() {
+        this.messageTypes = new HashMap<>();
+    }
 
     @PostConstruct
     public void messageFactoryConst() {
