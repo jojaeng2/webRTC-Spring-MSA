@@ -24,10 +24,10 @@ public class Channel implements Serializable {
     private Long timeToLive;
     private ChannelType channelType;
 
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
     private Set<ChannelUser> channelUsers;
 
-    @OneToMany(mappedBy = "channel")
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
     private List<ChannelHashTag> channelHashTags;
 
     private static final Long serialVersionUID = 1L;
