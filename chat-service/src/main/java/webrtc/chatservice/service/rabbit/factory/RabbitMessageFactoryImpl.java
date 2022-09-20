@@ -22,7 +22,7 @@ public class RabbitMessageFactoryImpl implements RabbitMessageFactory{
     private final CreateTypeRabbitMessageTemplate createTypeRabbitMessageTemplate;
     private final ChatTypeRabbitMessageTemplate chatTypeRabbitMessage;
     private final ExitTypeRabbitMessageTemplate exitTypeRabbitMessage;
-    private final CloseTypeRagbbitMessageTemplate closeTypeRagbbitMessage;
+    private final CloseTypeRagbbitMessageTemplate closeTypeRabbitMessage;
 
     @PostConstruct
     public void messageFactoryConst() {
@@ -30,7 +30,7 @@ public class RabbitMessageFactoryImpl implements RabbitMessageFactory{
         this.messageTypes.put(CREATE, createTypeRabbitMessageTemplate);
         this.messageTypes.put(CHAT, chatTypeRabbitMessage);
         this.messageTypes.put(EXIT, exitTypeRabbitMessage);
-        this.messageTypes.put(CLOSE, closeTypeRagbbitMessage);
+        this.messageTypes.put(CLOSE, closeTypeRabbitMessage);
     }
 
     @Override

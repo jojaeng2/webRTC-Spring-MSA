@@ -3,6 +3,7 @@ package webrtc.chatservice.service.rabbit.template;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 
+
 public abstract class RabbitMessageTemplate {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
