@@ -1,5 +1,6 @@
 package webrtc.chatservice.service.chat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
 import static webrtc.chatservice.enums.ChannelType.VOIP;
@@ -30,11 +32,7 @@ public class ChatLogServiceTest {
     @InjectMocks
     private ChatLogServiceImpl chatLogService;
     @Mock
-    private UsersRepository usersRepository;
-    @Mock private ChannelListRepository channelListRepository;
-    @Mock private ChatLogRepository chatLogRepository;
-    @Mock private ChannelTopic channelTopic;
-    @Mock private RedisTemplate redisTemplate;
+    private ChatLogRepository chatLogRepository;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -48,77 +46,122 @@ public class ChatLogServiceTest {
     String tag3 = "tag3";
     ChannelType text = TEXT;
     ChannelType voip = VOIP;
+    ClientMessageType type = ClientMessageType.CHAT;
+    int maxi = 20;
+    Long idx = 10L;
+    Long lastIndex = 300L;
 
     @Test
-    @Transactional
-    public void 첫번째_채팅로그_저장성공() {
+    void 채팅로그저장성공빈배열() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = createChannel(channelName1, text);
         doReturn(new ArrayList<>())
-                .when(chatLogRepository).findLastChatLogsByChannelId(channel.getId());
+                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        Long chatId = chatLogService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
+        Long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
 
         // then
-        assertThat(chatId).isEqualTo(1L);
+        assertThat(resultIdx).isEqualTo(1L);
     }
 
     @Test
-    @Transactional
-    public void N번째_채팅로그_저장성공() {
+    void 채팅로그저장성공빈배열아님() {
         // given
-        Long testcase = 20L;
-        List<ChatLog> chatLogs = new ArrayList<>();
-        ChatLog chatLog = new ChatLog();
-        chatLog.setChatLogIdx(testcase);
-        chatLogs.add(chatLog);
-
-        Channel channel = new Channel(channelName1, text);
-        doReturn(chatLogs)
-                .when(chatLogRepository).findLastChatLogsByChannelId(channel.getId());
+        Channel channel = createChannel(channelName1, text);
+        doReturn(createLastChatLog())
+                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        Long chatId = chatLogService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
+        Long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
 
         // then
-        assertThat(chatId).isEqualTo(testcase + 1L);
+        assertThat(resultIdx).isEqualTo(lastIndex+1L);
+
     }
 
-//    @Test
-//    @Transactional
-//    public void 채팅로그_20개미만_불러오기_성공() {
-//        // given
-//        Long testcase = 10L;
-//        Channel channel = new Channel(channelName1, text);
-//
-//
-//        for(Long i=0L; i<testcase; i++) {
-//            chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
-//        }
-//
-//        // when
-//        List<ChatLog> chatLogs = chatService.findChatLogsByIndex(channel.getId(), testcase+1L);
-//
-//        // then
-//        assertThat(Long.valueOf(chatLogs.size())).isEqualTo(testcase);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void 채팅로그_20개초과_불러오기_성공() {
-//        // given
-//        Long testcase = 30L;
-//        Channel channel = channelListRepository.findChannelByChannelName(channelName1);
-//
-//        for(Long i=0L; i<testcase; i++) {
-//            chatService.saveChatLog(ClientMessageType.ENTER, "testMessage", nickname1, channel, email1);
-//        }
-//
-//        // when
-//        List<ChatLog> chatLogs = chatService.findChatLogsByIndex(channel.getId(), testcase+1L);
-//
-//        // then
-//        assertThat(Long.valueOf(chatLogs.size())).isEqualTo(20L);
-//    }
+    @Test
+    void 마지막로그찾기성공() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        doReturn(List.of(createChatLog()))
+                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
+
+        // when
+        ChatLog chatLog = chatLogService.findLastChatLogsByChannelId(channel.getId());
+
+        // then
+        assertThat(chatLog).isNotNull();
+    }
+
+    @Test
+    void 마지막로그찾기실패() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        doReturn(new ArrayList<>())
+                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
+
+        // when
+
+        // then
+        Assertions.assertThrows(IndexOutOfBoundsException.class,
+                () -> chatLogService.findLastChatLogsByChannelId(channel.getId()));
+
+    }
+
+    @Test
+    void 인덱스로로그찾기성공() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        doReturn(logList20())
+                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Long.class));
+
+        // when
+        List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
+
+        // then
+        assertThat(result.size()).isEqualTo(maxi);
+    }
+
+    @Test
+    void 인덱스로로그찾기실패() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        doReturn(EmptyList())
+                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Long.class));
+
+        // when
+        List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    private List<ChatLog> logList20() {
+        List<ChatLog> chatLogs = new ArrayList<>();
+        for(int i=1; i<=maxi; i++) {
+            ChatLog chatLog = new ChatLog(type, "테스트", nickname1,  email1);
+            chatLog.setChatLogIdx((long) i);
+            chatLogs.add(chatLog);
+        }
+        return chatLogs;
+    }
+
+    private List<ChatLog> EmptyList() {
+        return new ArrayList<>();
+    }
+
+    private List<ChatLog> createLastChatLog() {
+        ChatLog chatLog = createChatLog();
+        chatLog.setChatLogIdx(lastIndex);
+        return List.of(chatLog);
+    }
+
+    private ChatLog createChatLog() {
+        return new ChatLog(type, "테스트", nickname1,  email1);
+    }
+    private Channel createChannel(String name, ChannelType type) {
+        return new Channel(name, type);
+    }
+
 }

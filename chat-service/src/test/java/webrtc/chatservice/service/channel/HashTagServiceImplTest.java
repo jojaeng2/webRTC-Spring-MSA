@@ -15,6 +15,8 @@ import webrtc.chatservice.service.hashtag.HashTagServiceImpl;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
@@ -30,32 +32,30 @@ public class HashTagServiceImplTest {
 
 
     @Test
-    public void HashTag_이름으로_조회성공() {
+    void 이름으로조회성공() {
         // given
-        HashTag hashTag = new HashTag(tagName);
         doReturn(Optional.of(new HashTag(tagName)))
-                .when(hashTagRepository).findHashTagByName(tagName);
+                .when(hashTagRepository).findHashTagByName(any(String.class));
 
         // when
 
         HashTag findHashTag = hashTagService.findHashTagByName(tagName);
 
         // then
-        assertThat(findHashTag.getTagName()).isEqualTo(hashTag.getTagName());
+        assertThat(findHashTag.getTagName()).isEqualTo(tagName);
 
     }
 
     @Test
-    @Transactional
-    public void HashTag_이름으로_조회실패() {
+    void 이름으로조회실패() {
         // given
-        doThrow(new NotExistHashTagException())
-                .when(hashTagRepository).findHashTagByName(tagName);
+        doReturn(Optional.empty())
+                .when(hashTagRepository).findHashTagByName(any(String.class));
 
         // when
 
         // then
-        Assertions.assertThrows(NotExistHashTagException.class, ()->{
+        assertThrows(NotExistHashTagException.class, ()->{
             hashTagService.findHashTagByName(tagName);
         });
 

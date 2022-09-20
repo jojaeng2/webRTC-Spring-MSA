@@ -55,9 +55,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
         for (String tagName : request.getHashTags()) {
             HashTag hashTag = findHashTag(tagName);
-            ChannelHashTag channelHashTag = createChannelHashTag(channel, hashTag);
+            createChannelHashTag(channel, hashTag);
             hashTagRepository.save(hashTag);
-            channelHashTagRepository.save(channelHashTag);
         }
 
         channelRedisRepository.createChannel(channel);
@@ -122,8 +121,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channelUserRepository.save(channelUser);
     }
 
-    private ChannelHashTag createChannelHashTag(Channel channel, HashTag hashTag) {
-        return new ChannelHashTag(channel, hashTag);
+    private void createChannelHashTag(Channel channel, HashTag hashTag) {
+        ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+        channelHashTagRepository.save(channelHashTag);
     }
 
     private void createChatLog(Channel channel, Users user) {

@@ -38,10 +38,6 @@ public class Users implements Serializable {
 
     }
 
-    public void addChannelUser(ChannelUser channelUser) {
-        this.channelUsers.add(channelUser);
-    }
-
     public void removeChannelUser(ChannelUser channelUser) {
         this.channelUsers.remove(channelUser);
     }
