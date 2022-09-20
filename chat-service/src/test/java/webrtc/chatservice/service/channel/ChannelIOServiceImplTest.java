@@ -67,17 +67,10 @@ public class ChannelIOServiceImplTest {
 
 
     String nickname1 = "nickname1";
-    String nickname2 = "nickname2";
     String password = "password";
     String email1 = "email1";
-    String email2 = "email2";
     String channelName1 = "channelName1";
-    String channelName2 = "channelName2";
-    String tag1 = "tag1";
-    String tag2 = "tag2";
-    String tag3 = "tag3";
     ChannelType text = TEXT;
-    ChannelType voip = VOIP;
 
 
     @Test

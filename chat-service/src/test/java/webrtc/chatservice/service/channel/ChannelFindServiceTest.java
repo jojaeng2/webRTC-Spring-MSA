@@ -6,11 +6,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.HashTag;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.HashTagException;
+import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
+import webrtc.chatservice.repository.hashtag.HashTagRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +42,19 @@ public class ChannelFindServiceTest {
     @Mock
     private ChannelCrudRepository channelCrudRepository;
     @Mock
+    private UsersRepository usersRepository;
+    @Mock
+    private HashTagRepository hashTagRepository;
+
+    @Mock
     private ChannelInfoInjectService channelInfoInjectService;
 
+    String nickname1 = "nickname1";
+    String password = "password";
+    String email1 = "email1";
     String channelName1 = "channelName1";
+    String tag1 = "tagname";
+
     ChannelType text = TEXT;
 
     int mini = 14;
@@ -105,12 +123,15 @@ public class ChannelFindServiceTest {
     @Test
     void 나의채널목록성공20개미만() {
         // given
+        doReturn(Optional.of(createUser()))
+                .when(usersRepository).findUserByEmail(any(String.class));
+
         doReturn(channelListUnder20())
-                .when(channelListRepository).findAnyChannels(any(Integer.class), any(String.class));
+                .when(channelListRepository).findMyChannels(any(String.class), any(Integer.class), any(String.class));
         doReturn(channelResponseList(channelListUnder20()))
                 .when(channelInfoInjectService).setReturnChannelsTTL(any(ArrayList.class));
         // when
-        List<ChannelResponse> result = channelFindService.findAnyChannel("partiASC", 0);
+        List<ChannelResponse> result = channelFindService.findMyChannel("partiASC", email1, 0);
 
         // then
         assertThat(result.size()).isEqualTo(mini);
@@ -120,26 +141,43 @@ public class ChannelFindServiceTest {
     @Test
     void 나의채널목록성공20개이상() {
         // given
+        doReturn(Optional.of(createUser()))
+                .when(usersRepository).findUserByEmail(any(String.class));
         doReturn(channelList20())
-                .when(channelListRepository).findAnyChannels(any(Integer.class), any(String.class));
+                .when(channelListRepository).findMyChannels(any(String.class), any(Integer.class), any(String.class));
         doReturn(channelResponseList(channelList20()))
                 .when(channelInfoInjectService).setReturnChannelsTTL(any(ArrayList.class));
         // when
-        List<ChannelResponse> result = channelFindService.findAnyChannel("partiASC", 0);
+        List<ChannelResponse> result = channelFindService.findMyChannel("partiASC", email1, 0);
 
         // then
         assertThat(result.size()).isEqualTo(maxi);
     }
 
     @Test
+    void 나의채널목록실패유저없음() {
+        // given
+        doReturn(Optional.empty())
+                .when(usersRepository).findUserByEmail(any(String.class));
+
+        // when
+
+
+        // then
+        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", email1, 0));
+    }
+
+    @Test
     void 해시태그채널목록성공20개미만() {
         // given
+        doReturn(Optional.of(createHashTag()))
+                .when(hashTagRepository).findHashTagByName(any(String.class));
         doReturn(channelListUnder20())
-                .when(channelListRepository).findAnyChannels(any(Integer.class), any(String.class));
+                .when(channelListRepository).findChannelsByHashName(any(HashTag.class), any(Integer.class), any(String.class));
         doReturn(channelResponseList(channelListUnder20()))
                 .when(channelInfoInjectService).setReturnChannelsTTL(any(ArrayList.class));
         // when
-        List<ChannelResponse> result = channelFindService.findAnyChannel("partiASC", 0);
+        List<ChannelResponse> result = channelFindService.findChannelByHashName(tag1, "partiASC", 0);
 
         // then
         assertThat(result.size()).isEqualTo(mini);
@@ -148,16 +186,35 @@ public class ChannelFindServiceTest {
     @Test
     void 해시태그채널목록성공20개이상() {
         // given
+        doReturn(Optional.of(createHashTag()))
+                .when(hashTagRepository).findHashTagByName(any(String.class));
         doReturn(channelList20())
-                .when(channelListRepository).findAnyChannels(any(Integer.class), any(String.class));
+                .when(channelListRepository).findChannelsByHashName(any(HashTag.class), any(Integer.class), any(String.class));
         doReturn(channelResponseList(channelList20()))
                 .when(channelInfoInjectService).setReturnChannelsTTL(any(ArrayList.class));
         // when
-        List<ChannelResponse> result = channelFindService.findAnyChannel("partiASC", 0);
+        List<ChannelResponse> result = channelFindService.findChannelByHashName(tag1, "partiASC", 0);
 
         // then
         assertThat(result.size()).isEqualTo(maxi);
 
+    }
+
+    @Test
+    void 해시태그채널목록실패태그없음() {
+        // given
+        doReturn(Optional.empty())
+                .when(hashTagRepository).findHashTagByName(any(String.class));
+
+        // when
+
+        // then
+        assertThrows(NotExistHashTagException.class, () -> channelFindService.findChannelByHashName(tag1, "partiASC", 0));
+
+    }
+
+    private Users createUser() {
+        return new Users(nickname1, password, email1);
     }
 
     private Channel createChannel(String name, ChannelType type) {
@@ -187,5 +244,9 @@ public class ChannelFindServiceTest {
                 .map(channel -> new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags
                         (), channel.getChannelType()))
                 .collect(Collectors.toList());
+    }
+
+    private HashTag createHashTag() {
+        return new HashTag(tag1);
     }
 }
