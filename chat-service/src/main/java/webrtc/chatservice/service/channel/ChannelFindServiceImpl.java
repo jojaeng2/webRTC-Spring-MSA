@@ -31,6 +31,18 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     private final HashTagRepository hashTagRepository;
     private final ChannelInfoInjectService channelInfoInjectService;
 
+
+
+    /*
+     * 비즈니스 로직 - 특정 채널 ID로 찾기
+     */
+    @Transactional(readOnly = true)
+    public Channel findOneChannelById(String channelId) {
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
+        return channelInfoInjectService.setChannelTTL(channel);
+    }
+
     /*
      * 비즈니스 로직 - 모든 채널 불러오기
      *
@@ -65,20 +77,12 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     }
 
     /*
-     * 비즈니스 로직 - 특정 채널 ID로 찾기
+     * 비즈니스 로직 - 해시태그로 채널찾기
      */
-    @Transactional(readOnly = true)
-    public Channel findOneChannelById(String channelId) {
-        Channel channel = channelCrudRepository.findById(channelId)
-                .orElseThrow(NotExistChannelException::new);
-        return channelInfoInjectService.setChannelTTL(channel);
-    }
-
     @Transactional(readOnly = true)
     public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
         HashTag hashTag = hashTagRepository.findHashTagByName(tagName)
                 .orElseThrow(NotExistHashTagException::new);
-
         switch (orderType) {
             case "partiASC" :
                 return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findChannelsByHashName(hashTag, idx, "asc"));

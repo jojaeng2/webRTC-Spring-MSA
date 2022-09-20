@@ -28,6 +28,7 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
     public Channel setChannelTTL(Channel channel) {
         Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
         channel.setTimeToLive(ttl);
+        System.out.println("channel.getId() = " + channel.getId());
         return channel;
     }
 }
