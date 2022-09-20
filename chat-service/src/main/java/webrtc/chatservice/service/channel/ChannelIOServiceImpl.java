@@ -37,6 +37,13 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         createChannelUser(user, channel);
     }
 
+    @Override
+    @Transactional
+    public void exitChannel(String channelId, String userId) {
+        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
+        exitChannelUserInChannel(channel, userId);
+    }
+
     private Users findUser(String email) {
         Users user = usersRepository.findUserByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
@@ -60,20 +67,14 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         Long currentParticipants = channel.getCurrentParticipants();
         if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
         else {
-            new ChannelUser(user, channel);
+            ChannelUser channelUser = new ChannelUser(user, channel);
+            channelUserRepository.save(channelUser);
         }
     }
 
-    @Override
-    @Transactional
-    public void exitChannel(String channelId, String userId) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channelId, userId).orElseThrow(NotExistChannelUserException::new);
-        exitChannelUserInChannel(channel, channelUser);
-    }
-
-    private void exitChannelUserInChannel(Channel channel, ChannelUser channelUser) {
+    private void exitChannelUserInChannel(Channel channel, String userId) {
+        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channel.getId(), userId).orElseThrow(NotExistChannelUserException::new);
         channel.exitChannelUser(channelUser);
+        channelUserRepository.delete(channelUser);
     }
-
 }
