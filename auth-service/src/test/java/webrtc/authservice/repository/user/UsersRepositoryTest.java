@@ -29,7 +29,7 @@ public class UsersRepositoryTest {
 
         // when
         userRepository.save(user);
-        Users findUser = userRepository.findUserByEmail(email);
+        Users findUser = userRepository.findUserByEmail(email).get();
 
         // then
         Assertions.assertThat(user).isEqualTo(findUser);
@@ -44,7 +44,7 @@ public class UsersRepositoryTest {
         userRepository.save(user);
 
         // when
-        Users findUser = userRepository.findUserByEmail(email);
+        Users findUser = userRepository.findUserByEmail(email).get();
 
         // then
         Assertions.assertThat(user).isEqualTo(findUser);
@@ -59,7 +59,7 @@ public class UsersRepositoryTest {
         // when
         user.addPoint(point);
         userRepository.save(user);
-        Users findUser = userRepository.findUserByEmail(email);
+        Users findUser = userRepository.findUserByEmail(email).get();
         List<Point> pointList = findUser.getPoints();
 
         // then
@@ -77,7 +77,7 @@ public class UsersRepositoryTest {
 
         // when
         userRepository.save(user);
-        Users findUser = userRepository.findUserByEmail(email);
+        Users findUser = userRepository.findUserByEmail(email).get();
         List<Point> pointList = findUser.getPoints();
 
         // then
