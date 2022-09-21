@@ -46,8 +46,6 @@ public class RedisSubscriberImplTest {
     @Test
     void 메시지전송성공() {
         // given
-        doReturn(createChattingMessage())
-                .when(objectMapper).jsonParse(any(String.class), any(Class.class));
 
         // when
         redisSubscriber.sendMessage(message);

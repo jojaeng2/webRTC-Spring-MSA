@@ -13,7 +13,7 @@ import java.util.List;
 public class ChattingMessage {
     private String channelId;
     private SocketServerMessageType type;
-    private String nickname;
+    private String senderName;
     private String chatMessage;
     private Long currentParticipants;
     private List<Users> users;
@@ -22,9 +22,9 @@ public class ChattingMessage {
     private Timestamp sendTime;
 
 
-    public ChattingMessage(String channelId, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
+    public ChattingMessage(String channelId, String senderName, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
         this.channelId = channelId;
-        this.nickname = nickname;
+        this.senderName = senderName;
         this.chatMessage = chatMessage;
         this.currentParticipants = currentParticipants;
         this.users = users;

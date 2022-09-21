@@ -12,7 +12,7 @@ import webrtc.chatservice.utils.json.CustomJsonMapper;
 @Service
 @Slf4j
 public class RedisSubscriberImpl implements RedisSubscriber {
-    private final CustomJsonMapper objectMapper;
+    private final ObjectMapper objectMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
     /**
@@ -20,9 +20,9 @@ public class RedisSubscriberImpl implements RedisSubscriber {
      */
     public void sendMessage(String chatMessage) {
         try {
-            log.info(chatMessage);
-            ChattingMessage publishMessage = (ChattingMessage) objectMapper.jsonParse(chatMessage, ChattingMessage.class);
+            ChattingMessage publishMessage = objectMapper.readValue(chatMessage, ChattingMessage.class);
             // WebSocket Subscriber들에게 message send
+
             messagingTemplate.convertAndSend("/sub/chat/room/" + publishMessage.getChannelId(), publishMessage);
         } catch (Exception e) {
             System.out.println("error in onMessage = " + e);
