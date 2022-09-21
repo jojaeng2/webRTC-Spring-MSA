@@ -175,7 +175,7 @@ public class ChannelLifeServiceImplTest {
                 .when(channelListRepository).findChannelByChannelName(any(String.class));
 
         doThrow(new InsufficientPointException())
-                .when(httpApiController).postDecreaseUserPoint(any(), any());
+                .when(httpApiController).postDecreaseUserPoint(any(), any(), any(String.class));
         // when
 
         // then
@@ -191,7 +191,7 @@ public class ChannelLifeServiceImplTest {
                 .when(channelListRepository).findChannelByChannelName(any(String.class));
 
         doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(), any());
+                .when(httpApiController).postDecreaseUserPoint(any(), any(), any());
         // when
 
         // then
@@ -265,7 +265,7 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
 
         doThrow(new InsufficientPointException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class));
+                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
 
         // when
 
@@ -282,7 +282,7 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
 
         doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class));
+                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
 
         // when
 

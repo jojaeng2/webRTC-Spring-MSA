@@ -13,7 +13,7 @@ public interface UserService {
     FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email);
 
 
-    void decreasePoint(String email, int amount);
+    void decreasePoint(String email, int amount, String message);
 
     void redisDataEvict();
 }

@@ -98,7 +98,7 @@ public class UsersServiceTest {
         Users user = userService.findOneUserByEmail(email);
 
         // when
-        userService.decreasePoint(user.getEmail(), welcomePoint/10);
+        userService.decreasePoint(user.getEmail(), welcomePoint/10, "test");
         FindUserWithPointByEmailResponse response = userService.findOneUserWithPointByEmail(email);
 
         // then
@@ -116,7 +116,7 @@ public class UsersServiceTest {
 
 
         // then
-        Assertions.assertThrows(InsufficientPointException.class, ()-> userService.decreasePoint(user.getEmail(), welcomePoint*10));
+        Assertions.assertThrows(InsufficientPointException.class, ()-> userService.decreasePoint(user.getEmail(), welcomePoint*10, "test"));
 
     }
 

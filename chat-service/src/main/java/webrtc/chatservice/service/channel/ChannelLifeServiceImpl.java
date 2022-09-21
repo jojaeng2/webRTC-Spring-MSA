@@ -90,7 +90,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit);
+        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit, userEmail + "님이 채널 연장에 포인트를 사용했습니다.");
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
     }
 
@@ -105,7 +105,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private Users pointDecreaseAndReturnUser(String email) {
-        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit);
+
+        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, "님이 채널 생성에 포인트를 사용했습니다.");
         Users user = usersRepository.findUserByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
         usersRepository.save(user);

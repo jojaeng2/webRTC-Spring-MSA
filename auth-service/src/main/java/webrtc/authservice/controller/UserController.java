@@ -37,7 +37,7 @@ public class UserController {
     
     @PostMapping("/decrease/point")
     public ResponseEntity<?> decreaseUserPoint(@RequestBody DecreasePointRequest request) {
-        userService.decreasePoint(request.getUserEmail(), request.getPoint());
+        userService.decreasePoint(request.getUserEmail(), request.getPoint(), request.getMessage());
         return new ResponseEntity<>(OK);
     }
 

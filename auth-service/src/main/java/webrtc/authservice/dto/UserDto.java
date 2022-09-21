@@ -45,5 +45,6 @@ public class UserDto {
     public static class DecreasePointRequest {
         private String userEmail;
         private int point;
+        private String message;
     }
 }

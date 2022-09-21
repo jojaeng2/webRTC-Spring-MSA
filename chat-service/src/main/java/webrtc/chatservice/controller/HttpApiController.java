@@ -60,9 +60,9 @@ public class HttpApiController {
         return new FindUserWithPointByEmailResponse();
     }
 
-    public void postDecreaseUserPoint(String email, Long point) {
+    public void postDecreaseUserPoint(String email, Long point, String message) {
         try {
-            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/decrease/point", new DecreasePointRequest(email, point.intValue()));
+            ResponseEntity<String> response = postRequest("http://auth-service:8080/api/v1/webrtc/auth/decrease/point", new DecreasePointRequest(email, point.intValue(), message));
         } catch (HttpClientErrorException e) {
             switch (e.getStatusCode()) {
                 case NOT_FOUND:

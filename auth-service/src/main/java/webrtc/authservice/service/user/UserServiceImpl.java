@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void decreasePoint(String email, int amount) {
+    public void decreasePoint(String email, int amount, String message) {
         Users user = userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
 
         List<Point> points = user.getPoints();
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         if(sum < amount) {
             throw new InsufficientPointException();
         }
-        Point point = new Point("채널 연장에 포인트를 사용합니다", -amount);
+        Point point = new Point(message, -amount);
         user.addPoint(point);
     }
 
