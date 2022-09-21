@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@RedisHash("channelUser")
+//@RedisHash("channelUser")
 public class ChannelUser implements Serializable {
 
     @Id

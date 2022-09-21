@@ -2,6 +2,7 @@ package webrtc.chatservice.service.pubsub;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import webrtc.chatservice.dto.chat.ChattingMessage;
@@ -9,6 +10,7 @@ import webrtc.chatservice.utils.json.CustomJsonMapper;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class RedisSubscriberImpl implements RedisSubscriber {
     private final CustomJsonMapper objectMapper;
     private final SimpMessageSendingOperations messagingTemplate;
@@ -18,6 +20,7 @@ public class RedisSubscriberImpl implements RedisSubscriber {
      */
     public void sendMessage(String chatMessage) {
         try {
+            log.info(chatMessage);
             ChattingMessage publishMessage = (ChattingMessage) objectMapper.jsonParse(chatMessage, ChattingMessage.class);
             // WebSocket Subscriber들에게 message send
             messagingTemplate.convertAndSend("/sub/chat/room/" + publishMessage.getChannelId(), publishMessage);

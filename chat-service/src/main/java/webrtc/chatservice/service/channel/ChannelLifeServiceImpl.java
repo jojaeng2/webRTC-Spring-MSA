@@ -52,11 +52,12 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
         Channel channel = createChannelIfNotExist(request);
+        channelCrudRepository.save(channel);
 
         for (String tagName : request.getHashTags()) {
             HashTag hashTag = findHashTag(tagName);
-            createChannelHashTag(channel, hashTag);
             hashTagRepository.save(hashTag);
+            createChannelHashTag(channel, hashTag);
         }
 
         channelRedisRepository.createChannel(channel);
@@ -68,9 +69,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         // 채팅방 생성 로그
         createChatLog(channel, user);
 
-        // rabbitMQ 메시지 전송
-        sendRabbitMessage(channel, user);
         channelCrudRepository.save(channel);
+
+        // rabbitMQ 메시지 전송
+//        sendRabbitMessage(channel, user);
         return channel;
     }
 

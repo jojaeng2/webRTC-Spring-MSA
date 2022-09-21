@@ -1,6 +1,7 @@
 package webrtc.chatservice.service.chat;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import static webrtc.chatservice.enums.ClientMessageType.REENTER;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ChattingServiceImpl implements ChattingService {
 
     private final ChannelTopic channelTopic;
@@ -50,8 +52,7 @@ public class ChattingServiceImpl implements ChattingService {
         } else {
             serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, currentUsers, 0L, senderEmail);
         }
-
-        rabbitPublish.publishMessage(serverMessage, type);
+//        rabbitPublish.publishMessage(serverMessage, type);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 

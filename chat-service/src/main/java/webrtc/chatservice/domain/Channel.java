@@ -12,7 +12,7 @@ import java.util.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@RedisHash("channel")
+//@RedisHash("channel")
 public class Channel implements Serializable {
 
     @Id
@@ -25,7 +25,7 @@ public class Channel implements Serializable {
     private ChannelType channelType;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
-    private Set<ChannelUser> channelUsers;
+    private List<ChannelUser> channelUsers;
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
     private List<ChannelHashTag> channelHashTags;
@@ -42,7 +42,7 @@ public class Channel implements Serializable {
         this.limitParticipants = 15L;
         this.currentParticipants = 0L;
         this.timeToLive = 60L*60L;
-        this.channelUsers = new HashSet<>();
+        this.channelUsers = new ArrayList<>();
         this.channelHashTags = new ArrayList<>();
         this.chatLogs = new ArrayList<>();
         this.channelType = channelType;

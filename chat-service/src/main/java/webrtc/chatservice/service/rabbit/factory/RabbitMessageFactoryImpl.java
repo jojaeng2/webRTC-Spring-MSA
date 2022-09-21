@@ -1,6 +1,7 @@
 package webrtc.chatservice.service.rabbit.factory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.dto.chat.ChattingMessage;
@@ -15,6 +16,7 @@ import static webrtc.chatservice.enums.ClientMessageType.*;
 
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class RabbitMessageFactoryImpl implements RabbitMessageFactory{
     private final Map<ClientMessageType, RabbitMessageTemplate> messageTypes = new HashMap<>();
@@ -35,6 +37,7 @@ public class RabbitMessageFactoryImpl implements RabbitMessageFactory{
 
     @Override
     public void execute(ChattingMessage serverMessage, ClientMessageType type) {
+        if(type.equals(REENTER)) return;
         this.messageTypes.get(type).send(serverMessage);
     }
 }
