@@ -12,7 +12,6 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RedisHash("channelHashTag")
 public class ChannelHashTag implements Serializable {
 
     @Id

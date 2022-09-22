@@ -45,7 +45,6 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Transactional
-    @CacheEvict(value = "users", allEntries = true)
     public void redisDataEvict() {
 
     }

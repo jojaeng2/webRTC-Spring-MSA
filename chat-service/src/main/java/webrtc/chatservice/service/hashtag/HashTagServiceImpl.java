@@ -15,7 +15,6 @@ public class HashTagServiceImpl implements HashTagService{
     private final HashTagRepository hashTagRepository;
 
     @Transactional(readOnly = true)
-//    @Cacheable(key = "#tagname", value = "users")
     public HashTag findHashTagByName(String tagName) {
         return hashTagRepository.findHashTagByName(tagName).orElseThrow(NotExistHashTagException::new);
     }

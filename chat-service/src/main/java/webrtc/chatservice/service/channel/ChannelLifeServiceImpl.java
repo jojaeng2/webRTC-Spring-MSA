@@ -106,7 +106,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private Users pointDecreaseAndReturnUser(String email) {
 
-        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, "님이 채널 생성에 포인트를 사용했습니다.");
+        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, email + "님이 채널 생성에 포인트를 사용했습니다.");
         Users user = usersRepository.findUserByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
         usersRepository.save(user);

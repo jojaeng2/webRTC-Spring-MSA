@@ -1,6 +1,8 @@
 package webrtc.authservice.service.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    // @Cacheable(key = "#email", value = "users")
+    @Cacheable(key = "#email", value = "users")
     public Users findOneUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
     }
@@ -59,8 +61,8 @@ public class UserServiceImpl implements UserService {
         user.addPoint(point);
     }
 
-    // @Transactional
-    // @CacheEvict(value = "users", allEntries = true)
+    @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public void redisDataEvict() {
 
     }

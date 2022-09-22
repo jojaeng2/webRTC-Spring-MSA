@@ -209,7 +209,7 @@ public class UsersControllerTest {
                 .accept(APPLICATION_JSON));
 
         // when
-        DecreasePointRequest decreaseRequest = new DecreasePointRequest(email, welcomePoint/2);
+        DecreasePointRequest decreaseRequest = new DecreasePointRequest(email, welcomePoint/2, "test");
 
         String decreaseRequestToStr = objectMapper.writeValueAsString(decreaseRequest);
         mockMvc.perform(post("/api/v1/webrtc/auth/decrease/point")
@@ -246,7 +246,7 @@ public class UsersControllerTest {
                 .accept(APPLICATION_JSON));
 
         // when
-        DecreasePointRequest decreaseRequest = new DecreasePointRequest(email, welcomePoint*2);
+        DecreasePointRequest decreaseRequest = new DecreasePointRequest(email, welcomePoint*2, "test");
 
         String decreaseRequestToStr = objectMapper.writeValueAsString(decreaseRequest);
         mockMvc.perform(post("/api/v1/webrtc/auth/decrease/point")

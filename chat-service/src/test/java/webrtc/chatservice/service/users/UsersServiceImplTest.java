@@ -44,11 +44,6 @@ public class UsersServiceImplTest {
     String nickname1 = "nickname1";
     String password = "password";
     String email1 = "email1";
-    @BeforeEach
-    public void clearUserCache() {
-        userService.redisDataEvict();
-    }
-
     @Test
     public void 유저저장_성공() {
         // given

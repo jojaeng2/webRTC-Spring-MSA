@@ -14,7 +14,6 @@ import java.util.*;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RedisHash("users")
 public class Users implements Serializable {
 
     @Id

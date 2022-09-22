@@ -12,7 +12,6 @@ import java.util.*;
 @Entity
 @Getter
 @NoArgsConstructor
-//@RedisHash("hashTag")
 public class HashTag implements Serializable {
 
     @Id

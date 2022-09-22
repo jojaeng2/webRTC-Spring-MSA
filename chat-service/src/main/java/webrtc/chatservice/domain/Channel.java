@@ -12,7 +12,6 @@ import java.util.*;
 @Getter
 @Entity
 @NoArgsConstructor
-//@RedisHash("channel")
 public class Channel implements Serializable {
 
     @Id
