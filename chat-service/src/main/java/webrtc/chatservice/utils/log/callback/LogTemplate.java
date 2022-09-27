@@ -1,18 +1,21 @@
 package webrtc.chatservice.utils.log.callback;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.utils.log.LogStatus;
 import webrtc.chatservice.utils.log.trace.LogTrace;
 
 @Component
-@RequiredArgsConstructor
 public class LogTemplate {
 
     private final LogTrace trace;
 
-    public <T> T execute(String message, LogCallback<T> callback) {
+    public LogTemplate(LogTrace trace) {
+        this.trace = trace;
+    }
+
+    public <T> T execute(String className, String methodName, LogCallback<T> callback) {
         LogStatus status = null;
+        String message = className + "." + methodName;
 
         try {
             status = trace.begin(message);

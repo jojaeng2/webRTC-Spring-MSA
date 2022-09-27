@@ -13,11 +13,8 @@ public class Pointcuts {
     @Pointcut("execution(* webrtc.chatservice.repository..*(..))")
     public void allRepository() {}
 
-    @Pointcut("execution(* webrtc.chatservice.utils.jwt..*(..))")
-    public void jwtFilter() {}
-
-    @Pointcut("allController() || allService() || allRepository() || jwtFilter()")
-    public void controllerAndServiceAndRepositoryAndJwtFilter() {}
+    @Pointcut("allController() || allService() || allRepository()")
+    public void controllerAndServiceAndRepository() {}
 }
 
 
