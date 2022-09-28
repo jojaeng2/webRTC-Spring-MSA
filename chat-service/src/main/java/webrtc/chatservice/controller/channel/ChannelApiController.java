@@ -24,7 +24,6 @@ public class ChannelApiController {
 
     private final ChannelLifeService channelLifeService;
     private final ChannelFindService channelFindService;
-
     private final JwtTokenUtil jwtTokenUtil;
 
 

@@ -58,29 +58,9 @@ public class ChannelInfoInjectServiceTest {
         assertThat(channel.getTimeToLive()).isEqualTo(ttl);
     }
 
-    @Test
-    void 채널들수명설정성공() {
-        // given
-        doReturn(ttl)
-                .when(channelRedisRepository).findChannelTTL(any(String.class));
-
-        // when
-        List<ChannelResponse> results = channelInfoInjectService.setReturnChannelsTTL(channelList20());
-
-        // then
-        assertThat(results.size()).isEqualTo(maxi);
-    }
 
     private Channel createChannel(String name, ChannelType type) {
         return new Channel(name, type);
     }
 
-    private List<Channel> channelList20() {
-        List<Channel> channels = new ArrayList<>();
-        for(int i=0; i<maxi; i++) {
-            Channel channel = new Channel(i + " Channel", text);
-            channels.add(channel);
-        }
-        return channels;
-    }
 }

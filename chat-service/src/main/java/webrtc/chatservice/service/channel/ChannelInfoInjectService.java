@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChannelInfoInjectService {
 
-    List<ChannelResponse> setReturnChannelsTTL(List<Channel> channels);
+    ChannelResponse setReturnChannelsTTL(Channel channel);
 
     Channel setChannelTTL(Channel channel);
 }
