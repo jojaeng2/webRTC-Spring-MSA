@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public interface ChannelListRepository {
 
-    List<Channel> findChannelByChannelName(String channelName);
     List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId);
     List<Channel> findAnyChannels(int idx, String type);
     List<Channel> findMyChannels(String userId, int idx, String type);

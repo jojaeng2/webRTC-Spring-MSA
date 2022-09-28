@@ -22,17 +22,6 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
 
 
     /*
-     * 특정 채널을 channelName으로 찾기
-     *
-     */
-    public List<Channel> findChannelByChannelName(String channelName) {
-        return em.createQuery("select c from Channel c where c.channelName = :channelName", Channel.class)
-                .setParameter("channelName", channelName)
-                .getResultList();
-    }
-
-
-    /*
      * 특정 채널을 channel_id + user_id로 찾기
      */
     public List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId) {

@@ -37,20 +37,6 @@ public class ChannelListRepositoryImplTest {
     ChannelType text = TEXT;
 
 
-
-    @Test
-    void 채널이름으로채널찾기성공() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        em.persist(channel);
-
-        // when
-        List<Channel> channels = repository.findChannelByChannelName(channelName1);
-
-        // then
-        assertThat(channels).isNotEmpty();
-    }
-
     @Test
     void 채널ID와회원ID로채널찾기성공() {
         // given

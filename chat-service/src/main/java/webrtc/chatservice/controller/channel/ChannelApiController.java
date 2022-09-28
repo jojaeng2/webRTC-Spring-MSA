@@ -1,6 +1,7 @@
 package webrtc.chatservice.controller.channel;
 
 import com.sun.istack.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +20,13 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/webrtc/chat")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChannelApiController {
 
     private final ChannelLifeService channelLifeService;
     private final ChannelFindService channelFindService;
     private final JwtTokenUtil jwtTokenUtil;
-
-
-    public ChannelApiController(ChannelLifeService channelLifeService, ChannelFindService channelFindService, JwtTokenUtil jwtTokenUtil) {
-        this.channelLifeService = channelLifeService;
-        this.channelFindService = channelFindService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
 
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {

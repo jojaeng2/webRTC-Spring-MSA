@@ -29,7 +29,6 @@ import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 @Service
 public class ChannelLifeServiceImpl implements ChannelLifeService {
 
-    private final ChannelListRepository channelListRepository;
     private final ChannelCrudRepository channelCrudRepository;
     private final ChannelHashTagRepository channelHashTagRepository;
     private final ChannelRedisRepository channelRedisRepository;
@@ -95,12 +94,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        int exist = channelListRepository.findChannelByChannelName(request.getChannelName()).size();
 
-        // 만약 채널이 존재하면 예외 터뜨리고, 없다면 새로 생성
-        if(exist != 0) {
-            throw new AlreadyExistChannelException();
-        }
+        channelCrudRepository.findByChannelName(request.getChannelName())
+                .ifPresent(channel -> { throw new AlreadyExistChannelException(); });
+
         return new Channel(request.getChannelName(), request.getChannelType());
     }
 

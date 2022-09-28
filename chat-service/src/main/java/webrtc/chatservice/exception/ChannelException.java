@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.enums.SocketInterceptorErrorType;
 
 public class ChannelException extends RuntimeException{

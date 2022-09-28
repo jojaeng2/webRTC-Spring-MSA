@@ -103,6 +103,32 @@ public class ChannelCrudRepositoryTest {
 
     }
 
+    @Test
+    void 채널이름으로찾기성공() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+        repository.save(channel);
+
+        // when
+        Optional<Channel> OpChannel = repository.findByChannelName(channel.getChannelName());
+        Channel findChannel = OpChannel.get();
+
+        // then
+        assertThat(channel.getId()).isEqualTo(findChannel.getId());
+    }
+
+    @Test
+    void 채널이름으로찾기실패() {
+        // given
+        Channel channel = createChannel(channelName1, text);
+
+        // when
+        Optional<Channel> OpChannel = repository.findByChannelName(channel.getChannelName());
+
+        // then
+        assertThrows(NoSuchElementException.class, OpChannel::get);
+    }
+
     private Channel createChannel(String name, ChannelType type) {
         return new Channel(name, type);
     }

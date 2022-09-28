@@ -85,9 +85,6 @@ public class ChannelLifeServiceImplTest {
     @Test
     void 채널생성성공_회원존재_태그존재_포인트존재() {
         // given
-        doReturn(new ArrayList<>())
-                .when(channelListRepository).findChannelByChannelName(any(String.class));
-
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findUserByEmail(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
@@ -108,9 +105,6 @@ public class ChannelLifeServiceImplTest {
     @Test
     void 채널생성성공_회원존재_태그없음_포인트존재() {
         // given
-        doReturn(new ArrayList<>())
-                .when(channelListRepository).findChannelByChannelName(channelName1);
-
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findUserByEmail(email1);
 
@@ -130,9 +124,6 @@ public class ChannelLifeServiceImplTest {
     @Test
     void 채널생성성공_회원통신성공_태그존재_포인트존재() {
         // given
-
-        doReturn(new ArrayList<>())
-                .when(channelListRepository).findChannelByChannelName(channelName1);
 
         doReturn(Optional.ofNullable(null))
                 .when(usersRepository).findUserByEmail(any(String.class));
@@ -156,8 +147,8 @@ public class ChannelLifeServiceImplTest {
     @Test
     void 채널생성실패_채널이름중복() {
         // given
-        doReturn(List.of(createChannel(channelName1, text)))
-                .when(channelListRepository).findChannelByChannelName(any(String.class));
+        doReturn(Optional.of(createChannel(channelName1, text)))
+                .when(crudRepository).findByChannelName(any(String.class));
 
         // when
 
@@ -171,9 +162,6 @@ public class ChannelLifeServiceImplTest {
     void 채널생성실패_회원통신성공_태그존재_포인트부족() {
         // given
 
-        doReturn(new ArrayList<>())
-                .when(channelListRepository).findChannelByChannelName(any(String.class));
-
         doThrow(new InsufficientPointException())
                 .when(httpApiController).postDecreaseUserPoint(any(), any(), any(String.class));
         // when
@@ -186,9 +174,6 @@ public class ChannelLifeServiceImplTest {
     @Test
     void 채널생성실패_회원통신실패() {
         // given
-
-        doReturn(new ArrayList<>())
-                .when(channelListRepository).findChannelByChannelName(any(String.class));
 
         doThrow(new NotExistUserException())
                 .when(httpApiController).postDecreaseUserPoint(any(), any(), any());
