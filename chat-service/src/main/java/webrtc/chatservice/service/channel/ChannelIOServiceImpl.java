@@ -45,7 +45,7 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     }
 
     private Users findUser(String email) {
-        Users user = usersRepository.findUserByEmail(email)
+        Users user = usersRepository.findByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
         usersRepository.save(user);
         return user;

@@ -86,7 +86,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그존재_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
                 .when(hashTagRepository).findByTagName(any(String.class));
 
@@ -106,7 +106,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그없음_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findUserByEmail(email1);
+                .when(usersRepository).findByEmail(email1);
 
         doReturn(Optional.ofNullable(null))
                 .when(hashTagRepository).findByTagName(any(String.class));
@@ -126,7 +126,7 @@ public class ChannelLifeServiceImplTest {
         // given
 
         doReturn(Optional.ofNullable(null))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
 
         doReturn(createUser())
                 .when(httpApiController).postFindUserByEmail(any(String.class));

@@ -88,7 +88,7 @@ public class UsersRepositoryImplTest {
         repository.save(users);
 
         //when
-        Optional<Users> OpUsers = repository.findUserByEmail(email1);
+        Optional<Users> OpUsers = repository.findByEmail(email1);
 
         //then
         assertThat(OpUsers.isPresent()).isTrue();
@@ -100,7 +100,7 @@ public class UsersRepositoryImplTest {
         Users users = createUsers(nickname1, password, email1);
 
         //when
-        Optional<Users> OpUsers = repository.findUserByEmail(email1);
+        Optional<Users> OpUsers = repository.findByEmail(email1);
 
         //then
         assertThat(OpUsers.isPresent()).isFalse();

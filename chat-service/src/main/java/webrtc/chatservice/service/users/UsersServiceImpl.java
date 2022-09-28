@@ -32,7 +32,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Transactional(readOnly = true)
     public Users findOneUserByEmail(String email) {
-        return usersRepository.findUserByEmail(email)
+        return usersRepository.findByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
     }
 

@@ -67,7 +67,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
-        Users user = usersRepository.findUserByEmail(email)
+        Users user = usersRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
 
         return channelListRepository.findMyChannels(user.getId(), idx, findOrderType(orderType))

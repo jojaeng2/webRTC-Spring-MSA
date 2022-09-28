@@ -71,7 +71,7 @@ public class UsersServiceImplTest {
         String email = "email";
 
         doReturn(Optional.of(new Users(nickname1, password, email)))
-                .when(usersRepository).findUserByEmail(email);
+                .when(usersRepository).findByEmail(email);
 
         //when
         Users users = userService.findOneUserByEmail(email);
@@ -92,7 +92,7 @@ public class UsersServiceImplTest {
                 .when(httpApiController).postFindUserByEmail(email);
 
         doReturn(Optional.empty())
-                .when(usersRepository).findUserByEmail(email);
+                .when(usersRepository).findByEmail(email);
 
         //when
         Users users = userService.findOneUserByEmail(email);
@@ -112,7 +112,7 @@ public class UsersServiceImplTest {
 
 
         doReturn(Optional.empty())
-                .when(usersRepository).findUserByEmail(email1);
+                .when(usersRepository).findByEmail(email1);
 
         //when
 

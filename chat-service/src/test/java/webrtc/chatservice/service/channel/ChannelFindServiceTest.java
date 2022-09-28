@@ -159,7 +159,7 @@ public class ChannelFindServiceTest {
     void 나의채널목록실패유저없음() {
         // given
         doReturn(Optional.empty())
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
 
         // when
 

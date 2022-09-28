@@ -80,7 +80,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
 
@@ -101,7 +101,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.empty())
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
         doThrow(new NotExistUserException())
                 .when(httpApiController).postFindUserByEmail(any(String.class));
 
@@ -118,7 +118,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelCrudRepository).findById(any(String.class));
@@ -135,7 +135,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(List.of(channel))
@@ -155,7 +155,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
         channel.setCurrentParticipants(15L);
         doReturn(Optional.of(user))
-                .when(usersRepository).findUserByEmail(any(String.class));
+                .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(new ArrayList<>())

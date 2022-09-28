@@ -53,11 +53,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Channel channel = createChannelIfNotExist(request);
         channelCrudRepository.save(channel);
 
-        for (String tagName : request.getHashTags()) {
+        request.getHashTags().forEach(tagName -> {
             HashTag hashTag = findHashTag(tagName);
             hashTagRepository.save(hashTag);
             createChannelHashTag(channel, hashTag);
-        }
+        });
 
         channelRedisRepository.createChannel(channel);
         Users user = pointDecreaseAndReturnUser(email);
@@ -89,7 +89,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit, userEmail + "님이 채널 연장에 포인트를 사용했습니다.");
+        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit, userEmail + " 님이 채널 연장에 포인트를 사용했습니다.");
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
     }
 
@@ -103,8 +103,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private Users pointDecreaseAndReturnUser(String email) {
 
-        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, email + "님이 채널 생성에 포인트를 사용했습니다.");
-        Users user = usersRepository.findUserByEmail(email)
+        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, email + " 님이 채널 생성에 포인트를 사용했습니다.");
+        Users user = usersRepository.findByEmail(email)
                 .orElse(httpApiController.postFindUserByEmail(email));
         usersRepository.save(user);
         return user;
