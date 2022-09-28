@@ -35,7 +35,7 @@ public class HashTagServiceImplTest {
     void 이름으로조회성공() {
         // given
         doReturn(Optional.of(new HashTag(tagName)))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
+                .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
 
@@ -50,7 +50,7 @@ public class HashTagServiceImplTest {
     void 이름으로조회실패() {
         // given
         doReturn(Optional.empty())
-                .when(hashTagRepository).findHashTagByName(any(String.class));
+                .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
 

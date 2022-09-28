@@ -32,7 +32,7 @@ public class ChannelApiController {
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
         Channel channel = channelLifeService.createChannel(request, userEmail);
-        return new ResponseEntity<>(new CreateChannelResponse(channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive()), HttpStatus.OK);
+        return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
     }
 
     @GetMapping("/channels/{orderType}/{idx}")

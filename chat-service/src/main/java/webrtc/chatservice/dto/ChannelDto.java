@@ -36,11 +36,11 @@ public class ChannelDto {
         private Long currentParticipants;
         private Long timeToLive;
 
-        public CreateChannelResponse(String channelName, Long limitParticipants, Long currentParticipants, Long timeToLive) {
-            this.channelName = channelName;
-            this.limitParticipants = limitParticipants;
-            this.currentParticipants = currentParticipants;
-            this.timeToLive = timeToLive;
+        public CreateChannelResponse(Channel channel) {
+            this.channelName = channel.getChannelName();
+            this.limitParticipants = channel.getLimitParticipants();
+            this.currentParticipants = channel.getCurrentParticipants();
+            this.timeToLive = channel.getTimeToLive();
         }
     }
 

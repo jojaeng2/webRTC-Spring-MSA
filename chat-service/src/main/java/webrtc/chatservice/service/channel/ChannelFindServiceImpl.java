@@ -81,7 +81,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
-        HashTag hashTag = hashTagRepository.findHashTagByName(tagName)
+        HashTag hashTag = hashTagRepository.findByTagName(tagName)
                 .orElseThrow(NotExistHashTagException::new);
 
         return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))

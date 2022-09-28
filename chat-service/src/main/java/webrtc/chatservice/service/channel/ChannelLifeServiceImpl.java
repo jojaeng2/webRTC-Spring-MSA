@@ -112,7 +112,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     private HashTag findHashTag(String tagName) {
-        return hashTagRepository.findHashTagByName(tagName)
+        return hashTagRepository.findByTagName(tagName)
                 .orElse(new HashTag(tagName));
     }
 

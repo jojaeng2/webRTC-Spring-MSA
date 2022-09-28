@@ -88,7 +88,7 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findUserByEmail(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
+                .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
         Channel channel = channelService.createChannel(createChannelRequest(), email);
@@ -109,7 +109,7 @@ public class ChannelLifeServiceImplTest {
                 .when(usersRepository).findUserByEmail(email1);
 
         doReturn(Optional.ofNullable(null))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
+                .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
         Channel channel = channelService.createChannel(createChannelRequest(), email1);
@@ -132,7 +132,7 @@ public class ChannelLifeServiceImplTest {
                 .when(httpApiController).postFindUserByEmail(any(String.class));
 
         doReturn(Optional.of(createTag(tag1)))
-                .when(hashTagRepository).findHashTagByName(any(String.class));
+                .when(hashTagRepository).findByTagName(any(String.class));
 
 
         // when

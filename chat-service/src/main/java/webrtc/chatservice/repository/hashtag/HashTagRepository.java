@@ -11,6 +11,5 @@ import java.util.Optional;
 
 public interface HashTagRepository extends JpaRepository<HashTag, String> {
 
-    @Query("select h from HashTag h where h.tagName = :tagName")
-    Optional<HashTag> findHashTagByName(@Param("tagName") String tagName);
+    Optional<HashTag> findByTagName(String tagName);
 }
