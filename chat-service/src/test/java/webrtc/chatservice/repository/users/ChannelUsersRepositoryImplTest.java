@@ -60,7 +60,7 @@ public class ChannelUsersRepositoryImplTest {
         repository.save(channelUser);
 
         // when
-        Optional<ChannelUser> OpCU = repository.findOneChannelUser(channel.getId(), users.getId());
+        Optional<ChannelUser> OpCU = repository.findByChannelAndUser(channel, users);
         ChannelUser findChannelUser = OpCU.get();
 
         // then
@@ -74,7 +74,7 @@ public class ChannelUsersRepositoryImplTest {
         Users users = createUsers(nickname1, password, email1);
 
         // when
-        Optional<ChannelUser> OpCU = repository.findOneChannelUser(channel.getId(), users.getId());
+        Optional<ChannelUser> OpCU = repository.findByChannelAndUser(channel, users);
 
         // then
         assertThrows(NoSuchElementException.class, () -> OpCU.get());

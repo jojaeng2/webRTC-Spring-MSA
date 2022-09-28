@@ -30,14 +30,14 @@ import static webrtc.chatservice.enums.SocketInterceptorErrorType.*;
 public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private final ObjectMapper objectMapper;
-    private final ChattingService chattingService;
     private final ChatLogService chatLogService;
 
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {
         Throwable exception = ex;
         if (exception instanceof MessageDeliveryException) {
-            exception = exception.getCause();
+            exception = exception.getCause().getCause();
+
             if(exception instanceof JwtException) {
                 return handleJwtException(clientMessage, exception);
             }
@@ -53,14 +53,15 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private Message<byte[]> handleChannelException(Message<byte[]> clientMessage, Throwable exception) {
         ChannelExceptionDto channelExceptionDto = new ChannelExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
-        if(ChannelParticipantsFullException.class.isInstance(exception)) {
+
+        if(exception instanceof ChannelParticipantsFullException) {
             channelExceptionDto.setField(ALREADY_FULL_CHANNEL, "채널에 인원이 가득차 입장할 수없습니다.", 0L);
         }
-        else if(NotExistChannelException.class.isInstance(exception)) {
+        else if(exception instanceof NotExistChannelException) {
 
             channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..", 0L);
         }
-        else if(AlreadyExistUserInChannelException.class.isInstance(exception)) {
+        else if(exception instanceof AlreadyExistUserInChannelException) {
             StompHeaderAccessor accessor = StompHeaderAccessor.wrap(clientMessage);
             String connectChannelId = accessor.getFirstNativeHeader("channelId");
             Long idx = chatLogService.findLastChatLogsByChannelId(connectChannelId).getIdx();

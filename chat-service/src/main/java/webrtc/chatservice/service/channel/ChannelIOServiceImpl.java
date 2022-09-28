@@ -11,12 +11,15 @@ import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelEx
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
+import webrtc.chatservice.exception.UserException;
+import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +44,8 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Transactional
     public void exitChannel(String channelId, String userId) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        exitChannelUserInChannel(channel, userId);
+        Users user = usersRepository.findById(userId).orElseThrow(NotExistUserException::new);
+        exitChannelUserInChannel(channel, user);
     }
 
     private Users findUser(String email) {
@@ -60,8 +64,15 @@ public class ChannelIOServiceImpl implements ChannelIOService{
             else 처음 입장하는 채널 -> {자리 있는지 확인 후 채널에 입장시킴}
          */
 
-        List<Channel> channels = channelListRepository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
-        if(!channels.isEmpty()) throw new AlreadyExistUserInChannelException();
+
+//        Optional<ChannelUser> channelUser1 = channelUserRepository.findByChannelAndUser(channel, user);
+//        System.out.println("channelUser1 = " + channelUser1.get().getId());
+
+        channelUserRepository.findByChannelAndUser(channel, user)
+                .ifPresent(channelUser -> {
+                    throw new AlreadyExistUserInChannelException();
+                });
+
 
         Long limitParticipants = channel.getLimitParticipants();
         Long currentParticipants = channel.getCurrentParticipants();
@@ -72,8 +83,8 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         }
     }
 
-    private void exitChannelUserInChannel(Channel channel, String userId) {
-        ChannelUser channelUser = channelUserRepository.findOneChannelUser(channel.getId(), userId).orElseThrow(NotExistChannelUserException::new);
+    private void exitChannelUserInChannel(Channel channel, Users user) {
+        ChannelUser channelUser = channelUserRepository.findByChannelAndUser(channel, user).orElseThrow(NotExistChannelUserException::new);
         channel.exitChannelUser(channelUser);
         channelUserRepository.delete(channelUser);
     }

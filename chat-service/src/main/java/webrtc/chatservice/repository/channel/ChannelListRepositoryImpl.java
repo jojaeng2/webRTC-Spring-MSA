@@ -20,17 +20,6 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
     @PersistenceContext
     private EntityManager em;
 
-
-    /*
-     * 특정 채널을 channel_id + user_id로 찾기
-     */
-    public List<Channel> findChannelsByChannelIdAndUserId(String channelId, String userId) {
-        return em.createQuery("select c from Channel c join c.channelUsers where user_id = :user_id and c.id = :channel_id", Channel.class)
-                .setParameter("channel_id", channelId)
-                .setParameter("user_id", userId)
-                .getResultList();
-    }
-
     public List<Channel> findAnyChannels(int idx, String type) {
         return em.createQuery("select c from Channel c order by c.currentParticipants " + type, Channel.class)
                 .setFirstResult(idx * LoadingChannel)

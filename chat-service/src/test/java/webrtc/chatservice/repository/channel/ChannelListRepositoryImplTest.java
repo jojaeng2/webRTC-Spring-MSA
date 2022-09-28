@@ -36,24 +36,6 @@ public class ChannelListRepositoryImplTest {
     String tag1 = "tag1";
     ChannelType text = TEXT;
 
-
-    @Test
-    void 채널ID와회원ID로채널찾기성공() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        Users user = createUsers(nickname1, password, email1);
-        ChannelUser channelUser = createChannelUser(user, channel);
-        em.persist(channel);
-        em.persist(user);
-        em.persist(channelUser);
-
-        // when
-        List<Channel> channels = repository.findChannelsByChannelIdAndUserId(channel.getId(), user.getId());
-
-        // then
-        assertThat(channels).isNotEmpty();
-    }
-
     @Test
     void 전채채널목록불러오기_20개미만() {
         // given
