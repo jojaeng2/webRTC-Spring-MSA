@@ -28,6 +28,9 @@ public class ChannelApiController {
     private final ChannelFindService channelFindService;
     private final JwtTokenUtil jwtTokenUtil;
 
+    /**
+     * 채널 생성 API
+     */
     @PostMapping("/channel")
     public ResponseEntity<CreateChannelResponse> createChannel(@RequestBody CreateChannelRequest request, @RequestHeader("Authorization") String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
@@ -35,12 +38,19 @@ public class ChannelApiController {
         return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
     }
 
+    /**
+     * 조건없이 채널 목록을 불러오는 API
+     */
     @GetMapping("/channels/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findAnyChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
         List<ChannelResponse> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
+    /**
+     * 특정 사용자가 입장한 채널 목록을 불러오는 API
+     * jwt access token에 들어있는 userEmail로 회원을 구분
+     */
     @GetMapping("/mychannel/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @RequestHeader("Authorization") String jwtAccessToken, @NotNull @PathVariable("idx") String idx) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
@@ -48,6 +58,9 @@ public class ChannelApiController {
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
+    /**
+     * 최근 채팅이 보내진 시간을 기준으로 채널 목록을 불러오는 API
+     */
     @GetMapping("/recent/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findChannelsRecentlyTalk(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
         List<ChannelResponse> channels = channelFindService.findChannelsRecentlyTalk(orderType, Integer.parseInt(idx));
@@ -55,6 +68,9 @@ public class ChannelApiController {
     }
 
 
+    /**
+     * 특정 채널 하나의 정보를 반환하는 API
+     */
     @GetMapping("/channel/{id}")
     public ResponseEntity<ChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
         Channel channel = channelFindService.findOneChannelById(channelId);

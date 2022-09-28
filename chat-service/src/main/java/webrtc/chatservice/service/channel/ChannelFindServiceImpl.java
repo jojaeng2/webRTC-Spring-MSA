@@ -33,6 +33,10 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     private final ChannelInfoInjectService channelInfoInjectService;
     private final Map<String, String> orderMap = new HashMap<>();
 
+    /**
+     * 채널 정렬 기준을 저장하고 있는 HashMap 생성 및 관리
+     * Default 값 = 'asc'
+     */
     @PostConstruct
     private void createMapping() {
         orderMap.put("partiASC", "asc");
@@ -40,7 +44,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     }
 
     /*
-     * 비즈니스 로직 - 특정 채널 ID로 찾기
+     * 비즈니스 로직 - 특정 채널을 ID로 찾고, 남은 수명을 넣어 반환
      */
     @Transactional(readOnly = true)
     public Channel findOneChannelById(String channelId) {
@@ -50,8 +54,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     }
 
     /*
-     * 비즈니스 로직 - 모든 채널 불러오기
-     *
+     * 비즈니스 로직 - 조건 없이 모든 채널을 목록으로 불러옴
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
@@ -62,8 +65,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     }
 
     /*
-     * 비즈니스 로직 - 입장한 모든 채널 불러오기
-     *
+     * 비즈니스 로직 - 특정 회원이 입장한 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
@@ -77,7 +79,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     }
 
     /*
-     * 비즈니스 로직 - 해시태그로 채널찾기
+     * 비즈니스 로직 - 특정 해시 태그를 가지고 있는 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
@@ -90,6 +92,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
                 .collect(toList());
     }
 
+    /*
+     * 비즈니스 로직 - 최근 보내진 채팅 메시지 시간에 따라 정렬하여 채널 목록으로 불러옴
+     */
     @Transactional(readOnly = true)
     public List<ChannelResponse> findChannelsRecentlyTalk(String orderType, int idx) {
 
@@ -99,6 +104,10 @@ public class ChannelFindServiceImpl implements ChannelFindService {
                 .collect(toList());
     }
 
+    /*
+     * 비즈니스 로직 - HashMap에 들어있는 정렬 기준을 반환
+     * Default = asc
+     */
     private String findOrderType(String type) {
         if(orderMap.containsKey(type)) return orderMap.get(type);
         return "asc";
