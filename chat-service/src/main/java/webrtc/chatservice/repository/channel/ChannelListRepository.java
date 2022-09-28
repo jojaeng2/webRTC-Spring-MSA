@@ -17,4 +17,6 @@ public interface ChannelListRepository {
     List<Channel> findAnyChannels(int idx, String type);
     List<Channel> findMyChannels(String userId, int idx, String type);
     List<Channel> findChannelsByHashName(HashTag hashTag, int idx, String type);
+
+    List<Channel> findChannelsRecentlyTalk(int idx, String type);
 }

@@ -16,4 +16,5 @@ public interface ChannelFindService {
 
     List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx);
 
+    List<ChannelResponse> findChannelsRecentlyTalk(String orderType, int idx);
 }

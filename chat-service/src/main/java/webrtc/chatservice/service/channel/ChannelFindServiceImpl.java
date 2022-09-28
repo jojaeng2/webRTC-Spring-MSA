@@ -91,4 +91,15 @@ public class ChannelFindServiceImpl implements ChannelFindService {
         }
         return new ArrayList<>();
     }
+
+    @Transactional(readOnly = true)
+    public List<ChannelResponse> findChannelsRecentlyTalk(String orderType, int idx) {
+        switch (orderType) {
+            case "partiASC" :
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findChannelsRecentlyTalk(idx, "asc"));
+            case "partiDESC" :
+                return channelInfoInjectService.setReturnChannelsTTL(channelListRepository.findChannelsRecentlyTalk(idx, "desc"));
+        }
+        return new ArrayList<>();
+    }
 }

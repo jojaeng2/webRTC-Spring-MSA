@@ -7,6 +7,7 @@ import webrtc.chatservice.enums.ChannelType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Getter
@@ -22,6 +23,8 @@ public class Channel implements Serializable {
     private Long currentParticipants;
     private Long timeToLive;
     private ChannelType channelType;
+    private Timestamp latestLog;
+
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
     private List<ChannelUser> channelUsers;
@@ -33,7 +36,6 @@ public class Channel implements Serializable {
 
     @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ChatLog> chatLogs;
-
 
     public Channel(String channelName, ChannelType channelType) {
         this.id = UUID.randomUUID().toString();
@@ -70,6 +72,7 @@ public class Channel implements Serializable {
     public void addChatLog(ChatLog chatLog) {
         chatLog.setChannel(this);
         this.chatLogs.add(chatLog);
+        this.latestLog = chatLog.getSendTime();
     }
 
     public void setCurrentParticipants(Long newone) {

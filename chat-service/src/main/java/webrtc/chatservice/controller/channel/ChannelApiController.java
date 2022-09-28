@@ -54,6 +54,13 @@ public class ChannelApiController {
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
+    @GetMapping("/recent/{orderType}/{idx}")
+    public ResponseEntity<FindAllChannelResponse> findChannelsRecentlyTalk(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
+        List<ChannelResponse> channels = channelFindService.findChannelsRecentlyTalk(orderType, Integer.parseInt(idx));
+        return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
+    }
+
+
     @GetMapping("/channel/{id}")
     public ResponseEntity<ChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
         Channel channel = channelFindService.findOneChannelById(channelId);

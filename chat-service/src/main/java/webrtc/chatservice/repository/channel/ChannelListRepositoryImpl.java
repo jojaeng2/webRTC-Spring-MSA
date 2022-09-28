@@ -67,4 +67,12 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
                 .getResultList();
     }
 
+    public List<Channel> findChannelsRecentlyTalk(int idx, String type) {
+        return em.createQuery("select c from Channel c order by c.latestLog " + type, Channel.class)
+                .setFirstResult(idx * LoadingChannel)
+                .setMaxResults(LoadingChannel)
+                .getResultList();
+
+    }
+
 }
