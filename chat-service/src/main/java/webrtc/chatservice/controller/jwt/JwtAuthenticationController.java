@@ -35,7 +35,6 @@ public class JwtAuthenticationController {
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
-
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
         if(passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);

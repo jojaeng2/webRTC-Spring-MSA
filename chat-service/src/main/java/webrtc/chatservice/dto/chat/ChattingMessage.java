@@ -20,6 +20,8 @@ public class ChattingMessage {
     private Long logId;
     private String senderEmail;
     private Timestamp sendTime;
+    private String ip;
+    private String browser;
 
 
     public ChattingMessage(String channelId, String senderName, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
@@ -31,10 +33,20 @@ public class ChattingMessage {
         this.logId = logId;
         this.senderEmail = senderEmail;
         this.sendTime = new Timestamp(System.currentTimeMillis());
+        this.ip = null;
+        this.browser = null;
     }
 
     public ChattingMessage setType(SocketServerMessageType type) {
         this.type = type;
         return this;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
     }
 }

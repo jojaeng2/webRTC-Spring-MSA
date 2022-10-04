@@ -15,8 +15,8 @@ public class Pointcuts {
 
     @Pointcut("allController() || allService() || allRepository()")
     public void controllerAndServiceAndRepository() {}
+
+    @Pointcut("execution(* webrtc.chatservice.service.rabbit.template..*(..))")
+    public void rabbitTemplate() {}
+
 }
-
-
-
-
