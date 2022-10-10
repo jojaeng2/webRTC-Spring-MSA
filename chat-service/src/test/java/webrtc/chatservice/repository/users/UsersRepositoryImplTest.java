@@ -115,7 +115,11 @@ public class UsersRepositoryImplTest {
                 .email(email1)
                 .build();
         Channel channel = createChannel(channelName1, text);
-        ChannelUser channelUser = new ChannelUser(users, channel);
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(users)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
         repository.save(users);
         em.persist(channel);
         em.persist(channelUser);

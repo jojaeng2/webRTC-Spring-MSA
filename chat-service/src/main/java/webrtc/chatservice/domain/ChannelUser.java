@@ -1,6 +1,8 @@
 package webrtc.chatservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
@@ -11,6 +13,8 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ChannelUser implements Serializable {
 
     @Id
@@ -26,18 +30,4 @@ public class ChannelUser implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users user;
-
-    public ChannelUser(Users user, Channel channel) {
-        this.channel = channel;
-        this.user = user;
-        channel.enterChannelUser(this);
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    public void setUsers(Users user) {
-        this.user = user;
-    }
 }

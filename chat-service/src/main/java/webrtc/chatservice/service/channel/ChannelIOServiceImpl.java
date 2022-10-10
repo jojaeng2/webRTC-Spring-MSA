@@ -92,7 +92,11 @@ public class ChannelIOServiceImpl implements ChannelIOService{
         Long currentParticipants = channel.getCurrentParticipants();
         if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
         else {
-            ChannelUser channelUser = new ChannelUser(user, channel);
+            ChannelUser channelUser = ChannelUser.builder()
+                    .user(user)
+                    .channel(channel)
+                    .build();
+            channel.enterChannelUser(channelUser);
             channelUserRepository.save(channelUser);
         }
     }

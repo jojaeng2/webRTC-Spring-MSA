@@ -161,7 +161,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) ChannelUser 생성 후 저장
      */
     private void createChannelUser(Users user, Channel channel) {
-        ChannelUser channelUser = new ChannelUser(user, channel);
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(user)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
         channelUserRepository.save(channelUser);
     }
 

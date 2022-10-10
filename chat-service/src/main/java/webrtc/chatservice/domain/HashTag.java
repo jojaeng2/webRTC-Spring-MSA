@@ -33,7 +33,4 @@ public class HashTag implements Serializable {
     public void addChannelHashTag(ChannelHashTag channelHashTag) {
         this.channelHashTags.add(channelHashTag);
     }
-
-
-
 }

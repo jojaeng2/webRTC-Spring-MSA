@@ -39,7 +39,11 @@ public class ChannelUsersRepositoryImplTest {
         // given
         Channel channel = createChannel(channelName1, text);
         Users users = createUsers(nickname1, password, email1);
-        ChannelUser channelUser = new ChannelUser(users, channel);
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(users)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
 
         // when
         ChannelUser findChannelUser = repository.save(channelUser);
@@ -94,6 +98,11 @@ public class ChannelUsersRepositoryImplTest {
     }
 
     private ChannelUser createChannelUser( Users user, Channel channel) {
-        return new ChannelUser(user, channel);
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(user)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
+        return channelUser;
     }
 }

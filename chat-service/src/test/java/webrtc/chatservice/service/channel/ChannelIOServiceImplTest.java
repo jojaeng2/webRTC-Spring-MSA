@@ -233,6 +233,11 @@ public class ChannelIOServiceImplTest {
     }
 
     private ChannelUser createChannelUser(Channel channel, Users user) {
-        return new ChannelUser(user, channel);
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(user)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
+        return channelUser;
     }
 }
