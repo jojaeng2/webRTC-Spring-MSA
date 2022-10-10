@@ -1,6 +1,8 @@
 package webrtc.chatservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
@@ -13,38 +15,34 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @RedisHash("chatLog")
 public class ChatLog {
 
     @Id
     @Column(name = "chat_id")
     @JsonIgnore
-    private String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
     @ManyToOne
     @JoinColumn(name = "channel_id")
     @JsonIgnore
     private Channel channel;
 
-    private Long idx;
+    @Builder.Default
+    private Long idx = 1L;
 
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
     private String message;
     private String senderNickname;
     private String senderEmail;
-    private Timestamp sendTime;
 
-    public ChatLog(ClientMessageType type, String message, String senderNickname, String senderEmail) {
-        this.id = UUID.randomUUID().toString();
-        this.type = type;
-        this.message = message;
-        this.senderNickname = senderNickname;
-        this.senderEmail = senderEmail;
-        this.sendTime = new Timestamp(System.currentTimeMillis());
-        this.idx = 1L;
-    }
-
+    @Builder.Default
+    private Timestamp sendTime = new Timestamp(System.currentTimeMillis());
+    
     public void setChatLogIdx(Long idx) {
         this.idx = idx;
     }

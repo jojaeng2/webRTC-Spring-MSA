@@ -29,10 +29,7 @@ public class ChatLogRepositoryImplTest {
     @Autowired
     private TestEntityManager em;
 
-    String nickname1 = "nickname1";
-    String email1 = "email1";
     String channelName1 = "channelName1";
-    String message = "message";
     ChannelType text = TEXT;
 
     @Test
@@ -62,7 +59,13 @@ public class ChatLogRepositoryImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
         for(Long i=0L; i<20L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
+            ChatLog chatLog = ChatLog.builder()
+                    .type(ENTER)
+                    .message("testMessage" + i)
+                    .senderNickname("testUser2")
+                    .senderEmail("email1")
+                    .build();
+
             chatLog.setChatLogIdx(i);
             channel.addChatLog(chatLog);
         }
@@ -80,7 +83,12 @@ public class ChatLogRepositoryImplTest {
         // given
         Channel channel = new Channel(channelName1, text);
         for(Long i=0L; i<100L; i++) {
-            ChatLog chatLog = new ChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
+            ChatLog chatLog = ChatLog.builder()
+                    .type(ENTER)
+                    .message("testMessage" + i)
+                    .senderNickname("testUser2")
+                    .senderEmail("email1")
+                    .build();
             chatLog.setChatLogIdx(i);
             channel.addChatLog(chatLog);
         }
@@ -101,7 +109,12 @@ public class ChatLogRepositoryImplTest {
     }
 
     private ChatLog createChatLog(ClientMessageType type, String message, String nickname, String email) {
-        return new ChatLog(type, message, nickname, email);
+        return ChatLog.builder()
+                .type(type)
+                .message(message)
+                .senderNickname(nickname)
+                .senderEmail(email)
+                .build();
     }
 
 }

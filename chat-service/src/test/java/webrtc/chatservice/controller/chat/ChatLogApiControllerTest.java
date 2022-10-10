@@ -110,7 +110,12 @@ public class ChatLogApiControllerTest {
 
         Long testCase = 39L;
         for(Long i=19L; i<testCase; i++) {
-            ChatLog chatLog = new ChatLog(CHAT, i+" 번째 메시지", nickname1, email1);
+            ChatLog chatLog = ChatLog.builder()
+                    .type(CHAT)
+                    .message(i+" 번째 메시지")
+                    .senderNickname(nickname1)
+                    .senderEmail(email1)
+                    .build();
             chatLog.setChatLogIdx(i);
             chatLogList.add(chatLog);
         }

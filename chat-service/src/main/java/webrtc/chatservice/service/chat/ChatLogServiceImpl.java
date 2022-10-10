@@ -18,7 +18,12 @@ public class ChatLogServiceImpl implements ChatLogService{
 
     public Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
-        ChatLog chatLog = new ChatLog(type, chatMessage, nickname, senderEmail);
+        ChatLog chatLog = ChatLog.builder()
+                .type(type)
+                .message(chatMessage)
+                .senderNickname(nickname)
+                .senderEmail(senderEmail)
+                .build();
 
         if(findChatLogs.isEmpty()) {
             chatLog.setChatLogIdx(1L);

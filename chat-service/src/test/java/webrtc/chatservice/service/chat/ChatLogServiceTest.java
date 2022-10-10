@@ -35,17 +35,9 @@ public class ChatLogServiceTest {
     private ChatLogRepository chatLogRepository;
 
     String nickname1 = "nickname1";
-    String nickname2 = "nickname2";
-    String password = "password";
     String email1 = "email1";
-    String email2 = "email2";
     String channelName1 = "channelName1";
-    String notExistChannelId = "null";
-    String tag1 = "tag1";
-    String tag2 = "tag2";
-    String tag3 = "tag3";
     ChannelType text = TEXT;
-    ChannelType voip = VOIP;
     ClientMessageType type = ClientMessageType.CHAT;
     int maxi = 20;
     Long idx = 10L;
@@ -140,7 +132,12 @@ public class ChatLogServiceTest {
     private List<ChatLog> logList20() {
         List<ChatLog> chatLogs = new ArrayList<>();
         for(int i=1; i<=maxi; i++) {
-            ChatLog chatLog = new ChatLog(type, "테스트", nickname1,  email1);
+            ChatLog chatLog = ChatLog.builder()
+                    .type(type)
+                    .message("테스트")
+                    .senderNickname(nickname1)
+                    .senderEmail(email1)
+                    .build();
             chatLog.setChatLogIdx((long) i);
             chatLogs.add(chatLog);
         }
@@ -158,7 +155,12 @@ public class ChatLogServiceTest {
     }
 
     private ChatLog createChatLog() {
-        return new ChatLog(type, "테스트", nickname1,  email1);
+        return ChatLog.builder()
+                .type(type)
+                .message("테스트")
+                .senderNickname(nickname1)
+                .senderEmail(email1)
+                .build();
     }
     private Channel createChannel(String name, ChannelType type) {
         return new Channel(name, type);

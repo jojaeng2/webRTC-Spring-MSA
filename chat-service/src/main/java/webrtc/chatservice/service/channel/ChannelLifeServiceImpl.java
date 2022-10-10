@@ -181,7 +181,12 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) 채팅 로그 생성 후 저장
      */
     private void createChatLog(Channel channel, Users user) {
-        ChatLog chatLog = new ChatLog(CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", user.getNickname(), "NOTICE");
+        ChatLog chatLog = ChatLog.builder()
+                .type(CREATE)
+                .message("[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.")
+                .senderNickname(user.getNickname())
+                .senderEmail("NOTICE")
+                .build();
         channel.addChatLog(chatLog);
     }
 
