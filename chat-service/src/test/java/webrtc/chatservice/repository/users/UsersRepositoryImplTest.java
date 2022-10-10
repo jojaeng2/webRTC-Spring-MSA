@@ -109,7 +109,11 @@ public class UsersRepositoryImplTest {
     @Test
     void 채널ID로유저찾기성공() {
         //given
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Channel channel = createChannel(channelName1, text);
         ChannelUser channelUser = new ChannelUser(users, channel);
         repository.save(users);
@@ -127,7 +131,11 @@ public class UsersRepositoryImplTest {
     @Test
     void 채널ID로유저찾기실패() {
         //given
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Channel channel = createChannel(channelName1, text);
         repository.save(users);
         em.persist(channel);
@@ -143,7 +151,11 @@ public class UsersRepositoryImplTest {
 
 
     private Users createUsers(String name, String password, String email) {
-        return new Users(name, password, email);
+        return Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
     }
 
     private Channel createChannel(String name, ChannelType type) {

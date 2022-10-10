@@ -117,7 +117,11 @@ public class ChannelApiControllerTest {
     public void 새로운_채널생성_성공() throws Exception{
         // given
 
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -164,7 +168,11 @@ public class ChannelApiControllerTest {
     @Transactional
     public void 채널생성_실패_중복된채널이름() throws Exception{
         // given
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
@@ -203,7 +211,11 @@ public class ChannelApiControllerTest {
     @Transactional
     public void jwt토큰문제발생() throws Exception{
         // given
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);

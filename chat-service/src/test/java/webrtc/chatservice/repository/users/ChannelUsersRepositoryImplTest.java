@@ -86,7 +86,11 @@ public class ChannelUsersRepositoryImplTest {
     }
 
     private Users createUsers(String name, String password, String email) {
-        return new Users(name, password, email);
+        return Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
     }
 
     private ChannelUser createChannelUser( Users user, Channel channel) {

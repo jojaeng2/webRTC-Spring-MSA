@@ -205,7 +205,6 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -249,7 +248,6 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -289,7 +287,6 @@ public class PointApiControllerTest {
 
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);

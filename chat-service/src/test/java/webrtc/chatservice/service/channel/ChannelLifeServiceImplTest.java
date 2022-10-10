@@ -285,7 +285,11 @@ public class ChannelLifeServiceImplTest {
     }
 
     private Users createUser() {
-        return new Users(nickname1, password, email1);
+        return Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
     }
 
     private HashTag createTag(String name) {

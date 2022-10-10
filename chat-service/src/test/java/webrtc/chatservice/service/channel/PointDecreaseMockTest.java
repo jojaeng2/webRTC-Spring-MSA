@@ -50,7 +50,11 @@ public class PointDecreaseMockTest {
     public void 채널수명연장성공() {
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Long requestTTL = 100L;
 
         doReturn(Optional.of(channel))
@@ -72,7 +76,11 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_채널없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Long requestTTL = 100L;
 
         doReturn(Optional.empty())
@@ -91,7 +99,11 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_유저없음() {
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Long requestTTL = 100L;
 
         doReturn(Optional.of(channel))
@@ -112,7 +124,11 @@ public class PointDecreaseMockTest {
     public void 채널수명연장실패_포인트부족() {
         // given
         Channel channel = new Channel(channelName1, text);
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
         Long requestTTL = 100L;
 
         doReturn(Optional.of(channel))

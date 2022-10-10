@@ -72,7 +72,11 @@ public class ChannelListRepositoryImplTest {
     @Test
     void 나의채널목록불러오기_20개미만() {
         // given
-        Users user = new Users(nickname1, password, email1);
+        Users user = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         int testcase = 19;
         for(int i=1; i<=testcase; i++) {
@@ -96,7 +100,11 @@ public class ChannelListRepositoryImplTest {
     @Test
     void 나의채널목록불러오기_20개초과() {
         // given
-        Users user = new Users(nickname1, password, email1);
+        Users user = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         int testcase = 30;
         for(int i=1; i<=testcase; i++) {
@@ -174,7 +182,11 @@ public class ChannelListRepositoryImplTest {
     }
 
     private Users createUsers(String name, String password, String email) {
-        return new Users(name, password, email);
+        return Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
     }
 
     private ChannelUser createChannelUser( Users user, Channel channel) {

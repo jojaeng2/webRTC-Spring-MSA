@@ -121,7 +121,11 @@ public class SocketMessageFactoryTest {
     }
 
     private Users createUser(String nickname, String password, String email) {
-        return new Users(nickname, password, email);
+        return Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
     }
 
     private void createSocketMessage(ClientMessageType type, ClientMessage message) {

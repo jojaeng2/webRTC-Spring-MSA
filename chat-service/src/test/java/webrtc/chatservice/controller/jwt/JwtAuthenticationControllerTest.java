@@ -91,13 +91,16 @@ public class JwtAuthenticationControllerTest {
     @Test
     @Transactional
     public void 유저등록성공() throws Exception {
-        System.out.println("passwordEncoder = " + passwordEncoder);
         // given
         CreateUserRequest ObjRequest = new CreateUserRequest(nickname1, password, email1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        Users users = new Users(nickname1, password, email1);
-
-        doReturn(new Users(nickname1, password, email1))
+        Users users = Users.builder()
+                        .nickname(nickname1)
+                        .password(password)
+                        .email(email1)
+                        .build();
+        System.out.println("유저 등록 성공 = " + users.getId());
+        doReturn(users)
                 .when(usersService).saveUser(any(CreateUserRequest.class));
 
         doReturn(users)
@@ -169,7 +172,11 @@ public class JwtAuthenticationControllerTest {
         // given
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        Users users = new Users(nickname1, password, email1);
+        Users users = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
 
         doThrow(new NotExistUserException())
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));

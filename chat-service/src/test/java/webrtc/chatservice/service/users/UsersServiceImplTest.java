@@ -52,7 +52,11 @@ public class UsersServiceImplTest {
 
         doReturn(password)
                 .when(encoder).encode(any(String.class));
-        doReturn(new Users(nickname1, password, email1))
+        doReturn(Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build())
                 .when(usersRepository)
                 .save(any(Users.class));
 
@@ -70,7 +74,11 @@ public class UsersServiceImplTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String email = "email";
 
-        doReturn(Optional.of(new Users(nickname1, password, email)))
+        doReturn(Optional.of(Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email)
+                .build()))
                 .when(usersRepository).findByEmail(email);
 
         //when
@@ -88,7 +96,11 @@ public class UsersServiceImplTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String email = "email";
 
-        doReturn(new Users(nickname1, password, email))
+        doReturn(Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email)
+                .build())
                 .when(httpApiController).postFindUserByEmail(email);
 
         doReturn(Optional.empty())

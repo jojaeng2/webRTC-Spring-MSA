@@ -25,7 +25,11 @@ public class UsersServiceImpl implements UsersService {
 
     @Transactional
     public Users saveUser(CreateUserRequest request) {
-        Users user = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
+        Users user = Users.builder()
+                        .nickname(request.getNickname())
+                        .password(bcryptEncoder.encode(request.getPassword()))
+                        .email(request.getEmail())
+                        .build();
         usersRepository.save(user);
         return user;
     }

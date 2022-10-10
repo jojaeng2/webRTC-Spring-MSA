@@ -46,7 +46,11 @@ public class JwtUsersDetailsServiceTest {
     public void 유저이름으로_UserDetails_조회성공() {
         // given
 
-        doReturn(new Users(nickname1, password, email1))
+        doReturn(Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build())
                 .when(httpApiController).postFindUserByEmail(email1);
 
         // when
