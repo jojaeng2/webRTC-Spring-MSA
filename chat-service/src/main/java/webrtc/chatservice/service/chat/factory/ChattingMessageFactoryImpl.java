@@ -20,11 +20,7 @@ import static webrtc.chatservice.enums.SocketServerMessageType.CREATE;
 @Component
 public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
 
-    private final Map<ClientMessageType, CreateChattingMessageTemplate> messageTypes;
-
-    public ChattingMessageFactoryImpl() {
-        this.messageTypes = new HashMap<>();
-    }
+    private final Map<ClientMessageType, CreateChattingMessageTemplate> messageTypes = new HashMap<>();
 
     @PostConstruct
     public void messageFactoryConst() {

@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ChattingMessageFactory {
 
-    void messageFactoryConst();
     ChattingMessage createMessage(String channelId, ClientMessageType type, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail);
 
 }

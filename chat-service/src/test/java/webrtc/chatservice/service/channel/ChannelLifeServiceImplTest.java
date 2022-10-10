@@ -289,7 +289,8 @@ public class ChannelLifeServiceImplTest {
     }
 
     private HashTag createTag(String name) {
-        return new HashTag(name);
+        return HashTag.builder()
+                .tagName(name).build();
     }
 
     private Channel createChannel(String name, ChannelType type) {

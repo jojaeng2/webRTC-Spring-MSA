@@ -245,6 +245,8 @@ public class ChannelFindServiceTest {
     }
 
     private HashTag createHashTag() {
-        return new HashTag(tag1);
+        return HashTag.builder()
+                .tagName(tag1)
+                .build();
     }
 }

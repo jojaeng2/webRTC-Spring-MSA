@@ -34,7 +34,7 @@ public class HashTagServiceImplTest {
     @Test
     void 이름으로조회성공() {
         // given
-        doReturn(Optional.of(new HashTag(tagName)))
+        doReturn(Optional.of(HashTag.builder().tagName(tagName).build()))
                 .when(hashTagRepository).findByTagName(any(String.class));
 
         // when

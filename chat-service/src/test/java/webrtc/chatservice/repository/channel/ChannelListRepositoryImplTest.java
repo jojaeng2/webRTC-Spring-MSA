@@ -164,7 +164,9 @@ public class ChannelListRepositoryImplTest {
     }
 
     private HashTag createHashTag(String name) {
-        return new HashTag(name);
+        return HashTag.builder()
+                .tagName(name)
+                .build();
     }
 
     private ChannelHashTag createChannelHashTag(Channel channel, HashTag tag) {

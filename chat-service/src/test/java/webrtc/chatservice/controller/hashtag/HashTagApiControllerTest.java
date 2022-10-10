@@ -113,7 +113,9 @@ public class HashTagApiControllerTest {
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = new Channel(channelName1, text);
             for(String tagName : hashTagList) {
-                HashTag hashTag = new HashTag(tagName);
+                HashTag hashTag = HashTag.builder()
+                        .tagName(tagName)
+                        .build();
                 ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
                 channel.addChannelHashTag(channelHashTag);
             }
@@ -172,7 +174,9 @@ public class HashTagApiControllerTest {
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = new Channel(channelName1, text);
             for(String tagName : hashTagList) {
-                HashTag hashTag = new HashTag(tagName);
+                HashTag hashTag = HashTag.builder()
+                        .tagName(tagName)
+                        .build();
                 ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
                 channel.addChannelHashTag(channelHashTag);
             }

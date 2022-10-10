@@ -91,6 +91,8 @@ public class HashTagRepositoryImplTest {
     }
 
     private HashTag createHashTag(String name) {
-        return new HashTag(name);
+        return HashTag.builder()
+                .tagName(name)
+                .build();
     }
 }
