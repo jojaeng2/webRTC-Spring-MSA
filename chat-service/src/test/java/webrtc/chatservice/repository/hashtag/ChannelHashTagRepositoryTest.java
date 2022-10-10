@@ -115,6 +115,12 @@ public class ChannelHashTagRepositoryTest {
     }
 
     private ChannelHashTag createChannelHashTag(Channel channel, HashTag tag) {
-        return new ChannelHashTag(channel, tag);
+        ChannelHashTag channelHashTag = ChannelHashTag.builder()
+                .channel(channel)
+                .hashTag(tag)
+                .build();
+        channel.addChannelHashTag(channelHashTag);
+        tag.addChannelHashTag(channelHashTag);
+        return channelHashTag;
     }
 }

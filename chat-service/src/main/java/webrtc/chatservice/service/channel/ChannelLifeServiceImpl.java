@@ -175,7 +175,12 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) ChannelHashTag 생성 후 저장
      */
     private void createChannelHashTag(Channel channel, HashTag hashTag) {
-        ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+        ChannelHashTag channelHashTag = ChannelHashTag.builder()
+                .channel(channel)
+                .hashTag(hashTag)
+                .build();
+        channel.addChannelHashTag(channelHashTag);
+        hashTag.addChannelHashTag(channelHashTag);
         channelHashTagRepository.save(channelHashTag);
     }
 

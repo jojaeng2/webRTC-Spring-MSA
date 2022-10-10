@@ -263,8 +263,12 @@ public class ChannelApiControllerTest {
                     .builder()
                     .tagName(tagName)
                     .build();
-            ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+            ChannelHashTag channelHashTag = ChannelHashTag.builder()
+                    .channel(channel)
+                    .hashTag(hashTag)
+                    .build();
             channel.addChannelHashTag(channelHashTag);
+            hashTag.addChannelHashTag(channelHashTag);
         }
 
         doReturn(channel)
@@ -355,8 +359,12 @@ public class ChannelApiControllerTest {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)
                         .build();
-                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                ChannelHashTag channelHashTag = ChannelHashTag.builder()
+                        .channel(channel)
+                        .hashTag(hashTag)
+                        .build();
                 channel.addChannelHashTag(channelHashTag);
+                hashTag.addChannelHashTag(channelHashTag);
             }
             ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
             responseList.add(response);
@@ -410,7 +418,12 @@ public class ChannelApiControllerTest {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)
                         .build();
-                ChannelHashTag channelHashTag = new ChannelHashTag(channel, hashTag);
+                ChannelHashTag channelHashTag = ChannelHashTag.builder()
+                        .channel(channel)
+                        .hashTag(hashTag)
+                        .build();
+
+                hashTag.addChannelHashTag(channelHashTag);
                 channel.addChannelHashTag(channelHashTag);
             }
             ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
