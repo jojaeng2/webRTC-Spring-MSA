@@ -112,7 +112,10 @@ public class ChattingServiceImplTest {
     }
 
     private Channel createChannel(String name, ChannelType type) {
-        return new Channel(name, type);
+        return Channel.builder()
+                .channelName(name)
+                .channelType(type)
+                .build();
     }
 
     private List<Users> createList() {

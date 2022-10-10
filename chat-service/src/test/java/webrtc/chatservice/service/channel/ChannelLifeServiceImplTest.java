@@ -298,6 +298,9 @@ public class ChannelLifeServiceImplTest {
     }
 
     private Channel createChannel(String name, ChannelType type) {
-        return new Channel(name, type);
+        return Channel.builder()
+                .channelName(name)
+                .channelType(type)
+                .build();
     }
 }

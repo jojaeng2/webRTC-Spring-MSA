@@ -223,13 +223,19 @@ public class ChannelFindServiceTest {
     }
 
     private Channel createChannel(String name, ChannelType type) {
-        return new Channel(name, type);
+        return Channel.builder()
+                .channelName(name)
+                .channelType(type)
+                .build();
     }
 
     private List<Channel> channelListUnder20() {
         List<Channel> channels = new ArrayList<>();
         for(int i=0; i<mini; i++) {
-            Channel channel = new Channel(i + " Channel", text);
+            Channel channel = Channel.builder()
+                    .channelName(i + " Channel")
+                    .channelType(text)
+                    .build();
             channels.add(channel);
         }
         return channels;
@@ -238,7 +244,10 @@ public class ChannelFindServiceTest {
     private List<Channel> channelList20() {
         List<Channel> channels = new ArrayList<>();
         for(int i=0; i<maxi; i++) {
-            Channel channel = new Channel(i + " Channel", text);
+            Channel channel = Channel.builder()
+                    .channelName(i + " Channel")
+                    .channelType(text)
+                    .build();
             channels.add(channel);
         }
         return channels;

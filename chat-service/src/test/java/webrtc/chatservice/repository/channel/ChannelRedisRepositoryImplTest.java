@@ -37,7 +37,10 @@ public class ChannelRedisRepositoryImplTest {
     @Test
     public void 채널생성_생성성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
 
         // when
         channelRedisRepository.createChannel(channel);
@@ -60,7 +63,10 @@ public class ChannelRedisRepositoryImplTest {
     @Test
     public void 채널수명_반환성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         channelRedisRepository.createChannel(channel);
 
         // when
@@ -74,7 +80,6 @@ public class ChannelRedisRepositoryImplTest {
     @Test
     public void 채널수명_반환실패() {
         // given
-        Channel channel = new Channel(channelName1, text);
 
         // when
         // then
@@ -86,7 +91,10 @@ public class ChannelRedisRepositoryImplTest {
     @Test
     public void 채널수명_연장성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         channelRedisRepository.createChannel(channel);
         Long startTTL = channelRedisRepository.findChannelTTL(channel.getId());
 
@@ -102,7 +110,10 @@ public class ChannelRedisRepositoryImplTest {
     @Test
     public void 채널삭제성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         channelRedisRepository.createChannel(channel);
 
         // when

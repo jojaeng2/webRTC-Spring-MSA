@@ -105,7 +105,10 @@ public class PointApiControllerTest {
     @Transactional
     public void 채널수명_유저정보_요청성공() throws Exception{
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         int point = 100000;
         Long channelTTL = 1234567L;
 
@@ -142,7 +145,10 @@ public class PointApiControllerTest {
     @Transactional
     public void 채널수명_유저정보_요청실패_채널없음() throws Exception{
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
 
         doThrow(new NotExistChannelException())
                 .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
@@ -172,7 +178,10 @@ public class PointApiControllerTest {
     @Transactional
     public void 채널수명_유저정보_요청실패_유저없음() throws Exception{
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
 
         doThrow(new NotExistUserException())
                 .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
@@ -204,7 +213,10 @@ public class PointApiControllerTest {
     public void 채널연장성공() throws Exception{
 
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -247,7 +259,10 @@ public class PointApiControllerTest {
     public void 채널연장실패_채널없음() throws Exception{
 
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
@@ -286,7 +301,10 @@ public class PointApiControllerTest {
     public void 채널연장실패_포인트부족() throws Exception{
 
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Long requestTTL = 10L;
 
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);

@@ -123,7 +123,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channelCrudRepository.findByChannelName(request.getChannelName())
                 .ifPresent(channel -> { throw new AlreadyExistChannelException(); });
 
-        return new Channel(request.getChannelName(), request.getChannelType());
+        return Channel.builder()
+                .channelName(request.getChannelName())
+                .channelType(request.getChannelType())
+                .build();
     }
 
     /*

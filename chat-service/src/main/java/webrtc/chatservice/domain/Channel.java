@@ -1,5 +1,7 @@
 package webrtc.chatservice.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
@@ -12,42 +14,40 @@ import java.util.*;
 
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Channel implements Serializable {
 
     @Id
     @Column(name = "channel_id")
-    private String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
     private String channelName;
-    private Long limitParticipants;
-    private Long currentParticipants;
-    private Long timeToLive;
+    @Builder.Default
+    private Long limitParticipants = 15L;
+    @Builder.Default
+    private Long currentParticipants = 0L;
+    @Builder.Default
+    private Long timeToLive = 60L*60L;
     private ChannelType channelType;
     private Timestamp latestLog;
 
 
+    @Builder.Default
     @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
-    private List<ChannelUser> channelUsers;
+    private List<ChannelUser> channelUsers = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
-    private List<ChannelHashTag> channelHashTags;
+    private List<ChannelHashTag> channelHashTags = new ArrayList<>();
+
+
+    @Builder.Default
+    @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ChatLog> chatLogs = new ArrayList<>();
 
     private static final Long serialVersionUID = 1L;
-
-    @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChatLog> chatLogs;
-
-    public Channel(String channelName, ChannelType channelType) {
-        this.id = UUID.randomUUID().toString();
-        this.channelName = channelName;
-        this.limitParticipants = 15L;
-        this.currentParticipants = 0L;
-        this.timeToLive = 60L*60L;
-        this.channelUsers = new ArrayList<>();
-        this.channelHashTags = new ArrayList<>();
-        this.chatLogs = new ArrayList<>();
-        this.channelType = channelType;
-    }
 
     public void enterChannelUser(ChannelUser channelUser) {
         this.currentParticipants++;

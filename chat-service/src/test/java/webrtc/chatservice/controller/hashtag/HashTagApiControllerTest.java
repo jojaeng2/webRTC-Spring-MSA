@@ -111,7 +111,10 @@ public class HashTagApiControllerTest {
         List<ChannelResponse> responseList = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
-            Channel channel = new Channel(channelName1, text);
+            Channel channel = Channel.builder()
+                    .channelName(channelName1)
+                    .channelType(text)
+                    .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)
@@ -177,7 +180,10 @@ public class HashTagApiControllerTest {
         List<ChannelResponse> responseList = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
-            Channel channel = new Channel(channelName1, text);
+            Channel channel = Channel.builder()
+                    .channelName(channelName1)
+                    .channelType(text)
+                    .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)

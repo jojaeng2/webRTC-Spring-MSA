@@ -49,7 +49,10 @@ public class PointDecreaseMockTest {
     @Transactional
     public void 채널수명연장성공() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Users users = Users.builder()
                 .nickname(nickname1)
                 .password(password)
@@ -75,7 +78,10 @@ public class PointDecreaseMockTest {
     @Transactional
     public void 채널수명연장실패_채널없음() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Users users = Users.builder()
                 .nickname(nickname1)
                 .password(password)
@@ -98,7 +104,10 @@ public class PointDecreaseMockTest {
     @Transactional
     public void 채널수명연장실패_유저없음() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Users users = Users.builder()
                 .nickname(nickname1)
                 .password(password)
@@ -123,7 +132,10 @@ public class PointDecreaseMockTest {
     @Transactional
     public void 채널수명연장실패_포인트부족() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         Users users = Users.builder()
                 .nickname(nickname1)
                 .password(password)

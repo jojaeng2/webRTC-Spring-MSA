@@ -57,7 +57,10 @@ public class ChatLogRepositoryImplTest {
     @Test
     public void 채팅로그불러오기_20개미만() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         for(Long i=0L; i<20L; i++) {
             ChatLog chatLog = ChatLog.builder()
                     .type(ENTER)
@@ -81,7 +84,10 @@ public class ChatLogRepositoryImplTest {
     @Test
     void 채팅로그불러오기_20개초과() {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         for(Long i=0L; i<100L; i++) {
             ChatLog chatLog = ChatLog.builder()
                     .type(ENTER)
@@ -105,7 +111,10 @@ public class ChatLogRepositoryImplTest {
 
 
     private Channel createChannel(String name, ChannelType type) {
-        return new Channel(name, type);
+        return Channel.builder()
+                .channelName(name)
+                .channelType(type)
+                .build();
     }
 
     private ChatLog createChatLog(ClientMessageType type, String message, String nickname, String email) {

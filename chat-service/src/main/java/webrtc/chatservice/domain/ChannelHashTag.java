@@ -33,12 +33,5 @@ public class ChannelHashTag implements Serializable {
     @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
 
-//    public ChannelHashTag(Channel channel, HashTag hashTag) {
-//        this.id = ;
-//        this.channel = channel;
-//        this.hashTag = hashTag;
-//        channel.addChannelHashTag(this);
-//        hashTag.addChannelHashTag(this);
-//    }
 }
 

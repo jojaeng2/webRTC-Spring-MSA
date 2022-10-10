@@ -127,7 +127,10 @@ public class ChannelApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
 
-        doReturn(new Channel(channelName1, text))
+        doReturn(Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build())
                 .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
 
         // when
@@ -257,7 +260,10 @@ public class ChannelApiControllerTest {
 
         // given
 
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         for(String tagName : hashTagList) {
             HashTag hashTag = HashTag
                     .builder()
@@ -319,7 +325,10 @@ public class ChannelApiControllerTest {
 
         // given
 
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
 
         doThrow(new NotExistChannelException())
                 .when(channelFindService).findOneChannelById(any(String.class));
@@ -354,7 +363,10 @@ public class ChannelApiControllerTest {
         List<ChannelResponse> responseList = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
-            Channel channel = new Channel(channelName1, text);
+            Channel channel = Channel.builder()
+                    .channelName(channelName1)
+                    .channelType(text)
+                    .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)
@@ -413,7 +425,10 @@ public class ChannelApiControllerTest {
         List<ChannelResponse> responseList = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
-            Channel channel = new Channel(channelName1, text);
+            Channel channel = Channel.builder()
+                    .channelName(channelName1)
+                    .channelType(text)
+                    .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
                         .tagName(tagName)

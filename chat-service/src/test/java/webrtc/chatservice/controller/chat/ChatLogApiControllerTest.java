@@ -105,7 +105,10 @@ public class ChatLogApiControllerTest {
     @Transactional
     public void 채팅로그_불러오기성공() throws Exception {
         // given
-        Channel channel = new Channel(channelName1, text);
+        Channel channel = Channel.builder()
+                .channelName(channelName1)
+                .channelType(text)
+                .build();
         List<ChatLog> chatLogList = new ArrayList<>();
 
         Long testCase = 39L;
