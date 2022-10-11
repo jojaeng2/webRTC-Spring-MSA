@@ -9,6 +9,9 @@ import webrtc.chatservice.enums.ChannelType;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class ChannelDto {
 
@@ -31,10 +34,10 @@ public class ChannelDto {
     @Getter
     public static class CreateChannelResponse {
 
-        private String channelName;
-        private Long limitParticipants;
-        private Long currentParticipants;
-        private Long timeToLive;
+        private final String channelName;
+        private final Long limitParticipants;
+        private final Long currentParticipants;
+        private final Long timeToLive;
 
         public CreateChannelResponse(Channel channel) {
             this.channelName = channel.getChannelName();
@@ -57,14 +60,18 @@ public class ChannelDto {
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class FindAllChannelResponse {
         private List<ChannelResponse> channels;
+
+        public FindAllChannelResponse(List<Channel> channels) {
+            this.channels = channels.stream()
+                    .map(ChannelResponse::new)
+                    .collect(toList());
+        }
     }
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class ChannelResponse {
         private String id;
         private String channelName;
@@ -88,8 +95,8 @@ public class ChannelDto {
     @Getter
     public static class EnterChannelResponse {
 
-        private String code;
-        private String message;
+        private final String code;
+        private final String message;
 
         public EnterChannelResponse(String code, String message) {
             this.code = code;

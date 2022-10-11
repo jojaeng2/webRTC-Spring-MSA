@@ -3,6 +3,7 @@ package webrtc.authservice.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import webrtc.authservice.domain.Users;
 
 public class UserDto {
 
@@ -31,12 +32,18 @@ public class UserDto {
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class FindUserWithPointByEmailResponse {
         private String id;
         private String email;
         private String nickname;
         private int point;
+
+        public FindUserWithPointByEmailResponse(Users user) {
+            this.id = user.getId();
+            this.email = user.getEmail();
+            this.nickname = user.getNickname();
+            this.point = user.sumOfPoint(user.getPoints());
+        }
     }
 
     @Getter

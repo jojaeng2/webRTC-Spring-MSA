@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface ChannelFindService {
 
-    List<ChannelResponse> findAnyChannel(String orderType, int idx);
+    List<Channel> findAnyChannel(String orderType, int idx);
 
-    List<ChannelResponse> findMyChannel(String orderType, String email, int idx);
+    List<Channel> findMyChannel(String orderType, String email, int idx);
 
 
     Channel findOneChannelById(String channelId);
 
-    List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx);
+    List<Channel> findChannelByHashName(String tagName, String orderType, int idx);
 
-    List<ChannelResponse> findChannelsRecentlyTalk(String orderType, int idx);
+    List<Channel> findChannelsRecentlyTalk(String orderType, int idx);
 }

@@ -108,7 +108,7 @@ public class HashTagApiControllerTest {
     @Transactional
     public void 해시태그채널목록_불러오기성공() throws Exception {
         // given
-        List<ChannelResponse> responseList = new ArrayList<>();
+        List<Channel> channels = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = Channel.builder()
@@ -127,11 +127,10 @@ public class HashTagApiControllerTest {
                 hashTag.addChannelHashTag(channelHashTag);
                 channel.addChannelHashTag(channelHashTag);
             }
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-            responseList.add(response);
+            channels.add(channel);
         }
 
-        doReturn(responseList)
+        doReturn(channels)
                 .when(channelFindService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
 
         // when
@@ -177,7 +176,7 @@ public class HashTagApiControllerTest {
     @Transactional
     public void 해시태그채널목록_불러오기실패() throws Exception {
         // given
-        List<ChannelResponse> responseList = new ArrayList<>();
+        List<Channel> channels = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = Channel.builder()
@@ -195,8 +194,7 @@ public class HashTagApiControllerTest {
                 channel.addChannelHashTag(channelHashTag);
                 hashTag.addChannelHashTag(channelHashTag);
             }
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-            responseList.add(response);
+            channels.add(channel);
         }
 
         doThrow(new NotExistHashTagException())

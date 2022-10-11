@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.HashTagDto.HashTagResponse;
 import webrtc.chatservice.service.channel.ChannelFindService;
@@ -20,7 +21,7 @@ public class HashTagApiController {
 
     @GetMapping("/hashtag/{tagName}/{orderType}/{idx}")
     public ResponseEntity<HashTagResponse> searchHashTag(@NotNull @PathVariable("orderType") String orderType, @PathVariable String tagName, @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelFindService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new HashTagResponse(channels), HttpStatus.OK);
     }
 }

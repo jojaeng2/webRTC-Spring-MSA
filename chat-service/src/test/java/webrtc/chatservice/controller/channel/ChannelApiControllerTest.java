@@ -360,7 +360,7 @@ public class ChannelApiControllerTest {
     @Transactional
     public void any채널목록불러오기성공() throws Exception{
         // given
-        List<ChannelResponse> responseList = new ArrayList<>();
+        List<Channel> channels = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = Channel.builder()
@@ -378,11 +378,10 @@ public class ChannelApiControllerTest {
                 channel.addChannelHashTag(channelHashTag);
                 hashTag.addChannelHashTag(channelHashTag);
             }
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-            responseList.add(response);
+            channels.add(channel);
         }
 
-        doReturn(responseList)
+        doReturn(channels)
                 .when(channelFindService).findAnyChannel(any(String.class), any(Integer.class));
 
         // when
@@ -422,7 +421,7 @@ public class ChannelApiControllerTest {
     @Transactional
     public void my채널목록불러오기성공() throws Exception{
         // given
-        List<ChannelResponse> responseList = new ArrayList<>();
+        List<Channel> channels = new ArrayList<>();
         int channelsSize = 2;
         for(int i=1; i<=channelsSize; i++) {
             Channel channel = Channel.builder()
@@ -441,11 +440,10 @@ public class ChannelApiControllerTest {
                 hashTag.addChannelHashTag(channelHashTag);
                 channel.addChannelHashTag(channelHashTag);
             }
-            ChannelResponse response = new ChannelResponse(channel.getId(), channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType());
-            responseList.add(response);
+            channels.add(channel);
         }
 
-        doReturn(responseList)
+        doReturn(channels)
                 .when(channelFindService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
 
         // when

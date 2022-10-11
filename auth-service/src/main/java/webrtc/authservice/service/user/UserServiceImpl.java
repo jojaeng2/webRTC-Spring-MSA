@@ -46,20 +46,18 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public FindUserWithPointByEmailResponse findOneUserWithPointByEmail(String email) {
         Users user = userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
-        List<Point> points = user.getPoints();
-        return new FindUserWithPointByEmailResponse(user.getId(), user.getEmail(), user.getNickname(), user.sumOfPoint(points));
+        return new FindUserWithPointByEmailResponse(user);
     }
 
     @Transactional
     public void decreasePoint(String email, int amount, String message) {
         Users user = userRepository.findUserByEmail(email).orElseThrow(NotExistUserException::new);
 
-        List<Point> points = user.getPoints();
-        int sum = user.sumOfPoint(points);
-        
-        if(sum < amount) {
-            throw new InsufficientPointException();
-        }
+        int sum = user.sumOfPoint(user.getPoints());
+
+        // 포인트 부족
+        if(sum < amount) throw new InsufficientPointException();
+
         Point point = Point.builder()
                 .message(message)
                 .amount(-amount)

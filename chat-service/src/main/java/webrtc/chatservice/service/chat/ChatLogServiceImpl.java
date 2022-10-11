@@ -25,12 +25,8 @@ public class ChatLogServiceImpl implements ChatLogService{
                 .senderEmail(senderEmail)
                 .build();
 
-        if(findChatLogs.isEmpty()) {
-            chatLog.setChatLogIdx(1L);
-        }
-        else {
-            chatLog.setChatLogIdx(findChatLogs.get(0).getIdx() + 1);
-        }
+        if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);
+        else chatLog.setChatLogIdx(findChatLogs.get(0).getIdx() + 1);
 
         channel.addChatLog(chatLog);
         return chatLog.getIdx();

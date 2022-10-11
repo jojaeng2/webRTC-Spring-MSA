@@ -57,10 +57,10 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 조건 없이 모든 채널을 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<ChannelResponse> findAnyChannel(String orderType, int idx) {
+    public List<Channel> findAnyChannel(String orderType, int idx) {
         return channelListRepository.findAnyChannels(idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setReturnChannelsTTL)
+                .map(channelInfoInjectService::setChannelTTL)
                 .collect(toList());
     }
 
@@ -68,13 +68,13 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 회원이 입장한 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<ChannelResponse> findMyChannel(String orderType, String email, int idx) {
+    public List<Channel> findMyChannel(String orderType, String email, int idx) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
 
         return channelListRepository.findMyChannels(user.getId(), idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setReturnChannelsTTL)
+                .map(channelInfoInjectService::setChannelTTL)
                 .collect(toList());
     }
 
@@ -82,13 +82,13 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 해시 태그를 가지고 있는 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<ChannelResponse> findChannelByHashName(String tagName, String orderType, int idx) {
+    public List<Channel> findChannelByHashName(String tagName, String orderType, int idx) {
         HashTag hashTag = hashTagRepository.findByTagName(tagName)
                 .orElseThrow(NotExistHashTagException::new);
 
         return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setReturnChannelsTTL)
+                .map(channelInfoInjectService::setChannelTTL)
                 .collect(toList());
     }
 
@@ -96,11 +96,11 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 최근 보내진 채팅 메시지 시간에 따라 정렬하여 채널 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<ChannelResponse> findChannelsRecentlyTalk(String orderType, int idx) {
+    public List<Channel> findChannelsRecentlyTalk(String orderType, int idx) {
 
         return channelListRepository.findChannelsRecentlyTalk(idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setReturnChannelsTTL)
+                .map(channelInfoInjectService::setChannelTTL)
                 .collect(toList());
     }
 

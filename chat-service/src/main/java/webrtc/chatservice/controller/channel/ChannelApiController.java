@@ -43,7 +43,7 @@ public class ChannelApiController {
      */
     @GetMapping("/channels/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findAnyChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class ChannelApiController {
     @GetMapping("/mychannel/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findMyAllChannel(@NotNull @PathVariable("orderType") String orderType, @NotNull @RequestHeader("Authorization") String jwtAccessToken, @NotNull @PathVariable("idx") String idx) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        List<ChannelResponse> channels = channelFindService.findMyChannel(orderType, userEmail, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findMyChannel(orderType, userEmail, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
@@ -63,7 +63,7 @@ public class ChannelApiController {
      */
     @GetMapping("/recent/{orderType}/{idx}")
     public ResponseEntity<FindAllChannelResponse> findChannelsRecentlyTalk(@NotNull @PathVariable("orderType") String orderType, @NotNull @PathVariable("idx") String idx) {
-        List<ChannelResponse> channels = channelFindService.findChannelsRecentlyTalk(orderType, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findChannelsRecentlyTalk(orderType, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
@@ -74,6 +74,6 @@ public class ChannelApiController {
     @GetMapping("/channel/{id}")
     public ResponseEntity<ChannelResponse> findOneChannel(@PathVariable("id") String channelId) {
         Channel channel = channelFindService.findOneChannelById(channelId);
-        return new ResponseEntity<>(new ChannelResponse(channelId, channel.getChannelName(), channel.getLimitParticipants(), channel.getCurrentParticipants(), channel.getTimeToLive(), channel.getChannelHashTags(), channel.getChannelType()), OK);
+        return new ResponseEntity<>(new ChannelResponse(channel), OK);
     }
 }
