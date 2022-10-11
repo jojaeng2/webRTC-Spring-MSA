@@ -28,7 +28,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public Users save(CreateUserRequest request) {
         Users user = new Users(request.getNickname(), bcryptEncoder.encode(request.getPassword()), request.getEmail());
-        Point point = new Point("회원 가입", welcomePoint);
+        Point point = Point.builder()
+                .message("회원 가입")
+                .amount(welcomePoint)
+                .build();
         user.addPoint(point);
         userRepository.save(user);
         return user;
@@ -57,7 +60,10 @@ public class UserServiceImpl implements UserService {
         if(sum < amount) {
             throw new InsufficientPointException();
         }
-        Point point = new Point(message, -amount);
+        Point point = Point.builder()
+                .message(message)
+                .amount(-amount)
+                .build();
         user.addPoint(point);
     }
 

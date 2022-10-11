@@ -1,5 +1,7 @@
 package webrtc.authservice.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,16 +12,21 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Point implements Serializable {
 
     @Id
     @Column(name = "point_id")
-    private String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
     private String message;
     private int amount;
-    private Timestamp created_at;
+
+    @Builder.Default
+    private Timestamp created_at = new Timestamp(System.currentTimeMillis());
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -29,10 +36,4 @@ public class Point implements Serializable {
         this.user = user;
     }
 
-    public Point(String message, int amount) {
-        this.id = UUID.randomUUID().toString();
-        this.message = message;
-        this.amount = amount;
-        this.created_at = new Timestamp(System.currentTimeMillis());
-    }
 }

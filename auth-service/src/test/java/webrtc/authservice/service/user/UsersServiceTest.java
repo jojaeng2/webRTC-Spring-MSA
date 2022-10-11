@@ -80,7 +80,10 @@ public class UsersServiceTest {
         int num = 10;
         int amount = 100;
         for(int i=0; i<num; i++) {
-            Point point = new Point("포인트 저장", amount);
+            Point point = Point.builder()
+                    .message("포인트 저장")
+                    .amount(amount)
+                    .build();
             user.addPoint(point);
         }
 

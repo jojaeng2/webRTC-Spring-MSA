@@ -54,7 +54,10 @@ public class UsersRepositoryTest {
     public void 유저_포인트_추가() {
         // given
         Users user = new Users(nickname, password, email);
-        Point point = new Point("회원 가입", 100);
+        Point point = Point.builder()
+                .message("회원 가입")
+                .amount(100)
+                .build();
 
         // when
         user.addPoint(point);
@@ -70,8 +73,14 @@ public class UsersRepositoryTest {
     public void 유저_포인트_조회() {
         // given
         Users user = new Users(nickname, password, email);
-        Point point1 = new Point("회원 가입", 100);
-        Point point2 = new Point("채널 입장", 100);
+        Point point1 = Point.builder()
+                .message("회원 가입")
+                .amount(100)
+                .build();
+        Point point2 = Point.builder()
+                .message("채널 입장")
+                .amount(100)
+                .build();
         user.addPoint(point1);
         user.addPoint(point2);
 
