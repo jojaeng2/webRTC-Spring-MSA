@@ -66,7 +66,15 @@ public class RedisSubscriberImplTest {
 
     private ChattingMessage createChattingMessage() {
         Channel channel = createChannel(channelName1, text);
-        return new ChattingMessage(channel.getId(), nickname1, "message", 1L, new ArrayList<>(), 1L, email1);
+        return ChattingMessage.builder()
+                .channelId(channel.getId())
+                .senderName(nickname1)
+                .chatMessage("message")
+                .logId(1L)
+                .users(new ArrayList<>())
+                .currentParticipants(1L)
+                .senderEmail(email1)
+                .build();
     }
 
 }

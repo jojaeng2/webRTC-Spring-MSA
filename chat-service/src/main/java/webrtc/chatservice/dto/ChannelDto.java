@@ -47,16 +47,6 @@ public class ChannelDto {
         }
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class FindOneChannelResponse {
-        private String channelId;
-        private String channelName;
-        private Long limitParticipants;
-        private Long currentParticipants;
-        private Long timeToLive;
-
-    }
 
     @Getter
     @NoArgsConstructor

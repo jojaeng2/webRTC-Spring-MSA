@@ -1,5 +1,8 @@
 package webrtc.chatservice.dto.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.chatservice.domain.Users;
@@ -10,6 +13,8 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Builder
+@AllArgsConstructor
 public class ChattingMessage {
     private String channelId;
     private SocketServerMessageType type;
@@ -19,23 +24,14 @@ public class ChattingMessage {
     private List<Users> users;
     private Long logId;
     private String senderEmail;
-    private Timestamp sendTime;
-    private String ip;
-    private String browser;
-
-
-    public ChattingMessage(String channelId, String senderName, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
-        this.channelId = channelId;
-        this.senderName = senderName;
-        this.chatMessage = chatMessage;
-        this.currentParticipants = currentParticipants;
-        this.users = users;
-        this.logId = logId;
-        this.senderEmail = senderEmail;
-        this.sendTime = new Timestamp(System.currentTimeMillis());
-        this.ip = null;
-        this.browser = null;
-    }
+    @JsonIgnore
+    @Builder.Default
+    private String ip = "Not Found";
+    @JsonIgnore
+    @Builder.Default
+    private String browser = "Not Found";
+    @Builder.Default
+    private Timestamp sendTime = new Timestamp(System.currentTimeMillis());
 
     public ChattingMessage setType(SocketServerMessageType type) {
         this.type = type;
