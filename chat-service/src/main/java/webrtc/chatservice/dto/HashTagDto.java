@@ -17,7 +17,6 @@ public class HashTagDto {
         private final List<ChannelResponse> channels;
 
         public HashTagResponse(List<Channel> channels) {
-            System.out.println("channels.size() = " + channels.size());
             this.channels = channels.stream()
                     .map(ChannelResponse::new)
                     .collect(toList());;

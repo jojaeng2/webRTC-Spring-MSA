@@ -83,18 +83,6 @@ public class ChannelDto {
     }
 
     @Getter
-    public static class EnterChannelResponse {
-
-        private final String code;
-        private final String message;
-
-        public EnterChannelResponse(String code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-    }
-
-    @Getter
     @AllArgsConstructor
     public static class ExtensionChannelTTLResponse {
         private Long channelTTL;

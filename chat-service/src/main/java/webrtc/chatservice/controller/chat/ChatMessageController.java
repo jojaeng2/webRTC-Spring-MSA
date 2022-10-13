@@ -35,13 +35,11 @@ public class ChatMessageController {
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
         Users user = usersService.findOneUserByEmail(senderEmail);
-        String nickname = user.getNickname();
-        String userId = user.getId();
 
         if(clientMessageType.equals(ENTER) || clientMessageType.equals(EXIT) || clientMessageType.equals(CHAT)) {
-            socketMessageFactory.execute(clientMessageType, message, nickname, userId, channelId);
+            socketMessageFactory.execute(clientMessageType, message, user, channelId);
         }
 
-        chattingService.sendChatMessage(clientMessageType, channelId, nickname, message.getMessage(), senderEmail);
+        chattingService.sendChatMessage(clientMessageType, channelId, user.getNickname(), message.getMessage(), senderEmail);
     }
 }

@@ -135,6 +135,6 @@ public class SocketMessageFactoryTest {
         socketMessageFactory.messageFactoryConst();
         Channel channel = createChannel(channelName1, text);
         Users user = createUser(nickname1, password, email1);
-        socketMessageFactory.execute(type, message, nickname1, user.getId(), channel.getId());
+        socketMessageFactory.execute(type, message, user, channel.getId());
     }
 }

@@ -2,13 +2,11 @@ package webrtc.chatservice.service.chat.factory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.chat.template.ChatTypeClientMessageTemplate;
 import webrtc.chatservice.service.chat.template.CreateClientMessageTemplate;
-import webrtc.chatservice.service.chat.template.EnterTypeClientMessageTemplate;
-import webrtc.chatservice.service.chat.template.ExitTypeClientMessageTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -25,12 +23,15 @@ public class SocketMessageFactoryImpl implements SocketMessageFactory{
 
     @PostConstruct
     public void messageFactoryConst() {
-        this.messageTypes.put(CHAT, new ChatTypeClientMessageTemplate());
-        this.messageTypes.put(EXIT, new ExitTypeClientMessageTemplate(channelIOService));
-        this.messageTypes.put(ENTER, new EnterTypeClientMessageTemplate());
+        this.messageTypes.put(CHAT, (type, message, nickname, userId, channelId) -> message.setSenderName(nickname));
+        this.messageTypes.put(ENTER, (type, message, nickname, userId, channelId) -> message.setMessage("[알림] " + nickname+ " 님이 채팅방에 입장했습니다."));
+        this.messageTypes.put(EXIT, (type, message, nickname, userId, channelId) -> {
+            channelIOService.exitChannel(channelId, userId);
+            message.setMessage("[알림] " + nickname+ " 님이 채팅방에서 퇴장했습니다.");
+        });
     }
 
-    public void execute(ClientMessageType type, ClientMessage overallMessage, String nickname, String userId, String channelId) {
-        this.messageTypes.get(type).build(type, overallMessage, nickname, userId, channelId);
+    public void execute(ClientMessageType type, ClientMessage overallMessage, Users user, String channelId) {
+        this.messageTypes.get(type).build(type, overallMessage, user.getNickname(), user.getId(), channelId);
     }
 }
