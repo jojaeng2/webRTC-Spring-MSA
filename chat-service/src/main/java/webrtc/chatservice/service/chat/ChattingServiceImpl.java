@@ -11,18 +11,12 @@ import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
-import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
-import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
-import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 import static webrtc.chatservice.enums.ClientMessageType.REENTER;
 

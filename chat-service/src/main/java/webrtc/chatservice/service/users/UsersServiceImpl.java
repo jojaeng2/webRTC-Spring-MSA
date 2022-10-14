@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
-import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
 @Service

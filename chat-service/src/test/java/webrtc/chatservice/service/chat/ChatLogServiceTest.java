@@ -45,20 +45,6 @@ public class ChatLogServiceTest {
     Long lastIndex = 300L;
 
     @Test
-    void 채팅로그저장성공빈배열() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(new ArrayList<>())
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
-
-        // when
-        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
-
-        // then
-        assertThat(resultIdx).isEqualTo(1L);
-    }
-
-    @Test
     void 채팅로그저장성공빈배열아님() {
         // given
         Channel channel = createChannel(channelName1, text);
