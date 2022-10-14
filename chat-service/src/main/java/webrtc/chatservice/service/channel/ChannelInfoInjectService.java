@@ -9,4 +9,5 @@ import java.util.List;
 public interface ChannelInfoInjectService {
 
     Channel setChannelTTL(Channel channel);
+    long findChannelTTL(String id);
 }

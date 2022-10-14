@@ -22,7 +22,7 @@ public class ChattingMessage {
     private String chatMessage;
     private Long currentParticipants;
     private List<Users> users;
-    private Long logId;
+    private long logId;
     private String senderEmail;
     @JsonIgnore
     @Builder.Default

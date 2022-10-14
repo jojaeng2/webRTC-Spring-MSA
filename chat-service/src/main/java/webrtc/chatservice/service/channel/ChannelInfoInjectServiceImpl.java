@@ -17,8 +17,11 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
      * redis 저장소에 접근해 채널의 남은 수명 반환
      */
     public Channel setChannelTTL(Channel channel) {
-        Long ttl = channelRedisRepository.findChannelTTL(channel.getId());
-        channel.setTimeToLive(ttl);
+        channel.setTimeToLive(findChannelTTL(channel.getId()));
         return channel;
+    }
+
+    public long findChannelTTL(String id) {
+        return channelRedisRepository.findChannelTTL(id);
     }
 }

@@ -12,7 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
+import webrtc.chatservice.dto.ChannelDto;
+import webrtc.chatservice.dto.ChannelDto.ChannelTTLWithUserPointResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.dto.UsersDto.FindUserWithPointByEmailResponse;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
@@ -136,7 +137,7 @@ public class UsersServiceImplTest {
 
     @Test
     @Transactional
-    public void 이메일로_유저정보와포인트_반환성공() {
+    public void 이메일로_유저와포인트_반환성공() {
         // given
         String id = "id";
         String email = "email";
@@ -148,15 +149,12 @@ public class UsersServiceImplTest {
 
         doReturn(new FindUserWithPointByEmailResponse(id, email, nickname, point))
                 .when(httpApiController).postFindUserWithPointByEmail(email);
-        doReturn(channelTTL)
-                .when(channelRedisRepository).findChannelTTL(channelId);
 
         // when
-        ExtensionChannelInfoWithUserPointResponse response = userService.findUserWithPointByEmail(channelId, email);
+        int response = userService.findUserPointByEmail(email);
 
         // then
-        assertThat(response.getPoint()).isEqualTo(point);
-        assertThat(response.getChannelTTL()).isEqualTo(channelTTL);
+        assertThat(response).isEqualTo(point);
     }
 
     @Test
@@ -178,7 +176,7 @@ public class UsersServiceImplTest {
 
         // then
         Assertions.assertThrows(NotExistUserException.class, ()-> {
-            userService.findUserWithPointByEmail(channelId, email);
+            userService.findUserPointByEmail(email);
         });
     }
 }

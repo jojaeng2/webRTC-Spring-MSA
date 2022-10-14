@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private  ValueOperations<String, Object> opsValueOperation;
+    private ValueOperations<String, Object> opsValueOperation;
     private final long channelTTL = 60L * 60L;
 
     @PostConstruct

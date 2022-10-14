@@ -19,14 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.channel.ChannelFindService;
+import webrtc.chatservice.service.channel.ChannelInfoInjectService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.service.users.UsersService;
@@ -67,6 +66,8 @@ public class PointApiControllerTest {
     private ChannelLifeService channelLifeService;
     @Mock
     private ChannelFindService channelFindService;
+    @Mock
+    private ChannelInfoInjectService channelInfoInjectService;
     @Mock
     private UsersService usersService;
     @Mock
@@ -112,8 +113,8 @@ public class PointApiControllerTest {
         int point = 100000;
         Long channelTTL = 1234567L;
 
-        doReturn(new ExtensionChannelInfoWithUserPointResponse(channelTTL, point))
-                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
+        doReturn(point)
+                .when(usersService).findUserPointByEmail(any(String.class));
 
         // when
 
@@ -151,7 +152,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
+                .when(usersService).findUserPointByEmail(any(String.class));
 
         // when
 
@@ -184,7 +185,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistUserException())
-                .when(usersService).findUserWithPointByEmail(any(String.class), any(String.class));
+                .when(usersService).findUserPointByEmail(any(String.class));
 
         // when
 

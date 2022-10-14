@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.dto.ChannelDto.ChannelTTLWithUserPointResponse;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLResponse;
-import webrtc.chatservice.service.channel.ChannelFindService;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.service.channel.ChannelInfoInjectService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtil;
@@ -21,7 +23,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class PointApiController {
 
     private final ChannelLifeService channelLifeService;
-    private final ChannelFindService channelFindService;
+    private final ChannelInfoInjectService channelInfoInjectService;
     private final JwtTokenUtil jwtTokenUtil;
     private final UsersService usersService;
 
@@ -37,6 +39,12 @@ public class PointApiController {
     @GetMapping("/point/{id}")
     public ResponseEntity<?> findUserPoint(@PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        return new ResponseEntity<>(usersService.findUserWithPointByEmail(channelId, userEmail), OK);
+        int point = usersService.findUserPointByEmail(userEmail);
+        long ttl = channelInfoInjectService.findChannelTTL(channelId);
+        if(ttl == -2) {
+
+            throw new NotExistChannelException();
+        }
+        return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
     }
 }

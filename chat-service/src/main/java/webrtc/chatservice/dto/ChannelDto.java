@@ -35,9 +35,9 @@ public class ChannelDto {
     public static class CreateChannelResponse {
 
         private final String channelName;
-        private final Long limitParticipants;
-        private final Long currentParticipants;
-        private final Long timeToLive;
+        private final long limitParticipants;
+        private final long currentParticipants;
+        private final long timeToLive;
 
         public CreateChannelResponse(Channel channel) {
             this.channelName = channel.getChannelName();
@@ -65,9 +65,9 @@ public class ChannelDto {
     public static class ChannelResponse {
         private String id;
         private String channelName;
-        private Long limitParticipants;
-        private Long currentParticipants;
-        private Long timeToLive;
+        private long limitParticipants;
+        private long currentParticipants;
+        private long timeToLive;
         private List<ChannelHashTag> channelHashTags;
         private ChannelType channelType;
 
@@ -85,14 +85,14 @@ public class ChannelDto {
     @Getter
     @AllArgsConstructor
     public static class ExtensionChannelTTLResponse {
-        private Long channelTTL;
+        private long channelTTL;
     }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ExtensionChannelInfoWithUserPointResponse {
-        private Long channelTTL;
+    public static class ChannelTTLWithUserPointResponse {
+        private long channelTTL;
         private int point;
     }
 

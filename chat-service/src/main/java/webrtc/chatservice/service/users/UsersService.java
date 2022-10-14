@@ -1,7 +1,6 @@
 package webrtc.chatservice.service.users;
 
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto.ExtensionChannelInfoWithUserPointResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 
 public interface UsersService {
@@ -14,5 +13,5 @@ public interface UsersService {
 
     void redisDataEvict();
 
-    ExtensionChannelInfoWithUserPointResponse findUserWithPointByEmail(String channelId, String email);
+    int findUserPointByEmail(String email);
 }
