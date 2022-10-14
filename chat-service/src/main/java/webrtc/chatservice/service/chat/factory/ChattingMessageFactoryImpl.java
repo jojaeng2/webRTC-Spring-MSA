@@ -2,6 +2,7 @@ package webrtc.chatservice.service.chat.factory;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
@@ -32,12 +33,12 @@ public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
         this.messageTypes.put(ClientMessageType.CREATE, (ChattingMessage message) -> message.setType(CREATE));
     }
     @Override
-    public ChattingMessage createMessage(String channelId, ClientMessageType type, String chatMessage, Long currentParticipants, List<Users> users, Long logId, Users user) {
+    public ChattingMessage createMessage(Channel channel, ClientMessageType type, String chatMessage, List<Users> users, long logId, Users user) {
         ChattingMessage chattingMessage = ChattingMessage.builder()
-                .channelId(channelId)
+                .channelId(channel.getId())
                 .senderName(user.getNickname())
                 .chatMessage(chatMessage)
-                .currentParticipants(currentParticipants)
+                .currentParticipants(channel.getCurrentParticipants())
                 .users(users)
                 .logId(logId)
                 .senderEmail(user.getEmail())

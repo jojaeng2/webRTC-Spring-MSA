@@ -34,7 +34,6 @@ public class ChattingServiceImpl implements ChattingService {
     private final ChannelTopic channelTopic;
     private final RedisTemplate redisTemplate;
 
-    private final UsersRepository usersRepository;
     private final ChannelCrudRepository channelCrudRepository;
     private final ChatLogService chatLogService;
     private final ChattingMessageFactory chattingMessageFactory;
@@ -46,7 +45,6 @@ public class ChattingServiceImpl implements ChattingService {
     @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String chatMessage, Users user) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        long currentParticipants = channel.getCurrentParticipants();
         List<Users> channelUsers = channelUserRepository.findByChannel(channel).stream()
                 .map(ChannelUser::getUser)
                 .collect(toList());
@@ -54,9 +52,9 @@ public class ChattingServiceImpl implements ChattingService {
 
         if(type != REENTER) {
             long logIdx = chatLogService.saveChatLog(type, chatMessage, channel, user);
-            serverMessage = chattingMessageFactory.createMessage(channelId, type, chatMessage, currentParticipants, channelUsers, logIdx, user);
+            serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, logIdx, user);
         } else {
-            serverMessage = chattingMessageFactory.createMessage(channelId, type, chatMessage, currentParticipants, channelUsers, 0L, user);
+            serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, 0L, user);
         }
 //        rabbitPublish.publishMessage(serverMessage, type);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);

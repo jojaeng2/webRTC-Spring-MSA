@@ -23,15 +23,15 @@ public class SocketMessageFactoryImpl implements SocketMessageFactory{
 
     @PostConstruct
     public void messageFactoryConst() {
-        this.messageTypes.put(CHAT, (type, message, nickname, userId, channelId) -> message.setSenderName(nickname));
-        this.messageTypes.put(ENTER, (type, message, nickname, userId, channelId) -> message.setMessage("[알림] " + nickname+ " 님이 채팅방에 입장했습니다."));
-        this.messageTypes.put(EXIT, (type, message, nickname, userId, channelId) -> {
-            channelIOService.exitChannel(channelId, userId);
-            message.setMessage("[알림] " + nickname+ " 님이 채팅방에서 퇴장했습니다.");
+        this.messageTypes.put(CHAT, (message, user, channelId) -> message.setSenderName(user.getNickname()));
+        this.messageTypes.put(ENTER, (message, user, channelId) -> message.setMessage("[알림] " + user.getNickname()+ " 님이 채팅방에 입장했습니다."));
+        this.messageTypes.put(EXIT, (message, user, channelId) -> {
+            channelIOService.exitChannel(channelId, user.getId());
+            message.setMessage("[알림] " + user.getNickname() + " 님이 채팅방에서 퇴장했습니다.");
         });
     }
 
     public void execute(ClientMessageType type, ClientMessage overallMessage, Users user, String channelId) {
-        this.messageTypes.get(type).build(type, overallMessage, user.getNickname(), user.getId(), channelId);
+        this.messageTypes.get(type).build(overallMessage, user, channelId);
     }
 }

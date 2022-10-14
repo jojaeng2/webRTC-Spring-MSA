@@ -123,7 +123,7 @@ public class ChattingMessageFactoryTest {
     private ChattingMessage createChattingMessage(ClientMessageType type) {
         chattingMessageFactory.messageFactoryConst();
         Channel channel = createChannel(channelName1, text);
-        return chattingMessageFactory.createMessage(channel.getId(), type, "test", 1L, new ArrayList<>(), idx, createUsers());
+        return chattingMessageFactory.createMessage(channel, type, "test", new ArrayList<>(), idx, createUsers());
     }
 
     private Users createUsers() {
