@@ -4,6 +4,7 @@ package webrtc.chatservice.controller.point;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLResponse;
 import webrtc.chatservice.service.channel.ChannelFindService;
@@ -28,9 +29,9 @@ public class PointApiController {
     @PostMapping("/extension/{id}")
     public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(@RequestBody ExtensionChannelTTLRequest request, @PathVariable("id") String channelId, @RequestHeader("Authorization")String jwtAccessToken) {
         String userEmail = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        Long requestTTL = request.getRequestTTL();
-        channelLifeService.extensionChannelTTL(channelId, userEmail, requestTTL);
-        return new ResponseEntity<>(new ExtensionChannelTTLResponse(channelFindService.findOneChannelById(channelId).getTimeToLive()), OK);
+        long requestTTL = request.getRequestTTL();
+        Channel channel = channelLifeService.extensionChannelTTL(channelId, userEmail, requestTTL);
+        return new ResponseEntity<>(new ExtensionChannelTTLResponse(channel.getTimeToLive()), OK);
     }
 
     @GetMapping("/point/{id}")

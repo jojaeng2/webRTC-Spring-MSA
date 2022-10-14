@@ -25,11 +25,11 @@ public class Channel implements Serializable {
     private String id = UUID.randomUUID().toString();
     private String channelName;
     @Builder.Default
-    private Long limitParticipants = 15L;
+    private long limitParticipants = 15L;
     @Builder.Default
-    private Long currentParticipants = 0L;
+    private long currentParticipants = 0L;
     @Builder.Default
-    private Long timeToLive = 60L*60L;
+    private long timeToLive = 60L*60L;
     private ChannelType channelType;
     private Timestamp latestLog;
 
@@ -47,7 +47,7 @@ public class Channel implements Serializable {
     @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ChatLog> chatLogs = new ArrayList<>();
 
-    private static final Long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public void enterChannelUser(ChannelUser channelUser) {
         this.currentParticipants++;
@@ -55,7 +55,7 @@ public class Channel implements Serializable {
     }
 
 
-    public void setTimeToLive(Long timeToLive) {
+    public void setTimeToLive(long timeToLive) {
         this.timeToLive = timeToLive;
     }
 
@@ -75,7 +75,7 @@ public class Channel implements Serializable {
         this.latestLog = chatLog.getSendTime();
     }
 
-    public void setCurrentParticipants(Long newone) {
+    public void setCurrentParticipants(long newone) {
         this.currentParticipants = newone;
     }
 }

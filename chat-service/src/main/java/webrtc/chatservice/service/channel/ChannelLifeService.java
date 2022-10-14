@@ -10,6 +10,6 @@ public interface ChannelLifeService {
     void deleteChannel(String channelId);
 
 
-    void extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
+    Channel extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
 
 }

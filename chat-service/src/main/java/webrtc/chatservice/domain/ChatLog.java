@@ -32,7 +32,7 @@ public class ChatLog {
     private Channel channel;
 
     @Builder.Default
-    private Long idx = 1L;
+    private long idx = 1L;
 
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
@@ -43,7 +43,7 @@ public class ChatLog {
     @Builder.Default
     private Timestamp sendTime = new Timestamp(System.currentTimeMillis());
     
-    public void setChatLogIdx(Long idx) {
+    public void setChatLogIdx(long idx) {
         this.idx = idx;
     }
 

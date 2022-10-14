@@ -28,7 +28,7 @@ public class ChannelDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ExtensionChannelTTLRequest {
-        private Long requestTTL;
+        private long requestTTL;
     }
 
     @Getter

@@ -105,10 +105,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 3) 포인트 사용 성공 시 채널의 수명 증가
      */
     @Transactional
-    public void extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
+    public Channel extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit, userEmail + " 님이 채널 연장에 포인트를 사용했습니다.");
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
+        return channel;
     }
 
 

@@ -222,10 +222,8 @@ public class PointApiControllerTest {
         ExtensionChannelTTLRequest ObjRequest = new ExtensionChannelTTLRequest(requestTTL);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doNothing()
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
         doReturn(channel)
-                .when(channelFindService).findOneChannelById(channel.getId());
+                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
 
         // when
 

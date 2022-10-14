@@ -20,7 +20,7 @@ public class ChannelUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "channel_user_id")
-    private Long id;
+    private long id;
 
     @JsonIgnore
     @ManyToOne
