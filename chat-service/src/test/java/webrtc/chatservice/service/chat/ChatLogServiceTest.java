@@ -51,7 +51,7 @@ public class ChatLogServiceTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        Long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
+        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
 
         // then
         assertThat(resultIdx).isEqualTo(1L);
@@ -65,7 +65,7 @@ public class ChatLogServiceTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        Long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
+        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
 
         // then
         assertThat(resultIdx).isEqualTo(lastIndex+1L);

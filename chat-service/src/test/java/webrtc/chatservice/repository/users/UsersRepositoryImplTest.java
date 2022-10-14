@@ -16,7 +16,9 @@ import webrtc.chatservice.exception.UserException.NotExistUserException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
@@ -29,6 +31,8 @@ public class UsersRepositoryImplTest {
     private TestEntityManager em;
     @Autowired
     private UsersRepository repository;
+    @Autowired
+    private ChannelUserRepository channelUserRepository;
 
     String nickname1 = "nickname1";
     String nickname2 = "nickname2";
@@ -126,7 +130,9 @@ public class UsersRepositoryImplTest {
 
         //when
 
-        List<Users> findUsers = repository.findUsersByChannelId(channel.getId());
+        List<Users> findUsers = channelUserRepository.findByChannel(channel)
+                .stream().map(ChannelUser::getUser)
+                        .collect(toList());
 
         //then
         assertThat(findUsers.get(0).getId()).isEqualTo(users.getId());
@@ -146,7 +152,9 @@ public class UsersRepositoryImplTest {
 
         //when
 
-        List<Users> findUsers = repository.findUsersByChannelId(channel.getId());
+        List<Users> findUsers = channelUserRepository.findByChannel(channel).stream()
+                .map(ChannelUser::getUser)
+                .collect(toList());
 
         //then
         assertThat(findUsers.isEmpty()).isTrue();

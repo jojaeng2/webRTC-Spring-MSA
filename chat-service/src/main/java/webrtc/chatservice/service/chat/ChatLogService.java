@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ChatLogService {
 
-    Long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail);
+    long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail);
 
     List<ChatLog> findChatLogsByIndex(String channelId, Long idx);
 

@@ -16,6 +16,7 @@ import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
+import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 import webrtc.chatservice.service.rabbit.RabbitPublish;
@@ -44,6 +45,9 @@ public class ChattingServiceImplTest {
 
     @Mock
     private ChannelCrudRepository channelCrudRepository;
+
+    @Mock
+    private ChannelUserRepository channelUserRepository;
 
     @Mock
     private RabbitPublish rabbitPublish;
@@ -83,7 +87,7 @@ public class ChattingServiceImplTest {
                 .when(channelCrudRepository).findById(any(String.class));
 
         doReturn(createList())
-                .when(usersRepository).findUsersByChannelId(any(String.class));
+                .when(channelUserRepository).findByChannel(any(Channel.class));
 
 
         // when

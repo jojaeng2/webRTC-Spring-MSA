@@ -12,7 +12,4 @@ public interface UsersRepository extends JpaRepository<Users, String> {
 
     Optional<Users> findByEmail(String email);
 
-    @Query("select u from Users u join u.channelUsers where channel_id = :channel_id")
-    List<Users> findUsersByChannelId(@Param("channel_id") String channel_id);
-
 }
