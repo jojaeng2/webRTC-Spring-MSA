@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
@@ -122,6 +123,13 @@ public class ChattingMessageFactoryTest {
     private ChattingMessage createChattingMessage(ClientMessageType type) {
         chattingMessageFactory.messageFactoryConst();
         Channel channel = createChannel(channelName1, text);
-        return chattingMessageFactory.createMessage(channel.getId(), type, nickname1, "test", 1L, new ArrayList<>(), idx, email1);
+        return chattingMessageFactory.createMessage(channel.getId(), type, "test", 1L, new ArrayList<>(), idx, createUsers());
+    }
+
+    private Users createUsers() {
+        return Users.builder()
+                .email(email1)
+                .nickname(nickname1)
+                .build();
     }
 }

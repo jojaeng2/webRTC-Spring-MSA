@@ -91,7 +91,7 @@ public class ChattingServiceImplTest {
 
 
         // when
-        chattingService.sendChatMessage(chat, channel.getId(), nickname1, chatMessage, email1);
+        chattingService.sendChatMessage(chat, channel.getId(), chatMessage, createUsers());
 
 
         // then
@@ -108,7 +108,7 @@ public class ChattingServiceImplTest {
 
         // then
         Assertions.assertThrows(NotExistChannelException.class,
-                () -> chattingService.sendChatMessage(chat, channel.getId(), nickname1, chatMessage, email1));
+                () -> chattingService.sendChatMessage(chat, channel.getId(), chatMessage, createUsers()));
     }
 
     private List<ChatLog> EmptyList() {
@@ -124,6 +124,14 @@ public class ChattingServiceImplTest {
 
     private List<Users> createList() {
         return new ArrayList<>();
+    }
+
+    private Users createUsers() {
+        return Users.builder()
+                .email(email1)
+                .nickname(nickname1)
+                .password(password)
+                .build();
     }
 
 

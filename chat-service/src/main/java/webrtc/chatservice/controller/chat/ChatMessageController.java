@@ -40,6 +40,6 @@ public class ChatMessageController {
             socketMessageFactory.execute(clientMessageType, message, user, channelId);
         }
 
-        chattingService.sendChatMessage(clientMessageType, channelId, user.getNickname(), message.getMessage(), senderEmail);
+        chattingService.sendChatMessage(clientMessageType, channelId, message.getMessage(), user);
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
 
@@ -16,13 +17,13 @@ public class ChatLogServiceImpl implements ChatLogService{
 
     private final ChatLogRepository chatLogRepository;
 
-    public long saveChatLog(ClientMessageType type, String chatMessage, String nickname, Channel channel, String senderEmail) {
+    public long saveChatLog(ClientMessageType type, String chatMessage, Channel channel, Users user) {
         List<ChatLog> findChatLogs = chatLogRepository.findLastChatLogsByChannelId(channel.getId());
         ChatLog chatLog = ChatLog.builder()
                 .type(type)
                 .message(chatMessage)
-                .senderNickname(nickname)
-                .senderEmail(senderEmail)
+                .senderNickname(user.getNickname())
+                .senderEmail(user.getEmail())
                 .build();
 
         if(findChatLogs.isEmpty()) chatLog.setChatLogIdx(1L);

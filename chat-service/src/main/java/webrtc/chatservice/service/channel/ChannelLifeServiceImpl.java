@@ -209,7 +209,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) 채팅 메시지 생성 후 전송
      */
     private void sendRabbitMessage(Channel channel, Users user) {
-        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel.getId(), CREATE, user.getNickname(), "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", 1L, List.of(user), 1L, user.getEmail());
+        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel.getId(), CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", 1L, List.of(user), 1L, user);
         rabbitPublish.publishMessage(serverMessage, CREATE);
     }
 }

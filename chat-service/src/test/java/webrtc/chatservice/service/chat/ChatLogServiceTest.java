@@ -11,6 +11,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChatLog;
+import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
@@ -51,7 +52,7 @@ public class ChatLogServiceTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
+        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
         assertThat(resultIdx).isEqualTo(1L);
@@ -65,7 +66,7 @@ public class ChatLogServiceTest {
                 .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
 
         // when
-        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", nickname1, channel, email1);
+        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
         assertThat(resultIdx).isEqualTo(lastIndex+1L);

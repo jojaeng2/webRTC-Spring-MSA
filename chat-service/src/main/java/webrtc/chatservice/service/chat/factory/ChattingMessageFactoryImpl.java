@@ -32,15 +32,15 @@ public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
         this.messageTypes.put(ClientMessageType.CREATE, (ChattingMessage message) -> message.setType(CREATE));
     }
     @Override
-    public ChattingMessage createMessage(String channelId, ClientMessageType type, String nickname, String chatMessage, Long currentParticipants, List<Users> users, Long logId, String senderEmail) {
+    public ChattingMessage createMessage(String channelId, ClientMessageType type, String chatMessage, Long currentParticipants, List<Users> users, Long logId, Users user) {
         ChattingMessage chattingMessage = ChattingMessage.builder()
                 .channelId(channelId)
-                .senderName(nickname)
+                .senderName(user.getNickname())
                 .chatMessage(chatMessage)
                 .currentParticipants(currentParticipants)
                 .users(users)
                 .logId(logId)
-                .senderEmail(senderEmail)
+                .senderEmail(user.getEmail())
                 .build();
         return this.messageTypes.get(type).setMessageType(chattingMessage);
     }

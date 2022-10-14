@@ -44,19 +44,19 @@ public class ChattingServiceImpl implements ChattingService {
      * Chatting Room에 message 발송
      */
     @Transactional
-    public void sendChatMessage(ClientMessageType type, String channelId, String nickname, String chatMessage, String senderEmail) {
+    public void sendChatMessage(ClientMessageType type, String channelId, String chatMessage, Users user) {
         Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
         long currentParticipants = channel.getCurrentParticipants();
-        List<Users> users = channelUserRepository.findByChannel(channel).stream()
+        List<Users> channelUsers = channelUserRepository.findByChannel(channel).stream()
                 .map(ChannelUser::getUser)
                 .collect(toList());
         ChattingMessage serverMessage;
 
         if(type != REENTER) {
-            long logIdx = chatLogService.saveChatLog(type, chatMessage, nickname, channel, senderEmail);
-            serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, users, logIdx, senderEmail);
+            long logIdx = chatLogService.saveChatLog(type, chatMessage, channel, user);
+            serverMessage = chattingMessageFactory.createMessage(channelId, type, chatMessage, currentParticipants, channelUsers, logIdx, user);
         } else {
-            serverMessage = chattingMessageFactory.createMessage(channelId, type, nickname, chatMessage, currentParticipants, users, 0L, senderEmail);
+            serverMessage = chattingMessageFactory.createMessage(channelId, type, chatMessage, currentParticipants, channelUsers, 0L, user);
         }
 //        rabbitPublish.publishMessage(serverMessage, type);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
