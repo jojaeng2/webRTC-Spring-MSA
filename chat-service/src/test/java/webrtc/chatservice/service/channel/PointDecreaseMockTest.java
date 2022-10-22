@@ -118,7 +118,7 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
+                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(long.class), any(String.class));
 
         // when
 

@@ -3,7 +3,7 @@ port: 8080
 spring:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://192.168.0.24:5433/chat-db
+    url: jdbc:postgresql://192.168.0.100:5433/chat-db
     username: user
     password: 1234
   jpa:
@@ -18,7 +18,7 @@ spring:
     storage-type: redis
   redis:
     timeout: 600
-    host: 192.168.0.24
+    host: 192.168.0.100
     port: 6380
   jwt:
     secret: govlepel@$&

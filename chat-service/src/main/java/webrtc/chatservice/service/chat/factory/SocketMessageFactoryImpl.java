@@ -6,7 +6,7 @@ import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.chat.*;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.chat.template.CreateClientMessageTemplate;
+import webrtc.chatservice.service.chat.template.MessageInsertTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import static webrtc.chatservice.enums.ClientMessageType.*;
 public class SocketMessageFactoryImpl implements SocketMessageFactory{
 
     private final ChannelIOService channelIOService;
-    private final Map<ClientMessageType, CreateClientMessageTemplate> messageTypes = new HashMap<>();
+    private final Map<ClientMessageType, MessageInsertTemplate> messageTypes = new HashMap<>();
 
     @PostConstruct
     public void messageFactoryConst() {
@@ -32,6 +32,6 @@ public class SocketMessageFactoryImpl implements SocketMessageFactory{
     }
 
     public void execute(ClientMessageType type, ClientMessage overallMessage, Users user, String channelId) {
-        this.messageTypes.get(type).build(overallMessage, user, channelId);
+        this.messageTypes.get(type).execute(overallMessage, user, channelId);
     }
 }

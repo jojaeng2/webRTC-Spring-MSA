@@ -83,14 +83,13 @@ public class ChannelIOServiceImpl implements ChannelIOService{
      */
     private void createChannelUser(Users user, Channel channel) {
 
-        channelUserRepository.findByChannelAndUser(channel, user)
-                .ifPresent(channelUser -> {
+        channelUserRepository.findByChannelAndUser(channel, user).ifPresent(channelUser -> {
                     throw new AlreadyExistUserInChannelException();
                 });
 
-        Long limitParticipants = channel.getLimitParticipants();
-        Long currentParticipants = channel.getCurrentParticipants();
-        if(limitParticipants.equals(currentParticipants)) throw new ChannelParticipantsFullException();
+        long limitParticipants = channel.getLimitParticipants();
+        long currentParticipants = channel.getCurrentParticipants();
+        if(limitParticipants == currentParticipants) throw new ChannelParticipantsFullException();
         else {
             ChannelUser channelUser = ChannelUser.builder()
                     .user(user)

@@ -3,7 +3,7 @@ package webrtc.chatservice.service.chat.template;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 
 @FunctionalInterface
-public interface CreateChattingMessageTemplate {
+public interface MessageTypeTemplate {
 
     ChattingMessage setMessageType(ChattingMessage type);
 

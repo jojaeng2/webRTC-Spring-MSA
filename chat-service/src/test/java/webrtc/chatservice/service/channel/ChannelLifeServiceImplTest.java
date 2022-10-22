@@ -125,7 +125,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원통신성공_태그존재_포인트존재() {
         // given
 
-        doReturn(Optional.ofNullable(null))
+        doReturn(Optional.empty())
                 .when(usersRepository).findByEmail(any(String.class));
 
         doReturn(createUser())
@@ -163,7 +163,7 @@ public class ChannelLifeServiceImplTest {
         // given
 
         doThrow(new InsufficientPointException())
-                .when(httpApiController).postDecreaseUserPoint(any(), any(), any(String.class));
+                .when(httpApiController).postDecreaseUserPoint(any(), any(long.class), any(String.class));
         // when
 
         // then
@@ -176,7 +176,7 @@ public class ChannelLifeServiceImplTest {
         // given
 
         doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(), any(), any());
+                .when(httpApiController).postDecreaseUserPoint(any(), any(long.class), any());
         // when
 
         // then
@@ -250,7 +250,7 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
 
         doThrow(new InsufficientPointException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
+                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(long.class), any(String.class));
 
         // when
 
@@ -267,7 +267,7 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
 
         doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
+                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(long.class), any(String.class));
 
         // when
 

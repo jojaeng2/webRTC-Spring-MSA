@@ -40,9 +40,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
 
     // 30분당 100포인트
-    private final Long pointUnit = 100L;
-    private final Long channelCreatePoint = 2L;
-    private final Long channelExtensionMinute = 30L;
+    private final long pointUnit = 100L;
+    private final long channelCreatePoint = 2L;
+    private final long channelExtensionMinute = 30L;
     private final HttpApiController httpApiController;
 
     /**
