@@ -28,10 +28,6 @@ import webrtc.chatservice.repository.chat.ChatLogRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
-import webrtc.chatservice.service.rabbit.RabbitPublish;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,8 +50,6 @@ public class ChannelIOServiceImplTest {
     private ChatLogRepository chatLogRepository;
     @Mock
     private ChannelCrudRepository channelCrudRepository;
-    @Mock
-    private RabbitPublish rabbitPublish;
     @Mock
     private UsersRepository usersRepository;
     @Mock

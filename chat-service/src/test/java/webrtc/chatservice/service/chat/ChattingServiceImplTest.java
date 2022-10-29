@@ -19,7 +19,6 @@ import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
-import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,6 @@ public class ChattingServiceImplTest {
     @Mock
     private ChannelUserRepository channelUserRepository;
 
-    @Mock
-    private RabbitPublish rabbitPublish;
 
     @Mock
     private ChatLogService chatLogService;

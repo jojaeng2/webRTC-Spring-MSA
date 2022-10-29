@@ -14,7 +14,6 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.service.rabbit.RabbitPublishImpl;
 import webrtc.chatservice.utils.json.CustomJsonMapper;
 
 import java.util.ArrayList;

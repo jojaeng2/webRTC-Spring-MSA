@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOGS_ABSOLUTE_PATH" value="./logs" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!-- 로그 스태시 주소 -->
+        <destination>${LOGSTASH_URL:-localhost:5000}</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <providers>
+                <mdc />
+                <pattern>
+                    <pattern>{"server":"SampleServer"}</pattern>
+                </pattern>
+                <timestamp />
+                <context />
+                <threadName />
+                <loggerName />
+                <logLevel />
+                <message />
+                <logstashMarkers />
+                <stackTrace />
+                <callerData />
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="org.exmaple" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="LOGSTASH" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

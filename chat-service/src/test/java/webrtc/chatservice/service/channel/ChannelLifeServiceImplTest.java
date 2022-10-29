@@ -27,7 +27,6 @@ import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
-import webrtc.chatservice.service.rabbit.RabbitPublish;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +57,6 @@ public class ChannelLifeServiceImplTest {
     @Spy
     private ChannelRedisRepository channelRedisRepository;
 
-    @Mock
-    private RabbitPublish rabbitPublish;
     @Mock
     private UsersRepository usersRepository;
     @Mock

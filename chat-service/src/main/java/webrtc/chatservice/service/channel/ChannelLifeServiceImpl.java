@@ -18,7 +18,6 @@ import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
-import webrtc.chatservice.service.rabbit.RabbitPublish;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final ChannelUserRepository channelUserRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
-    private final RabbitPublish rabbitPublish;
     private final ChattingMessageFactory chattingMessageFactory;
 
 
@@ -210,6 +208,5 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     private void sendRabbitMessage(Channel channel, Users user) {
         ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", List.of(user), 1L, user);
-        rabbitPublish.publishMessage(serverMessage, CREATE);
     }
 }
