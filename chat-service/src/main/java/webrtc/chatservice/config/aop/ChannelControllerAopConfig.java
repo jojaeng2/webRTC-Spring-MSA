@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelResponse;
 import webrtc.chatservice.dto.chat.ChattingMessage;
+import webrtc.chatservice.dto.logstash.LogForCreateChannel;
 import webrtc.chatservice.utils.log.LogStashService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +32,10 @@ public class ChannelControllerAopConfig {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = findIP(request.getHeader("X-Forwarded-For"), request);
         String browser = findBrowser(request.getHeader("User-Agent"));
-
-
+        LogForCreateChannel log = new LogForCreateChannel(ip, "123", "INFO", "POST", browser,
+                response.getChannelUsers().get(0).getUser().getId(),
+                response.getId(), response.getChannelName(), response.getChannelType());
+        logStashService.execute();
     }
 
     private String findBrowser(String info) {

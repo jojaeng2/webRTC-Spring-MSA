@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class LogStashService {
 
     @Async
-    private void execute() {
+    public void execute() {
 
     }
 }
