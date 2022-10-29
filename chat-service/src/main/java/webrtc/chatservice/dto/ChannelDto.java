@@ -1,10 +1,12 @@
 package webrtc.chatservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
+import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.enums.ChannelType;
 
 import java.util.List;
@@ -39,11 +41,23 @@ public class ChannelDto {
         private final long currentParticipants;
         private final long timeToLive;
 
+        @JsonIgnore
+        private final ChannelType channelType;
+        @JsonIgnore
+        private final List<ChannelUser> channelUsers;
+        @JsonIgnore
+        private final String id;
+
+
+
         public CreateChannelResponse(Channel channel) {
+            this.id = channel.getId();
+            this.channelUsers = channel.getChannelUsers();
             this.channelName = channel.getChannelName();
             this.limitParticipants = channel.getLimitParticipants();
             this.currentParticipants = channel.getCurrentParticipants();
             this.timeToLive = channel.getTimeToLive();
+            this.channelType = channel.getChannelType();
         }
     }
 

@@ -3,31 +3,49 @@ package webrtc.chatservice.config.aop;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import webrtc.chatservice.dto.ChannelDto.CreateChannelResponse;
 import webrtc.chatservice.dto.chat.ChattingMessage;
+import webrtc.chatservice.utils.log.LogStashService;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component
+@Configuration
 @Aspect
 @Slf4j
 @RequiredArgsConstructor
-public class IpAopConfig {
+public class ChannelControllerAopConfig {
 
-    @Before("webrtc.chatservice.config.aop.Pointcuts.rabbitTemplate()")
-    public void addHttpServletRequest(JoinPoint joinPoint) throws Throwable {
+    private final LogStashService logStashService;
+
+    @AfterReturning(
+            pointcut = "webrtc.chatservice.config.aop.Pointcuts.createChannel()",
+            returning = "response"
+    )
+    public void setLogInfoIfCreateChannelSuccess(JoinPoint joinPoint, CreateChannelResponse response) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = findIP(request.getHeader("X-Forwarded-For"), request);
-        ChattingMessage message = (ChattingMessage)joinPoint.getArgs()[0];
+        String browser = findBrowser(request.getHeader("User-Agent"));
+
+
     }
 
-
+    private String findBrowser(String info) {
+        String browser = "Unknown";
+        if(info.contains("Trident")) browser = "ie";
+        else if(info.contains("Edge")) browser = "edge";
+        else if(info.contains("Whale")) browser = "whale";
+        else if(info.contains("Opera") || info.contains("OPR")) browser = "opera";
+        else if(info.contains("Firefox")) browser = "firefox";
+        else if(info.contains("Safari") && !info.contains("Chrome")) browser = "safari";
+        else if(info.contains("Chrome")) browser = "chrome";
+        return browser;
+    }
 
     private String findIP(String ip, HttpServletRequest request) {
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

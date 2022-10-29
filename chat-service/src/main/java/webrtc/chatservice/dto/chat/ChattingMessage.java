@@ -24,25 +24,12 @@ public class ChattingMessage {
     private List<Users> users;
     private long logId;
     private String senderEmail;
-    @JsonIgnore
-    @Builder.Default
-    private String ip = "Not Found";
-    @JsonIgnore
-    @Builder.Default
-    private String browser = "Not Found";
+
     @Builder.Default
     private Timestamp sendTime = new Timestamp(System.currentTimeMillis());
 
     public ChattingMessage setType(SocketServerMessageType type) {
         this.type = type;
         return this;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public void setBrowser(String browser) {
-        this.browser = browser;
     }
 }
