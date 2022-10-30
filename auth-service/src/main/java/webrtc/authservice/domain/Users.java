@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Users implements Serializable {
 
     @Id
-    private String id;
+    private UUID id;
     private Timestamp created_at;
     private Timestamp updated_at;
     private String email;
@@ -34,7 +34,7 @@ public class Users implements Serializable {
     private List<Point> points;
 
     public Users(String nickname, String password, String email) {
-        this.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID();
         this.nickname = nickname;
         this.password = password;
         this.email = email;
