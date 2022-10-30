@@ -1,42 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<configuration>
-    <property name="LOGS_ABSOLUTE_PATH" value="./logs" />
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
+    <!-- Logstash -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <!-- 로그 스태시 주소 -->
-        <destination>${LOGSTASH_URL:-localhost:5000}</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <providers>
-                <mdc />
-                <pattern>
-                    <pattern>{"server":"SampleServer"}</pattern>
-                </pattern>
-                <timestamp />
-                <context />
-                <threadName />
-                <loggerName />
-                <logLevel />
-                <message />
-                <logstashMarkers />
-                <stackTrace />
-                <callerData />
-            </providers>
-        </encoder>
+        <destination>ec2_logstash_url:5000</destination>
+<!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+<!--            <customFields>{"appname":"appname","profile":"local"}</customFields>-->
+<!--        </encoder>-->
     </appender>
 
-    <logger name="org.exmaple" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE" />
+    <root level="info">
         <appender-ref ref="LOGSTASH" />
-    </logger>
-
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

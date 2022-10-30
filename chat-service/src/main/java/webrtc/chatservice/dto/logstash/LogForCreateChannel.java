@@ -17,10 +17,10 @@ public class LogForCreateChannel {
     private Information information;
     private Msg msg;
 
-    public LogForCreateChannel(String client_ip, String client_host, String level, String method, String user_agent,
+    public LogForCreateChannel(String client_ip, String client_host, String method, String user_agent,
                                String user_id, String channel_id, String channel_name, ChannelType channel_type) {
 
-        this.information = new Information(client_ip, client_host, level, method, user_agent, channel_type);
+        this.information = new Information(client_ip, client_host, method, user_agent, channel_type);
         this.msg = new Msg(user_id, channel_id, channel_name, channel_type);
     }
 
@@ -34,10 +34,9 @@ public class LogForCreateChannel {
         private String method;
         private String user_agent;
 
-        public Information(String client_ip, String client_host, String level, String method, String user_agent, ChannelType channelType) {
+        public Information(String client_ip, String client_host, String method, String user_agent, ChannelType channelType) {
             this.client_ip = client_ip;
             this.client_host = client_host;
-            this.level = level;
             this.logger_name = setLoggerName(channelType);
             this.method = method;
             this.user_agent = user_agent;

@@ -24,18 +24,18 @@ public class ChannelControllerAopConfig {
 
     private final LogStashService logStashService;
 
-    @AfterReturning(
-            pointcut = "webrtc.chatservice.config.aop.Pointcuts.createChannel()",
-            returning = "response"
-    )
+//    @AfterReturning(
+//            pointcut = "webrtc.chatservice.config.aop.Pointcuts.createChannel()",
+//            returning = "response"
+//    )
     public void setLogInfoIfCreateChannelSuccess(JoinPoint joinPoint, CreateChannelResponse response) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = findIP(request.getHeader("X-Forwarded-For"), request);
         String browser = findBrowser(request.getHeader("User-Agent"));
-        LogForCreateChannel log = new LogForCreateChannel(ip, "123", "INFO", "POST", browser,
+        LogForCreateChannel log = new LogForCreateChannel(ip, "123", "POST", browser,
                 response.getChannelUsers().get(0).getUser().getId(),
                 response.getId(), response.getChannelName(), response.getChannelType());
-        logStashService.execute();
+        logStashService.execute(log);
     }
 
     private String findBrowser(String info) {
