@@ -18,8 +18,8 @@ import java.util.UUID;
 public class Point implements Serializable {
 
     @Id
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
     private String message;
     private int amount;
