@@ -31,13 +31,13 @@ cd ..
 
 sleep 3
 
-cd ./openvidu-service
-./deploy.sh &
-cd .. 
+# cd ./openvidu-service
+# ./deploy.sh &
+# cd .. 
 
 
-sleep 50
+# sleep 50
 
-cd ./nginx-service
-./deploy-service.sh &
-cd ..
+# cd ./nginx-service
+# ./deploy-service.sh &
+# cd ..
