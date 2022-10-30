@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Point implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String message;
