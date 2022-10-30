@@ -18,7 +18,6 @@ import java.util.UUID;
 public class Point implements Serializable {
 
     @Id
-    @Column(name = "point_id")
     @Builder.Default
     private String id = UUID.randomUUID().toString();
 

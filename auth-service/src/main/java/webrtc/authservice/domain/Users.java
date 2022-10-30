@@ -17,7 +17,6 @@ import java.util.UUID;
 public class Users implements Serializable {
 
     @Id
-    @Column(name = "user_id")
     private String id;
     private Timestamp created_at;
     private Timestamp updated_at;
