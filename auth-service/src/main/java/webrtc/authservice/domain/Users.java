@@ -42,11 +42,11 @@ public class Users implements Serializable {
         // 임시
         this.created_at = null;
         this.updated_at = null;
-        this.birthdate = null;
-        this.phone_number = null;
-        this.school = null;
-        this.company = null;
-        this.nickname_expire_at = null;
+        this.birthdate = new Date(1997, 12, 20);
+        this.phone_number = "010-4902-5037";
+        this.school = "부산";
+        this.company = "백수";
+        this.nickname_expire_at = new Timestamp(100000);
         this.points = new ArrayList<>();
     }
 
