@@ -40,13 +40,13 @@ public class Users implements Serializable {
         this.email = email;
 
         // 임시
-        this.created_at = null;
-        this.updated_at = null;
+        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.updated_at = new Timestamp(System.currentTimeMillis());
         this.birthdate = new Date(1997, 12, 20);
         this.phone_number = "010-4902-5037";
         this.school = "부산";
         this.company = "백수";
-        this.nickname_expire_at = new Timestamp(100000);
+        this.nickname_expire_at = new Timestamp(System.currentTimeMillis());
         this.points = new ArrayList<>();
     }
 
