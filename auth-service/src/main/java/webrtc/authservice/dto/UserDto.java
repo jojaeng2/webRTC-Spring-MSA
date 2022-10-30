@@ -39,7 +39,7 @@ public class UserDto {
         private int point;
 
         public FindUserWithPointByEmailResponse(Users user) {
-            this.id = user.getId();
+            this.id = user.getId().toString();
             this.email = user.getEmail();
             this.nickname = user.getNickname();
             this.point = user.sumOfPoint(user.getPoints());
