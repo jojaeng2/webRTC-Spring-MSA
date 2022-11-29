@@ -17,6 +17,7 @@ import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
 
 import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 import static webrtc.chatservice.enums.ClientMessageType.REENTER;
 
@@ -50,7 +51,6 @@ public class ChattingServiceImpl implements ChattingService {
         } else {
             serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, 0L, user);
         }
-//        rabbitPublish.publishMessage(serverMessage, type);
         redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
     }
 
