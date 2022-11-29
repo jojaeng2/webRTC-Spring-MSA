@@ -1,10 +1,10 @@
 package webrtc.chatservice.service.channel;
 
-import webrtc.chatservice.domain.Channel;
+import java.util.UUID;
 
 public interface ChannelIOService {
 
     void enterChannel(String channelId, String email);
 
-    void exitChannel(String channelId, String userId);
+    void exitChannel(String channelId, UUID userId);
 }
