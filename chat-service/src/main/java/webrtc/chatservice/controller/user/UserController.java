@@ -1,4 +1,4 @@
-package webrtc.chatservice.controller.jwt;
+package webrtc.chatservice.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -6,14 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.JwtDto.JwtResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.users.UsersService;
+import webrtc.chatservice.service.user.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 
@@ -21,17 +20,21 @@ import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/webrtc/chat")
-public class JwtAuthenticationController {
+public class UserController {
+
+    private final UsersService userService;
 
     private final JwtTokenUtil jwtTokenUtil;
 
     private final JwtUserDetailsService jwtUserDetailsService;
 
-    private final UsersService usersService;
-
-    private final HttpApiController httpApiController;
-
     private final PasswordEncoder passwordEncoder;
+
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> save(@RequestBody CreateUserRequest request) throws Exception {
+        Users user = userService.save(request);
+        return new ResponseEntity(user, HttpStatus.OK);
+    }
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
@@ -43,13 +46,5 @@ public class JwtAuthenticationController {
         else {
             throw new NotExistUserException();
         }
-    }
-
-
-    @PostMapping(value = "/register")
-    public ResponseEntity<?> saveUser(@RequestBody CreateUserRequest request) throws Exception {
-        Users user = usersService.saveUser(request);
-        httpApiController.postSaveUser(request);
-        return new ResponseEntity(user, HttpStatus.OK);
     }
 }
