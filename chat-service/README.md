@@ -25,7 +25,7 @@
 ---
 
 ## **Service Architecture**
-<img width="985" alt="image" src="https://users-images.githubusercontent.com/76645095/177087510-ae7285b7-a4ea-4c26-9f67-7a10bef7148f.png">
+<img width="985" alt="image" src="https://users2-images.githubusercontent.com/76645095/177087510-ae7285b7-a4ea-4c26-9f67-7a10bef7148f.png">
 
 
 ---
@@ -37,7 +37,7 @@
 > ## **Web Server**
 - ### **Architecture**
 
-<img width="991" alt="image" src="https://users-images.githubusercontent.com/76645095/177087679-067e2c36-45ca-40ef-aced-3ebc64bd9d7d.png">
+<img width="991" alt="image" src="https://users2-images.githubusercontent.com/76645095/177087679-067e2c36-45ca-40ef-aced-3ebc64bd9d7d.png">
 
 ```
 가장 앞단에 위치한 Nginx 는 Reverse Proxy 역할로, 소켓 및 HTTP 요청을 로드밸런싱 해준다. 
@@ -60,7 +60,7 @@ OpenVidu NginX를 custom했고, Main NginX의 설정과 하나의 파일로 관�
 > ## **Auth-Service**
 - ### **Architecture**
 
-<img width="974" alt="image" src="https://users-images.githubusercontent.com/76645095/177088134-a15cafaa-85eb-4a9c-ac3f-c5a02a31677d.png">
+<img width="974" alt="image" src="https://users2-images.githubusercontent.com/76645095/177088134-a15cafaa-85eb-4a9c-ac3f-c5a02a31677d.png">
 
 ```
 Auth-Service는 외부에서 직접 접근할 수없고, chat, voice service에서 request를 보내 사용자가 인증되었는지 응답한다.
@@ -85,7 +85,7 @@ Auth-Service는 사용자 인증 요청이 들어오면 가장 먼저 redis 캐�
 > ## **Chat-Service**
 - ### **Architecture**
 
-<img width="985" alt="image" src="https://users-images.githubusercontent.com/76645095/177088960-8532abd7-57ac-4852-aad7-3eafb909559d.png">
+<img width="985" alt="image" src="https://users2-images.githubusercontent.com/76645095/177088960-8532abd7-57ac-4852-aad7-3eafb909559d.png">
 
 ```
 소켓 통신을 위한 서브 프로토콜로 STOMP를 사용했다. 
@@ -113,7 +113,7 @@ STOMP를 이용한 메시지 전달은 redis Publish/Subscribe 기능을 활용�
 > ## **Voice-Service**
 - ### **Architecture**
 
-<img width="992" alt="image" src="https://users-images.githubusercontent.com/76645095/177089724-36818b19-c7c7-4a5a-ad50-ca32b8562be3.png">
+<img width="992" alt="image" src="https://users2-images.githubusercontent.com/76645095/177089724-36818b19-c7c7-4a5a-ad50-ca32b8562be3.png">
 
 ```
 OpenVidu 서버와 통신을 담당하는 서비스이다. 

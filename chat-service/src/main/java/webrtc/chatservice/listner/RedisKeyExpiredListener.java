@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.channel.ChannelLifeService;
@@ -18,8 +17,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
     private ChattingService chattingService;
     @Autowired
     private ChannelLifeService channelLifeService;
-    @Autowired
-    private HttpApiController httpApiController;
 
     public RedisKeyExpiredListener(@Qualifier("redisMessageListener")RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);
@@ -27,11 +24,11 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
-        chattingService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "채팅방의 수명이 끝났습니다.", Users.builder()
+        chattingService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "채팅방의 수명이 끝났습니다.",
+                Users.builder()
                 .nickname("[알림] ")
                 .email("Notice")
                 .build());
         channelLifeService.deleteChannel(message.toString());
-        httpApiController.postDeletedChannel(message.toString());
     }
 }

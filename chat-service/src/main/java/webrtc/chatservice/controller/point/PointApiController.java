@@ -11,7 +11,7 @@ import webrtc.chatservice.dto.ChannelDto.ExtensionChannelTTLResponse;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.service.channel.ChannelInfoInjectService;
 import webrtc.chatservice.service.channel.ChannelLifeService;
-import webrtc.chatservice.service.users.UsersService;
+import webrtc.chatservice.service.user.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 import static org.springframework.http.HttpStatus.OK;

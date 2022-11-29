@@ -16,6 +16,7 @@ public class HashTagServiceImpl implements HashTagService{
 
     @Transactional(readOnly = true)
     public HashTag findHashTagByName(String tagName) {
-        return hashTagRepository.findByTagName(tagName).orElseThrow(NotExistHashTagException::new);
+        return hashTagRepository.findByTagName(tagName)
+                .orElseThrow(NotExistHashTagException::new);
     }
 }
