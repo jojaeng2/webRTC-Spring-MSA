@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 import webrtc.chatservice.domain.VoiceRoom;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Repository
-public class OpenViduSessionRepositoryImpl implements OpenViduSessionRepository{
+public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
 
-    // Redis 설정
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
 
@@ -22,19 +22,12 @@ public class OpenViduSessionRepositoryImpl implements OpenViduSessionRepository{
         opsValueOperation = redisTemplate.opsForValue();
     }
 
-    public void createSession(String sessionName, VoiceRoom voiceRoom) {
+    public void save(String sessionName, VoiceRoom voiceRoom) {
         opsValueOperation.set(sessionName, voiceRoom);
     }
 
-    public VoiceRoom findOpenViduSessionByName(String sessionName) {
-        return VoiceRoom.class.cast(opsValueOperation.get(sessionName));
-    }
-
-    public void deletedChannel(String channelId) {
-        Object obj = opsValueOperation.get(channelId);
-        if(obj != null) {
-            delete(channelId);
-        }
+    public Optional<VoiceRoom> findOpenViduSessionByName(String sessionName) {
+        return Optional.ofNullable((VoiceRoom) opsValueOperation.get(sessionName));
     }
 
     public void update(String sessionName, VoiceRoom voiceRoom) {
