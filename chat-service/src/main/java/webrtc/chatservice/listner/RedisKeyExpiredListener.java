@@ -7,6 +7,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ClientMessageType;
+import webrtc.chatservice.repository.voice.VoiceRoomRepository;
 import webrtc.chatservice.service.channel.ChannelLifeService;
 import webrtc.chatservice.service.chat.ChattingService;
 
@@ -17,6 +18,8 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
     private ChattingService chattingService;
     @Autowired
     private ChannelLifeService channelLifeService;
+    @Autowired
+    private VoiceRoomRepository voiceRoomRepository;
 
     public RedisKeyExpiredListener(@Qualifier("redisMessageListener")RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);
@@ -30,5 +33,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
                 .email("Notice")
                 .build());
         channelLifeService.deleteChannel(message.toString());
+        voiceRoomRepository.delete(message.toString());
     }
 }
