@@ -3,23 +3,19 @@ package webrtc.chatservice.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
-import webrtc.chatservice.dto.chat.ChattingMessage;
-import webrtc.chatservice.exception.ChannelException.*;
-import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
+import webrtc.chatservice.enums.ChannelType;
+import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
+import webrtc.chatservice.exception.PointException.InsufficientPointException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
-import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.hashtag.ChannelHashTagRepository;
 import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
-import webrtc.chatservice.service.chat.factory.ChattingMessageFactory;
-import java.util.List;
-import java.util.Optional;
 
 import static webrtc.chatservice.enums.ClientMessageType.CREATE;
 
@@ -34,14 +30,12 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final ChannelUserRepository channelUserRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
-    private final ChattingMessageFactory chattingMessageFactory;
 
 
     // 30분당 100포인트
     private final long pointUnit = 100L;
     private final long channelCreatePoint = 2L;
     private final long channelExtensionMinute = 30L;
-    private final HttpApiController httpApiController;
 
     /**
      * 비즈니스 로직 - 채널을 생성
@@ -56,27 +50,18 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     @Transactional
     public Channel createChannel(CreateChannelRequest request, String email) {
         Channel channel = createChannelIfNotExist(request);
-        channelCrudRepository.save(channel);
-
         request.getHashTags().forEach(tagName -> {
-            HashTag hashTag = findHashTag(tagName);
-            hashTagRepository.save(hashTag);
-            createChannelHashTag(channel, hashTag);
+            createChannelHashTag(channel, tagName);
         });
 
-        channelRedisRepository.createChannel(channel);
-        Users user = pointDecreaseAndReturnUser(email);
+        Users user = userPointDecrease(email);
 
         // 채널유저 생성
         createChannelUser(user, channel);
 
         // 채팅방 생성 로그
         createChatLog(channel, user);
-
         channelCrudRepository.save(channel);
-
-        // rabbitMQ 메시지 전송
-//        sendRabbitMessage(channel, user);
         return channel;
     }
 
@@ -90,7 +75,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     @Transactional
     public void deleteChannel(String channelId) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
         channelCrudRepository.delete(channel);
         channelRedisRepository.delete(channelId);
     }
@@ -104,8 +90,22 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     @Transactional
     public Channel extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        httpApiController.postDecreaseUserPoint(userEmail, requestTTL * pointUnit, userEmail + " 님이 채널 연장에 포인트를 사용했습니다.");
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
+        Users user = usersRepository.findByEmail(userEmail)
+                .orElseThrow(NotExistUserException::new);
+
+        int sum = user.sumOfPoint();
+
+        // 포인트 부족
+        if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
+
+        Point point = Point.builder()
+                .message(userEmail + " 님이 채널 연장에 포인트를 사용했습니다.")
+                .amount(-(int) (requestTTL * pointUnit))
+                .build();
+        user.addPoint(point);
+
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
         return channel;
     }
@@ -118,13 +118,23 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 2) 채널의 이름과 Type ( 문자, 음성 )을 이용해 새로운 채널 생성
      */
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
+        channelCrudRepository
+                .findByChannelName(request.getChannelName())
+                .ifPresent(
+                        channel -> {
+                            throw new AlreadyExistChannelException();
+                        }
+                );
+        Channel channel = channelBuilder(request.getChannelName(), request.getChannelType());
+        channelCrudRepository.save(channel);
+        channelRedisRepository.save(channel);
+        return channel;
+    }
 
-        channelCrudRepository.findByChannelName(request.getChannelName())
-                .ifPresent(channel -> { throw new AlreadyExistChannelException(); });
-
+    private Channel channelBuilder(String name, ChannelType type) {
         return Channel.builder()
-                .channelName(request.getChannelName())
-                .channelType(request.getChannelType())
+                .channelName(name)
+                .channelType(type)
                 .build();
     }
 
@@ -134,14 +144,27 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) email을 이용해 회원 서비스로 요청 -> 포인트 부족 or 회원 null시 Exception 발생
      * 2) Response에 들어있는 회원 정보를 DB에 저장
      */
-    private Users pointDecreaseAndReturnUser(String email) {
+    private Users userPointDecrease(String email) {
 
-        httpApiController.postDecreaseUserPoint(email, channelCreatePoint * pointUnit, email + " 님이 채널 생성에 포인트를 사용했습니다.");
         Users user = usersRepository.findByEmail(email)
-                .orElse(httpApiController.postFindUserByEmail(email));
+                .orElseThrow(NotExistUserException::new);
+
+        int sum = user.sumOfPoint();
+
+        // 포인트 부족
+        if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();
+
+        Point point = pointBuilder(email);
+        user.addPoint(point);
         usersRepository.save(user);
         return user;
+    }
 
+    private Point pointBuilder(String email) {
+        return Point.builder()
+                .message(email + " 님이 채널 생성에 포인트를 사용했습니다.")
+                .amount(-(int) (channelCreatePoint * pointUnit))
+                .build();
     }
 
     /*
@@ -150,11 +173,17 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) 해시 태그 이름으로 검색
      * 2) DB에 해시태그가 없으면 새로 생성
      */
-    private HashTag findHashTag(String tagName) {
-        return hashTagRepository.findByTagName(tagName)
-                .orElse(HashTag.builder()
-                            .tagName(tagName)
-                            .build());
+    private HashTag findHashTag(String name) {
+        return hashTagRepository.findByTagName(name)
+                .orElse(hashTagBuilder(name));
+    }
+
+    private HashTag hashTagBuilder(String name) {
+        HashTag hashTag = HashTag.builder()
+                .tagName(name)
+                .build();
+        hashTagRepository.save(hashTag);
+        return hashTag;
     }
 
     /*
@@ -163,12 +192,17 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) ChannelUser 생성 후 저장
      */
     private void createChannelUser(Users user, Channel channel) {
+        ChannelUser channelUser = channelUserBuilder(user, channel);
+        channelUserRepository.save(channelUser);
+    }
+
+    private ChannelUser channelUserBuilder(Users user, Channel channel) {
         ChannelUser channelUser = ChannelUser.builder()
                 .user(user)
                 .channel(channel)
                 .build();
         channel.enterChannelUser(channelUser);
-        channelUserRepository.save(channelUser);
+        return channelUser;
     }
 
     /*
@@ -176,14 +210,20 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 비즈니스 로직 순서 :
      * 1) ChannelHashTag 생성 후 저장
      */
-    private void createChannelHashTag(Channel channel, HashTag hashTag) {
+    private void createChannelHashTag(Channel channel, String tagName) {
+        HashTag hashTag = findHashTag(tagName);
+        ChannelHashTag channelHashTag = channelHashTagBuilder(channel, hashTag);
+        channelHashTagRepository.save(channelHashTag);
+    }
+
+    private ChannelHashTag channelHashTagBuilder(Channel channel, HashTag hashTag) {
         ChannelHashTag channelHashTag = ChannelHashTag.builder()
                 .channel(channel)
                 .hashTag(hashTag)
                 .build();
         channel.addChannelHashTag(channelHashTag);
         hashTag.addChannelHashTag(channelHashTag);
-        channelHashTagRepository.save(channelHashTag);
+        return channelHashTag;
     }
 
     /*
@@ -199,14 +239,5 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
                 .senderEmail("NOTICE")
                 .build();
         channel.addChatLog(chatLog);
-    }
-
-    /*
-     * 비즈니스 로직 - RabbitMq로 채널 생성 메시지 전송
-     * 비즈니스 로직 순서 :
-     * 1) 채팅 메시지 생성 후 전송
-     */
-    private void sendRabbitMessage(Channel channel, Users user) {
-        ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, CREATE, "[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.", List.of(user), 1L, user);
     }
 }
