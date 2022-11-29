@@ -52,6 +52,7 @@ public class Channel implements Serializable {
     public void enterChannelUser(ChannelUser channelUser) {
         this.currentParticipants++;
         this.channelUsers.add(channelUser);
+        channelUser.getUser().addChannelUser(channelUser);
     }
 
 
@@ -66,6 +67,7 @@ public class Channel implements Serializable {
     public void exitChannelUser(ChannelUser channelUser) {
         this.currentParticipants--;
         this.channelUsers.remove(channelUser);
+        channelUser.getUser().exitChannelUser(channelUser);
     }
 
 
@@ -77,5 +79,9 @@ public class Channel implements Serializable {
 
     public void setCurrentParticipants(long newone) {
         this.currentParticipants = newone;
+    }
+
+    public boolean isFull() {
+        return this.limitParticipants == this.currentParticipants;
     }
 }
