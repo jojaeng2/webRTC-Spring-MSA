@@ -3,7 +3,7 @@ package webrtc.chatservice.repository.channel;
 import webrtc.chatservice.domain.Channel;
 
 public interface ChannelRedisRepository {
-    void createChannel(Channel channel);
+    void save(Channel channel);
 
     Long findChannelTTL(String channelId);
 
