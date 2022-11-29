@@ -11,7 +11,7 @@ import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ClientMessageType;
 import webrtc.chatservice.service.chat.ChattingService;
 import webrtc.chatservice.service.chat.factory.SocketMessageFactory;
-import webrtc.chatservice.service.users.UsersService;
+import webrtc.chatservice.service.user.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtil;
 
 import static webrtc.chatservice.enums.ClientMessageType.*;
@@ -34,7 +34,7 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        Users user = usersService.findOneUserByEmail(senderEmail);
+        Users user = usersService.findOneByEmail(senderEmail);
 
         if(clientMessageType.equals(ENTER) || clientMessageType.equals(EXIT) || clientMessageType.equals(CHAT)) {
             socketMessageFactory.execute(clientMessageType, message, user, channelId);
