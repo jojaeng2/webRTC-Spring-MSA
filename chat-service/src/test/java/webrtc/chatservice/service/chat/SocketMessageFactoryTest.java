@@ -1,6 +1,5 @@
 package webrtc.chatservice.service.chat;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,18 +8,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.Import;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.chat.ChattingMessage;
 import webrtc.chatservice.dto.chat.ClientMessage;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.enums.SocketServerMessageType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.service.channel.ChannelIOService;
-import webrtc.chatservice.service.chat.factory.SocketMessageFactory;
 import webrtc.chatservice.service.chat.factory.SocketMessageFactoryImpl;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -75,7 +70,7 @@ public class SocketMessageFactoryTest {
         message.setSenderName(nickname1);
 
         doNothing()
-                .when(channelIOService).exitChannel(any(String.class), any(String.class));
+                .when(channelIOService).exitChannel(any(String.class), any(UUID.class));
 
         // when
         createSocketMessage(exit, message);
@@ -92,7 +87,7 @@ public class SocketMessageFactoryTest {
         message.setSenderName(nickname1);
 
         doThrow(new NotExistChannelException())
-                .when(channelIOService).exitChannel(any(String.class), any(String.class));
+                .when(channelIOService).exitChannel(any(String.class), any(UUID.class));
 
         // when
 

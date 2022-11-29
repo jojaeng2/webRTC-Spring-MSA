@@ -13,7 +13,6 @@ import webrtc.chatservice.domain.ChatLog;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.enums.ClientMessageType;
-import webrtc.chatservice.exception.ChannelException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;

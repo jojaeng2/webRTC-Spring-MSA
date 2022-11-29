@@ -1,22 +1,13 @@
 package webrtc.chatservice.service.channel;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.chatservice.domain.Channel;
-import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

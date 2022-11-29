@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
+import webrtc.chatservice.domain.Point;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
@@ -16,6 +16,7 @@ import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.channel.ChannelListRepository;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
+import webrtc.chatservice.repository.users.UsersRepository;
 
 import java.util.Optional;
 
@@ -39,11 +40,11 @@ public class PointDecreaseMockTest {
     @Mock
     private ChannelListRepository channelListRepository;
     @Mock
+    private UsersRepository usersRepository;
+    @Mock
     private ChannelRedisRepository channelRedisRepository;
     @Mock
     private ChannelCrudRepository channelCrudRepository;
-    @Mock
-    private HttpApiController httpApiController;
 
     @Test
     @Transactional
@@ -53,22 +54,28 @@ public class PointDecreaseMockTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
                 .build();
         Long requestTTL = 100L;
 
+        Point point = Point.builder()
+                .message("회원 가입")
+                .amount(1000000)
+                .build();
+        users2.addPoint(point);
+
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(channel.getId());
-        doNothing()
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
+        doReturn(Optional.of(users2))
+                .when(usersRepository).findByEmail(any(String.class));
         doNothing()
                 .when(channelRedisRepository).extensionChannelTTL(any(Channel.class), any(Long.class));
 
         // when
-        channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
+        channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
 
         // then
 
@@ -82,7 +89,7 @@ public class PointDecreaseMockTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -96,7 +103,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistChannelException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -108,7 +115,7 @@ public class PointDecreaseMockTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -117,14 +124,12 @@ public class PointDecreaseMockTest {
 
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(long.class), any(String.class));
 
         // when
 
         // then
         assertThrows(NotExistUserException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -136,7 +141,7 @@ public class PointDecreaseMockTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -145,16 +150,14 @@ public class PointDecreaseMockTest {
 
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
-        doThrow(new InsufficientPointException())
-                .when(httpApiController).postDecreaseUserPoint(any(String.class), any(Long.class), any(String.class));
+        doReturn(Optional.of(users2))
+                .when(usersRepository).findByEmail(any(String.class));
 
         // when
 
         // then
         assertThrows(InsufficientPointException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users.getEmail(), requestTTL);
+            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
-
-
 }

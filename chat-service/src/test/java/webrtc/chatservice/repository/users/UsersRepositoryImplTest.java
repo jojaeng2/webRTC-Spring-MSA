@@ -1,22 +1,16 @@
 package webrtc.chatservice.repository.users;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.UserException.NotExistUserException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,10 +48,10 @@ public class UsersRepositoryImplTest {
 
 
         // when
-        Users createUsers = repository.save(users);
+        Users createUsers2 = repository.save(users);
 
         // then
-        assertThat(users.getId()).isEqualTo(createUsers.getId());
+        assertThat(users.getId()).isEqualTo(createUsers2.getId());
     }
 
     @Test
