@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.enums.ChannelType;
 
+import java.util.UUID;
+
 import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @Getter
@@ -18,7 +20,7 @@ public class LogForCreateChannel {
     private Msg msg;
 
     public LogForCreateChannel(String client_ip, String client_host, String method, String user_agent,
-                               String user_id, String channel_id, String channel_name, ChannelType channel_type) {
+                               UUID user_id, String channel_id, String channel_name, ChannelType channel_type) {
 
         this.information = new Information(client_ip, client_host, method, user_agent, channel_type);
         this.msg = new Msg(user_id, channel_id, channel_name, channel_type);
@@ -56,13 +58,13 @@ public class LogForCreateChannel {
     @Getter
     @NoArgsConstructor
     class Msg {
-        private String user_id;
+        private UUID user_id;
         private String channel_id;
         private String channel_name;
         private ChannelType channel_type;
         private String message;
 
-        public Msg(String user_id, String channel_id, String channel_name, ChannelType channel_type) {
+        public Msg(UUID user_id, String channel_id, String channel_name, ChannelType channel_type) {
             this.user_id = user_id;
             this.channel_id = channel_id;
             this.channel_name = channel_name;
