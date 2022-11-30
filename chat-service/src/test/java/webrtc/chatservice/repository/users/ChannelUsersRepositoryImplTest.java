@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.repository.users.ChannelUserRepository;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -53,6 +52,7 @@ public class ChannelUsersRepositoryImplTest {
     }
 
     @Test
+    @Transactional
     void 채널유저조회성공() {
         // given
         Channel channel = createChannel(channelName1, text);
@@ -64,6 +64,8 @@ public class ChannelUsersRepositoryImplTest {
         repository.save(channelUser);
 
         // when
+        System.out.println("users = " + users.getId());
+        System.out.println("channelUser = " + channelUser.getUser().getId());
         Optional<ChannelUser> OpCU = repository.findByChannelAndUser(channel, users);
         ChannelUser findChannelUser = OpCU.get();
 
@@ -72,6 +74,7 @@ public class ChannelUsersRepositoryImplTest {
     }
 
     @Test
+    @Transactional
     void 채널유저조회실패() {
         // given
         Channel channel = createChannel(channelName1, text);
@@ -100,7 +103,7 @@ public class ChannelUsersRepositoryImplTest {
                 .build();
     }
 
-    private ChannelUser createChannelUser( Users user, Channel channel) {
+    private ChannelUser createChannelUser(Users user, Channel channel) {
         ChannelUser channelUser = ChannelUser.builder()
                 .user(user)
                 .channel(channel)

@@ -17,16 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.users.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -68,10 +65,6 @@ public class HashTagApiControllerTest {
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
     private ChannelFindService channelFindService;
-    @Mock
-    private UsersService usersService;
-    @Mock
-    private HttpApiController httpApiController;
 
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();

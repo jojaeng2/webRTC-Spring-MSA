@@ -5,12 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.*;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -199,7 +196,7 @@ public class ChannelListRepositoryImplTest {
                 .build();
     }
 
-    private ChannelUser createChannelUser( Users user, Channel channel) {
+    private ChannelUser createChannelUser(Users user, Channel channel) {
         ChannelUser channelUser = ChannelUser.builder()
                 .user(user)
                 .channel(channel)

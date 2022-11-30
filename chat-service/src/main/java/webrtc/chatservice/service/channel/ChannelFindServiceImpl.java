@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.exception.HashTagException.NotExistHashTagException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;

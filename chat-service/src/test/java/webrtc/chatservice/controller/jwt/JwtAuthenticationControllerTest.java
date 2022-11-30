@@ -29,13 +29,13 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.chatservice.config.CustomPasswordEncoder;
-import webrtc.chatservice.controller.HttpApiController;
+import webrtc.chatservice.controller.user.UserController;
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.JwtDto.JwtRequest;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
-import webrtc.chatservice.service.users.UsersService;
+import webrtc.chatservice.service.user.UsersService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JwtAuthenticationControllerTest {
 
     @InjectMocks
-    private JwtAuthenticationController jwtAuthenticationController;
+    private UserController userController;
     @Spy
     private JwtTokenUtilImpl jwtTokenUtil;
     @Mock
@@ -62,9 +62,7 @@ public class JwtAuthenticationControllerTest {
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
-    private UsersService usersService;
-    @Mock
-    private HttpApiController httpApiController;
+    private UsersService usersService2;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private MockMvc mockMvc;
@@ -77,7 +75,7 @@ public class JwtAuthenticationControllerTest {
 
     @BeforeEach
     public void setup(RestDocumentationContextProvider restDocumentationContextProvider) throws Exception {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(jwtAuthenticationController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(userController)
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
@@ -94,17 +92,14 @@ public class JwtAuthenticationControllerTest {
         // given
         CreateUserRequest ObjRequest = new CreateUserRequest(nickname1, password, email1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                         .nickname(nickname1)
                         .password(password)
                         .email(email1)
                         .build();
-        System.out.println("유저 등록 성공 = " + users.getId());
-        doReturn(users)
-                .when(usersService).saveUser(any(CreateUserRequest.class));
-
-        doReturn(users)
-                .when(httpApiController).postSaveUser(any(CreateUserRequest.class));
+        System.out.println("유저 등록 성공 = " + users2.getId());
+        doReturn(users2)
+                .when(usersService2).save(any(CreateUserRequest.class));
 
         // when
 
@@ -126,8 +121,16 @@ public class JwtAuthenticationControllerTest {
                     responseFields(
                             fieldWithPath("id").type(STRING).description("회원 PK"),
                             fieldWithPath("email").type(STRING).description("회원 Email"),
-                            fieldWithPath("nickname").type(STRING).description("회원 Nickname")
-                    )
+                            fieldWithPath("nickname").type(STRING).description("회원 Nickname"),
+                            fieldWithPath("created_at").type(NUMBER).description("회원 Nickname"),
+                            fieldWithPath("updated_at").type(NUMBER).description("회원 Nickname"),
+                            fieldWithPath("birthdate").type(NUMBER).description("회원 Nickname"),
+                            fieldWithPath("phone_number").type(STRING).description("회원 Nickname"),
+                            fieldWithPath("school").type(STRING).description("회원 Nickname"),
+                            fieldWithPath("company").type(STRING).description("회원 Nickname"),
+                            fieldWithPath("nickname_expire_at").type(NUMBER).description("회원 Nickname")
+
+                            )
             ));
     }
 
@@ -172,7 +175,7 @@ public class JwtAuthenticationControllerTest {
         // given
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)

@@ -1,26 +1,20 @@
-package webrtc.chatservice.service.users;
+package webrtc.chatservice.service.user;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.controller.HttpApiController;
+import webrtc.chatservice.domain.Point;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto;
-import webrtc.chatservice.dto.ChannelDto.ChannelTTLWithUserPointResponse;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
-import webrtc.chatservice.dto.UsersDto.FindUserWithPointByEmailResponse;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,8 +31,6 @@ public class UsersServiceImplTest {
     private ChannelRedisRepository channelRedisRepository;
     @Mock
     private UsersRepository usersRepository;
-    @Mock
-    private HttpApiController httpApiController;
     @Mock
     private BCryptPasswordEncoder encoder;
 
@@ -62,7 +54,7 @@ public class UsersServiceImplTest {
                 .save(any(Users.class));
 
         // when
-        Users response = userService.saveUser(request);
+        Users response = userService.save(request);
 
         // then
         assertThat(request.getEmail()).isEqualTo(response.getEmail());
@@ -83,75 +75,25 @@ public class UsersServiceImplTest {
                 .when(usersRepository).findByEmail(email);
 
         //when
-        Users users = userService.findOneUserByEmail(email);
+        Users users2 = userService.findOneByEmail(email);
 
         //then
-        assertThat(users.getEmail()).isEqualTo(email);
-    }
-
-
-    @Test
-    @Transactional
-    public void 이메일로_유저찾기_실패후_통신성공() {
-        //given
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String email = "email";
-
-        doReturn(Users.builder()
-                .nickname(nickname1)
-                .password(password)
-                .email(email)
-                .build())
-                .when(httpApiController).postFindUserByEmail(email);
-
-        doReturn(Optional.empty())
-                .when(usersRepository).findByEmail(email);
-
-        //when
-        Users users = userService.findOneUserByEmail(email);
-
-        //then
-        assertThat(users.getEmail()).isEqualTo(email);
-    }
-
-    @Test
-    @Transactional
-    public void 이메일로_유저찾기_실패후_통신실패() {
-        //given
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postFindUserByEmail(email1);
-
-
-        doReturn(Optional.empty())
-                .when(usersRepository).findByEmail(email1);
-
-        //when
-
-        //then
-        assertThrows(NotExistUserException.class, ()-> {
-            userService.findOneUserByEmail(email1);
-        });
+        assertThat(users2.getEmail()).isEqualTo(email);
     }
 
     @Test
     @Transactional
     public void 이메일로_유저와포인트_반환성공() {
         // given
-        String id = "id";
-        String email = "email";
-        String channelId = "channelId";
-        String nickname = "nickname";
         int point = 10000000;
 
         Long channelTTL = 100000L;
-
-        doReturn(new FindUserWithPointByEmailResponse(id, email, nickname, point))
-                .when(httpApiController).postFindUserWithPointByEmail(email);
+        usersRepository.save(createUsers());
+        doReturn(Optional.of(createUsers()))
+                .when(usersRepository).findByEmail(any(String.class));
 
         // when
-        int response = userService.findUserPointByEmail(email);
+        int response = userService.findUserPointByEmail(email1);
 
         // then
         assertThat(response).isEqualTo(point);
@@ -169,14 +111,29 @@ public class UsersServiceImplTest {
 
         Long channelTTL = 100000L;
 
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postFindUserWithPointByEmail(email);
-
         // when
 
         // then
         Assertions.assertThrows(NotExistUserException.class, ()-> {
             userService.findUserPointByEmail(email);
         });
+    }
+
+    Users createUsers() {
+        Users user = Users.builder()
+                .nickname(nickname1)
+                .password(password)
+                .email(email1)
+                .build();
+        user.addPoint(createPoint());
+        return user;
+    }
+
+    Point createPoint() {
+        return Point.builder()
+                .message("회원가입")
+                .amount(10000000)
+                .build();
+
     }
 }

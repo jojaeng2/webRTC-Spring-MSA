@@ -1,17 +1,13 @@
-package webrtc.chatservice.service.users;
+package webrtc.chatservice.service.user;
+
 
 import webrtc.chatservice.domain.Users;
 import webrtc.chatservice.dto.UsersDto.CreateUserRequest;
 
 public interface UsersService {
+    Users save(CreateUserRequest request);
 
-
-    Users saveUser(CreateUserRequest request);
-
-    Users findOneUserByEmail(String email);
-
-
-    void redisDataEvict();
+    Users findOneByEmail(String email);
 
     int findUserPointByEmail(String email);
 }

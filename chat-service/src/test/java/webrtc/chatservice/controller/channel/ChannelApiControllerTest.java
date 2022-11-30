@@ -21,7 +21,6 @@ import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelHashTag;
 import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
 import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.enums.ChannelType;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
@@ -117,7 +116,7 @@ public class ChannelApiControllerTest {
     public void 새로운_채널생성_성공() throws Exception{
         // given
 
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -171,7 +170,7 @@ public class ChannelApiControllerTest {
     @Transactional
     public void 채널생성_실패_중복된채널이름() throws Exception{
         // given
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -180,7 +179,7 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users.getEmail())
+        doReturn(users2.getEmail())
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
@@ -214,7 +213,7 @@ public class ChannelApiControllerTest {
     @Transactional
     public void jwt토큰문제발생() throws Exception{
         // given
-        Users users = Users.builder()
+        Users users2 = Users.builder()
                 .nickname(nickname1)
                 .password(password)
                 .email(email1)
@@ -223,7 +222,7 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users.getEmail())
+        doReturn(users2.getEmail())
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())

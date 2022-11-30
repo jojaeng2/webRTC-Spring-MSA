@@ -3,6 +3,7 @@ package webrtc.chatservice.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import webrtc.chatservice.domain.Users;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -32,6 +33,13 @@ public class UsersDto {
         private String email;
         private String nickname;
         private int point;
+
+        public FindUserWithPointByEmailResponse(Users user) {
+            this.id = user.getId().toString();
+            this.email = user.getEmail();
+            this.nickname = user.getNickname();
+            this.point = user.sumOfPoint();
+        }
     }
 
     @Getter

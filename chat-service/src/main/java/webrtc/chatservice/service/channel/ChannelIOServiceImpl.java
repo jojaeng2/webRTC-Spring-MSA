@@ -3,7 +3,6 @@ package webrtc.chatservice.service.channel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
 import webrtc.chatservice.domain.Users;
@@ -16,14 +15,15 @@ import webrtc.chatservice.repository.channel.ChannelCrudRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
-public class ChannelIOServiceImpl implements ChannelIOService{
+public class ChannelIOServiceImpl implements ChannelIOService {
 
     private final ChannelCrudRepository channelCrudRepository;
     private final UsersRepository usersRepository;
     private final ChannelUserRepository channelUserRepository;
-    private final HttpApiController httpApiController;
 
     /*
      * 비즈니스 로직 - 채널에 회원 입장
@@ -38,7 +38,8 @@ public class ChannelIOServiceImpl implements ChannelIOService{
     @Override
     @Transactional
     public void enterChannel(String channelId, String email) {
-        Users user = findUser(email);
+        Users user = usersRepository.findByEmail(email)
+                .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
         createChannelUser(user, channel);
@@ -55,22 +56,12 @@ public class ChannelIOServiceImpl implements ChannelIOService{
      */
     @Override
     @Transactional
-    public void exitChannel(String channelId, String userId) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        Users user = usersRepository.findById(userId).orElseThrow(NotExistUserException::new);
-        exitChannelUserInChannel(channel, user);
-    }
-
-    /*
-     * 비즈니스 로직 - 회원 검색
-     * 비즈니스 로직 순서 :
-     * 1) 현재 chat-service DB에서 회원 검색 후 반환 -> 없다면 외부 회원 서비스와 통신 후 회원 정보 반환 및 저장
-     */
-    private Users findUser(String email) {
-        Users user = usersRepository.findByEmail(email)
-                .orElse(httpApiController.postFindUserByEmail(email));
-        usersRepository.save(user);
-        return user;
+    public void exitChannel(String channelId, UUID userId) {
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(NotExistUserException::new);
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
+        deleteChannelUser(channel, user);
     }
 
     /*
@@ -82,22 +73,22 @@ public class ChannelIOServiceImpl implements ChannelIOService{
      * 4) 채널과 회원 관계 생성 후 저장
      */
     private void createChannelUser(Users user, Channel channel) {
+        isAlreadyExistChannelUser(user, channel);
+        if (channel.isFull()) throw new ChannelParticipantsFullException();
+        ChannelUser channelUser = ChannelUser.builder()
+                .user(user)
+                .channel(channel)
+                .build();
+        channel.enterChannelUser(channelUser);
+        channelUserRepository.save(channelUser);
+    }
 
-        channelUserRepository.findByChannelAndUser(channel, user).ifPresent(channelUser -> {
+    void isAlreadyExistChannelUser(Users user, Channel channel) {
+        channelUserRepository.findByChannelAndUser(channel, user).ifPresent(
+                cu -> {
                     throw new AlreadyExistUserInChannelException();
-                });
-
-        long limitParticipants = channel.getLimitParticipants();
-        long currentParticipants = channel.getCurrentParticipants();
-        if(limitParticipants == currentParticipants) throw new ChannelParticipantsFullException();
-        else {
-            ChannelUser channelUser = ChannelUser.builder()
-                    .user(user)
-                    .channel(channel)
-                    .build();
-            channel.enterChannelUser(channelUser);
-            channelUserRepository.save(channelUser);
-        }
+                }
+        );
     }
 
     /*
@@ -107,8 +98,9 @@ public class ChannelIOServiceImpl implements ChannelIOService{
      * 2) 채널의 참가 인원 수 -1 감소
      * 3) 채널과 회원 관계 삭제 후 저장
      */
-    private void exitChannelUserInChannel(Channel channel, Users user) {
-        ChannelUser channelUser = channelUserRepository.findByChannelAndUser(channel, user).orElseThrow(NotExistChannelUserException::new);
+    private void deleteChannelUser(Channel channel, Users user) {
+        ChannelUser channelUser = channelUserRepository.findByChannelAndUser(channel, user)
+                .orElseThrow(NotExistChannelUserException::new);
         channel.exitChannelUser(channelUser);
         channelUserRepository.delete(channelUser);
     }

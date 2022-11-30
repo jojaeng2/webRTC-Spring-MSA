@@ -5,23 +5,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.annotation.Transactional;
-import webrtc.chatservice.controller.HttpApiController;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.domain.ChannelUser;
-import webrtc.chatservice.domain.HashTag;
 import webrtc.chatservice.domain.Users;
-import webrtc.chatservice.dto.ChannelDto;
-import webrtc.chatservice.dto.ChannelDto.CreateChannelRequest;
 import webrtc.chatservice.enums.ChannelType;
-import webrtc.chatservice.exception.ChannelException;
-import webrtc.chatservice.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.chatservice.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.chatservice.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
-import webrtc.chatservice.exception.ChannelUserException;
 import webrtc.chatservice.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.chatservice.exception.UserException;
 import webrtc.chatservice.exception.UserException.NotExistUserException;
 import webrtc.chatservice.repository.channel.*;
 import webrtc.chatservice.repository.chat.ChatLogRepository;
@@ -29,13 +20,13 @@ import webrtc.chatservice.repository.hashtag.HashTagRepository;
 import webrtc.chatservice.repository.users.ChannelUserRepository;
 import webrtc.chatservice.repository.users.UsersRepository;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static webrtc.chatservice.enums.ChannelType.TEXT;
-import static webrtc.chatservice.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
 public class ChannelIOServiceImplTest {
@@ -56,8 +47,6 @@ public class ChannelIOServiceImplTest {
     private ChannelUserRepository channelUserRepository;
     @Mock
     private HashTagRepository hashTagRepository;
-    @Mock
-    private HttpApiController httpApiController;
 
 
     String nickname1 = "nickname1";
@@ -79,7 +68,7 @@ public class ChannelIOServiceImplTest {
                 .when(channelCrudRepository).findById(any(String.class));
 
         // when
-        channelIOService.enterChannel(channel.getId(), user.getId());
+        channelIOService.enterChannel(channel.getId(), user.getEmail());
 
         // then
         assertThat(channel.getChannelUsers().size()).isEqualTo(1);
@@ -93,13 +82,11 @@ public class ChannelIOServiceImplTest {
 
         doReturn(Optional.empty())
                 .when(usersRepository).findByEmail(any(String.class));
-        doThrow(new NotExistUserException())
-                .when(httpApiController).postFindUserByEmail(any(String.class));
 
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
+        assertThrows(NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
     }
 
     @Test
@@ -116,7 +103,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
+        assertThrows(NotExistChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
     }
 
     @Test
@@ -136,7 +123,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(AlreadyExistUserInChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
+        assertThrows(AlreadyExistUserInChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
     }
 
     @Test
@@ -154,7 +141,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(ChannelParticipantsFullException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
+        assertThrows(ChannelParticipantsFullException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
     }
 
     @Test
@@ -168,7 +155,7 @@ public class ChannelIOServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.of(channelUser))
                 .when(channelUserRepository).findByChannelAndUser(any(Channel.class), any(Users.class));
 
@@ -188,6 +175,8 @@ public class ChannelIOServiceImplTest {
         // when
         doReturn(Optional.ofNullable(null))
                 .when(channelCrudRepository).findById(any(String.class));
+        doReturn(Optional.of(user))
+                .when(usersRepository).findById(any(UUID.class));
 
         // then
         assertThrows(NotExistChannelException.class, () -> channelIOService.exitChannel(channel.getId(), user.getId()));
@@ -204,7 +193,7 @@ public class ChannelIOServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.empty())
                 .when(channelUserRepository).findByChannelAndUser(any(Channel.class), any(Users.class));
 

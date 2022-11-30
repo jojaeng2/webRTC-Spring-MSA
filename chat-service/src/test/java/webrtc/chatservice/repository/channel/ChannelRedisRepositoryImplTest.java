@@ -43,7 +43,7 @@ public class ChannelRedisRepositoryImplTest {
                 .build();
 
         // when
-        channelRedisRepository.createChannel(channel);
+        channelRedisRepository.save(channel);
         channelRedisRepository.delete(channel.getId());
         // then
     }
@@ -56,7 +56,7 @@ public class ChannelRedisRepositoryImplTest {
 
         // then
         assertThrows(NullPointerException.class, ()-> {
-            channelRedisRepository.createChannel(null);
+            channelRedisRepository.save(null);
         });
     }
 
@@ -67,7 +67,7 @@ public class ChannelRedisRepositoryImplTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        channelRedisRepository.createChannel(channel);
+        channelRedisRepository.save(channel);
 
         // when
         Long channelTTL = channelRedisRepository.findChannelTTL(channel.getId());
@@ -95,7 +95,7 @@ public class ChannelRedisRepositoryImplTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        channelRedisRepository.createChannel(channel);
+        channelRedisRepository.save(channel);
         Long startTTL = channelRedisRepository.findChannelTTL(channel.getId());
 
         // when
@@ -114,7 +114,7 @@ public class ChannelRedisRepositoryImplTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        channelRedisRepository.createChannel(channel);
+        channelRedisRepository.save(channel);
 
         // when
         channelRedisRepository.delete(channel.getId());

@@ -24,7 +24,7 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
         opsValueOperation = redisTemplate.opsForValue();
     }
 
-    public void createChannel(Channel channel) {
+    public void save(Channel channel) {
         opsValueOperation.set(channel.getId(), channel);
         redisTemplate.expire(channel.getId(), channelTTL, TimeUnit.SECONDS);
     }
