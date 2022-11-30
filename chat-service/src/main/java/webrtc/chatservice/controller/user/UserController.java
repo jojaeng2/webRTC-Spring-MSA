@@ -39,12 +39,10 @@ public class UserController {
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
-        if(passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
+        if (passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtResponse(token));
         }
-        else {
-            throw new NotExistUserException();
-        }
+        throw new NotExistUserException();
     }
 }
