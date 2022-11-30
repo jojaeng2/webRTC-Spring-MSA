@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,11 @@ import webrtc.chatservice.service.channel.ChannelFindService;
 import webrtc.chatservice.service.channel.ChannelIOService;
 import webrtc.chatservice.service.jwt.JwtUserDetailsService;
 import webrtc.chatservice.utils.jwt.JwtTokenUtil;
+
+import java.util.Objects;
+
+import static org.springframework.messaging.simp.stomp.StompCommand.CONNECT;
+import static org.springframework.messaging.simp.stomp.StompCommand.SEND;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,30 +35,60 @@ public class StompHandler implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-        switch (accessor.getCommand()) {
-            case CONNECT:
-                String connectJwtToken = accessor.getFirstNativeHeader("jwt");
-                String connectUserEmail = jwtTokenUtil.getUserEmailFromToken(connectJwtToken);
-                UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(connectUserEmail);
-                jwtTokenUtil.validateToken(connectJwtToken, connectUserDetails);
-                break;
-            case SEND:
-                String sendJwtToken = accessor.getFirstNativeHeader("jwt");
-                String messageType = accessor.getFirstNativeHeader("type");
-                String sendUserEmail = jwtTokenUtil.getUserEmailFromToken(sendJwtToken);
-                UserDetails sendUserDetails = jwtUserDetailsService.loadUserByUsername(sendUserEmail);
-                jwtTokenUtil.validateToken(sendJwtToken, sendUserDetails);
-                String sendChannelId = accessor.getFirstNativeHeader("channelId");
-
-                // interceptor에서 예외를 터뜨리기 위해 존재.
-                channelFindService.findOneChannelById(sendChannelId);
-
-                if(messageType != null && messageType.equals("ENTER")) {
-                    channelIOService.enterChannel(sendChannelId, sendUserEmail);
-                }
-                break;
+        StompCommand command = accessor.getCommand();
+        if (isCommandConnect(command)) {
+            checkValidateUsers(accessor);
+        }
+        if (isCommandSend(command)) {
+            checkValidateUsers(accessor);
+            String type = getType(accessor);
+            String email = getEmail(accessor);
+            String channelId = getChannelId(accessor);
+            channelFindService.findOneChannelById(channelId);
+            if (isEnter(type)) {
+                channelIOService.enterChannel(channelId, email);
+            }
         }
         return message;
     }
 
+    void checkValidateUsers(StompHeaderAccessor accessor) {
+        String jwtToken = getJwtToken(accessor);
+        String email = getEmail(accessor);
+        checkExistUser(jwtToken, email);
+    }
+
+    String getJwtToken(StompHeaderAccessor accessor) {
+        return accessor.getFirstNativeHeader("jwt");
+    }
+
+    String getEmail(StompHeaderAccessor accessor) {
+        String jwtToken = getJwtToken(accessor);
+        return jwtTokenUtil.getUserEmailFromToken(jwtToken);
+    }
+
+    void checkExistUser(String jwtToken, String email) {
+        UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(email);
+        jwtTokenUtil.validateToken(jwtToken, connectUserDetails);
+    }
+
+    String getType(StompHeaderAccessor accessor) {
+        return accessor.getFirstNativeHeader("type");
+    }
+
+    String getChannelId(StompHeaderAccessor accessor) {
+        return accessor.getFirstNativeHeader("channelId");
+    }
+
+    boolean isCommandConnect(StompCommand accessor) {
+        return accessor == CONNECT;
+    }
+
+    boolean isCommandSend(StompCommand accessor) {
+        return accessor == SEND;
+    }
+
+    boolean isEnter(String type) {
+        return Objects.equals(type, "ENTER");
+    }
 }
