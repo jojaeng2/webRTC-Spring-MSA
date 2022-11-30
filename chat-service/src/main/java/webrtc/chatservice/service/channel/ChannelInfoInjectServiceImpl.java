@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import webrtc.chatservice.domain.Channel;
 import webrtc.chatservice.dto.ChannelDto.ChannelResponse;
+import webrtc.chatservice.exception.ChannelException;
+import webrtc.chatservice.exception.ChannelException.NotExistChannelException;
 import webrtc.chatservice.repository.channel.ChannelRedisRepository;
 
 
@@ -22,6 +24,14 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
     }
 
     public long findChannelTTL(String id) {
-        return channelRedisRepository.findChannelTTL(id);
+        long ttl = channelRedisRepository.findChannelTTL(id);
+        if(isRedisTTLExpire(ttl)) {
+            throw new NotExistChannelException();
+        }
+        return ttl;
+    }
+
+    boolean isRedisTTLExpire(long ttl) {
+        return ttl == -2;
     }
 }
