@@ -21,8 +21,6 @@ public class RedisSubscriberImpl implements RedisSubscriber {
     public void sendMessage(String chatMessage) {
         try {
             ChattingMessage publishMessage = objectMapper.readValue(chatMessage, ChattingMessage.class);
-
-            // WebSocket Subscriber들에게 message send
             messagingTemplate.convertAndSend("/sub/chat/room/" + publishMessage.getChannelId(), publishMessage);
         } catch (Exception e) {
             System.out.println("error in onMessage = " + e);
