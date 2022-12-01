@@ -84,7 +84,7 @@ public class VoiceControllerTest {
                 .when(usersService).findOneByEmail(any(String.class));
 
         doReturn(token)
-                .when(voiceRoomService).createToken(any(GetTokenRequest.class), any(Users.class));
+                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
 
         // when
 
@@ -151,7 +151,7 @@ public class VoiceControllerTest {
                 .when(usersService).findOneByEmail(any(String.class));
 
         doThrow(new OpenViduClientException())
-                .when(voiceRoomService).createToken(any(GetTokenRequest.class), any(Users.class));
+                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
 
         // when
 
