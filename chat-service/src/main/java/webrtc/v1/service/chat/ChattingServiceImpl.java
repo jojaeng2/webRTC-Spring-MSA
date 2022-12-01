@@ -39,19 +39,32 @@ public class ChattingServiceImpl implements ChattingService {
      */
     @Transactional
     public void sendChatMessage(ClientMessageType type, String channelId, String chatMessage, Users user) {
-        Channel channel = channelCrudRepository.findById(channelId).orElseThrow(NotExistChannelException::new);
-        List<Users> channelUsers = channelUserRepository.findByChannel(channel).stream()
+        Channel channel = channelCrudRepository.findById(channelId)
+                .orElseThrow(NotExistChannelException::new);
+        List<Users> channelUsers = channelUserRepository.findByChannel(channel)
+                .stream()
                 .map(ChannelUser::getUser)
                 .collect(toList());
-        ChattingMessage serverMessage;
-
-        if(type != REENTER) {
-            long logIdx = chatLogService.saveChatLog(type, chatMessage, channel, user);
-            serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, logIdx, user);
-        } else {
-            serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, 0L, user);
+        if (isReenter(type)) {
+            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, 0L, user);
+            sendToRedis(serverMessage);
         }
-        redisTemplate.convertAndSend(channelTopic.getTopic(), serverMessage);
+        if (isNotReenter(type)) {
+            long logIdx = chatLogService.saveChatLog(type, chatMessage, channel, user);
+            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, logIdx, user);
+            sendToRedis(serverMessage);
+        }
     }
 
+    boolean isReenter(ClientMessageType type) {
+        return type == REENTER;
+    }
+
+    boolean isNotReenter(ClientMessageType type) {
+        return type != REENTER;
+    }
+
+    void sendToRedis(ChattingMessage message) {
+        redisTemplate.convertAndSend(channelTopic.getTopic(), message);
+    }
 }
