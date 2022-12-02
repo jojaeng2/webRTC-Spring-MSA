@@ -32,14 +32,24 @@ public class ChatMessageController {
      * /pub/chat/room 으로 오는 메시지 반환
      */
     @MessageMapping("/chat/room")
-    public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type")ClientMessageType clientMessageType) {
+    public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type") ClientMessageType type) {
         String senderEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
         Users user = usersService.findOneByEmail(senderEmail);
-
-        if(clientMessageType.equals(ENTER) || clientMessageType.equals(EXIT) || clientMessageType.equals(CHAT)) {
-            socketMessageFactory.execute(clientMessageType, message, user, channelId);
+        if(isEnter(type) || isExit(type) || isChat(type)) {
+            socketMessageFactory.execute(type, message, user, channelId);
         }
+        chattingService.sendChatMessage(type, channelId, message.getMessage(), user);
+    }
 
-        chattingService.sendChatMessage(clientMessageType, channelId, message.getMessage(), user);
+    boolean isEnter(ClientMessageType type) {
+        return type == ENTER;
+    }
+
+    boolean isExit(ClientMessageType type) {
+        return type == EXIT;
+    }
+
+    boolean isChat(ClientMessageType type) {
+        return type == CHAT;
     }
 }
