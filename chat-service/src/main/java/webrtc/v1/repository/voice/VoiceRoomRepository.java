@@ -7,12 +7,12 @@ import java.util.Optional;
 
 public interface VoiceRoomRepository {
 
-    void save(String sessionName, VoiceRoom voiceRoom);
+    void save(String id, VoiceRoom voiceRoom);
 
     Optional<VoiceRoom> findById(String id);
 
 
-    void update(String sessionName, VoiceRoom openViduSession);
+    void update(String id, VoiceRoom openViduSession);
 
-    void delete(String sessionName);
+    void delete(String id);
 }

@@ -38,39 +38,39 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
 
     @Transactional
     public String getToken(GetTokenRequest request, Users user) {
-        String name = request.getSessionName();
+        String id = request.getSessionName();
         OpenViduRole role = OpenViduRole.PUBLISHER;
         String data = createServerDate(user.getEmail());
 
-        ConnectionProperties connectionProperties = createConnectionProperties(data, role);
-        VoiceRoom voiceRoom = voiceRoomRepository.findById(name)
+        ConnectionProperties properties = createConnectionProperties(data, role);
+        VoiceRoom voiceRoom = voiceRoomRepository.findById(id)
                 .orElseThrow(AlreadyRemovedSessionInOpenViduServer::new);
 
-        String token = getExistToken(connectionProperties, voiceRoom);
-        if(!Objects.equals(token, "")) {
+        String token = getExistToken(properties, voiceRoom);
+        if (!Objects.equals(token, "")) {
             voiceRoom.addUser(user, token);
-            voiceRoomRepository.update(name, voiceRoom);
+            voiceRoomRepository.update(id, voiceRoom);
             return token;
         }
 
         Session session = createSession();
-        String token1 = createToken(connectionProperties, session);
-        createVoiceRoom(request.getSessionName(), user, token1, session.getSessionId());
-        return token1;
+        String newToken = createToken(properties, session);
+        createVoiceRoom(request.getSessionName(), user, newToken, session.getSessionId());
+        return newToken;
     }
 
     @Transactional
     public void removeUserInVoiceRoom(RemoveUserInSessionRequest request, Users user) {
-        String name = request.getSessionName();
+        String id = request.getSessionName();
         String email = request.getEmail();
-        VoiceRoom voiceRoom = voiceRoomRepository.findById(name)
+        VoiceRoom voiceRoom = voiceRoomRepository.findById(id)
                 .orElseThrow(AlreadyRemovedSessionInOpenViduServer::new);
-        if (voiceRoom.isValidUserToken(email, request.getToken())) {
-            voiceRoom.removeUserToken(email);
-            voiceRoomRepository.update(name, voiceRoom);
+        if (voiceRoom.isValidToken(email, request.getToken())) {
+            voiceRoom.removeToken(email);
+            voiceRoomRepository.update(id, voiceRoom);
         }
         if (voiceRoom.isEmpty()) {
-            voiceRoomRepository.delete(name);
+            voiceRoomRepository.delete(id);
         }
     }
 

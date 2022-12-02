@@ -5,9 +5,9 @@ import webrtc.v1.domain.Channel;
 public interface ChannelRedisRepository {
     void save(Channel channel);
 
-    Long findChannelTTL(String channelId);
+    Long findTtl(String channelId);
 
-    void extensionChannelTTL(Channel channel, Long requestTTL);
+    void extensionTtl(Channel channel, Long requestTTL);
 
     void delete(String channelId);
 }

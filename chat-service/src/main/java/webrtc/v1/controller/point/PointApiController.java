@@ -28,18 +28,25 @@ public class PointApiController {
 
 
     @PostMapping("/extension/{id}")
-    public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(@RequestBody ExtensionChannelTTLRequest request, @PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
+    public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(
+            @RequestBody ExtensionChannelTTLRequest request,
+            @PathVariable("id") String channelId,
+            @RequestHeader("Authorization") String jwtAccessToken
+    ) {
         String email = getEmail(jwtAccessToken.substring(4));
         long ttl = request.getRequestTTL();
-        Channel channel = channelLifeService.extensionChannelTTL(channelId, email, ttl);
+        Channel channel = channelLifeService.extension(channelId, email, ttl);
         return new ResponseEntity<>(new ExtensionChannelTTLResponse(channel.getTimeToLive()), OK);
     }
 
     @GetMapping("/point/{id}")
-    public ResponseEntity<?> findUserPoint(@PathVariable("id") String channelId, @RequestHeader("Authorization") String jwtAccessToken) {
+    public ResponseEntity<?> findUserPoint(
+            @PathVariable("id") String channelId,
+            @RequestHeader("Authorization") String jwtAccessToken
+    ) {
         String email = getEmail(jwtAccessToken.substring(4));
         int point = usersService.findUserPointByEmail(email);
-        long ttl = channelInfoInjectService.findChannelTTL(channelId);
+        long ttl = channelInfoInjectService.findTtl(channelId);
         return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
     }
 

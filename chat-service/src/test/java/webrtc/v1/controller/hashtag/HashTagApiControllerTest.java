@@ -124,7 +124,7 @@ public class HashTagApiControllerTest {
         }
 
         doReturn(channels)
-                .when(channelFindService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findByHashName(any(String.class), any(String.class), any(Integer.class));
 
         // when
 
@@ -191,7 +191,7 @@ public class HashTagApiControllerTest {
         }
 
         doThrow(new NotExistHashTagException())
-                .when(channelFindService).findChannelByHashName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findByHashName(any(String.class), any(String.class), any(Integer.class));
 
         // when
 

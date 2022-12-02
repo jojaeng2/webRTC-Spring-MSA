@@ -79,7 +79,7 @@ public class ChannelLifeServiceImplTest {
                 .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
-        Channel channel = channelService.createChannel(createChannelRequest(), email);
+        Channel channel = channelService.create(createChannelRequest(), email);
 
         //then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -101,7 +101,7 @@ public class ChannelLifeServiceImplTest {
 
         // when
 
-        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+        Channel channel = channelService.create(createChannelRequest(), email1);
 
         // then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -123,7 +123,7 @@ public class ChannelLifeServiceImplTest {
 
 
         // when
-        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+        Channel channel = channelService.create(createChannelRequest(), email1);
 
         // then
         assertThat(channel.getChannelName()).isEqualTo(channelName1);
@@ -141,7 +141,7 @@ public class ChannelLifeServiceImplTest {
 
         // then
         assertThrows(AlreadyExistChannelException.class, () -> {
-            channelService.createChannel(createChannelRequest(), email1);
+            channelService.create(createChannelRequest(), email1);
         });
     }
 
@@ -155,7 +155,7 @@ public class ChannelLifeServiceImplTest {
                 .when(usersRepository).findByEmail(any(String.class));
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.createChannel(createChannelRequest(), email));
+        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), email));
 
     }
 
@@ -166,7 +166,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.createChannel(createChannelRequest(), email));
+        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest(), email));
     }
 
     @Test
@@ -211,7 +211,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        channelService.extensionChannelTTL(channel.getId(), email, requestTTL);
+        channelService.extension(channel.getId(), email, requestTTL);
     }
 
     @Test
@@ -225,7 +225,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(NotExistChannelException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     @Test
@@ -240,7 +240,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(InsufficientPointException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     @Test
@@ -254,7 +254,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(NotExistUserException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     private CreateChannelRequest createChannelRequest() {

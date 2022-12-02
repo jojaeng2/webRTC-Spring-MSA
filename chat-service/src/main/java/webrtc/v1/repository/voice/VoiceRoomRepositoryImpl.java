@@ -22,20 +22,20 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
         opsValueOperation = redisTemplate.opsForValue();
     }
 
-    public void save(String sessionName, VoiceRoom voiceRoom) {
-        opsValueOperation.set(sessionName, voiceRoom);
+    public void save(String id, VoiceRoom voiceRoom) {
+        opsValueOperation.set(id, voiceRoom);
     }
 
     public Optional<VoiceRoom> findById(String id) {
         return Optional.ofNullable((VoiceRoom) opsValueOperation.get(id));
     }
 
-    public void update(String sessionName, VoiceRoom voiceRoom) {
-        opsValueOperation.set(sessionName, voiceRoom);
+    public void update(String id, VoiceRoom voiceRoom) {
+        opsValueOperation.set(id, voiceRoom);
     }
 
-    public void delete(String sesionName) {
-        opsValueOperation.set(sesionName, "", 1, TimeUnit.MILLISECONDS);
+    public void delete(String id) {
+        opsValueOperation.set(id, "", 1, TimeUnit.MILLISECONDS);
     }
 
 }

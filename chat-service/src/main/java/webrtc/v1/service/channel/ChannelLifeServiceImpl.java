@@ -18,8 +18,6 @@ import webrtc.v1.repository.users.ChannelUserRepository;
 import webrtc.v1.repository.users.UsersRepository;
 import webrtc.v1.repository.voice.VoiceRoomRepository;
 
-import static webrtc.v1.enums.ClientMessageType.CREATE;
-
 
 @RequiredArgsConstructor
 @Service
@@ -50,7 +48,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 6) RabbitMQ로 채널 생성 로그 전송
      */
     @Transactional
-    public Channel createChannel(CreateChannelRequest request, String email) {
+    public Channel create(CreateChannelRequest request, String email) {
         Channel channel = createChannelIfNotExist(request);
         request.getHashTags().forEach(tagName -> {
             createChannelHashTag(channel, tagName);
@@ -93,7 +91,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 3) 포인트 사용 성공 시 채널의 수명 증가
      */
     @Transactional
-    public Channel extensionChannelTTL(String channelId, String userEmail, Long requestTTL) {
+    public Channel extension(String channelId, String userEmail, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
         Users user = usersRepository.findByEmail(userEmail)
@@ -107,7 +105,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Point point = Point.extensionChannelTTL(userEmail, requestTTL);
         user.addPoint(point);
 
-        channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
+        channelRedisRepository.extensionTtl(channel, requestTTL * channelExtensionMinute * 60L);
         return channel;
     }
 

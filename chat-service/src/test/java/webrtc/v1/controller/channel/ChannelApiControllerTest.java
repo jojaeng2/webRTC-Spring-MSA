@@ -130,7 +130,7 @@ public class ChannelApiControllerTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -183,7 +183,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -226,7 +226,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -277,7 +277,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channel)
-                .when(channelFindService).findOneChannelById(any(String.class));
+                .when(channelFindService).findById(any(String.class));
 
 
         // when
@@ -330,7 +330,7 @@ public class ChannelApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(channelFindService).findOneChannelById(any(String.class));
+                .when(channelFindService).findById(any(String.class));
 
 
         // when

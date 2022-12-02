@@ -31,13 +31,17 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> save(@RequestBody CreateUserRequest request) throws Exception {
+    public ResponseEntity<?> save(
+            @RequestBody CreateUserRequest request
+    ) throws Exception {
         Users user = userService.save(request);
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest request) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(
+            @RequestBody JwtRequest request
+    ) {
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
         if (passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);

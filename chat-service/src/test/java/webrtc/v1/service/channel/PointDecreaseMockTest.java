@@ -72,10 +72,10 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(users2))
                 .when(usersRepository).findByEmail(any(String.class));
         doNothing()
-                .when(channelRedisRepository).extensionChannelTTL(any(Channel.class), any(Long.class));
+                .when(channelRedisRepository).extensionTtl(any(Channel.class), any(Long.class));
 
         // when
-        channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+        channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
 
         // then
 
@@ -103,7 +103,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistChannelException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -129,7 +129,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistUserException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -157,7 +157,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(InsufficientPointException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 }

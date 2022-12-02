@@ -28,12 +28,12 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
     }
 
 
-    public Long findChannelTTL(String channelId) {
+    public Long findTtl(String channelId) {
         return redisTemplate.getExpire(channelId);
     }
 
-    public void extensionChannelTTL(Channel channel, Long requestTTL) {
-        long newTTL = findChannelTTL(channel.getId()) + requestTTL;
+    public void extensionTtl(Channel channel, Long requestTTL) {
+        long newTTL = findTtl(channel.getId()) + requestTTL;
         channel.setTimeToLive(newTTL);
         redisTemplate.expire(channel.getId(), newTTL, TimeUnit.SECONDS);
     }

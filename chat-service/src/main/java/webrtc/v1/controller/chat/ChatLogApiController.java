@@ -19,7 +19,10 @@ public class ChatLogApiController {
     private final ChatLogService chatLogService;
 
     @GetMapping("/channel/{channelId}/{idx}")
-    public ResponseEntity<FindChatLogsResponse> findChatLogs(@PathVariable("channelId") String channelId, @PathVariable("idx") String idx) {
+    public ResponseEntity<FindChatLogsResponse> findChatLogs(
+            @PathVariable("channelId") String channelId,
+            @PathVariable("idx") String idx
+    ) {
         List<ChatLog> chatLogs = chatLogService.findChatLogsByIndex(channelId, Long.parseLong(idx));
         return new ResponseEntity<>(new FindChatLogsResponse(chatLogs), HttpStatus.OK);
     }

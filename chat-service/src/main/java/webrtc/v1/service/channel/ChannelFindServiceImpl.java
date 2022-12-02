@@ -46,10 +46,10 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 채널을 ID로 찾고, 남은 수명을 넣어 반환
      */
     @Transactional(readOnly = true)
-    public Channel findOneChannelById(String channelId) {
-        Channel channel = channelCrudRepository.findById(channelId)
+    public Channel findById(String id) {
+        Channel channel = channelCrudRepository.findById(id)
                 .orElseThrow(NotExistChannelException::new);
-        return channelInfoInjectService.setChannelTTL(channel);
+        return channelInfoInjectService.setTtl(channel);
     }
 
     /*
@@ -59,7 +59,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
     public List<Channel> findAnyChannel(String orderType, int idx) {
         return channelListRepository.findAnyChannels(idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setChannelTTL)
+                .map(channelInfoInjectService::setTtl)
                 .collect(toList());
     }
 
@@ -73,7 +73,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
 
         return channelListRepository.findMyChannels(user.getId(), idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setChannelTTL)
+                .map(channelInfoInjectService::setTtl)
                 .collect(toList());
     }
 
@@ -81,13 +81,13 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 해시 태그를 가지고 있는 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<Channel> findChannelByHashName(String tagName, String orderType, int idx) {
+    public List<Channel> findByHashName(String tagName, String orderType, int idx) {
         HashTag hashTag = hashTagRepository.findByTagName(tagName)
                 .orElseThrow(NotExistHashTagException::new);
 
         return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setChannelTTL)
+                .map(channelInfoInjectService::setTtl)
                 .collect(toList());
     }
 
@@ -99,7 +99,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
 
         return channelListRepository.findChannelsRecentlyTalk(idx, findOrderType(orderType))
                 .stream()
-                .map(channelInfoInjectService::setChannelTTL)
+                .map(channelInfoInjectService::setTtl)
                 .collect(toList());
     }
 

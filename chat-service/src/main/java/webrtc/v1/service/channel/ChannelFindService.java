@@ -11,9 +11,9 @@ public interface ChannelFindService {
     List<Channel> findMyChannel(String orderType, String email, int idx);
 
 
-    Channel findOneChannelById(String channelId);
+    Channel findById(String id);
 
-    List<Channel> findChannelByHashName(String tagName, String orderType, int idx);
+    List<Channel> findByHashName(String tagName, String orderType, int idx);
 
     List<Channel> findChannelsRecentlyTalk(String orderType, int idx);
 }

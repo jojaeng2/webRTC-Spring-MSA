@@ -221,7 +221,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(channel)
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -265,7 +265,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistChannelException())
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -307,7 +307,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new InsufficientPointException())
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 

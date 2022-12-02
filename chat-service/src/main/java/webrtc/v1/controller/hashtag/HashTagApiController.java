@@ -19,8 +19,11 @@ public class HashTagApiController {
     private final ChannelFindService channelFindService;
 
     @GetMapping("/hashtag/{tagName}/{orderType}/{idx}")
-    public ResponseEntity<HashTagResponse> searchHashTag(@NotNull @PathVariable("orderType") String orderType, @PathVariable String tagName, @PathVariable("idx") String idx) {
-        List<Channel> channels = channelFindService.findChannelByHashName(tagName, orderType, Integer.parseInt(idx));
+    public ResponseEntity<HashTagResponse> searchHashTag(
+            @NotNull @PathVariable("orderType") String type,
+            @PathVariable String tagName, @PathVariable("idx") String idx
+    ) {
+        List<Channel> channels = channelFindService.findByHashName(tagName, type, Integer.parseInt(idx));
         return new ResponseEntity<>(new HashTagResponse(channels), HttpStatus.OK);
     }
 }

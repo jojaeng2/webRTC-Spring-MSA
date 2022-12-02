@@ -70,7 +70,7 @@ public class ChannelRedisRepositoryImplTest {
         channelRedisRepository.save(channel);
 
         // when
-        Long channelTTL = channelRedisRepository.findChannelTTL(channel.getId());
+        Long channelTTL = channelRedisRepository.findTtl(channel.getId());
         channelRedisRepository.delete(channel.getId());
 
         // then
@@ -84,7 +84,7 @@ public class ChannelRedisRepositoryImplTest {
         // when
         // then
         assertThrows(IllegalArgumentException.class, ()-> {
-            channelRedisRepository.findChannelTTL(null);
+            channelRedisRepository.findTtl(null);
         });
     }
 
@@ -96,11 +96,11 @@ public class ChannelRedisRepositoryImplTest {
                 .channelType(text)
                 .build();
         channelRedisRepository.save(channel);
-        Long startTTL = channelRedisRepository.findChannelTTL(channel.getId());
+        Long startTTL = channelRedisRepository.findTtl(channel.getId());
 
         // when
-        channelRedisRepository.extensionChannelTTL(channel, 1000L);
-        Long endTTL = channelRedisRepository.findChannelTTL(channel.getId());
+        channelRedisRepository.extensionTtl(channel, 1000L);
+        Long endTTL = channelRedisRepository.findTtl(channel.getId());
         channelRedisRepository.delete(channel.getId());
 
         // then

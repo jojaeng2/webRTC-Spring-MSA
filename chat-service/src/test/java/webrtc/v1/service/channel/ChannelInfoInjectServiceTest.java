@@ -40,10 +40,10 @@ public class ChannelInfoInjectServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(ttl)
-                .when(channelRedisRepository).findChannelTTL(any(String.class));
+                .when(channelRedisRepository).findTtl(any(String.class));
 
         // when
-        Channel result = channelInfoInjectService.setChannelTTL(channel);
+        Channel result = channelInfoInjectService.setTtl(channel);
 
         // then
         assertThat(channel.getTimeToLive()).isEqualTo(ttl);
