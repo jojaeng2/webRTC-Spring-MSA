@@ -26,8 +26,8 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
         opsValueOperation.set(sessionName, voiceRoom);
     }
 
-    public Optional<VoiceRoom> findOpenViduSessionByName(String sessionName) {
-        return Optional.ofNullable((VoiceRoom) opsValueOperation.get(sessionName));
+    public Optional<VoiceRoom> findById(String id) {
+        return Optional.ofNullable((VoiceRoom) opsValueOperation.get(id));
     }
 
     public void update(String sessionName, VoiceRoom voiceRoom) {
