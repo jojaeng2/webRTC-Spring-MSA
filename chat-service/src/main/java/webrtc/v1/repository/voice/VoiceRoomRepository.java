@@ -9,7 +9,7 @@ public interface VoiceRoomRepository {
 
     void save(String sessionName, VoiceRoom voiceRoom);
 
-    Optional<VoiceRoom> findOpenViduSessionByName(String sessionId);
+    Optional<VoiceRoom> findById(String id);
 
 
     void update(String sessionName, VoiceRoom openViduSession);
