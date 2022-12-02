@@ -8,17 +8,19 @@ import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
+import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.repository.ChannelHashTagRepository;
 import webrtc.v1.hashtag.repository.HashTagRepository;
-import webrtc.v1.user.entity.Point;
+import webrtc.v1.point.entity.Point;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
@@ -36,6 +38,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
     private final VoiceRoomRepository voiceRoomRepository;
+    private final PointRepository pointRepository;
+    private final ChatLogRedisRepository chatLogRedisRepository;
 
 
     // 30분당 100포인트
@@ -67,6 +71,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
         // 채팅방 생성 로그
         ChatLog chatLog = ChatLog.createChannelLog(user);
+        chatLogRedisRepository.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
         channelCrudRepository.save(channel);
         return channel;
@@ -87,6 +92,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channelCrudRepository.delete(channel);
         channelRedisRepository.delete(channelId);
         voiceRoomRepository.delete(channelId);
+        chatLogRedisRepository.delete(channelId);
     }
 
     /*
@@ -103,7 +109,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Users user = usersRepository.findByEmail(userEmail)
                 .orElseThrow(NotExistUserException::new);
 
-        int sum = user.sumOfPoint();
+        int sum = pointRepository.findByUser(user).stream()
+                .map(Point::getAmount)
+                .reduce(0, Integer::sum);
 
         // 포인트 부족
         if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
@@ -154,7 +162,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
 
-        int sum = user.sumOfPoint();
+        int sum = pointRepository.findByUser(user).stream()
+                .map(Point::getAmount)
+                .reduce(0, Integer::sum);
 
         // 포인트 부족
         if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();

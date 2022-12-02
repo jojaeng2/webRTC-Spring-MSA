@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.v1.channel.entity.ChannelUser;
+import webrtc.v1.point.entity.Point;
 
 import javax.persistence.*;
 import java.io.Serializable;
