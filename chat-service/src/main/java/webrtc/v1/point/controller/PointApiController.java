@@ -1,4 +1,4 @@
-package webrtc.v1.user.controller;
+package webrtc.v1.point.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLResponse;
 import webrtc.v1.channel.service.ChannelInfoInjectService;
 import webrtc.v1.channel.service.ChannelLifeService;
+import webrtc.v1.point.service.PointService;
 import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 
@@ -24,7 +25,7 @@ public class PointApiController {
     private final ChannelLifeService channelLifeService;
     private final ChannelInfoInjectService channelInfoInjectService;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UsersService usersService;
+    private final PointService pointService;
 
 
     @PostMapping("/extension/{id}")
@@ -45,7 +46,7 @@ public class PointApiController {
             @RequestHeader("Authorization") String jwtAccessToken
     ) {
         String email = getEmail(jwtAccessToken.substring(4));
-        int point = usersService.findUserPointByEmail(email);
+        int point = pointService.findPointSum(email);
         long ttl = channelInfoInjectService.findTtl(channelId);
         return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
     }

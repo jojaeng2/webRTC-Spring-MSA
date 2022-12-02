@@ -22,12 +22,13 @@ import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.point.service.PointService;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelInfoInjectService;
 import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.utils.jwt.JwtUserDetailsService;
-import webrtc.v1.user.controller.PointApiController;
+import webrtc.v1.point.controller.PointApiController;
 import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 
@@ -70,6 +71,8 @@ public class PointApiControllerTest {
     private ChannelInfoInjectService channelInfoInjectService;
     @Mock
     private UsersService usersService;
+    @Mock
+    private PointService pointService;
 
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -112,7 +115,7 @@ public class PointApiControllerTest {
         Long channelTTL = 1234567L;
 
         doReturn(point)
-                .when(usersService).findUserPointByEmail(any(String.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 
@@ -150,7 +153,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(usersService).findUserPointByEmail(any(String.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 
@@ -183,7 +186,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistUserException())
-                .when(usersService).findUserPointByEmail(any(String.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 

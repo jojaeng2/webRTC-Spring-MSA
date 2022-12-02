@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.v1.user.entity.Point;
+import webrtc.v1.point.entity.Point;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.dto.UsersDto.CreateUserRequest;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -32,13 +32,6 @@ public class UsersServiceImpl implements UsersService {
     public Users findOneByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
-    }
-
-    @Transactional(readOnly = true)
-    public int findUserPointByEmail(String email) {
-        Users user = userRepository.findByEmail(email)
-                .orElseThrow(NotExistUserException::new);
-        return user.sumOfPoint();
     }
 
     private Users userBuilder(CreateUserRequest request) {
