@@ -7,12 +7,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.chat.service.ChatLogServiceImpl;
 import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.user.entity.Users;
+import webrtc.v1.chat.repository.ChatLogRedisRepository;
+import webrtc.v1.chat.repository.ChatLogRepository;
+import webrtc.v1.chat.service.ChatLogServiceImpl;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.enums.ClientMessageType;
-import webrtc.v1.chat.repository.ChatLogRepository;
+import webrtc.v1.user.entity.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static webrtc.v1.enums.ChannelType.TEXT;
 
+
 @ExtendWith(MockitoExtension.class)
 public class ChatLogServiceTest {
 
@@ -29,6 +31,8 @@ public class ChatLogServiceTest {
     private ChatLogServiceImpl chatLogService;
     @Mock
     private ChatLogRepository chatLogRepository;
+    @Mock
+    private ChatLogRedisRepository chatLogRedisRepository;
 
     String nickname1 = "nickname1";
     String email1 = "email1";
@@ -43,14 +47,14 @@ public class ChatLogServiceTest {
     void 채팅로그저장성공빈배열아님() {
         // given
         Channel channel = createChannel(channelName1, text);
-        doReturn(createLastChatLog())
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
+        doReturn(2L)
+                .when(chatLogRedisRepository).findLastIndex(any(String.class));
 
         // when
         long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
-        assertThat(resultIdx).isEqualTo(lastIndex+1L);
+        assertThat(resultIdx).isEqualTo(3L);
 
     }
 

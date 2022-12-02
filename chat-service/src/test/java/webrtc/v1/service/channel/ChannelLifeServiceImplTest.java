@@ -12,15 +12,17 @@ import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.channel.service.ChannelLifeServiceImpl;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
+import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.repository.ChannelHashTagRepository;
 import webrtc.v1.hashtag.repository.HashTagRepository;
-import webrtc.v1.user.entity.Point;
+import webrtc.v1.point.entity.Point;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
@@ -62,6 +64,10 @@ public class ChannelLifeServiceImplTest {
     private HashTagRepository hashTagRepository;
     @Mock
     private ChattingMessageFactory chattingMessageFactory;
+    @Mock
+    private PointRepository pointRepository;
+    @Mock
+    private ChatLogRedisRepository chatLogRedisRepository;
 
 
     String nickname1 = "nickname1";
@@ -83,6 +89,8 @@ public class ChannelLifeServiceImplTest {
                 .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
                 .when(hashTagRepository).findByTagName(any(String.class));
+        doReturn(List.of(createPoint()))
+                .when(pointRepository).findByUser(any(Users.class));
 
         // when
         Channel channel = channelService.create(createChannelRequest(), email);
@@ -104,7 +112,8 @@ public class ChannelLifeServiceImplTest {
 
         doReturn(Optional.ofNullable(null))
                 .when(hashTagRepository).findByTagName(any(String.class));
-
+        doReturn(List.of(createPoint()))
+                .when(pointRepository).findByUser(any(Users.class));
         // when
 
         Channel channel = channelService.create(createChannelRequest(), email1);
@@ -126,7 +135,8 @@ public class ChannelLifeServiceImplTest {
 
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findByEmail(any(String.class));
-
+        doReturn(List.of(createPoint()))
+                .when(pointRepository).findByUser(any(Users.class));
 
         // when
         Channel channel = channelService.create(createChannelRequest(), email1);
@@ -214,6 +224,8 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findByEmail(any(String.class));
+        doReturn(List.of(createPoint()))
+                .when(pointRepository).findByUser(any(Users.class));
         // when
 
         // then
@@ -278,12 +290,16 @@ public class ChannelLifeServiceImplTest {
                 .password(password)
                 .email(email1)
                 .build();
-        Point point = Point.builder()
+        Point point = createPoint();
+        user.addPoint(point);
+        return user;
+    }
+
+    private Point createPoint() {
+        return Point.builder()
                 .message("회원 가입")
                 .amount(1000000)
                 .build();
-        user.addPoint(point);
-        return user;
     }
 
     private Users createUserNotPoint() {

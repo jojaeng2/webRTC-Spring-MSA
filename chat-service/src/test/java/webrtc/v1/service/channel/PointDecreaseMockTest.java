@@ -8,7 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelLifeServiceImpl;
-import webrtc.v1.user.entity.Point;
+import webrtc.v1.point.entity.Point;
+import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
@@ -19,6 +20,8 @@ import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,6 +49,8 @@ public class PointDecreaseMockTest {
     private ChannelRedisRepository channelRedisRepository;
     @Mock
     private ChannelCrudRepository channelCrudRepository;
+    @Mock
+    private PointRepository pointRepository;
 
     @Test
     @Transactional
@@ -72,6 +77,8 @@ public class PointDecreaseMockTest {
                 .when(channelCrudRepository).findById(channel.getId());
         doReturn(Optional.of(users2))
                 .when(usersRepository).findByEmail(any(String.class));
+        doReturn(List.of(point))
+                .when(pointRepository).findByUser(any(Users.class));
         doNothing()
                 .when(channelRedisRepository).extensionTtl(any(Channel.class), any(Long.class));
 
