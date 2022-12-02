@@ -23,12 +23,12 @@ public class VoiceController {
     @PostMapping("/get-token")
     public ResponseEntity<?> getToken(@RequestBody GetTokenRequest request) {
         Users user = userService.findOneByEmail(request.getEmail());
-        String token = voiceRoomService.createToken(request, user);
+        String token = voiceRoomService.getToken(request, user);
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }
 
     @PostMapping("/remove-user")
-    public ResponseEntity<?> removeUser(@RequestBody SessionDto.RemoveUserInSessionRequest request) throws Exception {
+    public ResponseEntity<?> removeUser(@RequestBody SessionDto.RemoveUserInSessionRequest request) {
         Users user = userService.findOneByEmail(request.getEmail());
         voiceRoomService.removeUserInVoiceRoom(request, user);
         return new ResponseEntity(HttpStatus.OK);
