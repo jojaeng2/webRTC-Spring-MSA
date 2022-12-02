@@ -16,6 +16,7 @@ import webrtc.v1.repository.hashtag.ChannelHashTagRepository;
 import webrtc.v1.repository.hashtag.HashTagRepository;
 import webrtc.v1.repository.users.ChannelUserRepository;
 import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.repository.voice.VoiceRoomRepository;
 
 import static webrtc.v1.enums.ClientMessageType.CREATE;
 
@@ -30,6 +31,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final ChannelUserRepository channelUserRepository;
     private final UsersRepository usersRepository;
     private final HashTagRepository hashTagRepository;
+    private final VoiceRoomRepository voiceRoomRepository;
 
 
     // 30분당 100포인트
@@ -60,7 +62,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         createChannelUser(user, channel);
 
         // 채팅방 생성 로그
-        createChatLog(channel, user);
+        ChatLog chatLog = ChatLog.createChannelLog(user);
+        channel.addChatLog(chatLog);
         channelCrudRepository.save(channel);
         return channel;
     }
@@ -74,11 +77,12 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 3) Redis에서 채널 삭제
      */
     @Transactional
-    public void deleteChannel(String channelId) {
+    public void delete(String channelId) {
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
         channelCrudRepository.delete(channel);
         channelRedisRepository.delete(channelId);
+        voiceRoomRepository.delete(channelId);
     }
 
     /*
@@ -100,10 +104,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         // 포인트 부족
         if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
 
-        Point point = Point.builder()
-                .message(userEmail + " 님이 채널 연장에 포인트를 사용했습니다.")
-                .amount(-(int) (requestTTL * pointUnit))
-                .build();
+        Point point = Point.extensionChannelTTL(userEmail, requestTTL);
         user.addPoint(point);
 
         channelRedisRepository.extensionChannelTTL(channel, requestTTL * channelExtensionMinute * 60L);
@@ -154,17 +155,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         // 포인트 부족
         if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();
 
-        Point point = pointBuilder(email);
+        Point point = Point.createChannel(email);
         user.addPoint(point);
         usersRepository.save(user);
         return user;
-    }
-
-    private Point pointBuilder(String email) {
-        return Point.builder()
-                .message(email + " 님이 채널 생성에 포인트를 사용했습니다.")
-                .amount(-(int) (channelCreatePoint * pointUnit))
-                .build();
     }
 
     /*
@@ -224,20 +218,5 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channel.addChannelHashTag(channelHashTag);
         hashTag.addChannelHashTag(channelHashTag);
         return channelHashTag;
-    }
-
-    /*
-     * 비즈니스 로직 - 채널 생성시 넣은 채팅 로그 생성
-     * 비즈니스 로직 순서 :
-     * 1) 채팅 로그 생성 후 저장
-     */
-    private void createChatLog(Channel channel, Users user) {
-        ChatLog chatLog = ChatLog.builder()
-                .type(CREATE)
-                .message("[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.")
-                .senderNickname(user.getNickname())
-                .senderEmail("NOTICE")
-                .build();
-        channel.addChatLog(chatLog);
     }
 }

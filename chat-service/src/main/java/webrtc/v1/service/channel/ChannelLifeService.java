@@ -7,7 +7,7 @@ public interface ChannelLifeService {
 
     Channel createChannel(CreateChannelRequest request, String email);
 
-    void deleteChannel(String channelId);
+    void delete(String channelId);
 
     Channel extensionChannelTTL(String channelId, String userEmail, Long requestTTL);
 
