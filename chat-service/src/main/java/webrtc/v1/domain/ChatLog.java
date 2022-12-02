@@ -12,6 +12,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import static webrtc.v1.enums.ClientMessageType.CREATE;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -42,7 +44,16 @@ public class ChatLog {
 
     @Builder.Default
     private Timestamp sendTime = new Timestamp(System.currentTimeMillis());
-    
+
+    public static ChatLog createChannelLog(Users user) {
+        return ChatLog.builder()
+                .type(CREATE)
+                .message("[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.")
+                .senderNickname(user.getNickname())
+                .senderEmail("NOTICE")
+                .build();
+    }
+
     public void setChatLogIdx(long idx) {
         this.idx = idx;
     }
