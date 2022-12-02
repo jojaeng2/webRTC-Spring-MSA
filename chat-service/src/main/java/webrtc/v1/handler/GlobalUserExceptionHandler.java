@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import webrtc.v1.dto.HttpStatusResponse;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.utils.response.HttpStatusResponse;
 
 @RestControllerAdvice
 @ControllerAdvice
