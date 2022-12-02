@@ -7,10 +7,12 @@ import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepositoryImpl;
 import webrtc.v1.config.RedisConfig;
-import webrtc.v1.domain.Channel;
+import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.service.pubsub.RedisSubscriberImpl;
+import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 import webrtc.config.TestRedisConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;

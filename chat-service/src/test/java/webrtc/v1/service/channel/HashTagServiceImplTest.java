@@ -5,10 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webrtc.v1.domain.HashTag;
-import webrtc.v1.exception.HashTagException.NotExistHashTagException;
-import webrtc.v1.repository.hashtag.HashTagRepository;
-import webrtc.v1.service.hashtag.HashTagServiceImpl;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
+import webrtc.v1.hashtag.repository.HashTagRepository;
+import webrtc.v1.hashtag.service.HashTagServiceImpl;
 
 import java.util.Optional;
 

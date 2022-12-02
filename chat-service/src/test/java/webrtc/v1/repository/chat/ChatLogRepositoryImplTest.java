@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.ChatLog;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.chat.repository.ChatLogRepository;
+import webrtc.v1.chat.repository.ChatLogRepositoryImpl;
+import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.enums.ClientMessageType;
 

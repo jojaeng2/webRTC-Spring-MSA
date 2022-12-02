@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import webrtc.v1.dto.HttpStatusResponse;
-import webrtc.v1.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.v1.exception.ChannelException.AlreadyExistUserInChannelException;
-import webrtc.v1.exception.ChannelException.ChannelParticipantsFullException;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.v1.channel.exception.ChannelException.AlreadyExistUserInChannelException;
+import webrtc.v1.channel.exception.ChannelException.ChannelParticipantsFullException;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 
 @RestControllerAdvice
 public class GlobalChannelExceptionHandler {

@@ -18,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 import io.jsonwebtoken.ExpiredJwtException;
-import webrtc.v1.service.jwt.JwtUserDetailsService;
 
 @Component
 @RequiredArgsConstructor

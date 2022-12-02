@@ -10,9 +10,9 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import webrtc.v1.service.channel.ChannelFindService;
-import webrtc.v1.service.channel.ChannelIOService;
-import webrtc.v1.service.jwt.JwtUserDetailsService;
+import webrtc.v1.channel.service.ChannelFindService;
+import webrtc.v1.channel.service.ChannelIOService;
+import webrtc.v1.utils.jwt.JwtUserDetailsService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 
 import java.util.Objects;

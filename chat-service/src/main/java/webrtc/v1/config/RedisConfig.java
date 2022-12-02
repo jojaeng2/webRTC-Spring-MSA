@@ -15,8 +15,8 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.service.pubsub.RedisSubscriberImpl;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 
 @RequiredArgsConstructor
 @Configuration

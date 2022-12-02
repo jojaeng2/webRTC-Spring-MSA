@@ -6,12 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.ChatLog;
-import webrtc.v1.domain.Users;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.chat.service.ChatLogServiceImpl;
+import webrtc.v1.chat.entity.ChatLog;
+import webrtc.v1.user.entity.Users;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.enums.ClientMessageType;
-import webrtc.v1.repository.chat.ChatLogRepository;
+import webrtc.v1.chat.repository.ChatLogRepository;
 
 import java.util.ArrayList;
 import java.util.List;

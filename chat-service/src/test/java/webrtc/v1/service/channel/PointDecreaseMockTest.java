@@ -6,17 +6,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.Point;
-import webrtc.v1.domain.Users;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.service.ChannelLifeServiceImpl;
+import webrtc.v1.user.entity.Point;
+import webrtc.v1.user.entity.Users;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.PointException.InsufficientPointException;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.repository.channel.ChannelCrudRepository;
-import webrtc.v1.repository.channel.ChannelListRepository;
-import webrtc.v1.repository.channel.ChannelRedisRepository;
-import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.channel.repository.ChannelCrudRepository;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.Optional;
 

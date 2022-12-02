@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import webrtc.v1.exception.VoiceException.*;
+import webrtc.v1.voice.exception.VoiceException.*;
 
 @RestControllerAdvice
 public class GlobalSessionExceptionHandler {

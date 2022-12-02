@@ -13,14 +13,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
-import webrtc.v1.exception.ChannelException;
-import webrtc.v1.exception.ChannelException.AlreadyExistUserInChannelException;
-import webrtc.v1.exception.ChannelException.ChannelExceptionDto;
-import webrtc.v1.exception.ChannelException.ChannelParticipantsFullException;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.JwtException.CustomJwtExceptionDto;
-import webrtc.v1.exception.UserException.NotExistUserExceptionDto;
-import webrtc.v1.service.chat.ChatLogService;
+import webrtc.v1.channel.exception.ChannelException;
+import webrtc.v1.channel.exception.ChannelException.AlreadyExistUserInChannelException;
+import webrtc.v1.channel.exception.ChannelException.ChannelExceptionDto;
+import webrtc.v1.channel.exception.ChannelException.ChannelParticipantsFullException;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.utils.jwt.exception.JwtException.CustomJwtExceptionDto;
+import webrtc.v1.user.exception.UserException.NotExistUserExceptionDto;
+import webrtc.v1.chat.service.ChatLogService;
 
 import static webrtc.v1.enums.SocketInterceptorErrorType.*;
 

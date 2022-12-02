@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import webrtc.v1.dto.HttpStatusResponse;
-import webrtc.v1.exception.ChannelUserException.NotExistChannelUserException;
+import webrtc.v1.channel.exception.ChannelUserException.NotExistChannelUserException;
 
 @RestControllerAdvice
 public class GlobalChannelUserExceptionHandler {

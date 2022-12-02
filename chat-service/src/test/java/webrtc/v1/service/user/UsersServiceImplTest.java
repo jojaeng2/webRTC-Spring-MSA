@@ -8,12 +8,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.v1.domain.Point;
-import webrtc.v1.domain.Users;
-import webrtc.v1.dto.UsersDto.CreateUserRequest;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.repository.channel.ChannelRedisRepository;
-import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.user.entity.Point;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.dto.UsersDto.CreateUserRequest;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.user.repository.UsersRepository;
+import webrtc.v1.user.service.UsersServiceImpl;
 
 import java.util.Optional;
 
