@@ -33,7 +33,7 @@ public class ChannelInfoInjectServiceTest {
 
     int mini = 14;
     int maxi = 20;
-    Long ttl = -2L;
+    Long ttl = 10L;
 
     @Test
     void 채널수명설정성공() {

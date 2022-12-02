@@ -21,8 +21,8 @@ public class UsersServiceImpl implements UsersService {
 
     @Transactional
     public Users save(CreateUserRequest request) {
-        Users user = createUsers(request);
-        Point point = createJoinPoint();
+        Users user = userBuilder(request);
+        Point point = joinPointBuilder();
         user.addPoint(point);
         userRepository.save(user);
         return user;
@@ -41,7 +41,7 @@ public class UsersServiceImpl implements UsersService {
         return user.sumOfPoint();
     }
 
-    private Users createUsers(CreateUserRequest request) {
+    private Users userBuilder(CreateUserRequest request) {
         return Users.builder()
                 .nickname(request.getNickname())
                 .password(passwordConverter(request.getPassword()))
@@ -49,7 +49,7 @@ public class UsersServiceImpl implements UsersService {
                 .build();
     }
 
-    private Point createJoinPoint() {
+    private Point joinPointBuilder() {
         return Point.builder()
                 .message(joinMessage)
                 .amount(welcomePoint)
