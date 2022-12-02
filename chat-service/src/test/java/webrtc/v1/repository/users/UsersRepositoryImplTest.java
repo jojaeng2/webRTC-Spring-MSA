@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.ChannelUser;
-import webrtc.v1.domain.Users;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.entity.ChannelUser;
+import webrtc.v1.user.entity.Users;
 import webrtc.v1.enums.ChannelType;
+import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
 import java.util.Optional;

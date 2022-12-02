@@ -5,8 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import webrtc.v1.domain.*;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.entity.ChannelHashTag;
+import webrtc.v1.channel.entity.ChannelUser;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.channel.repository.ChannelListRepositoryImpl;
 import webrtc.v1.enums.ChannelType;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.user.entity.Users;
 
 import java.util.List;
 

@@ -3,13 +3,13 @@ package webrtc.v1.service.chat;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.Users;
-import webrtc.v1.dto.chat.ChattingMessage;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.chat.dto.ChattingMessage;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.enums.ClientMessageType;
 import webrtc.v1.enums.SocketServerMessageType;
-import webrtc.v1.service.chat.factory.ChattingMessageFactoryImpl;
+import webrtc.v1.chat.service.factory.ChattingMessageFactoryImpl;
 
 import java.util.ArrayList;
 

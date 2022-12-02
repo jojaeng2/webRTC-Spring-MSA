@@ -6,17 +6,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.Point;
-import webrtc.v1.domain.Users;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.service.ChannelLifeServiceImpl;
+import webrtc.v1.user.entity.Point;
+import webrtc.v1.user.entity.Users;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.PointException.InsufficientPointException;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.repository.channel.ChannelCrudRepository;
-import webrtc.v1.repository.channel.ChannelListRepository;
-import webrtc.v1.repository.channel.ChannelRedisRepository;
-import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.channel.repository.ChannelCrudRepository;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.Optional;
 
@@ -72,10 +73,10 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(users2))
                 .when(usersRepository).findByEmail(any(String.class));
         doNothing()
-                .when(channelRedisRepository).extensionChannelTTL(any(Channel.class), any(Long.class));
+                .when(channelRedisRepository).extensionTtl(any(Channel.class), any(Long.class));
 
         // when
-        channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+        channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
 
         // then
 
@@ -103,7 +104,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistChannelException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -129,7 +130,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(NotExistUserException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 
@@ -157,7 +158,7 @@ public class PointDecreaseMockTest {
 
         // then
         assertThrows(InsufficientPointException.class, ()-> {
-            channelService.extensionChannelTTL(channel.getId(), users2.getEmail(), requestTTL);
+            channelService.extension(channel.getId(), users2.getEmail(), requestTTL);
         });
     }
 }

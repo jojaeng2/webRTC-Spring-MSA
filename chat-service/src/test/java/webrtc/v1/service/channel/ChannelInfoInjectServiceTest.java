@@ -5,9 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webrtc.v1.domain.Channel;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.service.ChannelInfoInjectServiceImpl;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.repository.channel.ChannelRedisRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,10 +41,10 @@ public class ChannelInfoInjectServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(ttl)
-                .when(channelRedisRepository).findChannelTTL(any(String.class));
+                .when(channelRedisRepository).findTtl(any(String.class));
 
         // when
-        Channel result = channelInfoInjectService.setChannelTTL(channel);
+        Channel result = channelInfoInjectService.setTtl(channel);
 
         // then
         assertThat(channel.getTimeToLive()).isEqualTo(ttl);

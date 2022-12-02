@@ -17,12 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.ChatLog;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.chat.controller.ChatLogApiController;
+import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.service.chat.ChatLogService;
-import webrtc.v1.service.jwt.JwtUserDetailsService;
-import webrtc.v1.service.user.UsersService;
+import webrtc.v1.chat.service.ChatLogService;
+import webrtc.v1.utils.jwt.JwtUserDetailsService;
+import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;

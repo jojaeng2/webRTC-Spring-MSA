@@ -17,17 +17,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.dto.ChannelDto.ExtensionChannelTTLRequest;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.PointException.InsufficientPointException;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.service.channel.ChannelFindService;
-import webrtc.v1.service.channel.ChannelInfoInjectService;
-import webrtc.v1.service.channel.ChannelLifeService;
-import webrtc.v1.service.jwt.JwtUserDetailsService;
-import webrtc.v1.service.user.UsersService;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.channel.service.ChannelFindService;
+import webrtc.v1.channel.service.ChannelInfoInjectService;
+import webrtc.v1.channel.service.ChannelLifeService;
+import webrtc.v1.utils.jwt.JwtUserDetailsService;
+import webrtc.v1.user.controller.PointApiController;
+import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
@@ -221,7 +222,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(channel)
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -265,7 +266,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistChannelException())
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -307,7 +308,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new InsufficientPointException())
-                .when(channelLifeService).extensionChannelTTL(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 

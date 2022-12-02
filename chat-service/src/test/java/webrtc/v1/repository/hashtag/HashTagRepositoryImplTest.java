@@ -4,7 +4,8 @@ package webrtc.v1.repository.hashtag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import webrtc.v1.domain.HashTag;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.hashtag.repository.HashTagRepository;
 
 
 import java.util.NoSuchElementException;

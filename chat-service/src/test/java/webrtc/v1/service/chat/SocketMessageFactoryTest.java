@@ -6,14 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.Import;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.Users;
-import webrtc.v1.dto.chat.ClientMessage;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.chat.dto.ClientMessage;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.enums.ClientMessageType;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.service.channel.ChannelIOService;
-import webrtc.v1.service.chat.factory.SocketMessageFactoryImpl;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.channel.service.ChannelIOService;
+import webrtc.v1.chat.service.factory.SocketMessageFactoryImpl;
 
 import java.util.UUID;
 

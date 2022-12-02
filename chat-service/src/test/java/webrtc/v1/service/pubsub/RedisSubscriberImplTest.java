@@ -8,10 +8,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.dto.chat.ChattingMessage;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.chat.dto.ChattingMessage;
 import webrtc.v1.enums.ChannelType;
 import webrtc.v1.utils.json.CustomJsonMapper;
+import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 
 import java.util.ArrayList;
 

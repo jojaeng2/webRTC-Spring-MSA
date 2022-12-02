@@ -6,20 +6,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webrtc.v1.domain.*;
-import webrtc.v1.dto.ChannelDto.CreateChannelRequest;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.repository.ChannelCrudRepository;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.channel.service.ChannelLifeServiceImpl;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.PointException.InsufficientPointException;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.repository.channel.*;
-import webrtc.v1.repository.hashtag.ChannelHashTagRepository;
-import webrtc.v1.repository.hashtag.HashTagRepository;
-import webrtc.v1.repository.users.ChannelUserRepository;
-import webrtc.v1.repository.users.UsersRepository;
-import webrtc.v1.repository.voice.VoiceRoomRepository;
-import webrtc.v1.service.chat.factory.ChattingMessageFactory;
+import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.hashtag.repository.ChannelHashTagRepository;
+import webrtc.v1.hashtag.repository.HashTagRepository;
+import webrtc.v1.user.entity.Point;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.user.repository.UsersRepository;
+import webrtc.v1.voice.repository.VoiceRoomRepository;
+import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +85,7 @@ public class ChannelLifeServiceImplTest {
                 .when(hashTagRepository).findByTagName(any(String.class));
 
         // when
-        Channel channel = channelService.createChannel(createChannelRequest(), email);
+        Channel channel = channelService.create(createChannelRequest(), email);
 
         //then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -101,7 +107,7 @@ public class ChannelLifeServiceImplTest {
 
         // when
 
-        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+        Channel channel = channelService.create(createChannelRequest(), email1);
 
         // then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -123,7 +129,7 @@ public class ChannelLifeServiceImplTest {
 
 
         // when
-        Channel channel = channelService.createChannel(createChannelRequest(), email1);
+        Channel channel = channelService.create(createChannelRequest(), email1);
 
         // then
         assertThat(channel.getChannelName()).isEqualTo(channelName1);
@@ -141,7 +147,7 @@ public class ChannelLifeServiceImplTest {
 
         // then
         assertThrows(AlreadyExistChannelException.class, () -> {
-            channelService.createChannel(createChannelRequest(), email1);
+            channelService.create(createChannelRequest(), email1);
         });
     }
 
@@ -155,7 +161,7 @@ public class ChannelLifeServiceImplTest {
                 .when(usersRepository).findByEmail(any(String.class));
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.createChannel(createChannelRequest(), email));
+        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), email));
 
     }
 
@@ -166,7 +172,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.createChannel(createChannelRequest(), email));
+        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest(), email));
     }
 
     @Test
@@ -211,7 +217,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        channelService.extensionChannelTTL(channel.getId(), email, requestTTL);
+        channelService.extension(channel.getId(), email, requestTTL);
     }
 
     @Test
@@ -225,7 +231,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(NotExistChannelException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     @Test
@@ -240,7 +246,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(InsufficientPointException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     @Test
@@ -254,7 +260,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.extensionChannelTTL(channel.getId(), email, requestTTL));
+        assertThrows(NotExistUserException.class, () -> channelService.extension(channel.getId(), email, requestTTL));
     }
 
     private CreateChannelRequest createChannelRequest() {

@@ -5,18 +5,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.HashTag;
-import webrtc.v1.domain.Users;
-import webrtc.v1.dto.ChannelDto.ChannelResponse;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.service.ChannelFindServiceImpl;
+import webrtc.v1.channel.service.ChannelInfoInjectService;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.channel.dto.ChannelDto.ChannelResponse;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.HashTagException.NotExistHashTagException;
-import webrtc.v1.exception.UserException.NotExistUserException;
-import webrtc.v1.repository.channel.ChannelCrudRepository;
-import webrtc.v1.repository.channel.ChannelListRepository;
-import webrtc.v1.repository.hashtag.HashTagRepository;
-import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.channel.repository.ChannelCrudRepository;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.hashtag.repository.HashTagRepository;
+import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +67,10 @@ public class ChannelFindServiceTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(channel)
-                .when(channelInfoInjectService).setChannelTTL(any(Channel.class));
+                .when(channelInfoInjectService).setTtl(any(Channel.class));
 
         // when
-        Channel findChannel = channelFindService.findOneChannelById(channel.getId());
+        Channel findChannel = channelFindService.findById(channel.getId());
 
         // then
         assertThat(channel.getId()).isEqualTo(findChannel.getId());
@@ -85,7 +87,7 @@ public class ChannelFindServiceTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelFindService.findOneChannelById(channel.getId()));
+        assertThrows(NotExistChannelException.class, () -> channelFindService.findById(channel.getId()));
     }
 
 //    @Test
@@ -207,7 +209,7 @@ public class ChannelFindServiceTest {
         // when
 
         // then
-        assertThrows(NotExistHashTagException.class, () -> channelFindService.findChannelByHashName(tag1, "partiASC", 0));
+        assertThrows(NotExistHashTagException.class, () -> channelFindService.findByHashName(tag1, "partiASC", 0));
 
     }
 

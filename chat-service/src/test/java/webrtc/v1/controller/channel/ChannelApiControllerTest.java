@@ -17,18 +17,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.v1.domain.Channel;
-import webrtc.v1.domain.ChannelHashTag;
-import webrtc.v1.domain.HashTag;
-import webrtc.v1.domain.Users;
-import webrtc.v1.dto.ChannelDto.CreateChannelRequest;
+import webrtc.v1.channel.controller.ChannelApiController;
+import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.entity.ChannelHashTag;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.enums.ChannelType;
-import webrtc.v1.exception.ChannelException.AlreadyExistChannelException;
-import webrtc.v1.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.exception.JwtException;
-import webrtc.v1.service.channel.ChannelFindService;
-import webrtc.v1.service.channel.ChannelLifeService;
-import webrtc.v1.service.jwt.JwtUserDetailsService;
+import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
+import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.utils.jwt.exception.JwtException;
+import webrtc.v1.channel.service.ChannelFindService;
+import webrtc.v1.channel.service.ChannelLifeService;
+import webrtc.v1.utils.jwt.JwtUserDetailsService;
 import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 import webrtc.v1.utils.log.trace.ThreadLocalLogTrace;
 
@@ -130,7 +131,7 @@ public class ChannelApiControllerTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -183,7 +184,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -226,7 +227,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserEmailFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
-                .when(channelLifeService).createChannel(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
 
         // when
 
@@ -277,7 +278,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channel)
-                .when(channelFindService).findOneChannelById(any(String.class));
+                .when(channelFindService).findById(any(String.class));
 
 
         // when
@@ -330,7 +331,7 @@ public class ChannelApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(channelFindService).findOneChannelById(any(String.class));
+                .when(channelFindService).findById(any(String.class));
 
 
         // when
