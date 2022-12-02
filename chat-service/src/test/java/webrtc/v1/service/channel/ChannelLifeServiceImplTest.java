@@ -18,6 +18,7 @@ import webrtc.v1.repository.hashtag.ChannelHashTagRepository;
 import webrtc.v1.repository.hashtag.HashTagRepository;
 import webrtc.v1.repository.users.ChannelUserRepository;
 import webrtc.v1.repository.users.UsersRepository;
+import webrtc.v1.repository.voice.VoiceRoomRepository;
 import webrtc.v1.service.chat.factory.ChattingMessageFactory;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class ChannelLifeServiceImplTest {
     private ChannelUserRepository channelUserRepository;
     @Mock
     private ChannelListRepository channelListRepository;
+    @Mock
+    private VoiceRoomRepository voiceRoomRepository;
     @Spy
     private ChannelRedisRepository channelRedisRepository;
 
@@ -175,7 +178,7 @@ public class ChannelLifeServiceImplTest {
                 .when(crudRepository).findById(any(String.class));
 
         // when
-        channelService.deleteChannel(channel.getId());
+        channelService.delete(channel.getId());
 
         // then
 
@@ -193,7 +196,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelService.deleteChannel(channel.getId()));
+        assertThrows(NotExistChannelException.class, () -> channelService.delete(channel.getId()));
     }
 
     @Test

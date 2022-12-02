@@ -61,7 +61,7 @@ public class ChannelIOServiceImpl implements ChannelIOService {
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
-        deleteChannelUser(channel, user);
+        deleteChannelUser(user, channel);
     }
 
     /*
@@ -74,11 +74,10 @@ public class ChannelIOServiceImpl implements ChannelIOService {
      */
     private void createChannelUser(Users user, Channel channel) {
         isAlreadyExistChannelUser(user, channel);
-        if (channel.isFull()) throw new ChannelParticipantsFullException();
-        ChannelUser channelUser = ChannelUser.builder()
-                .user(user)
-                .channel(channel)
-                .build();
+        if (channel.isFull()) {
+            throw new ChannelParticipantsFullException();
+        }
+        ChannelUser channelUser = channelUserBuilder(user, channel);
         channel.enterChannelUser(channelUser);
         channelUserRepository.save(channelUser);
     }
@@ -98,10 +97,17 @@ public class ChannelIOServiceImpl implements ChannelIOService {
      * 2) 채널의 참가 인원 수 -1 감소
      * 3) 채널과 회원 관계 삭제 후 저장
      */
-    private void deleteChannelUser(Channel channel, Users user) {
+    void deleteChannelUser(Users user, Channel channel) {
         ChannelUser channelUser = channelUserRepository.findByChannelAndUser(channel, user)
                 .orElseThrow(NotExistChannelUserException::new);
         channel.exitChannelUser(channelUser);
         channelUserRepository.delete(channelUser);
+    }
+
+    ChannelUser channelUserBuilder(Users user, Channel channel) {
+        return ChannelUser.builder()
+                .user(user)
+                .channel(channel)
+                .build();
     }
 }
