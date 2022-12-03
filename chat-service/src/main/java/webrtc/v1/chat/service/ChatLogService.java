@@ -13,5 +13,5 @@ public interface ChatLogService {
 
     List<ChatLog> findChatLogsByIndex(String channelId, Long idx);
 
-    ChatLog findLastChatLogsByChannelId(String channelId);
+    Long findLastChatLogsByChannelId(String channelId);
 }
