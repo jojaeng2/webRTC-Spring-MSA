@@ -15,8 +15,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Autowired
     private ChattingService chattingService;
-    @Autowired
-    private ChannelLifeService channelLifeService;
 
     public RedisKeyExpiredListener(@Qualifier("redisMessageListener")RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);
@@ -24,14 +22,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
-        chattingService.sendChatMessage(ClientMessageType.CLOSE, message.toString(), "채팅방의 수명이 끝났습니다.", userBuilder());
-        channelLifeService.delete(message.toString());
-    }
-
-    Users userBuilder() {
-        return Users.builder()
-                .nickname("[알림] ")
-                .email("Notice")
-                .build();
+        chattingService.closeChannel(ClientMessageType.CLOSE, message.toString());
     }
 }

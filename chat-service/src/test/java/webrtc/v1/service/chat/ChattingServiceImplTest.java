@@ -86,10 +86,11 @@ public class ChattingServiceImplTest {
 
         doReturn(createList())
                 .when(channelUserRepository).findByChannel(any(Channel.class));
-
+        doReturn(Optional.of(createUsers()))
+                .when(usersRepository).findByEmail(any(String.class));
 
         // when
-        chattingService.sendChatMessage(chat, channel.getId(), chatMessage, createUsers());
+        chattingService.sendChatMessage(chat, channel.getId(), chatMessage, email1);
 
 
         // then
@@ -101,12 +102,13 @@ public class ChattingServiceImplTest {
         Channel channel = createChannel(channelName1, text);
         doReturn(Optional.empty())
                 .when(channelCrudRepository).findById(any(String.class));
-
+        doReturn(Optional.of(createUsers()))
+                .when(usersRepository).findByEmail(any(String.class));
         // when
 
         // then
         Assertions.assertThrows(NotExistChannelException.class,
-                () -> chattingService.sendChatMessage(chat, channel.getId(), chatMessage, createUsers()));
+                () -> chattingService.sendChatMessage(chat, channel.getId(), chatMessage, email1));
     }
 
     private List<ChatLog> EmptyList() {

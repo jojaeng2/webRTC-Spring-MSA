@@ -44,4 +44,13 @@ public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
                 .build();
         return this.messageTypes.get(type).setMessageType(chattingMessage);
     }
+
+    @Override
+    public ChattingMessage closeMessage(Channel channel) {
+        return ChattingMessage.builder()
+                .channelId(channel.getId())
+                .chatMessage("채팅방의 수명이 끝났습니다.")
+                .currentParticipants(channel.getCurrentParticipants())
+                .build();
+    }
 }
