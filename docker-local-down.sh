@@ -8,23 +8,14 @@ echo "          \/            \/          \/        \/     \/             \/    
 
 sleep 3
 
-cd ./auth-service
-./docker-local-down.sh &
-cd ..
-
 cd ./chat-service
 ./docker-local-down.sh &
 cd ..
 
 
-cd ./voice-service
-./docker-local-down.sh &
-cd ..
-
-
-cd ./openvidu-service
-./docker-container-down.sh &
-cd .. 
+# cd ./openvidu-service
+# ./docker-container-down.sh &
+# cd .. 
 
 
 cd ./nginx-service

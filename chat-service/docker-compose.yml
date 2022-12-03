@@ -15,9 +15,7 @@ services:
     networks:
       - spring-network
     entrypoint: ["bash", "-c"]
-    ports:
-      - 8081:8080
     command:
       - |
-        sleep 20s
+        sleep 10s
         java -jar chat.jar   
