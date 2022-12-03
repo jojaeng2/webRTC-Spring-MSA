@@ -4,19 +4,16 @@ import org.aspectj.lang.annotation.Pointcut;
 
 public class Pointcuts {
 
-    @Pointcut("execution(* webrtc.chatservice.controller..*(..))")
+    @Pointcut("execution(* webrtc.v1..*controller*(..))")
     public void allController() {}
 
-    @Pointcut("execution(* webrtc.chatservice.service..*(..))")
+    @Pointcut("execution(* webrtc.v1..*service*(..))")
     public void allService() {}
 
-    @Pointcut("execution(* webrtc.chatservice.repository..*(..))")
+    @Pointcut("execution(* webrtc.v1..*repository*(..))")
     public void allRepository() {}
 
     @Pointcut("allController() || allService() || allRepository()")
     public void controllerAndServiceAndRepository() {}
-
-    @Pointcut("execution(* webrtc.chatservice.controller.createChannel(..))")
-    public void createChannel() {}
 
 }

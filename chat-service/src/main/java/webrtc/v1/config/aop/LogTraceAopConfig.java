@@ -16,7 +16,7 @@ public class LogTraceAopConfig {
 
     private final LogTemplate logTemplate;
 
-    @Around("webrtc.chatservice.config.aop.Pointcuts.controllerAndServiceAndRepository()")
+    @Around("webrtc.v1.config.aop.Pointcuts.controllerAndServiceAndRepository()")
     public Object doLogTraceAOP(ProceedingJoinPoint joinPoint) throws Throwable {
 
         String className = joinPoint.getTarget().getClass().getName(); // 클래스 이름
