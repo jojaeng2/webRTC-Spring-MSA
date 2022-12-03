@@ -120,7 +120,7 @@ public class UsersRepositoryImplTest {
                 .channel(channel)
                 .build();
         channel.enterChannelUser(channelUser);
-        repository.save(users);
+        em.persist(users);
         em.persist(channel);
         em.persist(channelUser);
 
@@ -130,7 +130,7 @@ public class UsersRepositoryImplTest {
                 .stream().map(ChannelUser::getUser)
                         .collect(toList());
 
-        //then
+//        //then
         assertThat(findUsers.get(0).getId()).isEqualTo(users.getId());
     }
 

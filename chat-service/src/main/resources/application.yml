@@ -3,7 +3,7 @@ port: 8080
 spring:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://192.168.0.100:5433/chat-db
+    url: jdbc:postgresql://192.168.0.100:5432/honeybees
     username: user
     password: 1234
   jpa:

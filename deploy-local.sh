@@ -1,4 +1,4 @@
-git pull origin main
+# git pull origin main
 
 
 echo ''
@@ -12,24 +12,10 @@ echo ''
 
 sleep 3
 
-cd ./auth-service
-./deploy-local.sh &
-cd ..
-
-sleep 3
-
 cd ./chat-service
 ./deploy-local.sh &
 cd ..
 
-
-sleep 3
-
-cd ./voice-service
-./deploy-local.sh & 
-cd ..
-
-sleep 3
 
 # cd ./openvidu-service
 # ./deploy.sh &

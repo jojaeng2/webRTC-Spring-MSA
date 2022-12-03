@@ -24,7 +24,7 @@ import java.util.UUID;
 public class Users implements Serializable {
 
     @Id
-    @Column(name = "user_id", columnDefinition = "BINARY(16)")
+    @Column(name = "user_id", columnDefinition = "uuid")
     @Builder.Default
     private UUID id = UUID.randomUUID();
     private String email;

@@ -12,32 +12,18 @@ echo ''
 
 sleep 3
 
-cd ./auth-service
-./deploy-service.sh &
-cd ..
-
-sleep 3
-
 cd ./chat-service
 ./deploy-service.sh &
 cd ..
 
 
-sleep 3
+cd ./openvidu-service
+./deploy.sh &
+cd .. 
 
-cd ./voice-service
-./deploy-service.sh & 
+
+sleep 50
+
+cd ./nginx-service
+./deploy-service.sh &
 cd ..
-
-sleep 3
-
-# cd ./openvidu-service
-# ./deploy.sh &
-# cd .. 
-
-
-# sleep 50
-
-# cd ./nginx-service
-# ./deploy-service.sh &
-# cd ..

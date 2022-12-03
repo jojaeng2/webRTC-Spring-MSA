@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class IpAopConfig {
 
-    @Before("webrtc.chatservice.config.aop.Pointcuts.rabbitTemplate()")
+//    @Before("webrtc.v1.config.aop.Pointcuts.rabbitTemplate()")
     public void addHttpServletRequest(JoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String ip = findIP(request.getHeader("X-Forwarded-For"), request);
