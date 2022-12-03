@@ -39,7 +39,7 @@ public class ChatLogServiceImpl implements ChatLogService{
     }
 
     @Transactional(readOnly = true)
-    public ChatLog findLastChatLogsByChannelId(String channelId) {
-        return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
+    public Long findLastChatLogsByChannelId(String channelId) {
+        return redisRepository.findLastIndex(channelId);
     }
 }

@@ -59,35 +59,6 @@ public class ChatLogServiceTest {
     }
 
     @Test
-    void 마지막로그찾기성공() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(List.of(createChatLog()))
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
-
-        // when
-        ChatLog chatLog = chatLogService.findLastChatLogsByChannelId(channel.getId());
-
-        // then
-        assertThat(chatLog).isNotNull();
-    }
-
-    @Test
-    void 마지막로그찾기실패() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(new ArrayList<>())
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
-
-        // when
-
-        // then
-        Assertions.assertThrows(IndexOutOfBoundsException.class,
-                () -> chatLogService.findLastChatLogsByChannelId(channel.getId()));
-
-    }
-
-    @Test
     void 인덱스로로그찾기성공() {
         // given
         Channel channel = createChannel(channelName1, text);
