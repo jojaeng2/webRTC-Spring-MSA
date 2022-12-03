@@ -29,12 +29,13 @@ public class VoiceController {
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }
 
+    // jwt 토큰 적용해야함
     @PostMapping("/remove-user")
     public ResponseEntity<?> removeUser(
             @RequestBody RemoveUserInSessionRequest request
     ) {
         Users user = userService.findOneByEmail(request.getEmail());
-        voiceRoomService.removeUserInVoiceRoom(request, user);
+        voiceRoomService.removeUserInVoiceRoom(request);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
