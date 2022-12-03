@@ -60,7 +60,7 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
     }
 
     @Transactional
-    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request, Users user) {
+    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request) {
         String id = request.getSessionName();
         String email = request.getEmail();
         VoiceRoom voiceRoom = voiceRoomRepository.findById(id)

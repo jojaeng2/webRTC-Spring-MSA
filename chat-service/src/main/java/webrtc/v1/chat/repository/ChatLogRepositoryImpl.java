@@ -26,13 +26,4 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
         .setParameter("end", idx-1L)
         .getResultList();
     }
-
-    public List<ChatLog> findLastChatLogsByChannelId(String channelId) {
-        return em.createQuery(
-                "select cl from ChatLog cl where channel_id = :channel_id order by idx desc ", ChatLog.class)
-                .setParameter("channel_id", channelId)
-                .setFirstResult(0)
-                .setMaxResults(1)
-                .getResultList();
-    }
 }

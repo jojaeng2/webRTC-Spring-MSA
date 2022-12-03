@@ -9,6 +9,6 @@ public interface VoiceRoomService {
 
     String getToken(GetTokenRequest request, Users user);
 
-    void removeUserInVoiceRoom(RemoveUserInSessionRequest request, Users user);
+    void removeUserInVoiceRoom(RemoveUserInSessionRequest request);
 
 }

@@ -188,7 +188,7 @@ public class VoiceControllerTest {
                 .when(usersService).findOneByEmail(any(String.class));
 
         doNothing()
-                .when(voiceRoomService).removeUserInVoiceRoom(any(RemoveUserInSessionRequest.class), any(Users.class));
+                .when(voiceRoomService).removeUserInVoiceRoom(any(RemoveUserInSessionRequest.class));
 
         // when
 

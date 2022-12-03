@@ -32,27 +32,6 @@ public class ChatLogRepositoryImplTest {
     String channelName1 = "channelName1";
     ChannelType text = TEXT;
 
-    @Test
-    void 채널의마지막채팅로그불러오기성공() {
-        // given
-        Long testcase = 23L;
-        Channel channel = createChannel(channelName1, text);
-
-        for(Long i=0L; i<testcase; i++) {
-            ChatLog chatLog = createChatLog(ENTER, "testMessage" + i, "testUser2", "email1");
-            chatLog.setChatLogIdx(i);
-            channel.addChatLog(chatLog);
-        }
-        em.persist(channel);
-
-
-        // when
-        List<ChatLog> findChatLogs = repository.findLastChatLogsByChannelId(channel.getId());
-
-        // then
-        assertThat(findChatLogs.get(0).getIdx()).isEqualTo(22L);
-    }
-
 
     @Test
     public void 채팅로그불러오기_20개미만() {

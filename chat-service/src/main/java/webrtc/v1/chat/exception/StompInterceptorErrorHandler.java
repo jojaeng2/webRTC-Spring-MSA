@@ -1,4 +1,4 @@
-package webrtc.v1.handler;
+package webrtc.v1.chat.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +18,7 @@ import webrtc.v1.channel.exception.ChannelException.AlreadyExistUserInChannelExc
 import webrtc.v1.channel.exception.ChannelException.ChannelExceptionDto;
 import webrtc.v1.channel.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.utils.jwt.exception.JwtException.CustomJwtExceptionDto;
 import webrtc.v1.user.exception.UserException.NotExistUserExceptionDto;
 import webrtc.v1.chat.service.ChatLogService;
@@ -30,6 +31,7 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private final ObjectMapper objectMapper;
     private final ChatLogService chatLogService;
+    private final ChatLogRedisRepository chatLogRedisRepository;
 
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {
@@ -63,7 +65,7 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
         else if(exception instanceof AlreadyExistUserInChannelException) {
             StompHeaderAccessor accessor = StompHeaderAccessor.wrap(clientMessage);
             String connectChannelId = accessor.getFirstNativeHeader("channelId");
-            Long idx = chatLogService.findLastChatLogsByChannelId(connectChannelId).getIdx();
+            Long idx = chatLogService.findLastIndexByChannelId(connectChannelId);
             channelExceptionDto.setField(ALREADY_USER_IN_CHANNEL, "이미 채널에 존재하는 User입니다.", idx);
         }
         return prepareErrorMessage(clientMessage, channelExceptionDto, "Exception");

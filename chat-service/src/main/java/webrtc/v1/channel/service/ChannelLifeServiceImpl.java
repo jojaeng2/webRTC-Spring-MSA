@@ -85,7 +85,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 2) DB에서 채널 삭제
      * 3) Redis에서 채널 삭제
      */
-    @Transactional
     public void delete(String channelId) {
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);

@@ -1,4 +1,4 @@
-package webrtc.v1.handler;
+package webrtc.v1.chat.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -14,12 +14,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ChatLogServiceImpl implements ChatLogService{
+public class ChatLogServiceImpl implements ChatLogService {
 
     private final ChatLogRepository chatLogRepository;
     private final ChatLogRedisRepository redisRepository;
 
-    public long saveChatLog(ClientMessageType type, String chatMessage, Channel channel, Users user) {
+    public long save(ClientMessageType type, String chatMessage, Channel channel, Users user) {
         ChatLog chatLog = ChatLog.builder()
                 .type(type)
                 .message(chatMessage)
@@ -39,7 +39,7 @@ public class ChatLogServiceImpl implements ChatLogService{
     }
 
     @Transactional(readOnly = true)
-    public ChatLog findLastChatLogsByChannelId(String channelId) {
-        return chatLogRepository.findLastChatLogsByChannelId(channelId).get(0);
+    public Long findLastIndexByChannelId(String id) {
+        return redisRepository.findLastIndex(id);
     }
 }

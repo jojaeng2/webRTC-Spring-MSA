@@ -11,4 +11,5 @@ public interface ChattingMessageFactory {
 
     ChattingMessage createMessage(Channel channel, ClientMessageType type, String chatMessage, List<Users> users, long logId, Users user);
 
+    ChattingMessage closeMessage(Channel channel);
 }

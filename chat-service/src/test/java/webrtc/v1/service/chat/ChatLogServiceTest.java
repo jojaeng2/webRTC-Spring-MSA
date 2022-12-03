@@ -51,39 +51,10 @@ public class ChatLogServiceTest {
                 .when(chatLogRedisRepository).findLastIndex(any(String.class));
 
         // when
-        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
+        long resultIdx = chatLogService.save(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
         assertThat(resultIdx).isEqualTo(3L);
-
-    }
-
-    @Test
-    void 마지막로그찾기성공() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(List.of(createChatLog()))
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
-
-        // when
-        ChatLog chatLog = chatLogService.findLastChatLogsByChannelId(channel.getId());
-
-        // then
-        assertThat(chatLog).isNotNull();
-    }
-
-    @Test
-    void 마지막로그찾기실패() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(new ArrayList<>())
-                .when(chatLogRepository).findLastChatLogsByChannelId(any(String.class));
-
-        // when
-
-        // then
-        Assertions.assertThrows(IndexOutOfBoundsException.class,
-                () -> chatLogService.findLastChatLogsByChannelId(channel.getId()));
 
     }
 

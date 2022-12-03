@@ -7,8 +7,8 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import webrtc.v1.handler.StompHandler;
-import webrtc.v1.handler.StompInterceptorErrorHandler;
+import webrtc.v1.chat.handler.StompHandler;
+import webrtc.v1.chat.exception.StompInterceptorErrorHandler;
 
 @Configuration
 @RequiredArgsConstructor

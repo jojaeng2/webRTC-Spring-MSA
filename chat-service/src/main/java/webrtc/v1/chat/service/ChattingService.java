@@ -5,6 +5,7 @@ import webrtc.v1.enums.ClientMessageType;
 
 public interface ChattingService {
 
-    void sendChatMessage(ClientMessageType type, String channelId, String chatMessage, Users user);
+    void send(ClientMessageType type, String channelId, String chatMessage, String email);
 
+    void closeChannel(ClientMessageType type, String channelId);
 }
