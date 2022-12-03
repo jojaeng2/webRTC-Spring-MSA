@@ -43,7 +43,7 @@ public class ChattingServiceImpl implements ChattingService {
      * Chatting Room에 message 발송
      */
     @Transactional
-    public void sendChatMessage(ClientMessageType type, String channelId, String chatMessage, String email) {
+    public void send(ClientMessageType type, String channelId, String chatMessage, String email) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
@@ -57,7 +57,7 @@ public class ChattingServiceImpl implements ChattingService {
             sendToRedis(serverMessage);
         }
         if (isNotReenter(type)) {
-            long logIdx = chatLogService.saveChatLog(type, chatMessage, channel, user);
+            long logIdx = chatLogService.save(type, chatMessage, channel, user);
             ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, logIdx, user);
             sendToRedis(serverMessage);
         }

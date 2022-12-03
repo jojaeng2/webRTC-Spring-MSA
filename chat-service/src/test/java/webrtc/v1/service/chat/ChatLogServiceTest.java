@@ -51,7 +51,7 @@ public class ChatLogServiceTest {
                 .when(chatLogRedisRepository).findLastIndex(any(String.class));
 
         // when
-        long resultIdx = chatLogService.saveChatLog(ClientMessageType.CHAT, "test", channel, new Users());
+        long resultIdx = chatLogService.save(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
         assertThat(resultIdx).isEqualTo(3L);

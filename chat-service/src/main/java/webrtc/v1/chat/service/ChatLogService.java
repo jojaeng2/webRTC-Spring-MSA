@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ChatLogService {
 
-    long saveChatLog(ClientMessageType type, String chatMessage, Channel channel, Users user);
+    long save(ClientMessageType type, String chatMessage, Channel channel, Users user);
 
     List<ChatLog> findChatLogsByIndex(String channelId, Long idx);
 
-    Long findLastChatLogsByChannelId(String channelId);
+    Long findLastIndexByChannelId(String id);
 }

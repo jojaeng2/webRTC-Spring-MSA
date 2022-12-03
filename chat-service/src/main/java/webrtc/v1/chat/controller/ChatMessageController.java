@@ -38,7 +38,7 @@ public class ChatMessageController {
         if(isEnter(type) || isExit(type) || isChat(type)) {
             socketMessageFactory.execute(type, message, user, channelId);
         }
-        chattingService.sendChatMessage(type, channelId, message.getMessage(), email);
+        chattingService.send(type, channelId, message.getMessage(), email);
     }
 
     boolean isEnter(ClientMessageType type) {

@@ -90,7 +90,7 @@ public class ChattingServiceImplTest {
                 .when(usersRepository).findByEmail(any(String.class));
 
         // when
-        chattingService.sendChatMessage(chat, channel.getId(), chatMessage, email1);
+        chattingService.send(chat, channel.getId(), chatMessage, email1);
 
 
         // then
@@ -108,7 +108,7 @@ public class ChattingServiceImplTest {
 
         // then
         Assertions.assertThrows(NotExistChannelException.class,
-                () -> chattingService.sendChatMessage(chat, channel.getId(), chatMessage, email1));
+                () -> chattingService.send(chat, channel.getId(), chatMessage, email1));
     }
 
     private List<ChatLog> EmptyList() {
