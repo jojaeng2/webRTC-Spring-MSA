@@ -16,9 +16,9 @@ public class ChannelException extends RuntimeException{
 
         private SocketInterceptorErrorType type;
         private String exception;
-        private Long idx;
+        private int idx;
 
-        public void setField(SocketInterceptorErrorType type, String exception, Long idx) {
+        public void setField(SocketInterceptorErrorType type, String exception, int idx) {
             this.type = type;
             this.exception = exception;
             this.idx = idx;

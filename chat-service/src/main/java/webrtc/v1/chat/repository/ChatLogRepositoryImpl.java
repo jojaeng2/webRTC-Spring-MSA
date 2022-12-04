@@ -18,12 +18,12 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
     private EntityManager em;
 
 
-    public List<ChatLog> findChatLogsByChannelId(String channelId, Long idx) {
+    public List<ChatLog> findChatLogsByChannelId(String channelId, Integer idx) {
         return em.createQuery(
             "select cl from ChatLog cl where channel_id = :channel_id and cl.idx BETWEEN :start AND :end", ChatLog.class)
         .setParameter("channel_id", channelId)
-        .setParameter("start", max(1L, idx-(LoadingChatCount)))
-        .setParameter("end", idx-1L)
+        .setParameter("start", max(1, idx-(LoadingChatCount)))
+        .setParameter("end", idx-1)
         .getResultList();
     }
 }

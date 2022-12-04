@@ -23,7 +23,7 @@ public class ChatLogApiController {
             @PathVariable("channelId") String channelId,
             @PathVariable("idx") String idx
     ) {
-        List<ChatLog> chatLogs = chatLogService.findChatLogsByIndex(channelId, Long.parseLong(idx));
+        List<ChatLog> chatLogs = chatLogService.findChatLogsByIndex(channelId, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindChatLogsResponse(chatLogs), HttpStatus.OK);
     }
 }

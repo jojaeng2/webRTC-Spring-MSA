@@ -26,20 +26,20 @@ public class ChatLogServiceImpl implements ChatLogService {
                 .senderNickname(user.getNickname())
                 .senderEmail(user.getEmail())
                 .build();
-        Long index = redisRepository.findLastIndex(channel.getId());
-        chatLog.setChatLogIdx(index + 1L);
+        Integer index = redisRepository.findLastIndex(channel.getId());
+        chatLog.setChatLogIdx(index + 1);
         redisRepository.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
         return chatLog.getIdx();
     }
 
     @Transactional(readOnly = true)
-    public List<ChatLog> findChatLogsByIndex(String channelId, Long idx) {
+    public List<ChatLog> findChatLogsByIndex(String channelId, int idx) {
         return chatLogRepository.findChatLogsByChannelId(channelId, idx);
     }
 
     @Transactional(readOnly = true)
-    public Long findLastIndexByChannelId(String id) {
+    public int findLastIndexByChannelId(String id) {
         return redisRepository.findLastIndex(id);
     }
 }
