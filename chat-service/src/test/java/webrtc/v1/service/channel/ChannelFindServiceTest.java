@@ -11,7 +11,7 @@ import webrtc.v1.channel.service.ChannelInfoInjectService;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.dto.ChannelDto.ChannelResponse;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @ExtendWith(MockitoExtension.class)
 public class ChannelFindServiceTest {

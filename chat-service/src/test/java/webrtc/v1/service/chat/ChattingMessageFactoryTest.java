@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Import;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.dto.ChattingMessage;
-import webrtc.v1.enums.ChannelType;
-import webrtc.v1.enums.ClientMessageType;
-import webrtc.v1.enums.SocketServerMessageType;
+import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.chat.enums.ClientMessageType;
+import webrtc.v1.chat.enums.SocketServerMessageType;
 import webrtc.v1.chat.service.factory.ChattingMessageFactoryImpl;
 
 import java.util.ArrayList;
 
-import static webrtc.v1.enums.ChannelType.TEXT;
-import static webrtc.v1.enums.ClientMessageType.*;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
+import static webrtc.v1.chat.enums.ClientMessageType.*;
 
 @Import(ChattingMessageFactoryImpl.class)
 public class ChattingMessageFactoryTest {

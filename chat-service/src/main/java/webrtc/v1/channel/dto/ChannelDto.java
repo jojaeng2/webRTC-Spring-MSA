@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 
 import java.util.List;
 

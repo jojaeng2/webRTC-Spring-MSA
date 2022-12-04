@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.dto.ChattingMessage;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.utils.json.CustomJsonMapper;
 import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @Import({
         RedisSubscriberImpl.class

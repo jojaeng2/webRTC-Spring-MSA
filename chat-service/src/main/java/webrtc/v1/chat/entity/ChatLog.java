@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.RedisHash;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.chat.enums.ClientMessageType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static webrtc.v1.enums.ClientMessageType.CREATE;
+import static webrtc.v1.chat.enums.ChatLogEnums.*;
+import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 
 @Entity
 @Getter
@@ -50,9 +51,9 @@ public class ChatLog {
     public static ChatLog createChannelLog(Users user) {
         return ChatLog.builder()
                 .type(CREATE)
-                .message("[알림] " + user.getNickname() + "님이 채팅방을 생성했습니다.")
-                .senderNickname(user.getNickname())
-                .senderEmail("NOTICE")
+                .message(NOTICE.getMessage() + user.getNickname() + MESSAGE.getMessage())
+                .senderNickname(NICKNAME.getMessage())
+                .senderEmail(EMAIL.getMessage())
                 .build();
     }
 

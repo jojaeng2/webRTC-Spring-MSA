@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
-import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ClientMessageType;
-import webrtc.v1.channel.service.ChannelLifeService;
+import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.chat.service.ChattingService;
 
 @Component

@@ -2,11 +2,11 @@ package webrtc.v1.utils.logstash;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 
 import java.util.UUID;
 
-import static webrtc.v1.enums.ChannelType.VOIP;
+import static webrtc.v1.channel.enums.ChannelType.VOIP;
 
 @Getter
 @NoArgsConstructor

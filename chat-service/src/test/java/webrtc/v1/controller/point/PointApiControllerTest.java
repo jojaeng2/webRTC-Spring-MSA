@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLRequest;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.service.PointService;
@@ -50,7 +50,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)

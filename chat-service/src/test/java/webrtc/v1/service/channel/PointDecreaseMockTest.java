@@ -11,7 +11,7 @@ import webrtc.v1.channel.service.ChannelLifeServiceImpl;
 import webrtc.v1.point.entity.Point;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -20,14 +20,13 @@ import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @ExtendWith(MockitoExtension.class)
 public class PointDecreaseMockTest {

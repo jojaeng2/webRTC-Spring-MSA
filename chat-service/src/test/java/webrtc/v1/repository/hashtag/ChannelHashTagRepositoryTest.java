@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.entity.HashTag;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.hashtag.repository.ChannelHashTagRepository;
 
 import java.util.NoSuchElementException;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @DataJpaTest
 public class ChannelHashTagRepositoryTest {

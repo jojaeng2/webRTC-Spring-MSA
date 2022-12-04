@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Import;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.dto.ClientMessage;
-import webrtc.v1.enums.ChannelType;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.service.ChannelIOService;
 import webrtc.v1.chat.service.factory.SocketMessageFactoryImpl;
@@ -21,9 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static webrtc.v1.enums.ChannelType.TEXT;
-import static webrtc.v1.enums.ClientMessageType.*;
-import static webrtc.v1.enums.ClientMessageType.CREATE;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
+import static webrtc.v1.chat.enums.ClientMessageType.*;
+import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 
 @ExtendWith(MockitoExtension.class)
 @Import(SocketMessageFactoryImpl.class)

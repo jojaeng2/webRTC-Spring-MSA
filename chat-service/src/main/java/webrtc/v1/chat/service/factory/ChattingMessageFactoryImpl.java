@@ -5,17 +5,17 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.dto.ChattingMessage;
 import webrtc.v1.chat.service.template.MessageTypeTemplate;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.chat.enums.ClientMessageType;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static webrtc.v1.enums.SocketServerMessageType.*;
-import static webrtc.v1.enums.SocketServerMessageType.CHAT;
-import static webrtc.v1.enums.SocketServerMessageType.CLOSE;
-import static webrtc.v1.enums.SocketServerMessageType.CREATE;
+import static webrtc.v1.chat.enums.SocketServerMessageType.*;
+import static webrtc.v1.chat.enums.SocketServerMessageType.CHAT;
+import static webrtc.v1.chat.enums.SocketServerMessageType.CLOSE;
+import static webrtc.v1.chat.enums.SocketServerMessageType.CREATE;
 
 @Component
 public class ChattingMessageFactoryImpl implements ChattingMessageFactory{

@@ -20,7 +20,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.controller.ChatLogApiController;
 import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.service.ChatLogService;
 import webrtc.v1.utils.jwt.JwtUserDetailsService;
 import webrtc.v1.user.service.UsersService;
@@ -47,8 +47,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static webrtc.v1.enums.ChannelType.TEXT;
-import static webrtc.v1.enums.ClientMessageType.CHAT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
+import static webrtc.v1.chat.enums.ClientMessageType.CHAT;
 
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)

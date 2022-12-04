@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.SocketServerMessageType;
+import webrtc.v1.chat.enums.SocketServerMessageType;
 
 import java.sql.Timestamp;
 import java.util.List;

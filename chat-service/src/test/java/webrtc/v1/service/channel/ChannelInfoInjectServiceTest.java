@@ -7,13 +7,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelInfoInjectServiceImpl;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @ExtendWith(MockitoExtension.class)
 public class ChannelInfoInjectServiceTest {

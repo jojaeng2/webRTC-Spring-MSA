@@ -13,6 +13,6 @@ services:
     networks:
       - spring-network
     ports:
-      - 80:80
+      - 81:80
     volumes:
       - ./nginx-local.conf:/etc/nginx/nginx.conf

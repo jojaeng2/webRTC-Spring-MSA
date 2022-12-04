@@ -21,7 +21,7 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.controller.HashTagApiController;
 import webrtc.v1.hashtag.entity.HashTag;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.utils.jwt.JwtUserDetailsService;
@@ -50,7 +50,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)

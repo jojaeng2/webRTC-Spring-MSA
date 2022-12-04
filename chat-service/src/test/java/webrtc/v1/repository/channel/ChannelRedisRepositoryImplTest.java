@@ -11,13 +11,13 @@ import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepositoryImpl;
 import webrtc.v1.config.RedisConfig;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 import webrtc.config.TestRedisConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @RunWith(SpringRunner.class)
 @Import({

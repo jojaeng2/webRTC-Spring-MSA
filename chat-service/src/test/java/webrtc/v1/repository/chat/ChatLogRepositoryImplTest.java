@@ -9,14 +9,14 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.repository.ChatLogRepository;
 import webrtc.v1.chat.repository.ChatLogRepositoryImpl;
 import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.enums.ChannelType;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.chat.enums.ClientMessageType;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static webrtc.v1.enums.ChannelType.TEXT;
-import static webrtc.v1.enums.ClientMessageType.ENTER;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
+import static webrtc.v1.chat.enums.ClientMessageType.ENTER;
 
 @DataJpaTest
 @Import({
