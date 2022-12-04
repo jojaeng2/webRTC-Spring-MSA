@@ -37,15 +37,14 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {
         Throwable exception = ex;
         if (exception instanceof MessageDeliveryException) {
-            exception = exception.getCause().getCause();
-
-            if(exception instanceof JwtException) {
+            exception = exception.getCause();
+            if (exception instanceof JwtException) {
                 return handleJwtException(clientMessage, exception);
             }
-            if(exception instanceof AuthenticationException) {
+            if (exception instanceof AuthenticationException) {
                 return handleAuthenticationException(clientMessage, exception);
             }
-            if(exception instanceof ChannelException) {
+            if (exception instanceof ChannelException) {
                 return handleChannelException(clientMessage, exception);
             }
         }
@@ -54,18 +53,14 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private Message<byte[]> handleChannelException(Message<byte[]> clientMessage, Throwable exception) {
         ChannelExceptionDto channelExceptionDto = new ChannelExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
-
-        if(exception instanceof ChannelParticipantsFullException) {
-            channelExceptionDto.setField(ALREADY_FULL_CHANNEL, "채널에 인원이 가득차 입장할 수없습니다.", 0L);
-        }
-        else if(exception instanceof NotExistChannelException) {
-
-            channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..", 0L);
-        }
-        else if(exception instanceof AlreadyExistUserInChannelException) {
+        if (exception instanceof ChannelParticipantsFullException) {
+            channelExceptionDto.setField(ALREADY_FULL_CHANNEL, "채널에 인원이 가득차 입장할 수없습니다.", 0);
+        } else if (exception instanceof NotExistChannelException) {
+            channelExceptionDto.setField(NOT_EXIST_CHANNEL, "채널이 존재하지 않거나 시간이 만료되었습니다..", 0);
+        } else if (exception instanceof AlreadyExistUserInChannelException) {
             StompHeaderAccessor accessor = StompHeaderAccessor.wrap(clientMessage);
             String connectChannelId = accessor.getFirstNativeHeader("channelId");
-            Long idx = chatLogService.findLastIndexByChannelId(connectChannelId);
+            int idx = chatLogService.findLastIndexByChannelId(connectChannelId);
             channelExceptionDto.setField(ALREADY_USER_IN_CHANNEL, "이미 채널에 존재하는 User입니다.", idx);
         }
         return prepareErrorMessage(clientMessage, channelExceptionDto, "Exception");
@@ -73,7 +68,7 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private Message<byte[]> handleAuthenticationException(Message<byte[]> clientMessage, Throwable exception) {
         NotExistUserExceptionDto notExistUserExceptionDto = new NotExistUserExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
-        if(UsernameNotFoundException.class.isInstance(exception)) {
+        if (UsernameNotFoundException.class.isInstance(exception)) {
             notExistUserExceptionDto.setField(NOT_FOUND_USER_BY_JWT_ACCESS_TOKEN, "Jwt Access Token으로 User를 찾을 수가 없습니다.");
         }
         return prepareErrorMessage(clientMessage, notExistUserExceptionDto, "Exception");
@@ -81,16 +76,13 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private Message<byte[]> handleJwtException(Message<byte[]> clientMessage, Throwable exception) {
         CustomJwtExceptionDto customJwtExceptionDto = new CustomJwtExceptionDto(INTERNAL_ERROR, "Internal Server Error 500");
-        if(ExpiredJwtException.class.isInstance(exception)) {
+        if (ExpiredJwtException.class.isInstance(exception)) {
             customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "Jwt Access Token이 만료되었습니다.");
-        }
-        else if(UnsupportedJwtException.class.isInstance(exception)) {
+        } else if (UnsupportedJwtException.class.isInstance(exception)) {
             customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "올바르지 않은 Jwt Access Token 형식입니다.");
-        }
-        else if(MalformedJwtException.class.isInstance(exception)) {
+        } else if (MalformedJwtException.class.isInstance(exception)) {
             customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "손상된 Jwt Access Token이 사용되었습니다.");
-        }
-        else if(SignatureException.class.isInstance(exception)) {
+        } else if (SignatureException.class.isInstance(exception)) {
             customJwtExceptionDto.setField(UNSUPPORTED_JWT_ACCESS_TOKEN, "JWT Signature이 올바르지 않습니다.");
         }
         return prepareErrorMessage(clientMessage, customJwtExceptionDto, "Exception");
