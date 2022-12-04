@@ -37,7 +37,7 @@ public class ChatLog {
     private Channel channel;
 
     @Builder.Default
-    private long idx = 1L;
+    private int idx = 1;
 
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
@@ -57,7 +57,7 @@ public class ChatLog {
                 .build();
     }
 
-    public void setChatLogIdx(long idx) {
+    public void setChatLogIdx(int idx) {
         this.idx = idx;
     }
 

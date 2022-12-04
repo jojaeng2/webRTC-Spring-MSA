@@ -20,18 +20,18 @@ public class ChatLogRedisRepository {
         opsValueOperation = redisTemplate.opsForValue();
     }
 
-    public Long findLastIndex(String id) {
-        Long index = (Long) opsValueOperation.get(chatLog + id);
+    public Integer findLastIndex(String id) {
+        Integer index = (Integer) opsValueOperation.get(chatLog + id);
         if(index == null) {
-            index = 1L;
+            index = 1;
         }
         return index;
     }
 
     public void addLastIndex(String id) {
-        Long index = (Long) opsValueOperation.get(chatLog + id);
+        Integer index = (Integer) opsValueOperation.get(chatLog + id);
         if(index == null) {
-            index = 1L;
+            index = 1;
         }
         opsValueOperation.set(chatLog + id, index+1);
 

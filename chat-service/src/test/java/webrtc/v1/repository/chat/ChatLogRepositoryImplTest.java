@@ -40,7 +40,7 @@ public class ChatLogRepositoryImplTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        for(Long i=0L; i<20L; i++) {
+        for(int i=0; i<20; i++) {
             ChatLog chatLog = ChatLog.builder()
                     .type(ENTER)
                     .message("testMessage" + i)
@@ -55,7 +55,7 @@ public class ChatLogRepositoryImplTest {
         em.persist(channel);
 
         // when
-        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 15L);
+        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 15);
 
         // then
         assertThat(chatLogs.size()).isEqualTo(14L);
@@ -67,7 +67,7 @@ public class ChatLogRepositoryImplTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build();
-        for(Long i=0L; i<100L; i++) {
+        for(int i=0; i<100; i++) {
             ChatLog chatLog = ChatLog.builder()
                     .type(ENTER)
                     .message("testMessage" + i)
@@ -81,7 +81,7 @@ public class ChatLogRepositoryImplTest {
         em.persist(channel);
 
         // when
-        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 30L);
+        List<ChatLog> chatLogs = repository.findChatLogsByChannelId(channel.getId(), 30);
 
 
         // then

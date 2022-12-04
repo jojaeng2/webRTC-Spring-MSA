@@ -11,7 +11,7 @@ public interface ChatLogService {
 
     long save(ClientMessageType type, String chatMessage, Channel channel, Users user);
 
-    List<ChatLog> findChatLogsByIndex(String channelId, Long idx);
+    List<ChatLog> findChatLogsByIndex(String channelId, int idx);
 
-    Long findLastIndexByChannelId(String id);
+    int findLastIndexByChannelId(String id);
 }

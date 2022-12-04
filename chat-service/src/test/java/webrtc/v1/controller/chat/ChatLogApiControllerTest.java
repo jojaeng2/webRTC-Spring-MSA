@@ -109,8 +109,8 @@ public class ChatLogApiControllerTest {
                 .build();
         List<ChatLog> chatLogList = new ArrayList<>();
 
-        Long testCase = 39L;
-        for(Long i=19L; i<testCase; i++) {
+        int testCase = 39;
+        for(int i=19; i<testCase; i++) {
             ChatLog chatLog = ChatLog.builder()
                     .type(CHAT)
                     .message(i+" 번째 메시지")

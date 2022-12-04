@@ -39,14 +39,14 @@ public class ChatLogServiceTest {
     ChannelType text = TEXT;
     ClientMessageType type = ClientMessageType.CHAT;
     int maxi = 20;
-    Long idx = 10L;
-    Long lastIndex = 300L;
+    int idx = 10;
+    int lastIndex = 300;
 
     @Test
     void 채팅로그저장성공빈배열아님() {
         // given
         Channel channel = createChannel(channelName1, text);
-        doReturn(2L)
+        doReturn(2)
                 .when(chatLogRedisRepository).findLastIndex(any(String.class));
 
         // when
@@ -62,7 +62,7 @@ public class ChatLogServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(logList20())
-                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Long.class));
+                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Integer.class));
 
         // when
         List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
@@ -76,7 +76,7 @@ public class ChatLogServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(EmptyList())
-                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Long.class));
+                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Integer.class));
 
         // when
         List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
@@ -94,7 +94,7 @@ public class ChatLogServiceTest {
                     .senderNickname(nickname1)
                     .senderEmail(email1)
                     .build();
-            chatLog.setChatLogIdx((long) i);
+            chatLog.setChatLogIdx(i);
             chatLogs.add(chatLog);
         }
         return chatLogs;
