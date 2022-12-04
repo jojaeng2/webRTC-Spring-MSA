@@ -9,7 +9,7 @@ import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.chat.repository.ChatLogRedisRepository;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;

@@ -13,8 +13,8 @@ import webrtc.v1.chat.service.ChatLogService;
 import webrtc.v1.chat.service.ChattingServiceImpl;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ChannelType;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.user.repository.ChannelUserRepository;
@@ -28,8 +28,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static webrtc.v1.enums.ChannelType.*;
-import static webrtc.v1.enums.ClientMessageType.*;
+import static webrtc.v1.channel.enums.ChannelType.*;
+import static webrtc.v1.chat.enums.ClientMessageType.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ChattingServiceImplTest {

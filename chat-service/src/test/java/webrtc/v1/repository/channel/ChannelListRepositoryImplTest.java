@@ -10,7 +10,7 @@ import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelListRepositoryImpl;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.user.entity.Users;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @DataJpaTest
 @Import({

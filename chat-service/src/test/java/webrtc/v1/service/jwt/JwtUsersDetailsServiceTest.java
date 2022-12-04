@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.utils.jwt.JwtUserDetailsService;
@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static webrtc.v1.enums.ChannelType.TEXT;
-import static webrtc.v1.enums.ChannelType.VOIP;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.VOIP;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtUsersDetailsServiceTest {

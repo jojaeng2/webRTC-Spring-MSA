@@ -1,6 +1,5 @@
 package webrtc.v1.service.chat;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,8 +10,8 @@ import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.chat.repository.ChatLogRepository;
 import webrtc.v1.chat.service.ChatLogServiceImpl;
-import webrtc.v1.enums.ChannelType;
-import webrtc.v1.enums.ClientMessageType;
+import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.user.entity.Users;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 
 @ExtendWith(MockitoExtension.class)

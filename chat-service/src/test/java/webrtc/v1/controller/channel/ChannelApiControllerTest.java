@@ -23,7 +23,7 @@ import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.enums.ChannelType;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.utils.jwt.exception.JwtException;
@@ -57,7 +57,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static webrtc.v1.enums.ChannelType.TEXT;
+import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)
