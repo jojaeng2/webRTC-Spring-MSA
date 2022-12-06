@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.channel.enums.ChannelType;
+import webrtc.v1.hashtag.dto.HashTagDto.HashTagResponse;
+import webrtc.v1.hashtag.dto.HashTagDto.TagNameResponse;
 
 import java.util.List;
 
@@ -47,7 +48,6 @@ public class ChannelDto {
         private final String id;
 
 
-
         public CreateChannelResponse(Channel channel) {
             this.id = channel.getId();
             this.channelUsers = channel.getChannelUsers();
@@ -66,9 +66,7 @@ public class ChannelDto {
         private List<ChannelResponse> channels;
 
         public FindAllChannelResponse(List<Channel> channels) {
-            this.channels = channels.stream()
-                    .map(ChannelResponse::new)
-                    .collect(toList());
+            this.channels = channels.stream().map(ChannelResponse::new).collect(toList());
         }
     }
 
@@ -80,7 +78,7 @@ public class ChannelDto {
         private long limitParticipants;
         private long currentParticipants;
         private long timeToLive;
-        private List<ChannelHashTag> channelHashTags;
+        private List<HashTagResponse> channelHashTags;
         private ChannelType channelType;
 
         public ChannelResponse(Channel channel) {
@@ -89,7 +87,9 @@ public class ChannelDto {
             this.limitParticipants = channel.getLimitParticipants();
             this.currentParticipants = channel.getCurrentParticipants();
             this.timeToLive = channel.getTimeToLive();
-            this.channelHashTags = channel.getChannelHashTags();
+            this.channelHashTags = channel.getChannelHashTags().stream().map(i -> {
+                return new HashTagResponse(new TagNameResponse(i.getHashTag().getName()));
+            }).collect(toList());
             this.channelType = channel.getChannelType();
         }
     }
