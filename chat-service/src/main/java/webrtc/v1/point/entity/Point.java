@@ -4,11 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import webrtc.v1.point.enums.PointMessage;
 import webrtc.v1.user.entity.Users;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import static webrtc.v1.point.enums.PointMessage.CREATE;
+import static webrtc.v1.point.enums.PointMessage.EXTENSION;
+import static webrtc.v1.point.enums.WelcomePoint.JOIN;
 
 @Entity
 @Getter
@@ -35,7 +40,7 @@ public class Point implements Serializable {
         final long pointUnit = 100L;
 
         return Point.builder()
-                .message(email + " 님이 채널 연장에 포인트를 사용했습니다.")
+                .message(email + EXTENSION.getMessage())
                 .amount(-(int) (ttl * pointUnit))
                 .build();
     }
@@ -45,8 +50,15 @@ public class Point implements Serializable {
         final long pointUnit = 100L;
         final long channelCreatePoint = 2L;
         return Point.builder()
-                .message(email + " 님이 채널 생성에 포인트를 사용했습니다.")
+                .message(email + CREATE.getMessage())
                 .amount(-(int) (channelCreatePoint * pointUnit))
+                .build();
+    }
+
+    public static Point welcomePoint() {
+        return Point.builder()
+                .message(JOIN.getMessage())
+                .amount(JOIN.getPoint())
                 .build();
     }
 
