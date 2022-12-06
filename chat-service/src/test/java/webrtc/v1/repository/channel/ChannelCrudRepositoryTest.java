@@ -139,7 +139,7 @@ public class ChannelCrudRepositoryTest {
     private HashTag createHashTag(String name) {
         return HashTag
                 .builder()
-                .tagName(name)
+                .name(name)
                 .build();
     }
 

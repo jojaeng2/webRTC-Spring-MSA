@@ -267,7 +267,7 @@ public class ChannelApiControllerTest {
         for(String tagName : hashTagList) {
             HashTag hashTag = HashTag
                     .builder()
-                    .tagName(tagName)
+                    .name(tagName)
                     .build();
             ChannelHashTag channelHashTag = ChannelHashTag.builder()
                     .channel(channel)
@@ -369,7 +369,7 @@ public class ChannelApiControllerTest {
                     .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
-                        .tagName(tagName)
+                        .name(tagName)
                         .build();
                 ChannelHashTag channelHashTag = ChannelHashTag.builder()
                         .channel(channel)
@@ -430,7 +430,7 @@ public class ChannelApiControllerTest {
                     .build();
             for(String tagName : hashTagList) {
                 HashTag hashTag = HashTag.builder()
-                        .tagName(tagName)
+                        .name(tagName)
                         .build();
                 ChannelHashTag channelHashTag = ChannelHashTag.builder()
                         .channel(channel)

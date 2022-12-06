@@ -13,12 +13,10 @@ public class HashTagDto {
     @Getter
     public static class HashTagResponse {
         private final List<ChannelResponse> channels;
-
         public HashTagResponse(List<Channel> channels) {
             this.channels = channels.stream()
                     .map(ChannelResponse::new)
-                    .collect(toList());;
+                    .collect(toList());
         }
     }
-
 }

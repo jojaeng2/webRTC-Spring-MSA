@@ -112,7 +112,7 @@ public class ChannelHashTagRepositoryTest {
 
     private HashTag createHashTag(String name) {
         return HashTag.builder()
-                .tagName(name).build();
+                .name(name).build();
     }
 
     private ChannelHashTag createChannelHashTag(Channel channel, HashTag tag) {

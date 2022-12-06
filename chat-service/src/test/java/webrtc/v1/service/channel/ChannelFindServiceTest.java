@@ -258,7 +258,7 @@ public class ChannelFindServiceTest {
 
     private HashTag createHashTag() {
         return HashTag.builder()
-                .tagName(tag1)
+                .name(tag1)
                 .build();
     }
 }

@@ -16,6 +16,7 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(indexes = @Index(name = "tagName_index", columnList = "name"))
 public class HashTag implements Serializable {
 
     @Id
@@ -23,7 +24,7 @@ public class HashTag implements Serializable {
     @JsonIgnore
     @Builder.Default
     private String id = UUID.randomUUID().toString();
-    private String tagName;
+    private String name;
 
     @OneToMany(mappedBy = "hashTag")
     @JsonIgnore

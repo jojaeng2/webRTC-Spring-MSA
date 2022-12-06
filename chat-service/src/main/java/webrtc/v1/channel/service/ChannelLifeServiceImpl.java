@@ -187,7 +187,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private HashTag hashTagBuilder(String name) {
         HashTag hashTag = HashTag.builder()
-                .tagName(name)
+                .name(name)
                 .build();
         hashTagRepository.save(hashTag);
         return hashTag;
