@@ -10,8 +10,7 @@ public class VoiceRoomDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetTokenRequest {
-        private String sessionName;
-        private String email;
+        private String channelId;
     }
 
     @Getter
@@ -25,8 +24,7 @@ public class VoiceRoomDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class RemoveUserInSessionRequest {
-        private String sessionName;
-        private String email;
+        private String channelId;
         private String token;
     }
 }
