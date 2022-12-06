@@ -40,8 +40,7 @@ public class VoiceController {
             @RequestBody RemoveUserInSessionRequest request
     ) {
         String email = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        Users user = userService.findOneByEmail(email);
-        voiceRoomService.removeUserInVoiceRoom(request);
+        voiceRoomService.removeUserInVoiceRoom(request, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
