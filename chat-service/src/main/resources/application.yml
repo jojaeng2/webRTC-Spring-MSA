@@ -13,7 +13,7 @@ spring:
         show_sql: false
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
   session:
     storage-type: redis
   redis:
