@@ -204,7 +204,7 @@ public class ChannelFindServiceTest {
     void 해시태그채널목록실패태그없음() {
         // given
         doReturn(Optional.empty())
-                .when(hashTagRepository).findByTagName(any(String.class));
+                .when(hashTagRepository).findByName(any(String.class));
 
         // when
 

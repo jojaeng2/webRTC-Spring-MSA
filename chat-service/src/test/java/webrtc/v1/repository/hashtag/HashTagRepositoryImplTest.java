@@ -68,7 +68,7 @@ public class HashTagRepositoryImplTest {
         repository.save(hashTag);
 
         // when
-        Optional<HashTag> findHashTag = repository.findByTagName(hashTag.getName());
+        Optional<HashTag> findHashTag = repository.findByName(hashTag.getName());
 
         // then
         assertThat(findHashTag.get().getName()).isEqualTo(hashTag.getName());
@@ -80,7 +80,7 @@ public class HashTagRepositoryImplTest {
         HashTag hashTag = createHashTag(tag1);
 
         // when
-        Optional<HashTag> findHashTag = repository.findByTagName(hashTag.getName());
+        Optional<HashTag> findHashTag = repository.findByName(hashTag.getName());
 
         // then
         assertThrows(NoSuchElementException.class, findHashTag::get);

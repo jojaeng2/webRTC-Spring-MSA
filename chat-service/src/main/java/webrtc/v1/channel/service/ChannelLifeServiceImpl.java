@@ -181,7 +181,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 2) DB에 해시태그가 없으면 새로 생성
      */
     private HashTag findHashTag(String name) {
-        return hashTagRepository.findByTagName(name)
+        return hashTagRepository.findByName(name)
                 .orElse(hashTagBuilder(name));
     }
 

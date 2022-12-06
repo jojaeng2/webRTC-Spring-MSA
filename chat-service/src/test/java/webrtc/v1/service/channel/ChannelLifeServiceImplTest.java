@@ -88,7 +88,7 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
-                .when(hashTagRepository).findByTagName(any(String.class));
+                .when(hashTagRepository).findByName(any(String.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
 
@@ -110,8 +110,8 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findByEmail(email1);
 
-        doReturn(Optional.ofNullable(null))
-                .when(hashTagRepository).findByTagName(any(String.class));
+        doReturn(Optional.empty())
+                .when(hashTagRepository).findByName(any(String.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
         // when
@@ -131,7 +131,7 @@ public class ChannelLifeServiceImplTest {
 
 
         doReturn(Optional.of(createTag(tag1)))
-                .when(hashTagRepository).findByTagName(any(String.class));
+                .when(hashTagRepository).findByName(any(String.class));
 
         doReturn(Optional.of(createUser()))
                 .when(usersRepository).findByEmail(any(String.class));
