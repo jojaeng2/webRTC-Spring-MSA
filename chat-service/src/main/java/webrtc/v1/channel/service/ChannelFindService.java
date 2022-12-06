@@ -13,7 +13,7 @@ public interface ChannelFindService {
 
     Channel findById(String id);
 
-    List<Channel> findByHashName(String tagName, String orderType, int idx);
+    List<Channel> findByName(String tagName, String orderType, int idx);
 
     List<Channel> findChannelsRecentlyTalk(String orderType, int idx);
 }

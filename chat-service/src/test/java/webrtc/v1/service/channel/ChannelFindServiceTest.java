@@ -209,7 +209,7 @@ public class ChannelFindServiceTest {
         // when
 
         // then
-        assertThrows(NotExistHashTagException.class, () -> channelFindService.findByHashName(tag1, "partiASC", 0));
+        assertThrows(NotExistHashTagException.class, () -> channelFindService.findByName(tag1, "partiASC", 0));
 
     }
 
