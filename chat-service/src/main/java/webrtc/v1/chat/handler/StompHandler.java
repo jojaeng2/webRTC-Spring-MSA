@@ -55,10 +55,13 @@ public class StompHandler implements ChannelInterceptor {
     void checkValidateUsers(StompHeaderAccessor accessor) {
         String jwtToken = getJwtToken(accessor);
         String email = getEmail(accessor);
+        System.out.println("jwtToken = " + jwtToken);
+        System.out.println("email = " + email);
         checkExistUser(jwtToken, email);
     }
 
     String getJwtToken(StompHeaderAccessor accessor) {
+        System.out.println("getJwtToken ");
         return accessor.getFirstNativeHeader("jwt");
     }
 
