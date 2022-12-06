@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
-                .antMatchers("/api/v1/webrtc/chat/ws-stomp/**").permitAll()
+                .antMatchers("/ws-stomp/**").permitAll()
                 .antMatchers("/favicon.ico").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and()
