@@ -16,6 +16,7 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
+    private final String openVidu = "OpenVidu ";
 
     @PostConstruct
     private void init() {
@@ -23,19 +24,19 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
     }
 
     public void save(String id, VoiceRoom voiceRoom) {
-        opsValueOperation.set(id, voiceRoom);
+        opsValueOperation.set("OpenVidu " + id, voiceRoom);
     }
 
     public Optional<VoiceRoom> findById(String id) {
-        return Optional.ofNullable((VoiceRoom) opsValueOperation.get(id));
+        return Optional.ofNullable((VoiceRoom) opsValueOperation.get("OpenVidu " + id));
     }
 
     public void update(String id, VoiceRoom voiceRoom) {
-        opsValueOperation.set(id, voiceRoom);
+        opsValueOperation.set("OpenVidu " + id, voiceRoom);
     }
 
     public void delete(String id) {
-        opsValueOperation.set(id, "", 1, TimeUnit.MILLISECONDS);
+        opsValueOperation.set("OpenVidu " + id, "", 1, TimeUnit.MILLISECONDS);
     }
 
 }
