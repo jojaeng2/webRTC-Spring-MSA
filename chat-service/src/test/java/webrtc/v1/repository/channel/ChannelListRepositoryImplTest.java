@@ -179,7 +179,7 @@ public class ChannelListRepositoryImplTest {
 
     private HashTag createHashTag(String name) {
         return HashTag.builder()
-                .tagName(name)
+                .name(name)
                 .build();
     }
 

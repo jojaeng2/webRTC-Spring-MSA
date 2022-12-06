@@ -59,15 +59,6 @@ public class Users implements Serializable {
     @Builder.Default
     private List<ChannelUser> channelUsers = new ArrayList<>();
 
-    public Users(String nickname, String password, String email) {
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
-
-        // 임시
-        this.nickname_expire_at = new Timestamp(System.currentTimeMillis());
-    }
-
     public void addPoint(Point point) {
         this.points.add(point);
         point.setUser(this);

@@ -19,8 +19,8 @@ import java.util.Objects;
 public class VoiceRoom implements Serializable {
 
     private static final Long serialVersionUID = -32831239123123123L;
-    private String sessionName;
-    private String sessionId;
+    private String name;
+    private String id;
 
     @Builder.Default
     private Map<String, String> users = new HashMap<>();

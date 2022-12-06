@@ -75,13 +75,13 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
     }
 
     private boolean isSessionEqualToVoiceRoom(Session session, VoiceRoom voiceRoom) {
-        return session.getSessionId().equals(voiceRoom.getSessionId());
+        return session.getSessionId().equals(voiceRoom.getId());
     }
 
     private void createVoiceRoom(String channelId, Users user, String token, String sessionId) {
         VoiceRoom voiceRoom = VoiceRoom.builder()
-                .sessionName(channelId)
-                .sessionId(sessionId)
+                .name(channelId)
+                .id(sessionId)
                 .build();
         voiceRoom.addUser(user, token);
         voiceRoomRepository.save(channelId, voiceRoom);

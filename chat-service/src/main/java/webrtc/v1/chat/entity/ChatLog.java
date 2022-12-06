@@ -14,7 +14,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static webrtc.v1.chat.enums.ChatLogEnums.*;
+import static webrtc.v1.chat.enums.ChannelCreate.*;
 import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 
 @Entity
@@ -22,6 +22,7 @@ import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(indexes = @Index(name = "chat_log_index", columnList = "channel_id"))
 @RedisHash("chatLog")
 public class ChatLog {
 
