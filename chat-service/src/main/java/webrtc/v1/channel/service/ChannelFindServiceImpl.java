@@ -81,7 +81,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 해시 태그를 가지고 있는 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<Channel> findByHashName(String tagName, String orderType, int idx) {
+    public List<Channel> findByName(String tagName, String orderType, int idx) {
         HashTag hashTag = hashTagRepository.findByName(tagName)
                 .orElseThrow(NotExistHashTagException::new);
 

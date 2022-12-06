@@ -134,7 +134,7 @@ public class ChannelIOServiceImplTest {
         // given
         Channel channel = createChannel(channelName1, text);
         Users user = createUser();
-        channel.setCurrentParticipants(15L);
+        channel.setCurrentParticipants(15);
         doReturn(Optional.of(user))
                 .when(usersRepository).findByEmail(any(String.class));
         doReturn(Optional.of(channel))

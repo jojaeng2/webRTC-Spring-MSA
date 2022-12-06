@@ -68,7 +68,7 @@ public class RedisSubscriberImplTest {
                 .chatMessage("message")
                 .logId(1L)
                 .users(new ArrayList<>())
-                .currentParticipants(1L)
+                .currentParticipants(1)
                 .senderEmail(email1)
                 .build();
     }

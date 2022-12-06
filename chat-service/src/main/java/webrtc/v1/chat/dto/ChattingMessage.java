@@ -19,7 +19,7 @@ public class ChattingMessage {
     private SocketServerMessageType type;
     private String senderName;
     private String chatMessage;
-    private Long currentParticipants;
+    private int currentParticipants;
     private List<Users> users;
     private long logId;
     private String senderEmail;

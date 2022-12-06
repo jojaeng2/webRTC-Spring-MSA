@@ -26,7 +26,7 @@ public class HashTagApiController {
             @NotNull @PathVariable("orderType") String type,
             @PathVariable String tagName, @PathVariable("idx") String idx
     ) {
-        List<Channel> channels = channelFindService.findByHashName(tagName, type, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findByName(tagName, type, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 }

@@ -25,9 +25,9 @@ public class Channel implements Serializable {
     private String id = UUID.randomUUID().toString();
     private String channelName;
     @Builder.Default
-    private long limitParticipants = 15L;
+    private int limitParticipants = 15;
     @Builder.Default
-    private long currentParticipants = 0L;
+    private int currentParticipants = 0;
     @Builder.Default
     private long timeToLive = 60L*60L;
     private ChannelType channelType;
@@ -77,7 +77,7 @@ public class Channel implements Serializable {
         this.latestLog = chatLog.getSendTime();
     }
 
-    public void setCurrentParticipants(long newone) {
+    public void setCurrentParticipants(int newone) {
         this.currentParticipants = newone;
     }
 
