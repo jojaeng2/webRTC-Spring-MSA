@@ -8,11 +8,10 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static java.lang.Math.max;
+import static webrtc.v1.chat.enums.ChatLogCount.LOADING;
 
 @Repository
 public class ChatLogRepositoryImpl implements ChatLogRepository {
-
-    private final int LoadingChatCount = 20;
 
     @PersistenceContext
     private EntityManager em;
@@ -22,7 +21,7 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
         return em.createQuery(
             "select cl from ChatLog cl where channel_id = :channel_id and cl.idx BETWEEN :start AND :end", ChatLog.class)
         .setParameter("channel_id", channelId)
-        .setParameter("start", max(1, idx-(LoadingChatCount)))
+        .setParameter("start", max(1, idx-(LOADING.getCount())))
         .setParameter("end", idx-1)
         .getResultList();
     }
