@@ -13,13 +13,13 @@ spring:
         show_sql: false
         format_sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   session:
     storage-type: redis
   redis:
     timeout: 600
     host: 192.168.0.100
-    port: 6380
+    port: 6379
   jwt:
     secret: govlepel@$&
 
