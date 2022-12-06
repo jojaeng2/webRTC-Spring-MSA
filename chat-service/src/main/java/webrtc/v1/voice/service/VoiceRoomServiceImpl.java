@@ -38,7 +38,7 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
 
     @Transactional
     public String getToken(GetTokenRequest request, Users user) {
-        String id = request.getSessionName();
+        String id = request.getChannelId();
         OpenViduRole role = OpenViduRole.PUBLISHER;
         String data = createServerDate(user.getEmail());
 
@@ -55,14 +55,13 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
 
         Session session = createSession();
         String newToken = createToken(properties, session);
-        createVoiceRoom(request.getSessionName(), user, newToken, session.getSessionId());
+        createVoiceRoom(request.getChannelId(), user, newToken, session.getSessionId());
         return newToken;
     }
 
     @Transactional
-    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request) {
-        String id = request.getSessionName();
-        String email = request.getEmail();
+    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request, String email) {
+        String id = request.getChannelId();
         VoiceRoom voiceRoom = voiceRoomRepository.findById(id)
                 .orElseThrow(AlreadyRemovedSessionInOpenViduServer::new);
         if (voiceRoom.isValidToken(email, request.getToken())) {
