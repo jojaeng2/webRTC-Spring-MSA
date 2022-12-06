@@ -49,7 +49,11 @@ public class JwtUsersDetailsServiceTest {
     @Transactional
     public void 유저이름으로_UserDetails_조회성공() {
         // given
-        Users user = new Users(nickname1, password, email1);
+        Users user = Users.builder()
+                .email(email1)
+                .nickname(nickname1)
+                .password(password)
+                .build();
         doReturn(Optional.of(user))
                 .when(usersRepository).findByEmail(any(String.class));
 
