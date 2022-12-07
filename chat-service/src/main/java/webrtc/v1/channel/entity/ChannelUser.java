@@ -28,6 +28,6 @@ public class ChannelUser implements Serializable {
     private Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USERS_ID")
     private Users user;
 }

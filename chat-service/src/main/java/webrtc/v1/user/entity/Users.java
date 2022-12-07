@@ -25,7 +25,7 @@ import java.util.UUID;
 public class Users implements Serializable {
 
     @Id
-    @Column(name = "user_id", columnDefinition = "uuid")
+    @Column(columnDefinition = "uuid")
     @Builder.Default
     @NotNull
     private UUID id = UUID.randomUUID();
