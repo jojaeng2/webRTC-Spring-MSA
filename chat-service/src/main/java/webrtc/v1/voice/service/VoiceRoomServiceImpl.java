@@ -15,6 +15,7 @@ import webrtc.v1.voice.repository.VoiceRoomRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,16 +44,13 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
         String data = createServerDate(user.getEmail());
 
         ConnectionProperties properties = createConnectionProperties(data, role);
-        VoiceRoom voiceRoom = voiceRoomRepository.findById(id)
-                .orElseThrow(AlreadyRemovedSessionInOpenViduServer::new);
-
-        String token = getExistToken(properties, voiceRoom);
-        if (!Objects.equals(token, "")) {
-            voiceRoom.addUser(user, token);
-            voiceRoomRepository.update(id, voiceRoom);
+        Optional<VoiceRoom> voiceRoom = voiceRoomRepository.findById(id);
+        if (voiceRoom.isPresent()) {
+            String token = getExistToken(properties, voiceRoom.get());
+            voiceRoom.get().addUser(user, token);
+            voiceRoomRepository.update(id, voiceRoom.get());
             return token;
         }
-
         Session session = createSession();
         String newToken = createToken(properties, session);
         createVoiceRoom(request.getChannelId(), user, newToken, session.getSessionId());
