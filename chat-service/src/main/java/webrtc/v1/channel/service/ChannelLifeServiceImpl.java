@@ -26,6 +26,8 @@ import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 
+import static webrtc.v1.channel.enums.ChannelType.VOIP;
+
 
 @RequiredArgsConstructor
 @Service
