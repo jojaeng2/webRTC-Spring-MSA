@@ -19,7 +19,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     private static final Long JWT_TOKEN_VALIDITY = 5 * 60 * 60L;
 
-    private static final String secret = "govlepel@$&";
+    private static final String secret = "secret";
 
     //retrieve email from jwt-token
     public String getUserEmailFromToken(String token) {
