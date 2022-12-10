@@ -33,6 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
+        log.info("requestTokenHeader" + requestTokenHeader);
         String userEmail = null;
         String jwtToken = null;
         // JWT Token is in the form "jwt token". Remove jwt word and get
@@ -40,8 +41,10 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);
+            log.info("jwtToken = " + jwtToken);
             try {
                 userEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
+                log.info("userEmail = " + userEmail);
             } catch (IllegalArgumentException e) {
                 log.info("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
