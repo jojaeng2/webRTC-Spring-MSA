@@ -3,6 +3,7 @@ package webrtc.v1.utils.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
+@Slf4j
 public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     private static final Long serialVersionUID = -2550185165626007488L;
@@ -23,6 +25,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     //retrieve email from jwt-token
     public String getUserEmailFromToken(String token) {
+        log.info("getUserEmailFromToken = " + token);
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -33,6 +36,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
+        log.info("claims = " + claims.getSubject());
         return claimsResolver.apply(claims);
     }
 
