@@ -42,7 +42,9 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     //for retrieveing any information from token we will need the secret key
     public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        log.info("getAllClaimsFromToken = ");
+
+        return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
     }
 
     //check if the token has expired
@@ -69,7 +71,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000L))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS256, secret.getBytes())
                 .compact();
     }
 
