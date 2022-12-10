@@ -37,11 +37,13 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         String jwtToken = null;
         // JWT Token is in the form "jwt token". Remove jwt word and get
         // only the Token
+        log.info("requestTokenHeader = " + requestTokenHeader);
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);
             try {
                 userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
+                log.info("userId = " + userId);
             } catch (IllegalArgumentException e) {
                 log.info("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
