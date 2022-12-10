@@ -21,7 +21,7 @@ spring:
     host: 192.168.0.100
     port: 6379
   jwt:
-    secret: secret
+    secret: "secret"
 
 server:
   port: 8080
