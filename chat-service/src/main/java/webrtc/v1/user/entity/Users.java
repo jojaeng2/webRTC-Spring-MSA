@@ -50,6 +50,8 @@ public class Users implements Serializable {
     private String nickname;
     @Builder.Default
     private Timestamp nickname_expire_at = new Timestamp(System.currentTimeMillis());
+    @Builder.Default
+    private Boolean is_admin = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
