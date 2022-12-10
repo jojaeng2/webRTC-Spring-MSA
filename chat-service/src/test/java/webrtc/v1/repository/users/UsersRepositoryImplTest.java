@@ -82,31 +82,6 @@ public class UsersRepositoryImplTest {
     }
 
     @Test
-    void 이메일로유저찾기성공() {
-        //given
-        Users users = createUsers(nickname1, password, email1);
-        repository.save(users);
-
-        //when
-        Optional<Users> OpUsers = repository.findByEmail(email1);
-
-        //then
-        assertThat(OpUsers.isPresent()).isTrue();
-    }
-
-    @Test
-    void 이메일로유저찾기실패() {
-        //given
-        Users users = createUsers(nickname1, password, email1);
-
-        //when
-        Optional<Users> OpUsers = repository.findByEmail(email1);
-
-        //then
-        assertThat(OpUsers.isPresent()).isFalse();
-    }
-
-    @Test
     void 채널ID로유저찾기성공() {
         //given
         Users users = Users.builder()

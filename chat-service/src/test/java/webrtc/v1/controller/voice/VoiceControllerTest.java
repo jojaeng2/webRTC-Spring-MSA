@@ -30,6 +30,7 @@ import webrtc.v1.voice.controller.VoiceController;
 import webrtc.v1.voice.service.VoiceRoomService;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -97,7 +98,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneByEmail(any(String.class));
+                .when(usersService).findOneById(any(String.class));
 
         doReturn(token)
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
@@ -132,7 +133,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistUserException())
-                .when(usersService).findOneByEmail(any(String.class));
+                .when(usersService).findOneById(any(String.class));
 
         // when
 
@@ -164,7 +165,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneByEmail(any(String.class));
+                .when(usersService).findOneById(any(String.class));
 
         doThrow(new OpenViduClientException())
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));

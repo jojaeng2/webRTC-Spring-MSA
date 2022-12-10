@@ -27,8 +27,8 @@ public class VoiceController {
             @RequestHeader("Authorization") String jwtAccessToken,
             @RequestBody GetTokenRequest request
     ) {
-        String email = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        Users user = userService.findOneByEmail(email);
+        String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
+        Users user = userService.findOneById(userId);
         String token = voiceRoomService.getToken(request, user);
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }
@@ -39,8 +39,8 @@ public class VoiceController {
             @RequestHeader("Authorization") String jwtAccessToken,
             @RequestBody RemoveUserInSessionRequest request
     ) {
-        String email = jwtTokenUtil.getUserEmailFromToken(jwtAccessToken.substring(4));
-        voiceRoomService.removeUserInVoiceRoom(request, email);
+        String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
+        voiceRoomService.removeUserInVoiceRoom(request, userId);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

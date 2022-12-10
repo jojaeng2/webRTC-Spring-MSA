@@ -18,6 +18,7 @@ import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.user.service.UsersServiceImpl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -76,10 +77,10 @@ public class UsersServiceImplTest {
                 .password(password)
                 .email(email)
                 .build()))
-                .when(usersRepository).findByEmail(email);
+                .when(usersRepository).findById(any(UUID.class));
 
         //when
-        Users users2 = userService.findOneByEmail(email);
+        Users users2 = userService.findOneById(email);
 
         //then
         assertThat(users2.getEmail()).isEqualTo(email);

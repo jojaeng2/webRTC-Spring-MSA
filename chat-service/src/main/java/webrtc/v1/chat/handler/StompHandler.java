@@ -42,11 +42,11 @@ public class StompHandler implements ChannelInterceptor {
         if (isCommandSend(command)) {
             checkValidateUsers(accessor);
             String type = getType(accessor);
-            String email = getEmail(accessor);
+            String userId = getUserId(accessor);
             String channelId = getChannelId(accessor);
             channelFindService.findById(channelId);
             if (isEnter(type)) {
-                channelIOService.enterChannel(channelId, email);
+                channelIOService.enterChannel(channelId, userId);
             }
         }
         return message;
@@ -54,10 +54,8 @@ public class StompHandler implements ChannelInterceptor {
 
     void checkValidateUsers(StompHeaderAccessor accessor) {
         String jwtToken = getJwtToken(accessor);
-        String email = getEmail(accessor);
-        System.out.println("jwtToken = " + jwtToken);
-        System.out.println("email = " + email);
-        checkExistUser(jwtToken, email);
+        String userId = getUserId(accessor);
+        checkExistUser(jwtToken, userId);
     }
 
     String getJwtToken(StompHeaderAccessor accessor) {
@@ -65,13 +63,13 @@ public class StompHandler implements ChannelInterceptor {
         return accessor.getFirstNativeHeader("jwt");
     }
 
-    String getEmail(StompHeaderAccessor accessor) {
+    String getUserId(StompHeaderAccessor accessor) {
         String jwtToken = getJwtToken(accessor);
-        return jwtTokenUtil.getUserEmailFromToken(jwtToken);
+        return jwtTokenUtil.getUserIdFromToken(jwtToken);
     }
 
-    void checkExistUser(String jwtToken, String email) {
-        UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(email);
+    void checkExistUser(String jwtToken, String userId) {
+        UserDetails connectUserDetails = jwtUserDetailsService.loadUserByUsername(userId);
         jwtTokenUtil.validateToken(jwtToken, connectUserDetails);
     }
 

@@ -27,6 +27,8 @@ import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 
+import java.util.UUID;
+
 import static webrtc.v1.channel.enums.ChannelType.VOIP;
 
 
@@ -62,14 +64,14 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 6) RabbitMQ로 채널 생성 로그 전송
      */
     @Transactional
-    public Channel create(CreateChannelRequest request, String email) {
+    public Channel create(CreateChannelRequest request, String userId) {
 
         Channel channel = createChannelIfNotExist(request);
 
         request.getHashTags().forEach(tagName -> {
             createChannelHashTag(channel, tagName);
         });
-        Users user = userPointDecrease(email);
+        Users user = userPointDecrease(UUID.fromString(userId));
 
         // 채널유저 생성
         createChannelUser(user, channel);
@@ -108,10 +110,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 3) 포인트 사용 성공 시 채널의 수명 증가
      */
     @Transactional
-    public Channel extension(String channelId, String userEmail, Long requestTTL) {
+    public Channel extension(String channelId, String userId, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
-        Users user = usersRepository.findByEmail(userEmail)
+        Users user = usersRepository.findById(UUID.fromString(userId))
                 .orElseThrow(NotExistUserException::new);
 
         int sum = pointRepository.findByUser(user).stream()
@@ -121,7 +123,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         // 포인트 부족
         if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
 
-        Point point = Point.extensionChannelTTL(userEmail, requestTTL);
+        Point point = Point.extensionChannelTTL(user.getEmail(), requestTTL);
         user.addPoint(point);
 
         channelRedisRepository.extensionTtl(channel, requestTTL * channelExtensionMinute * 60L);
@@ -162,9 +164,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 1) email을 이용해 회원 서비스로 요청 -> 포인트 부족 or 회원 null시 Exception 발생
      * 2) Response에 들어있는 회원 정보를 DB에 저장
      */
-    private Users userPointDecrease(String email) {
+    private Users userPointDecrease(UUID userId) {
 
-        Users user = usersRepository.findByEmail(email)
+        Users user = usersRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
 
         int sum = pointRepository.findByUser(user).stream()
@@ -174,7 +176,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         // 포인트 부족
         if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();
 
-        Point point = Point.createChannel(email);
+        Point point = Point.createChannel(user.getEmail());
         user.addPoint(point);
         usersRepository.save(user);
         return user;

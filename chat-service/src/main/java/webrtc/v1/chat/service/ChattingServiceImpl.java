@@ -20,6 +20,7 @@ import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 import static webrtc.v1.chat.enums.ClientMessageType.REENTER;
@@ -43,8 +44,8 @@ public class ChattingServiceImpl implements ChattingService {
      * Chatting Room에 message 발송
      */
     @Transactional
-    public void send(ClientMessageType type, String channelId, String chatMessage, String email) {
-        Users user = usersRepository.findByEmail(email)
+    public void send(ClientMessageType type, String channelId, String chatMessage, String userId) {
+        Users user = usersRepository.findById(UUID.fromString(userId))
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);

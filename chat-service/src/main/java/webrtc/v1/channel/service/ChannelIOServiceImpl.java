@@ -37,8 +37,8 @@ public class ChannelIOServiceImpl implements ChannelIOService {
      */
     @Override
     @Transactional
-    public void enterChannel(String channelId, String email) {
-        Users user = usersRepository.findByEmail(email)
+    public void enterChannel(String channelId, String userId) {
+        Users user = usersRepository.findById(UUID.fromString(userId))
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);

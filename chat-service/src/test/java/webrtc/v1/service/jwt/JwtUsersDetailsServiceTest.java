@@ -15,6 +15,7 @@ import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.utils.jwt.JwtUserDetailsService;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,7 +56,7 @@ public class JwtUsersDetailsServiceTest {
                 .password(password)
                 .build();
         doReturn(Optional.of(user))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // when
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email1);

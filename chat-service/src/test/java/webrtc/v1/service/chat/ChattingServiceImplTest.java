@@ -24,6 +24,7 @@ import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -87,7 +88,7 @@ public class ChattingServiceImplTest {
         doReturn(createList())
                 .when(channelUserRepository).findByChannel(any(Channel.class));
         doReturn(Optional.of(createUsers()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // when
         chattingService.send(chat, channel.getId(), chatMessage, email1);
@@ -103,7 +104,7 @@ public class ChattingServiceImplTest {
         doReturn(Optional.empty())
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(createUsers()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         // when
 
         // then

@@ -29,15 +29,15 @@ public class VoiceRoom implements Serializable {
         this.users.put(user.getEmail(), token);
     }
 
-    public boolean isValidToken(String email, String token) {
-        if(Objects.equals(users.get(email), token)) {
+    public boolean isValidToken(String userId, String token) {
+        if(Objects.equals(users.get(userId), token)) {
             return true;
         }
         throw new InvalidAccessToOpenViduServerException()              ;
     }
 
-    public void removeToken(String email) {
-        users.remove(email);
+    public void removeToken(String userId) {
+        users.remove(userId);
     }
 
     public boolean isEmpty() {

@@ -5,10 +5,10 @@ import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 
 public interface ChannelLifeService {
 
-    Channel create(CreateChannelRequest request, String email);
+    Channel create(CreateChannelRequest request, String userId);
 
     void delete(String channelId);
 
-    Channel extension(String channelId, String userEmail, Long requestTTL);
+    Channel extension(String channelId, String userId, Long requestTTL);
 
 }

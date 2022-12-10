@@ -33,12 +33,12 @@ public class ChatMessageController {
      */
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type") ClientMessageType type) {
-        String email = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-        Users user = usersService.findOneByEmail(email);
+        String userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
+        Users user = usersService.findOneById(userId);
         if(isEnter(type) || isExit(type) || isChat(type)) {
             socketMessageFactory.execute(type, message, user, channelId);
         }
-        chattingService.send(type, channelId, message.getMessage(), email);
+        chattingService.send(type, channelId, message.getMessage(), userId);
     }
 
     boolean isEnter(ClientMessageType type) {

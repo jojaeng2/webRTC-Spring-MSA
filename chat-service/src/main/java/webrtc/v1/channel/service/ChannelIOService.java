@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public interface ChannelIOService {
 
-    void enterChannel(String channelId, String email);
+    void enterChannel(String channelId, String userId);
 
     void exitChannel(String channelId, UUID userId);
 }

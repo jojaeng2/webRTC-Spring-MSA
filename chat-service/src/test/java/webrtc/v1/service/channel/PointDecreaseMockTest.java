@@ -22,6 +22,7 @@ import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -75,7 +76,7 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(channel.getId());
         doReturn(Optional.of(users2))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(List.of(point))
                 .when(pointRepository).findByUser(any(Users.class));
         doNothing()
@@ -158,7 +159,7 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(users2))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // when
 

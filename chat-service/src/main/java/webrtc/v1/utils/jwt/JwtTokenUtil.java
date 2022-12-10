@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public interface JwtTokenUtil {
 
-    String getUserEmailFromToken(String token);
+    String getUserIdFromToken(String token);
 
     Date getExpirationDateFromToken(String token);
 

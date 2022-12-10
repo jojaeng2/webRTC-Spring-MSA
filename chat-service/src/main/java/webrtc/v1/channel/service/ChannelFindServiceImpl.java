@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -67,8 +68,8 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * 비즈니스 로직 - 특정 회원이 입장한 채널만 목록으로 불러옴
      */
     @Transactional(readOnly = true)
-    public List<Channel> findMyChannel(String orderType, String email, int idx) {
-        Users user = usersRepository.findByEmail(email)
+    public List<Channel> findMyChannel(String orderType, String userId, int idx) {
+        Users user = usersRepository.findById(UUID.fromString(userId))
                 .orElseThrow(NotExistUserException::new);
 
         return channelListRepository.findMyChannels(user.getId(), idx, findOrderType(orderType))

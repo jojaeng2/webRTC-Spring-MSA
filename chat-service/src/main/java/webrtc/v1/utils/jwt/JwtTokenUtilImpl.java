@@ -23,9 +23,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     private static final String secret = "secret";
 
-    //retrieve email from jwt-token
-    public String getUserEmailFromToken(String token) {
-        log.info("getUserEmailFromToken = " + token);
+    public String getUserIdFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -36,14 +34,11 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
-        log.info("claims = " + claims.getSubject());
         return claimsResolver.apply(claims);
     }
 
     //for retrieveing any information from token we will need the secret key
     public Claims getAllClaimsFromToken(String token) {
-        log.info("getAllClaimsFromToken = ");
-
         return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
     }
 
@@ -77,8 +72,8 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String userEmail = getUserEmailFromToken(token);
-        return (userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String userId = getUserIdFromToken(token);
+        return (userId.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
 

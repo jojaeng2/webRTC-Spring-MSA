@@ -11,6 +11,7 @@ import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -20,9 +21,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        Users user = usersRepository.findByEmail(userEmail)
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        Users user = usersRepository.findById(UUID.fromString(id))
                 .orElseThrow(NotExistUserException::new);
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(user.getId().toString(), user.getPassword(), new ArrayList<>());
     }
 }

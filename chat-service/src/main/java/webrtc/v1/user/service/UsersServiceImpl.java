@@ -10,6 +10,8 @@ import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
@@ -27,8 +29,8 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Transactional(readOnly = true)
-    public Users findOneByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public Users findOneById(String userId) {
+        return userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(NotExistUserException::new);
     }
 

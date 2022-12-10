@@ -8,7 +8,7 @@ public interface ChannelFindService {
 
     List<Channel> findAnyChannel(String orderType, int idx);
 
-    List<Channel> findMyChannel(String orderType, String email, int idx);
+    List<Channel> findMyChannel(String orderType, String userId, int idx);
 
 
     Channel findById(String id);

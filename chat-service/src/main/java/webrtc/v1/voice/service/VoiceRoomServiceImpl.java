@@ -58,12 +58,12 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
     }
 
     @Transactional
-    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request, String email) {
+    public void removeUserInVoiceRoom(RemoveUserInSessionRequest request, String userId) {
         String id = request.getChannelId();
         VoiceRoom voiceRoom = voiceRoomRepository.findById(id)
                 .orElseThrow(AlreadyRemovedSessionInOpenViduServer::new);
-        if (voiceRoom.isValidToken(email, request.getToken())) {
-            voiceRoom.removeToken(email);
+        if (voiceRoom.isValidToken(userId, request.getToken())) {
+            voiceRoom.removeToken(userId);
             voiceRoomRepository.update(id, voiceRoom);
         }
         if (voiceRoom.isEmpty()) {

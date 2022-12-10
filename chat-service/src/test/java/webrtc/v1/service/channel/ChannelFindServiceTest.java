@@ -23,6 +23,7 @@ import webrtc.v1.user.repository.UsersRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -158,7 +159,7 @@ public class ChannelFindServiceTest {
     void 나의채널목록실패유저없음() {
         // given
         doReturn(Optional.empty())
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // when
 

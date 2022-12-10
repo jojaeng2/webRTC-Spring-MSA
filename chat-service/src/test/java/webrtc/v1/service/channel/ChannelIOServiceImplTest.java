@@ -66,7 +66,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
 
@@ -84,7 +84,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.empty())
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // when
 
@@ -99,7 +99,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelCrudRepository).findById(any(String.class));
@@ -117,7 +117,7 @@ public class ChannelIOServiceImplTest {
         ChannelUser channelUser = createChannelUser(channel, user);
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(channelUser))
@@ -136,7 +136,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
         channel.setCurrentParticipants(15);
         doReturn(Optional.of(user))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
 

@@ -32,6 +32,7 @@ import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -86,7 +87,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그존재_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(Optional.of(createTag(tag1)))
                 .when(hashTagRepository).findByName(any(String.class));
         doReturn(List.of(createPoint()))
@@ -108,7 +109,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그없음_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findByEmail(email1);
+                .when(usersRepository).findById(any(UUID.class));
 
         doReturn(Optional.empty())
                 .when(hashTagRepository).findByName(any(String.class));
@@ -134,7 +135,7 @@ public class ChannelLifeServiceImplTest {
                 .when(hashTagRepository).findByName(any(String.class));
 
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
 
@@ -168,7 +169,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         doReturn(Optional.of(createUserNotPoint()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
 
         // then
         assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), email));
@@ -223,7 +224,7 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(crudRepository).findById(any(String.class));
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
         // when
@@ -254,7 +255,7 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(crudRepository).findById(any(String.class));
         doReturn(Optional.of(createUserNotPoint()))
-                .when(usersRepository).findByEmail(any(String.class));
+                .when(usersRepository).findById(any(UUID.class));
         // when
 
         // then

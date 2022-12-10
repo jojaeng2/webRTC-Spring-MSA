@@ -180,8 +180,8 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users2.getEmail())
-                .when(jwtTokenUtil).getUserEmailFromToken(any());
+        doReturn(users2.getId())
+                .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
                 .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
@@ -223,8 +223,8 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users2.getEmail())
-                .when(jwtTokenUtil).getUserEmailFromToken(any());
+        doReturn(users2.getId())
+                .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
                 .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));

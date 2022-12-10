@@ -7,5 +7,5 @@ import webrtc.v1.user.dto.UsersDto.CreateUserRequest;
 public interface UsersService {
     Users save(CreateUserRequest request);
 
-    Users findOneByEmail(String email);
+    Users findOneById(String userId);
 }
