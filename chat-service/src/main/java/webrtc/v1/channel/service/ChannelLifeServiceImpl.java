@@ -1,6 +1,7 @@
 package webrtc.v1.channel.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.channel.entity.Channel;
@@ -29,6 +30,7 @@ import webrtc.v1.voice.repository.VoiceRoomRepository;
 import static webrtc.v1.channel.enums.ChannelType.VOIP;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ChannelLifeServiceImpl implements ChannelLifeService {
@@ -61,20 +63,28 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     @Transactional
     public Channel create(CreateChannelRequest request, String email) {
+        log.info("Channel1 = " + request.getChannelName());
+
         Channel channel = createChannelIfNotExist(request);
+        log.info("Channel2 = " + channel.getChannelName());
+
         request.getHashTags().forEach(tagName -> {
             createChannelHashTag(channel, tagName);
         });
-
+        log.info("3");
         Users user = userPointDecrease(email);
+        log.info("4");
 
         // 채널유저 생성
         createChannelUser(user, channel);
+        log.info("5");
 
         // 채팅방 생성 로그
         ChatLog chatLog = ChatLog.createChannelLog(user);
         chatLogRedisRepository.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
+        log.info("6");
+
         channelCrudRepository.save(channel);
         return channel;
     }
@@ -183,6 +193,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 2) DB에 해시태그가 없으면 새로 생성
      */
     private HashTag findHashTag(String name) {
+        log.info("findHashTag = " + name);
         return hashTagRepository.findByName(name)
                 .orElse(hashTagBuilder(name));
     }
@@ -221,6 +232,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      */
     private void createChannelHashTag(Channel channel, String tagName) {
         HashTag hashTag = findHashTag(tagName);
+        log.info("createChannelHashTag");
         ChannelHashTag channelHashTag = channelHashTagBuilder(channel, hashTag);
         channelHashTagRepository.save(channelHashTag);
     }
