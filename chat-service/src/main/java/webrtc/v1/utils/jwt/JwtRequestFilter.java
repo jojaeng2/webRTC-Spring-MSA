@@ -51,6 +51,8 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             log.info("JWT Token does not begin with jwt String");
         }
 
+        log.info("userEmail = " + userEmail);
+        log.info("jwtToken = " + jwtToken);
         // Once we get the token validate it.
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
