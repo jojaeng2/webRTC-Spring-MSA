@@ -24,7 +24,7 @@ public class Point implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String message;
     private int amount;
