@@ -33,7 +33,7 @@ public class Point implements Serializable {
     private Timestamp created_at = new Timestamp(System.currentTimeMillis());
 
     @ManyToOne
-    @JoinColumn(name = "USERS_ID")
+    @JoinColumn(name = "USER_ID")
     private Users user;
 
     public static Point extensionChannelTTL(String email, Long ttl) {

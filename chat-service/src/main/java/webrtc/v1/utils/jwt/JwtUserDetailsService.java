@@ -21,8 +21,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Users user = usersRepository.findById(UUID.fromString(id))
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users user = usersRepository.findByEmail(email)
                 .orElseThrow(NotExistUserException::new);
         return new org.springframework.security.core.userdetails.User(user.getId().toString(), user.getPassword(), new ArrayList<>());
     }
