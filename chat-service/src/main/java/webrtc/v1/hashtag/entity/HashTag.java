@@ -20,7 +20,7 @@ import java.util.*;
 public class HashTag implements Serializable {
 
     @Id
-    @Column(name = "hashtag_id")
+    @Column(name = "HASHTAG_ID")
     @JsonIgnore
     @Builder.Default
     private String id = UUID.randomUUID().toString();

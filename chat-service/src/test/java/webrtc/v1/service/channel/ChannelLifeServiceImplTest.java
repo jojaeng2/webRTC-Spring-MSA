@@ -20,7 +20,7 @@ import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.hashtag.entity.HashTag;
-import webrtc.v1.hashtag.repository.ChannelHashTagRepository;
+import webrtc.v1.channel.repository.ChannelHashTagRepository;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.point.entity.Point;
 import webrtc.v1.user.entity.Users;
