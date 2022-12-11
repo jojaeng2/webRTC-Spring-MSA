@@ -47,7 +47,7 @@ public class Point implements Serializable {
 
     public static Point createChannel(String email) {
 
-        final long pointUnit = 100L;
+        final long pointUnit = 1L;
         final long channelCreatePoint = 2L;
         return Point.builder()
                 .message(email + CREATE.getMessage())
