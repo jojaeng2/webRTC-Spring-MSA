@@ -64,14 +64,14 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 6) RabbitMQ로 채널 생성 로그 전송
      */
     @Transactional
-    public Channel create(CreateChannelRequest request, String userId) {
+    public Channel create(CreateChannelRequest request, UUID userId) {
 
         Channel channel = createChannelIfNotExist(request);
 
         request.getHashTags().forEach(tagName -> {
             createChannelHashTag(channel, tagName);
         });
-        Users user = userPointDecrease(UUID.fromString(userId));
+        Users user = userPointDecrease(userId);
 
         // 채널유저 생성
         createChannelUser(user, channel);
@@ -110,10 +110,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
      * 3) 포인트 사용 성공 시 채널의 수명 증가
      */
     @Transactional
-    public Channel extension(String channelId, String userId, Long requestTTL) {
+    public Channel extension(String channelId, UUID userId, Long requestTTL) {
         Channel channel = channelCrudRepository.findById(channelId)
                 .orElseThrow(NotExistChannelException::new);
-        Users user = usersRepository.findById(UUID.fromString(userId))
+        Users user = usersRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
 
         int sum = pointRepository.findByUser(user).stream()

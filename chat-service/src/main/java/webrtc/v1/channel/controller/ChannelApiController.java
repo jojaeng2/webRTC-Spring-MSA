@@ -6,16 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import webrtc.v1.channel.dto.ChannelDto.*;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.channel.dto.ChannelDto.ChannelResponse;
-import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.channel.dto.ChannelDto.CreateChannelResponse;
-import webrtc.v1.channel.dto.ChannelDto.FindAllChannelResponse;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -39,8 +37,8 @@ public class ChannelApiController {
             @RequestBody CreateChannelRequest request,
             @RequestHeader("Authorization") String jwtAccessToken
     ) {
-        String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
-        Channel channel = channelLifeService.create(request, userId);
+        String userId = getUserId(jwtAccessToken.substring(4));
+        Channel channel = channelLifeService.create(request, UUID.fromString(userId));
         return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
     }
 
@@ -66,8 +64,8 @@ public class ChannelApiController {
             @NotNull @RequestHeader("Authorization") String jwtAccessToken,
             @NotNull @PathVariable("idx") String idx
     ) {
-        String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
-        List<Channel> channels = channelFindService.findMyChannel(orderType, userId, Integer.parseInt(idx));
+        String userId = getUserId(jwtAccessToken.substring(4));
+        List<Channel> channels = channelFindService.findMyChannel(orderType, UUID.fromString(userId), Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 
@@ -94,4 +92,8 @@ public class ChannelApiController {
         Channel channel = channelFindService.findById(channelId);
         return new ResponseEntity<>(new ChannelResponse(channel), OK);
     }
+    private String getUserId(String token) {
+        return jwtTokenUtil.getUserIdFromToken(token);
+    }
+
 }

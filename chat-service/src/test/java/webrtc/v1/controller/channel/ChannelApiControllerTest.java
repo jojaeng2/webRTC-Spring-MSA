@@ -35,6 +35,7 @@ import webrtc.v1.utils.log.trace.ThreadLocalLogTrace;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -104,10 +105,10 @@ public class ChannelApiControllerTest {
                 .build();
 
         // jwt token 생성
-        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+        doReturn(new org.springframework.security.core.userdetails.User(UUID.randomUUID().toString(), password, new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
-        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(UUID.randomUUID().toString()));
     }
 
 
@@ -131,7 +132,7 @@ public class ChannelApiControllerTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(UUID.class));
 
         // when
 
@@ -180,11 +181,11 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users2.getId())
+        doReturn(users2.getId().toString())
                 .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(UUID.class));
 
         // when
 
@@ -223,11 +224,11 @@ public class ChannelApiControllerTest {
         CreateChannelRequest ObjRequest = new CreateChannelRequest(channelName1, hashTagList, text);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(users2.getId())
+        doReturn(users2.getId().toString())
                 .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelRequest.class), any(UUID.class));
 
         // when
 
@@ -444,7 +445,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channels)
-                .when(channelFindService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findMyChannel(any(String.class), any(UUID.class), any(Integer.class));
 
         // when
 

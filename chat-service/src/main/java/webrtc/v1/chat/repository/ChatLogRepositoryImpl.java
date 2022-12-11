@@ -19,8 +19,8 @@ public class ChatLogRepositoryImpl implements ChatLogRepository {
 
     public List<ChatLog> findChatLogsByChannelId(String channelId, Integer idx) {
         return em.createQuery(
-            "select cl from ChatLog cl where channel_id = :channel_id and cl.idx BETWEEN :start AND :end", ChatLog.class)
-        .setParameter("channel_id", channelId)
+            "select cl from ChatLog cl where CHANNEL_ID = :CHANNEL_ID and cl.idx BETWEEN :start AND :end", ChatLog.class)
+        .setParameter("CHANNEL_ID", channelId)
         .setParameter("start", max(1, idx-(LOADING.getCount())))
         .setParameter("end", idx-1)
         .getResultList();

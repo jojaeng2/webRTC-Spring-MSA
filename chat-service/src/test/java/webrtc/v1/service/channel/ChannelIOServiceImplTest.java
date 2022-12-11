@@ -71,7 +71,7 @@ public class ChannelIOServiceImplTest {
                 .when(channelCrudRepository).findById(any(String.class));
 
         // when
-        channelIOService.enterChannel(channel.getId(), user.getEmail());
+        channelIOService.enterChannel(channel.getId(), user.getId());
 
         // then
         assertThat(channel.getChannelUsers().size()).isEqualTo(1);
@@ -89,7 +89,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
+        assertThrows(NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
+        assertThrows(NotExistChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
     }
 
     @Test
@@ -126,7 +126,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(AlreadyExistUserInChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
+        assertThrows(AlreadyExistUserInChannelException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
     }
 
     @Test
@@ -144,7 +144,7 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(ChannelParticipantsFullException.class, () -> channelIOService.enterChannel(channel.getId(), user.getEmail()));
+        assertThrows(ChannelParticipantsFullException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
     }
 
     @Test

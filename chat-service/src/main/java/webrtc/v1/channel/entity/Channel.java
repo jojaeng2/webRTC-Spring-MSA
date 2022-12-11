@@ -20,7 +20,6 @@ import java.util.*;
 public class Channel implements Serializable {
 
     @Id
-    @Column(name = "channel_id")
     @Builder.Default
     private String id = UUID.randomUUID().toString();
     private String channelName;

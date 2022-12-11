@@ -91,7 +91,7 @@ public class ChattingServiceImplTest {
                 .when(usersRepository).findById(any(UUID.class));
 
         // when
-        chattingService.send(chat, channel.getId(), chatMessage, email1);
+        chattingService.send(chat, channel.getId(), chatMessage, UUID.randomUUID());
 
 
         // then
@@ -109,7 +109,7 @@ public class ChattingServiceImplTest {
 
         // then
         Assertions.assertThrows(NotExistChannelException.class,
-                () -> chattingService.send(chat, channel.getId(), chatMessage, email1));
+                () -> chattingService.send(chat, channel.getId(), chatMessage, UUID.randomUUID()));
     }
 
     private List<ChatLog> EmptyList() {

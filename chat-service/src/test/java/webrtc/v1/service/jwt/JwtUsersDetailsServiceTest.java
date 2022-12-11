@@ -37,14 +37,7 @@ public class JwtUsersDetailsServiceTest {
     String nickname2 = "nickname2";
     String password = "password";
     String email1 = "email1";
-    String email2 = "email2";
-    String channelName1 = "channelName1";
-    String notExistChannelId = "null";
-    String tag1 = "tag1";
-    String tag2 = "tag2";
-    String tag3 = "tag3";
-    ChannelType text = TEXT;
-    ChannelType voip = VOIP;
+    String uuid = UUID.randomUUID().toString();
 
     @Test
     @Transactional
@@ -59,10 +52,10 @@ public class JwtUsersDetailsServiceTest {
                 .when(usersRepository).findById(any(UUID.class));
 
         // when
-        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email1);
+        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getId().toString());
 
         // then
-        Assertions.assertThat(userDetails.getUsername()).isEqualTo(email1);
+        Assertions.assertThat(userDetails.getUsername()).isEqualTo(user.getId().toString());
     }
 
     @Test
@@ -74,7 +67,7 @@ public class JwtUsersDetailsServiceTest {
 
         // then
         assertThrows(NotExistUserException.class, ()-> {
-            jwtUserDetailsService.loadUserByUsername(email1);
+            jwtUserDetailsService.loadUserByUsername(uuid);
         });
     }
 }

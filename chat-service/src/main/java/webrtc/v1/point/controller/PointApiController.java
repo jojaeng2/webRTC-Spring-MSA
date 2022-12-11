@@ -4,15 +4,16 @@ package webrtc.v1.point.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.dto.ChannelDto.ChannelTTLWithUserPointResponse;
 import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLRequest;
 import webrtc.v1.channel.dto.ChannelDto.ExtensionChannelTTLResponse;
+import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelInfoInjectService;
 import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.point.service.PointService;
-import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
+
+import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -27,6 +28,16 @@ public class PointApiController {
     private final JwtTokenUtil jwtTokenUtil;
     private final PointService pointService;
 
+    @GetMapping("/point/{id}")
+    public ResponseEntity<?> findUserPoint(
+            @PathVariable("id") String channelId,
+            @RequestHeader("Authorization") String jwtAccessToken
+    ) {
+        String userId = getUserId(jwtAccessToken.substring(4));
+        int point = pointService.findPointSum(UUID.fromString(userId));
+        long ttl = channelInfoInjectService.findTtl(channelId);
+        return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
+    }
 
     @PostMapping("/extension/{id}")
     public ResponseEntity<ExtensionChannelTTLResponse> extensionChannelTTL(
@@ -36,22 +47,11 @@ public class PointApiController {
     ) {
         String userId = getUserId(jwtAccessToken.substring(4));
         long ttl = request.getRequestTTL();
-        Channel channel = channelLifeService.extension(channelId, userId, ttl);
+        Channel channel = channelLifeService.extension(channelId, UUID.fromString(userId), ttl);
         return new ResponseEntity<>(new ExtensionChannelTTLResponse(channel.getTimeToLive()), OK);
     }
 
-    @GetMapping("/point/{id}")
-    public ResponseEntity<?> findUserPoint(
-            @PathVariable("id") String channelId,
-            @RequestHeader("Authorization") String jwtAccessToken
-    ) {
-        String userId = getUserId(jwtAccessToken.substring(4));
-        int point = pointService.findPointSum(userId);
-        long ttl = channelInfoInjectService.findTtl(channelId);
-        return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
-    }
-
-    String getUserId(String token) {
+    private String getUserId(String token) {
         return jwtTokenUtil.getUserIdFromToken(token);
     }
 }

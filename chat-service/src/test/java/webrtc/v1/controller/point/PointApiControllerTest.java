@@ -34,6 +34,7 @@ import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -86,6 +87,7 @@ public class PointApiControllerTest {
     String tag3 = "tag3";
     ChannelType text = TEXT;
     List<String> hashTagList = new ArrayList<String>();
+    private final String uuid = UUID.randomUUID().toString();
     String jwtAccessToken;
 
     @BeforeEach
@@ -97,10 +99,10 @@ public class PointApiControllerTest {
                 .build();
 
         // jwt token 생성
-        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+        doReturn(new org.springframework.security.core.userdetails.User(uuid, password, new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
-        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(uuid));
     }
 
     @Test
@@ -115,7 +117,7 @@ public class PointApiControllerTest {
         Long channelTTL = 1234567L;
 
         doReturn(point)
-                .when(pointService).findPointSum(any(String.class));
+                .when(pointService).findPointSum(any(UUID.class));
 
         // when
 
@@ -153,7 +155,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(pointService).findPointSum(any(String.class));
+                .when(pointService).findPointSum(any(UUID.class));
 
         // when
 
@@ -186,7 +188,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistUserException())
-                .when(pointService).findPointSum(any(String.class));
+                .when(pointService).findPointSum(any(UUID.class));
 
         // when
 
@@ -225,7 +227,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(channel)
-                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
 
         // when
 
@@ -269,7 +271,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistChannelException())
-                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
 
         // when
 
@@ -311,7 +313,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new InsufficientPointException())
-                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
 
         // when
 

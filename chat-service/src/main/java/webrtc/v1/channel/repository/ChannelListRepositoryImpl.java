@@ -26,7 +26,7 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
     }
 
     public List<Channel> findMyChannels(UUID userId, int idx, String type) {
-        return em.createQuery("select c from Channel c join c.channelUsers where USERS_ID = :user_id order by c.currentParticipants " + type, Channel.class)
+        return em.createQuery("select c from Channel c join c.channelUsers where USER_ID = :user_id order by c.currentParticipants " + type, Channel.class)
                 .setParameter("user_id", userId)
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)

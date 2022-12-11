@@ -75,6 +75,7 @@ public class VoiceControllerTest {
     private final String email1 = "email1";
     private final String sessionName1 = "sessionName1";
     private final String token = "token";
+    private final String uuid = UUID.randomUUID().toString();
     String jwtAccessToken;
 
     @BeforeEach
@@ -83,10 +84,10 @@ public class VoiceControllerTest {
                 .apply(documentationConfiguration(restDocumentationContextProvider))
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
-        doReturn(new org.springframework.security.core.userdetails.User(email1, password, new ArrayList<>()))
+        doReturn(new org.springframework.security.core.userdetails.User(uuid, password, new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
-        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(email1));
+        jwtAccessToken = jwtTokenUtil.generateToken(jwtUserDetailsService.loadUserByUsername(uuid));
     }
 
 
@@ -98,7 +99,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneById(any(String.class));
+                .when(usersService).findOneById(any(UUID.class));
 
         doReturn(token)
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
@@ -133,7 +134,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistUserException())
-                .when(usersService).findOneById(any(String.class));
+                .when(usersService).findOneById(any(UUID.class));
 
         // when
 
@@ -165,7 +166,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneById(any(String.class));
+                .when(usersService).findOneById(any(UUID.class));
 
         doThrow(new OpenViduClientException())
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));

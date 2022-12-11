@@ -165,7 +165,7 @@ public class ChannelFindServiceTest {
 
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", email1, 0));
+        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", UUID.randomUUID(), 0));
     }
 
 //    @Test

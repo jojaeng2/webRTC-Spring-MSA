@@ -12,6 +12,8 @@ import webrtc.v1.voice.dto.VoiceRoomDto.RemoveUserInSessionRequest;
 import webrtc.v1.user.service.UsersService;
 import webrtc.v1.voice.service.VoiceRoomService;
 
+import java.util.UUID;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/webrtc/voice")
@@ -28,7 +30,7 @@ public class VoiceController {
             @RequestBody GetTokenRequest request
     ) {
         String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
-        Users user = userService.findOneById(userId);
+        Users user = userService.findOneById(UUID.fromString(userId));
         String token = voiceRoomService.getToken(request, user);
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }

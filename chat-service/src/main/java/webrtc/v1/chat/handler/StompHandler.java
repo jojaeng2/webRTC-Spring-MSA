@@ -16,6 +16,7 @@ import webrtc.v1.utils.jwt.JwtUserDetailsService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.springframework.messaging.simp.stomp.StompCommand.CONNECT;
 import static org.springframework.messaging.simp.stomp.StompCommand.SEND;
@@ -46,7 +47,7 @@ public class StompHandler implements ChannelInterceptor {
             String channelId = getChannelId(accessor);
             channelFindService.findById(channelId);
             if (isEnter(type)) {
-                channelIOService.enterChannel(channelId, userId);
+                channelIOService.enterChannel(channelId, UUID.fromString(userId));
             }
         }
         return message;

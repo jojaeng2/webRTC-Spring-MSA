@@ -80,7 +80,7 @@ public class UsersServiceImplTest {
                 .when(usersRepository).findById(any(UUID.class));
 
         //when
-        Users users2 = userService.findOneById(email);
+        Users users2 = userService.findOneById(UUID.randomUUID());
 
         //then
         assertThat(users2.getEmail()).isEqualTo(email);
