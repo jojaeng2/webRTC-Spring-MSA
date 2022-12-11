@@ -2,6 +2,7 @@ package webrtc.v1.chat.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import static webrtc.v1.chat.enums.ChatLogCount.LOADING;
 
 @RequiredArgsConstructor
 @Repository
+@Slf4j
 public class ChatLogRedisRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -36,13 +38,14 @@ public class ChatLogRedisRepository {
 
     public List<ChatLog> findByChannelIdAndIndex(String channelId, Integer index) {
         List<ChatLog> chatLogs = new ArrayList<>();
-        System.out.println("index = " + index);
         for (int i=Math.max(0, index - (LOADING.getCount())); i<=index-1; i++) {
-            System.out.println("Math.max(1, index - (LOADING.getCount())); i<=index-1 = " + i);
+            System.out.println("index = " + i);
             ChatLog chatLog = objectMapper.convertValue(opsValueOperation.get(channelId + "-" + i), ChatLog.class);
             if (chatLog == null) {
+                log.info("chatLog is Null!!");
                 continue;
             }
+            log.info(chatLog.getId());
             chatLogs.add(chatLog);
         }
         return chatLogs;

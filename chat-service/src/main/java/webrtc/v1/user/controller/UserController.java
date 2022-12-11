@@ -44,13 +44,10 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(
             @RequestBody JwtRequest request
     ) {
-        log.info("createAuthenticationToken1");
         final Users user = userService.findOneByEmail(request.getEmail());
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getId().toString());
-        log.info("createAuthenticationToken2");
         if (passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);
-            log.info("token = " + token);
             return ResponseEntity.ok(new JwtResponse(token));
         }
         throw new NotExistUserException();

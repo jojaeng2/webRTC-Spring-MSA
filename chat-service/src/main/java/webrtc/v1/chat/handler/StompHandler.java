@@ -60,7 +60,6 @@ public class StompHandler implements ChannelInterceptor {
     }
 
     String getJwtToken(StompHeaderAccessor accessor) {
-        System.out.println("getJwtToken ");
         return accessor.getFirstNativeHeader("jwt");
     }
 

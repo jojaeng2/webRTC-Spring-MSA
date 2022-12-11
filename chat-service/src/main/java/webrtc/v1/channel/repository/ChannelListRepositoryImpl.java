@@ -19,7 +19,6 @@ public class ChannelListRepositoryImpl implements ChannelListRepository {
     private EntityManager em;
 
     public List<Channel> findAnyChannels(int idx, String type) {
-        System.out.println("findAnyChannels = " + idx);
         return em.createQuery("select c from Channel c order by c.currentParticipants " + type, Channel.class)
                 .setFirstResult(idx * LoadingChannel)
                 .setMaxResults(LoadingChannel)

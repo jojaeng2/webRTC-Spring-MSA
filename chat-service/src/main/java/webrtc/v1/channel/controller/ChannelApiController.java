@@ -51,7 +51,6 @@ public class ChannelApiController {
             @NotNull @PathVariable("idx") String idx
     ) {
         List<Channel> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
-        System.out.println("findAnyChannel = " + channels);
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 
