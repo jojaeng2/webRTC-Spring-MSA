@@ -34,6 +34,7 @@ public class JwtTokenUtilImpl implements Serializable, JwtTokenUtil {
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
+        log.info("claims.getSubject() = " + claims.getSubject());
         return claimsResolver.apply(claims);
     }
 

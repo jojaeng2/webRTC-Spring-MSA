@@ -34,6 +34,13 @@ public class UsersServiceImpl implements UsersService {
                 .orElseThrow(NotExistUserException::new);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Users findOneByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(NotExistUserException::new);
+    }
+
     private Users userBuilder(CreateUserRequest request) {
         return Users.builder()
                 .nickname(request.getNickname())

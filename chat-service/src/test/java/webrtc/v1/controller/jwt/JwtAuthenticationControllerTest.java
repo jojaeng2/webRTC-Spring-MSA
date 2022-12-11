@@ -39,6 +39,7 @@ import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -141,6 +142,13 @@ public class JwtAuthenticationControllerTest {
         JwtRequest ObjRequest = new JwtRequest(email1,password);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
+        doReturn(Users.builder()
+                .email(email1)
+                .password(password)
+                .nickname(nickname1).build())
+                .when(usersService2).findOneByEmail(email1);
+
+
         doReturn(new org.springframework.security.core.userdetails.User(email1, new BCryptPasswordEncoder().encode(password), new ArrayList<>()))
                 .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
 
@@ -180,9 +188,8 @@ public class JwtAuthenticationControllerTest {
                 .password(password)
                 .email(email1)
                 .build();
-
         doThrow(new NotExistUserException())
-                .when(jwtUserDetailsService).loadUserByUsername(any(String.class));
+                .when(usersService2).findOneByEmail(any(String.class));
 
 
         // when

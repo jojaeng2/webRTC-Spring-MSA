@@ -31,7 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-
+        log.info("doFilterInternal");
         final String requestTokenHeader = request.getHeader("Authorization");
         String userId = null;
         String jwtToken = null;
@@ -40,6 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);
+            log.info(jwtToken);
             try {
                 userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
@@ -50,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
         } else {
             log.info("JWT Token does not begin with jwt String");
         }
-
+        log.info("userId = " + userId);
         // Once we get the token validate it.
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

@@ -10,4 +10,6 @@ public interface UsersService {
     Users save(CreateUserRequest request);
 
     Users findOneById(UUID userId);
+
+    Users findOneByEmail(String email);
 }

@@ -1,6 +1,7 @@
 package webrtc.v1.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import webrtc.v1.utils.jwt.JwtTokenUtil;
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/webrtc/chat")
+@Slf4j
 public class UserController {
 
     private final UsersService userService;
@@ -42,9 +44,13 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(
             @RequestBody JwtRequest request
     ) {
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(request.getEmail());
+        log.info("createAuthenticationToken1");
+        final Users user = userService.findOneByEmail(request.getEmail());
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getId().toString());
+        log.info("createAuthenticationToken2");
         if (passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             final String token = jwtTokenUtil.generateToken(userDetails);
+            log.info("token = " + token);
             return ResponseEntity.ok(new JwtResponse(token));
         }
         throw new NotExistUserException();
