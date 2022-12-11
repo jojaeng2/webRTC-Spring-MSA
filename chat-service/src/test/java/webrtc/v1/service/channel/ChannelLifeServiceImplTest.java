@@ -12,7 +12,7 @@ import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.channel.service.ChannelLifeServiceImpl;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.chat.repository.ChatLogRedisRepository;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
@@ -68,7 +68,7 @@ public class ChannelLifeServiceImplTest {
     @Mock
     private PointRepository pointRepository;
     @Mock
-    private ChatLogRedisRepository chatLogRedisRepository;
+    private ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
 
     String nickname1 = "nickname1";

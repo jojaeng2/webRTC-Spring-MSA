@@ -18,7 +18,7 @@ import webrtc.v1.channel.exception.ChannelException.AlreadyExistUserInChannelExc
 import webrtc.v1.channel.exception.ChannelException.ChannelExceptionDto;
 import webrtc.v1.channel.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.chat.repository.ChatLogRedisRepository;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.utils.jwt.exception.JwtException.CustomJwtExceptionDto;
 import webrtc.v1.user.exception.UserException.NotExistUserExceptionDto;
 import webrtc.v1.chat.service.ChatLogService;
@@ -31,7 +31,7 @@ public class StompInterceptorErrorHandler extends StompSubProtocolErrorHandler {
 
     private final ObjectMapper objectMapper;
     private final ChatLogService chatLogService;
-    private final ChatLogRedisRepository chatLogRedisRepository;
+    private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
     @Override
     public Message<byte[]> handleClientMessageProcessingError(Message<byte[]> clientMessage, Throwable ex) {

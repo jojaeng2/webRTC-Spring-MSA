@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.chat.repository.ChatLogRedisRepository;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.chat.service.ChatLogServiceImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.enums.ClientMessageType;
@@ -15,6 +15,7 @@ import webrtc.v1.user.entity.Users;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +29,7 @@ public class ChatLogServiceTest {
     @InjectMocks
     private ChatLogServiceImpl chatLogService;
     @Mock
-    private ChatLogRedisRepository chatLogRedisRepository;
+    private ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
     String nickname1 = "nickname1";
     String email1 = "email1";
@@ -43,8 +44,8 @@ public class ChatLogServiceTest {
     void 채팅로그저장성공빈배열아님() {
         // given
         Channel channel = createChannel(channelName1, text);
-        doReturn(2)
-                .when(chatLogRedisRepository).findLastIndex(any(String.class));
+        doReturn(Optional.of(2))
+                .when(chatLogRedisRepositoryImpl).findLastIndex(any(String.class));
 
         // when
         long resultIdx = chatLogService.save(ClientMessageType.CHAT, "test", channel, new Users());
@@ -54,26 +55,13 @@ public class ChatLogServiceTest {
 
     }
 
-    @Test
-    void 인덱스로로그찾기성공() {
-        // given
-        Channel channel = createChannel(channelName1, text);
-        doReturn(logList20())
-                .when(chatLogRedisRepository).findByChannelIdAndIndex(any(String.class), any(Integer.class));
-
-        // when
-        List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
-
-        // then
-        assertThat(result.size()).isEqualTo(maxi);
-    }
 
     @Test
     void 인덱스로로그찾기실패() {
         // given
         Channel channel = createChannel(channelName1, text);
-        doReturn(EmptyList())
-                .when(chatLogRedisRepository).findByChannelIdAndIndex(any(String.class), any(Integer.class));
+        doReturn(Optional.empty())
+                .when(chatLogRedisRepositoryImpl).findByChannelIdAndIndex(any(String.class), any(Integer.class));
 
         // when
         List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
