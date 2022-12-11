@@ -6,29 +6,30 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.channel.repository.ChannelCrudRepository;
-import webrtc.v1.channel.repository.ChannelListRepository;
-import webrtc.v1.channel.repository.ChannelRedisRepository;
-import webrtc.v1.channel.service.ChannelIOServiceImpl;
 import webrtc.v1.channel.entity.ChannelUser;
-import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistUserInChannelException;
 import webrtc.v1.channel.exception.ChannelException.ChannelParticipantsFullException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.exception.ChannelUserException.NotExistChannelUserException;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
-import webrtc.v1.chat.repository.ChatLogRepository;
+import webrtc.v1.channel.repository.ChannelCrudRepository;
+import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.channel.service.ChannelIOServiceImpl;
 import webrtc.v1.hashtag.repository.HashTagRepository;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
+
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,8 +41,6 @@ public class ChannelIOServiceImplTest {
     private ChannelListRepository channelListRepository;
     @Mock
     private ChannelRedisRepository channelRedisRepository;
-    @Mock
-    private ChatLogRepository chatLogRepository;
     @Mock
     private ChannelCrudRepository channelCrudRepository;
     @Mock

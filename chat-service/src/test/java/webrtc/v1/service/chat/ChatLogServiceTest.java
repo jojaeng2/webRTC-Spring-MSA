@@ -8,7 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.chat.repository.ChatLogRedisRepository;
-import webrtc.v1.chat.repository.ChatLogRepository;
 import webrtc.v1.chat.service.ChatLogServiceImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.enums.ClientMessageType;
@@ -28,8 +27,6 @@ public class ChatLogServiceTest {
 
     @InjectMocks
     private ChatLogServiceImpl chatLogService;
-    @Mock
-    private ChatLogRepository chatLogRepository;
     @Mock
     private ChatLogRedisRepository chatLogRedisRepository;
 
@@ -62,7 +59,7 @@ public class ChatLogServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(logList20())
-                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Integer.class));
+                .when(chatLogRedisRepository).findByChannelIdAndIndex(any(String.class), any(Integer.class));
 
         // when
         List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);
@@ -76,7 +73,7 @@ public class ChatLogServiceTest {
         // given
         Channel channel = createChannel(channelName1, text);
         doReturn(EmptyList())
-                .when(chatLogRepository).findChatLogsByChannelId(any(String.class), any(Integer.class));
+                .when(chatLogRedisRepository).findByChannelIdAndIndex(any(String.class), any(Integer.class));
 
         // when
         List<ChatLog> result = chatLogService.findChatLogsByIndex(channel.getId(), idx);

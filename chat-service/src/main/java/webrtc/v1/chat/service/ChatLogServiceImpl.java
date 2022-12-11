@@ -8,7 +8,6 @@ import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.enums.ClientMessageType;
-import webrtc.v1.chat.repository.ChatLogRepository;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatLogServiceImpl implements ChatLogService {
 
-    private final ChatLogRepository chatLogRepository;
     private final ChatLogRedisRepository redisRepository;
 
     public long save(ClientMessageType type, String chatMessage, Channel channel, Users user) {
@@ -29,13 +27,14 @@ public class ChatLogServiceImpl implements ChatLogService {
         Integer index = redisRepository.findLastIndex(channel.getId());
         chatLog.setChatLogIdx(index + 1);
         redisRepository.addLastIndex(channel.getId());
+        redisRepository.save(channel.getId(), chatLog);
         channel.addChatLog(chatLog);
         return chatLog.getIdx();
     }
 
     @Transactional(readOnly = true)
     public List<ChatLog> findChatLogsByIndex(String channelId, int idx) {
-        return chatLogRepository.findChatLogsByChannelId(channelId, idx);
+        return redisRepository.findByChannelIdAndIndex(channelId, idx);
     }
 
     @Transactional(readOnly = true)
