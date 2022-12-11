@@ -11,6 +11,7 @@ import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.enums.ClientMessageType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 @Builder
 @Table(indexes = @Index(name = "chat_log_index", columnList = "channel_id"))
 @RedisHash("chatLog")
-public class ChatLog {
+public class ChatLog implements Serializable {
 
     @Id
     @Column(name = "chat_id")
@@ -38,7 +39,7 @@ public class ChatLog {
     private Channel channel;
 
     @Builder.Default
-    private int idx = 1;
+    private int idx = 0;
 
     @Enumerated(EnumType.STRING)
     private ClientMessageType type;
