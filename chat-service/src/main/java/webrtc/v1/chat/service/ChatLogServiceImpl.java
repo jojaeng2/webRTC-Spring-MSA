@@ -25,9 +25,9 @@ public class ChatLogServiceImpl implements ChatLogService {
                 .senderEmail(user.getEmail())
                 .build();
         Integer index = redisRepository.findLastIndex(channel.getId());
-        chatLog.setChatLogIdx(index + 1);
-        redisRepository.addLastIndex(channel.getId());
+        chatLog.setChatLogIdx(index);
         redisRepository.save(channel.getId(), chatLog);
+        redisRepository.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
         return chatLog.getIdx();
     }

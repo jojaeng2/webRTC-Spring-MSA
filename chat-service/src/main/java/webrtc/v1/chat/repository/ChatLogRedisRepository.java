@@ -55,7 +55,7 @@ public class ChatLogRedisRepository {
     public Integer findLastIndex(String id) {
         Integer index = (Integer) opsValueOperation.get(chatLog + id);
         if(index == null) {
-            index = 1;
+            index = 0;
         }
         return index;
     }

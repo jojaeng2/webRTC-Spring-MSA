@@ -12,6 +12,7 @@ import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.chat.repository.ChatLogRedisRepository;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.chat.service.ChatLogService;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -43,6 +44,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final VoiceRoomRepository voiceRoomRepository;
     private final PointRepository pointRepository;
     private final ChatLogRedisRepository chatLogRedisRepository;
+    private final ChatLogService chatLogService;
 
 
     private final long pointUnit = 1L;
@@ -140,6 +142,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private void createChatLog(Channel channel, Users user) {
         ChatLog chatLog = ChatLog.createChannelLog(user);
+        chatLogRedisRepository.save(channel.getId(), chatLog);
         chatLogRedisRepository.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
     }
