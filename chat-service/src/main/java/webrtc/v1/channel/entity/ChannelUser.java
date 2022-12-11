@@ -19,14 +19,15 @@ public class ChannelUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "channel_user_id")
     private Long id;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "CHANNEL_ID")
+    @JoinColumn(name = "channel_id")
     private Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USERS_ID")
     private Users user;
 }

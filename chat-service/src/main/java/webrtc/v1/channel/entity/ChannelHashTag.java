@@ -26,11 +26,11 @@ public class ChannelHashTag implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CHANNEL_ID")
+    @JoinColumn(name = "channel_id")
     private Channel channel;
 
     @ManyToOne
-    @JoinColumn(name = "HASHTAG_ID")
+    @JoinColumn(name = "hashtag_id")
     private HashTag hashTag;
 
 }

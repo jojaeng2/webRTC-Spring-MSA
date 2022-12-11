@@ -27,12 +27,13 @@ import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 public class ChatLog {
 
     @Id
+    @Column(name = "chat_id")
     @JsonIgnore
     @Builder.Default
     private String id = UUID.randomUUID().toString();
 
     @ManyToOne
-    @JoinColumn(name = "CHANNEL_ID")
+    @JoinColumn(name = "channel_id")
     @JsonIgnore
     private Channel channel;
 
