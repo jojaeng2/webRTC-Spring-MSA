@@ -50,7 +50,7 @@ public class ChatLogServiceTest {
         long resultIdx = chatLogService.save(ClientMessageType.CHAT, "test", channel, new Users());
 
         // then
-        assertThat(resultIdx).isEqualTo(3L);
+        assertThat(resultIdx).isEqualTo(2L);
 
     }
 
