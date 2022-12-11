@@ -1,5 +1,6 @@
 package webrtc.v1.chat.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,8 +19,9 @@ import static webrtc.v1.chat.enums.ChatLogCount.LOADING;
 public class ChatLogRedisRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final ObjectMapper objectMapper;
     private ValueOperations<String, Object> opsValueOperation;
-    private final String chatLog = "chatLog ";
+    private final String chatLog = "chatLog - ";
     private final long ttl = 60L * 60L;
 
     @PostConstruct
@@ -28,16 +30,16 @@ public class ChatLogRedisRepository {
     }
 
     public void save(String channelId, ChatLog chatLog) {
-        opsValueOperation.set(channelId + "-" + chatLog.getIdx(), chatLog);
-        redisTemplate.expire(channelId + "-" + chatLog.getIdx(), ttl, TimeUnit.SECONDS);
+        opsValueOperation.set(channelId + " - " + chatLog.getIdx(), chatLog);
+        redisTemplate.expire(channelId + " - " + chatLog.getIdx(), ttl, TimeUnit.SECONDS);
     }
 
     public List<ChatLog> findByChannelIdAndIndex(String channelId, Integer index) {
         List<ChatLog> chatLogs = new ArrayList<>();
         System.out.println("index = " + index);
-        for (int i=Math.max(1, index - (LOADING.getCount())); i<=index-1; i++) {
+        for (int i=Math.max(0, index - (LOADING.getCount())); i<=index-1; i++) {
             System.out.println("Math.max(1, index - (LOADING.getCount())); i<=index-1 = " + i);
-            ChatLog chatLog = (ChatLog) opsValueOperation.get(channelId + "-" + i);
+            ChatLog chatLog = objectMapper.convertValue(opsValueOperation.get(channelId + "-" + i), ChatLog.class);
             if (chatLog == null) {
                 continue;
             }

@@ -39,7 +39,6 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("jwt ")) {
             jwtToken = requestTokenHeader.substring(4);
-            log.info(jwtToken);
             try {
                 userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
