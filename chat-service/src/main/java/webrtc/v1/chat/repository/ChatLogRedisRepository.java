@@ -40,7 +40,7 @@ public class ChatLogRedisRepository {
         List<ChatLog> chatLogs = new ArrayList<>();
         for (int i=Math.max(0, index - (LOADING.getCount())); i<=index-1; i++) {
             System.out.println("index = " + i);
-            ChatLog chatLog = objectMapper.convertValue(opsValueOperation.get(channelId + "-" + i), ChatLog.class);
+            ChatLog chatLog = objectMapper.convertValue(opsValueOperation.get(channelId + " - " + i), ChatLog.class);
             if (chatLog == null) {
                 log.info("chatLog is Null!!");
                 continue;
