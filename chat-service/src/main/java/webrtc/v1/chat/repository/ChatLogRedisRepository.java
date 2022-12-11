@@ -35,9 +35,10 @@ public class ChatLogRedisRepository {
     public List<ChatLog> findByChannelIdAndIndex(String channelId, Integer index) {
         List<ChatLog> chatLogs = new ArrayList<>();
         for (int i=Math.max(1, index - (LOADING.getCount())); i<=index-1; i++) {
+            System.out.println("Math.max(1, index - (LOADING.getCount())); i<=index-1 = " + i);
             ChatLog chatLog = (ChatLog) opsValueOperation.get(channelId + "-" + i);
             if (chatLog == null) {
-                break;
+                continue;
             }
             chatLogs.add(chatLog);
         }
