@@ -17,9 +17,9 @@ cd ./chat-service
 cd ..
 
 
-cd ./openvidu-service
-./deploy.sh &
-cd .. 
+#cd ./openvidu-service
+#./deploy.sh &
+#cd ..
 
 
 sleep 50

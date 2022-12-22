@@ -9,7 +9,7 @@ import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.chat.repository.ChatLogRedisRepository;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.chat.service.ChatLogService;
@@ -43,7 +43,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final HashTagRepository hashTagRepository;
     private final VoiceRoomRepository voiceRoomRepository;
     private final PointRepository pointRepository;
-    private final ChatLogRedisRepository chatLogRedisRepository;
+    private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
     private final ChatLogService chatLogService;
 
 
@@ -69,7 +69,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channelCrudRepository.delete(channel);
         channelRedisRepository.delete(channelId);
         voiceRoomRepository.delete(channelId);
-        chatLogRedisRepository.delete(channelId);
+        chatLogRedisRepositoryImpl.delete(channelId);
     }
 
     @Transactional
@@ -142,8 +142,8 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     private void createChatLog(Channel channel, Users user) {
         ChatLog chatLog = ChatLog.createChannelLog(user);
-        chatLogRedisRepository.save(channel.getId(), chatLog);
-        chatLogRedisRepository.addLastIndex(channel.getId());
+        chatLogRedisRepositoryImpl.save(channel.getId(), chatLog);
+        chatLogRedisRepositoryImpl.addLastIndex(channel.getId());
         channel.addChatLog(chatLog);
     }
 
