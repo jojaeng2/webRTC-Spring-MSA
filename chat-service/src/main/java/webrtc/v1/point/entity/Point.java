@@ -1,5 +1,6 @@
 package webrtc.v1.point.entity;
 
+import io.azam.ulidj.ULID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +24,8 @@ import static webrtc.v1.point.enums.WelcomePoint.JOIN;
 public class Point implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Builder.Default
+    private String id = ULID.random();
 
     private String message;
     private int amount;

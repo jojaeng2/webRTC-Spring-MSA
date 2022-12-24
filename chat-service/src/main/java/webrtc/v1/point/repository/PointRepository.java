@@ -6,7 +6,7 @@ import webrtc.v1.user.entity.Users;
 
 import java.util.List;
 
-public interface PointRepository extends JpaRepository<Point, Long> {
+public interface PointRepository extends JpaRepository<Point, String> {
 
     List<Point> findByUser(Users user);
 }
