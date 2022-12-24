@@ -37,7 +37,7 @@ public class ChannelIOServiceImpl implements ChannelIOService {
      */
     @Override
     @Transactional
-    public void enterChannel(String channelId, UUID userId) {
+    public void enterChannel(String channelId, String userId) {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)
@@ -56,7 +56,7 @@ public class ChannelIOServiceImpl implements ChannelIOService {
      */
     @Override
     @Transactional
-    public void exitChannel(String channelId, UUID userId) {
+    public void exitChannel(String channelId, String userId) {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)

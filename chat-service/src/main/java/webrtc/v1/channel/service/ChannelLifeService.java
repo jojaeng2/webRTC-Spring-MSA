@@ -7,10 +7,10 @@ import java.util.UUID;
 
 public interface ChannelLifeService {
 
-    Channel create(CreateChannelRequest request, UUID userId);
+    Channel create(CreateChannelRequest request, String userId);
 
     void delete(String channelId);
 
-    Channel extension(String channelId, UUID userId, Long requestTTL);
+    Channel extension(String channelId, String userId, Long requestTTL);
 
 }

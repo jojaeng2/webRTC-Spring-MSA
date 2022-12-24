@@ -44,7 +44,7 @@ public class ChattingServiceImpl implements ChattingService {
      * Chatting Room에 message 발송
      */
     @Transactional
-    public void send(ClientMessageType type, String channelId, String chatMessage, UUID userId) {
+    public void send(ClientMessageType type, String channelId, String chatMessage, String userId) {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
         Channel channel = channelCrudRepository.findById(channelId)

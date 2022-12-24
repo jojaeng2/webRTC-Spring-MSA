@@ -87,14 +87,14 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그존재_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.of(createTag(tag1)))
                 .when(hashTagRepository).findByName(any(String.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
 
         // when
-        Channel channel = channelService.create(createChannelRequest(), UUID.randomUUID());
+        Channel channel = channelService.create(createChannelRequest(), "");
 
         //then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -109,7 +109,7 @@ public class ChannelLifeServiceImplTest {
     void 채널생성성공_회원존재_태그없음_포인트존재() {
         // given
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         doReturn(Optional.empty())
                 .when(hashTagRepository).findByName(any(String.class));
@@ -117,7 +117,7 @@ public class ChannelLifeServiceImplTest {
                 .when(pointRepository).findByUser(any(Users.class));
         // when
 
-        Channel channel = channelService.create(createChannelRequest(), UUID.randomUUID());
+        Channel channel = channelService.create(createChannelRequest(), "1");
 
         // then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -135,12 +135,12 @@ public class ChannelLifeServiceImplTest {
                 .when(hashTagRepository).findByName(any(String.class));
 
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
 
         // when
-        Channel channel = channelService.create(createChannelRequest(), UUID.randomUUID());
+        Channel channel = channelService.create(createChannelRequest(), "1");
 
         // then
         assertThat(channel.getChannelName()).isEqualTo(channelName1);
@@ -158,7 +158,7 @@ public class ChannelLifeServiceImplTest {
 
         // then
         assertThrows(AlreadyExistChannelException.class, () -> {
-            channelService.create(createChannelRequest(), UUID.randomUUID());
+            channelService.create(createChannelRequest(), "1");
         });
     }
 
@@ -169,10 +169,10 @@ public class ChannelLifeServiceImplTest {
         // when
 
         doReturn(Optional.of(createUserNotPoint()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), UUID.randomUUID()));
+        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), "1"));
 
     }
 
@@ -183,7 +183,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest(), UUID.randomUUID()));
+        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest(), "1"));
     }
 
     @Test
@@ -224,13 +224,13 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(crudRepository).findById(any(String.class));
         doReturn(Optional.of(createUser()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(List.of(createPoint()))
                 .when(pointRepository).findByUser(any(Users.class));
         // when
 
         // then
-        channelService.extension(channel.getId(), UUID.randomUUID(), requestTTL);
+        channelService.extension(channel.getId(), "1", requestTTL);
     }
 
     @Test
@@ -244,7 +244,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistChannelException.class, () -> channelService.extension(channel.getId(), UUID.randomUUID(), requestTTL));
+        assertThrows(NotExistChannelException.class, () -> channelService.extension(channel.getId(), "1", requestTTL));
     }
 
     @Test
@@ -255,11 +255,11 @@ public class ChannelLifeServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(crudRepository).findById(any(String.class));
         doReturn(Optional.of(createUserNotPoint()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         // when
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.extension(channel.getId(), UUID.randomUUID(), requestTTL));
+        assertThrows(InsufficientPointException.class, () -> channelService.extension(channel.getId(), "1", requestTTL));
     }
 
     @Test
@@ -273,7 +273,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.extension(channel.getId(), UUID.randomUUID(), requestTTL));
+        assertThrows(NotExistUserException.class, () -> channelService.extension(channel.getId(), "1", requestTTL));
     }
 
     private CreateChannelRequest createChannelRequest() {

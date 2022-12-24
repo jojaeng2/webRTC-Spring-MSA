@@ -29,7 +29,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Transactional(readOnly = true)
-    public Users findOneById(UUID userId) {
+    public Users findOneById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
     }

@@ -2,6 +2,7 @@ package webrtc.v1.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import io.azam.ulidj.ULID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +26,9 @@ import java.util.UUID;
 public class Users implements Serializable {
 
     @Id
-    @Column(columnDefinition = "uuid")
     @Builder.Default
     @NotNull
-    private UUID id = UUID.randomUUID();
+    private String id = ULID.random();
     private String email;
 
 

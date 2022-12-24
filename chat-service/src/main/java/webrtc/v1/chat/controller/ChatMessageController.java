@@ -36,11 +36,11 @@ public class ChatMessageController {
     @MessageMapping("/chat/room")
     public void message(ClientMessage message, @Header("jwt") String jwtToken, @Header("channelId") String channelId, @Header("type") ClientMessageType type) {
         String userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
-        Users user = usersService.findOneById(UUID.fromString(userId));
+        Users user = usersService.findOneById(userId);
         if(isEnter(type) || isExit(type) || isChat(type)) {
             socketMessageFactory.execute(type, message, user, channelId);
         }
-        chattingService.send(type, channelId, message.getMessage(), UUID.fromString(userId));
+        chattingService.send(type, channelId, message.getMessage(), userId);
     }
 
     boolean isEnter(ClientMessageType type) {

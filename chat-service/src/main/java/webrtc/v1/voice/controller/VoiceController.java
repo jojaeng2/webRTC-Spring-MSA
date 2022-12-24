@@ -30,7 +30,7 @@ public class VoiceController {
             @RequestBody GetTokenRequest request
     ) {
         String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
-        Users user = userService.findOneById(UUID.fromString(userId));
+        Users user = userService.findOneById(userId);
         String token = voiceRoomService.getToken(request, user);
         return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
     }

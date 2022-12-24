@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface ChattingService {
 
-    void send(ClientMessageType type, String channelId, String chatMessage, UUID userId);
+    void send(ClientMessageType type, String channelId, String chatMessage, String userId);
 
     void closeChannel(ClientMessageType type, String channelId);
 }

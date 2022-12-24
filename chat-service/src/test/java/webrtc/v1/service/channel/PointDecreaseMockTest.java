@@ -76,7 +76,7 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(channel.getId());
         doReturn(Optional.of(users2))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(List.of(point))
                 .when(pointRepository).findByUser(any(Users.class));
         doNothing()
@@ -159,7 +159,7 @@ public class PointDecreaseMockTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(users2))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // when
 

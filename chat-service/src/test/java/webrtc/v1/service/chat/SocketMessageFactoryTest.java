@@ -70,7 +70,7 @@ public class SocketMessageFactoryTest {
         message.setSenderName(nickname1);
 
         doNothing()
-                .when(channelIOService).exitChannel(any(String.class), any(UUID.class));
+                .when(channelIOService).exitChannel(any(String.class), any(String.class));
 
         // when
         createSocketMessage(exit, message);
@@ -87,7 +87,7 @@ public class SocketMessageFactoryTest {
         message.setSenderName(nickname1);
 
         doThrow(new NotExistChannelException())
-                .when(channelIOService).exitChannel(any(String.class), any(UUID.class));
+                .when(channelIOService).exitChannel(any(String.class), any(String.class));
 
         // when
 

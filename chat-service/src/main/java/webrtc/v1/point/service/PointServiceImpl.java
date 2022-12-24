@@ -19,7 +19,7 @@ public class PointServiceImpl implements PointService{
     private final UsersRepository userRepository;
 
     @Transactional(readOnly = true)
-    public int findPointSum(UUID userId) {
+    public int findPointSum(String userId) {
         Users user = userRepository.findById(userId)
                 .orElseThrow(NotExistUserException::new);
         return pointRepository.findByUser(user).stream()

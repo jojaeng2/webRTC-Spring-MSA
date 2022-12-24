@@ -65,7 +65,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
 
@@ -83,7 +83,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.empty())
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // when
 
@@ -98,7 +98,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         doThrow(new NotExistChannelException())
                 .when(channelCrudRepository).findById(any(String.class));
@@ -116,7 +116,7 @@ public class ChannelIOServiceImplTest {
         ChannelUser channelUser = createChannelUser(channel, user);
 
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(channelUser))
@@ -135,7 +135,7 @@ public class ChannelIOServiceImplTest {
         Users user = createUser();
         channel.setCurrentParticipants(15);
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
 
@@ -157,7 +157,7 @@ public class ChannelIOServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.of(channelUser))
                 .when(channelUserRepository).findByChannelAndUser(any(Channel.class), any(Users.class));
 
@@ -178,7 +178,7 @@ public class ChannelIOServiceImplTest {
         doReturn(Optional.ofNullable(null))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // then
         assertThrows(NotExistChannelException.class, () -> channelIOService.exitChannel(channel.getId(), user.getId()));
@@ -195,7 +195,7 @@ public class ChannelIOServiceImplTest {
         doReturn(Optional.of(channel))
                 .when(channelCrudRepository).findById(any(String.class));
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
         doReturn(Optional.empty())
                 .when(channelUserRepository).findByChannelAndUser(any(Channel.class), any(Users.class));
 

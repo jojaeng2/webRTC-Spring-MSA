@@ -49,7 +49,7 @@ public class JwtUsersDetailsServiceTest {
                 .password(password)
                 .build();
         doReturn(Optional.of(user))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // when
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.getId().toString());

@@ -47,7 +47,7 @@ public class StompHandler implements ChannelInterceptor {
             String channelId = getChannelId(accessor);
             channelFindService.findById(channelId);
             if (isEnter(type)) {
-                channelIOService.enterChannel(channelId, UUID.fromString(userId));
+                channelIOService.enterChannel(channelId, userId);
             }
         }
         return message;

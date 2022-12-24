@@ -34,7 +34,7 @@ public class PointApiController {
             @RequestHeader("Authorization") String jwtAccessToken
     ) {
         String userId = getUserId(jwtAccessToken.substring(4));
-        int point = pointService.findPointSum(UUID.fromString(userId));
+        int point = pointService.findPointSum(userId);
         long ttl = channelInfoInjectService.findTtl(channelId);
         return new ResponseEntity<>(new ChannelTTLWithUserPointResponse(ttl, point), OK);
     }
@@ -47,7 +47,7 @@ public class PointApiController {
     ) {
         String userId = getUserId(jwtAccessToken.substring(4));
         long ttl = request.getRequestTTL();
-        Channel channel = channelLifeService.extension(channelId, UUID.fromString(userId), ttl);
+        Channel channel = channelLifeService.extension(channelId, userId, ttl);
         return new ResponseEntity<>(new ExtensionChannelTTLResponse(channel.getTimeToLive()), OK);
     }
 

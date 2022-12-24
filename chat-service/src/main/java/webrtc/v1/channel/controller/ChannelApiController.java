@@ -38,7 +38,7 @@ public class ChannelApiController {
             @RequestHeader("Authorization") String jwtAccessToken
     ) {
         String userId = getUserId(jwtAccessToken.substring(4));
-        Channel channel = channelLifeService.create(request, UUID.fromString(userId));
+        Channel channel = channelLifeService.create(request, userId);
         return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
     }
 
@@ -65,7 +65,7 @@ public class ChannelApiController {
             @NotNull @PathVariable("idx") String idx
     ) {
         String userId = getUserId(jwtAccessToken.substring(4));
-        List<Channel> channels = channelFindService.findMyChannel(orderType, UUID.fromString(userId), Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findMyChannel(orderType, userId, Integer.parseInt(idx));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
     }
 

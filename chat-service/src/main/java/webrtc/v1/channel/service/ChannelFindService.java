@@ -9,7 +9,7 @@ public interface ChannelFindService {
 
     List<Channel> findAnyChannel(String orderType, int idx);
 
-    List<Channel> findMyChannel(String orderType, UUID userId, int idx);
+    List<Channel> findMyChannel(String orderType, String userId, int idx);
 
 
     Channel findById(String id);

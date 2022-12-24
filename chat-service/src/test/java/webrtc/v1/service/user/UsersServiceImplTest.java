@@ -77,10 +77,10 @@ public class UsersServiceImplTest {
                 .password(password)
                 .email(email)
                 .build()))
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         //when
-        Users users2 = userService.findOneById(UUID.randomUUID());
+        Users users2 = userService.findOneById("1");
 
         //then
         assertThat(users2.getEmail()).isEqualTo(email);

@@ -99,7 +99,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneById(any(UUID.class));
+                .when(usersService).findOneById(any(String.class));
 
         doReturn(token)
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
@@ -134,7 +134,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistUserException())
-                .when(usersService).findOneById(any(UUID.class));
+                .when(usersService).findOneById(any(String.class));
 
         // when
 
@@ -166,7 +166,7 @@ public class VoiceControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(createUsers())
-                .when(usersService).findOneById(any(UUID.class));
+                .when(usersService).findOneById(any(String.class));
 
         doThrow(new OpenViduClientException())
                 .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));

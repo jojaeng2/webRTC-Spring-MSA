@@ -172,6 +172,12 @@
 			<version>42.4.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.azam.ulidj</groupId>
+			<artifactId>ulidj</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 

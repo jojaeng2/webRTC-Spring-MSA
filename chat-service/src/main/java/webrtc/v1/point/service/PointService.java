@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface PointService {
 
-    int findPointSum(UUID userId);
+    int findPointSum(String userId);
 }

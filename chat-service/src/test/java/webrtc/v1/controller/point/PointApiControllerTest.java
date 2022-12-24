@@ -117,7 +117,7 @@ public class PointApiControllerTest {
         Long channelTTL = 1234567L;
 
         doReturn(point)
-                .when(pointService).findPointSum(any(UUID.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 
@@ -155,7 +155,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistChannelException())
-                .when(pointService).findPointSum(any(UUID.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 
@@ -188,7 +188,7 @@ public class PointApiControllerTest {
                 .build();
 
         doThrow(new NotExistUserException())
-                .when(pointService).findPointSum(any(UUID.class));
+                .when(pointService).findPointSum(any(String.class));
 
         // when
 
@@ -227,7 +227,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doReturn(channel)
-                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -271,7 +271,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new NotExistChannelException())
-                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 
@@ -313,7 +313,7 @@ public class PointApiControllerTest {
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
         doThrow(new InsufficientPointException())
-                .when(channelLifeService).extension(any(String.class), any(UUID.class), any(Long.class));
+                .when(channelLifeService).extension(any(String.class), any(String.class), any(Long.class));
 
         // when
 

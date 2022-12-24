@@ -44,7 +44,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final VoiceRoomRepository voiceRoomRepository;
     private final PointRepository pointRepository;
     private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
-    private final ChatLogService chatLogService;
 
 
     private final long pointUnit = 1L;
@@ -52,7 +51,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final long channelExtensionMinute = 30L;
 
     @Transactional
-    public Channel create(CreateChannelRequest request, UUID userId) {
+    public Channel create(CreateChannelRequest request, String userId) {
         Channel channel = createChannelIfNotExist(request);
         request.getHashTags().forEach(tagName -> {
             createChannelHashTag(channel, tagName);
@@ -73,7 +72,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
     @Transactional
-    public Channel extension(String channelId, UUID userId, Long requestTTL) {
+    public Channel extension(String channelId, String userId, Long requestTTL) {
         Channel channel = findChannelById(channelId);
         Users user = findUserById(userId);
         int sum = getPointSumByUser(user);
@@ -103,7 +102,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         return channel;
     }
 
-    private Users userPointDecrease(UUID userId) {
+    private Users userPointDecrease(String userId) {
 
         Users user = findUserById(userId);
 
@@ -158,7 +157,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         channelHashTagRepository.save(channelHashTag);
     }
 
-    private Users findUserById(UUID id) {
+    private Users findUserById(String id) {
         return usersRepository.findById(id)
                 .orElseThrow(NotExistUserException::new);
     }

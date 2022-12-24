@@ -159,13 +159,13 @@ public class ChannelFindServiceTest {
     void 나의채널목록실패유저없음() {
         // given
         doReturn(Optional.empty())
-                .when(usersRepository).findById(any(UUID.class));
+                .when(usersRepository).findById(any(String.class));
 
         // when
 
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", UUID.randomUUID(), 0));
+        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", "1", 0));
     }
 
 //    @Test
