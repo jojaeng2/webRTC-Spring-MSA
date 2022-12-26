@@ -4,23 +4,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.hashtag.entity.HashTag;
-import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelListRepository;
+import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
 import webrtc.v1.hashtag.repository.HashTagRepository;
+import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
+import static webrtc.v1.channel.enums.OrderType.ASC;
+import static webrtc.v1.channel.enums.OrderType.DESC;
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +40,8 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      */
     @PostConstruct
     private void createMapping() {
-        orderMap.put("partiASC", "asc");
-        orderMap.put("partiDESC", "desc");
+        orderMap.put("partiASC", ASC.getType());
+        orderMap.put("partiDESC", DESC.getType());
     }
 
     /*
@@ -109,7 +110,7 @@ public class ChannelFindServiceImpl implements ChannelFindService {
      * Default = asc
      */
     private String findOrderType(String type) {
-        if(orderMap.containsKey(type)) return orderMap.get(type);
-        return "asc";
+        if (orderMap.containsKey(type)) return orderMap.get(type);
+        return ASC.getType();
     }
 }
