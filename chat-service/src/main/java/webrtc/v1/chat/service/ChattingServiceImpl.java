@@ -45,43 +45,54 @@ public class ChattingServiceImpl implements ChattingService {
      */
     @Transactional
     public void send(ClientMessageType type, String channelId, String chatMessage, String userId) {
-        Users user = usersRepository.findById(userId)
-                .orElseThrow(NotExistUserException::new);
-        Channel channel = channelCrudRepository.findById(channelId)
-                .orElseThrow(NotExistChannelException::new);
-        List<Users> channelUsers = channelUserRepository.findByChannel(channel)
-                .stream()
-                .map(ChannelUser::getUser)
-                .collect(toList());
+        Users user = findUsersById(userId);
+        Channel channel = findChannelById(channelId);
+        List<Users> users = findUsersByChannel(channel);
         if (isReenter(type)) {
-            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, 0L, user);
+            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, users, 0L, user);
             sendToRedis(serverMessage);
         }
         if (isNotReenter(type)) {
             long logIdx = chatLogService.save(type, chatMessage, channel, user);
-            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, channelUsers, logIdx, user);
+            ChattingMessage serverMessage = chattingMessageFactory.createMessage(channel, type, chatMessage, users, logIdx, user);
             sendToRedis(serverMessage);
         }
     }
 
     @Transactional
     public void closeChannel(ClientMessageType type, String channelId) {
-        Channel channel = channelCrudRepository.findById(channelId)
-                .orElseThrow(NotExistChannelException::new);
+        Channel channel = findChannelById(channelId);
         ChattingMessage chattingMessage = chattingMessageFactory.closeMessage(channel);
         channelLifeService.delete(channelId);
         sendToRedis(chattingMessage);
     }
 
-    boolean isReenter(ClientMessageType type) {
+    private boolean isReenter(ClientMessageType type) {
         return type == REENTER;
     }
 
-    boolean isNotReenter(ClientMessageType type) {
+    private boolean isNotReenter(ClientMessageType type) {
         return type != REENTER;
     }
 
-    void sendToRedis(ChattingMessage message) {
+    private void sendToRedis(ChattingMessage message) {
         redisTemplate.convertAndSend(channelTopic.getTopic(), message);
+    }
+
+    private Channel findChannelById(String id) {
+        return channelCrudRepository.findById(id)
+                .orElseThrow(NotExistChannelException::new);
+    }
+
+    private Users findUsersById(String id) {
+        return usersRepository.findById(id)
+                .orElseThrow(NotExistUserException::new);
+    }
+
+    private List<Users> findUsersByChannel(Channel channel) {
+        return channelUserRepository.findByChannel(channel)
+                .stream()
+                .map(ChannelUser::getUser)
+                .collect(toList());
     }
 }
