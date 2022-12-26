@@ -11,7 +11,7 @@ import static webrtc.v1.channel.enums.ChannelInfo.EXPIRE;
 
 @Service
 @RequiredArgsConstructor
-public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
+public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService {
 
     private final ChannelRedisRepository channelRedisRepository;
 
@@ -25,7 +25,7 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
 
     public long findTtl(String id) {
         long ttl = channelRedisRepository.findTtl(id);
-        if(isExpire(ttl)) {
+        if (isExpire(ttl)) {
             throw new NotExistChannelException();
         }
         return ttl;
