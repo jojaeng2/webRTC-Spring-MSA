@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import static webrtc.v1.chat.enums.ChatLogCount.LOADING;
 import static webrtc.v1.chat.enums.RedisKeys.*;
+import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
 
 @RequiredArgsConstructor
 @Repository
@@ -25,7 +26,6 @@ public class ChatLogRedisRepositoryImpl {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
     private ValueOperations<String, Object> opsValueOperation;
-    private final long ttl = 60L * 60L;
 
     @PostConstruct
     private void init() {
@@ -34,7 +34,7 @@ public class ChatLogRedisRepositoryImpl {
 
     public void save(String channelId, ChatLog chatLog) {
         opsValueOperation.set(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + chatLog.getIdx(), chatLog);
-        redisTemplate.expire(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + chatLog.getIdx(), ttl, TimeUnit.SECONDS);
+        redisTemplate.expire(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + chatLog.getIdx(), CREATE_CHANNEL.getUnit(), TimeUnit.SECONDS);
     }
 
     public Optional<ChatLog> findByChannelIdAndIndex(String channelId, Integer index) {
