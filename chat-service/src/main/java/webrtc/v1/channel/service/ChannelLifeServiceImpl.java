@@ -4,30 +4,27 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
-import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.chat.service.ChatLogService;
-import webrtc.v1.point.exception.PointException.InsufficientPointException;
-import webrtc.v1.point.repository.PointRepository;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
-import webrtc.v1.channel.repository.ChannelRedisRepository;
-import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.channel.repository.ChannelHashTagRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.chat.entity.ChatLog;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
+import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.point.entity.Point;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
-
-import java.util.UUID;
 
 
 @Slf4j
@@ -118,7 +115,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         usersRepository.save(user);
         return user;
     }
-
 
 
     private HashTag hashTagBuilder(String name) {
