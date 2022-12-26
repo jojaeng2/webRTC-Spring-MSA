@@ -5,7 +5,7 @@ public enum PointMessage {
     CREATE(" 님이 채널 생성에 포인트를 사용했습니다."),
     JOIN("회원 가입");
 
-    private String message;
+    private final String message;
 
     PointMessage(String message) {
         this.message = message;
