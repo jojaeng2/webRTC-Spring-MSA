@@ -11,20 +11,18 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.service.ChatLogService;
 import webrtc.v1.chat.service.ChattingServiceImpl;
-import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;

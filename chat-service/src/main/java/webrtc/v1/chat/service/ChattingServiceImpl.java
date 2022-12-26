@@ -15,7 +15,7 @@ import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
