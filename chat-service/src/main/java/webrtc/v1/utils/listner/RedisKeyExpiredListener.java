@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
+import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.chat.service.ChattingService;
 
@@ -12,7 +13,7 @@ import webrtc.v1.chat.service.ChattingService;
 public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Autowired
-    private ChattingService chattingService;
+    private ChannelLifeService channelLifeService;
 
     public RedisKeyExpiredListener(@Qualifier("redisMessageListener")RedisMessageListenerContainer listenerContainer) {
         super(listenerContainer);
@@ -20,6 +21,6 @@ public class RedisKeyExpiredListener extends KeyExpirationEventMessageListener {
 
     @Override
     public void doHandleMessage(org.springframework.data.redis.connection.Message message) {
-        chattingService.closeChannel(ClientMessageType.CLOSE, message.toString());
+        channelLifeService.delete(message.toString());
     }
 }

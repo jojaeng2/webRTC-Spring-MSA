@@ -49,6 +49,7 @@ public class ChattingMessageFactoryImpl implements ChattingMessageFactory{
     public ChattingMessage closeMessage(Channel channel) {
         return ChattingMessage.builder()
                 .channelId(channel.getId())
+                .type(CLOSE)
                 .chatMessage("채팅방의 수명이 끝났습니다.")
                 .currentParticipants(channel.getCurrentParticipants())
                 .build();

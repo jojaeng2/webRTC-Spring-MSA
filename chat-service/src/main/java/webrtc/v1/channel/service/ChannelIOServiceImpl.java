@@ -12,7 +12,7 @@ import webrtc.v1.channel.exception.ChannelUserException.NotExistChannelUserExcep
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
 @Service

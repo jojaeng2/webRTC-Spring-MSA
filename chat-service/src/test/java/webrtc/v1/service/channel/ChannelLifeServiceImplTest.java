@@ -16,6 +16,7 @@ import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.chat.service.ChattingService;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -24,7 +25,7 @@ import webrtc.v1.channel.repository.ChannelHashTagRepository;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.point.entity.Point;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 import webrtc.v1.chat.service.factory.ChattingMessageFactory;
@@ -32,7 +33,6 @@ import webrtc.v1.chat.service.factory.ChattingMessageFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,6 +56,8 @@ public class ChannelLifeServiceImplTest {
     private ChannelListRepository channelListRepository;
     @Mock
     private VoiceRoomRepository voiceRoomRepository;
+    @Mock
+    private ChattingService chattingService;
     @Spy
     private ChannelRedisRepository channelRedisRepository;
 

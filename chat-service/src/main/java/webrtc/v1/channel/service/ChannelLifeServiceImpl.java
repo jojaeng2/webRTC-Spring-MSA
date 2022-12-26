@@ -15,6 +15,7 @@ import webrtc.v1.channel.repository.ChannelHashTagRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
+import webrtc.v1.chat.service.ChattingService;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.point.entity.Point;
@@ -22,7 +23,7 @@ import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 
@@ -43,6 +44,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final HashTagRepository hashTagRepository;
     private final VoiceRoomRepository voiceRoomRepository;
     private final PointRepository pointRepository;
+    private final ChattingService chattingService;
     private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
 
@@ -59,9 +61,11 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         return channel;
     }
 
+    @Transactional
     public void delete(String channelId) {
         Channel channel = findChannelById(channelId);
         deleteChannel(channel);
+        chattingService.closeChannel(channel);
     }
 
     @Transactional

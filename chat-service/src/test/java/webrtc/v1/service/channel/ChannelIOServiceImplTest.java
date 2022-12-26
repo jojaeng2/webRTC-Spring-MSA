@@ -19,11 +19,10 @@ import webrtc.v1.channel.service.ChannelIOServiceImpl;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -13,8 +13,6 @@ import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.point.service.PointService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 
-import java.util.UUID;
-
 import static org.springframework.http.HttpStatus.OK;
 
 @RequiredArgsConstructor

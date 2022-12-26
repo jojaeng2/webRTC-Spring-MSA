@@ -8,7 +8,7 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelUser;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.enums.ChannelType;
-import webrtc.v1.user.repository.ChannelUserRepository;
+import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
