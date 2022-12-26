@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import webrtc.v1.enums.SocketInterceptorErrorType;
+import webrtc.v1.chat.enums.SocketInterceptorErrorType;
 
 public class UserException {
 

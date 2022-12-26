@@ -23,7 +23,7 @@ import webrtc.v1.utils.jwt.exception.JwtException.CustomJwtExceptionDto;
 import webrtc.v1.user.exception.UserException.NotExistUserExceptionDto;
 import webrtc.v1.chat.service.ChatLogService;
 
-import static webrtc.v1.enums.SocketInterceptorErrorType.*;
+import static webrtc.v1.chat.enums.SocketInterceptorErrorType.*;
 
 @Component
 @RequiredArgsConstructor
