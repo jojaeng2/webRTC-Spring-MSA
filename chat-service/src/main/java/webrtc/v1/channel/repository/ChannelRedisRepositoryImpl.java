@@ -9,14 +9,14 @@ import webrtc.v1.channel.entity.Channel;
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
+import static webrtc.v1.channel.enums.ChannelInfo.CREATE_TTL;
+
 @RequiredArgsConstructor
 @Repository
 public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
     private final RedisTemplate<String, Object> redisTemplate;
     private ValueOperations<String, Object> opsValueOperation;
-    private final long channelTTL = 60L * 60L;
-
     @PostConstruct
     private void init() {
         opsValueOperation = redisTemplate.opsForValue();
@@ -24,7 +24,7 @@ public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
 
     public void save(Channel channel) {
         opsValueOperation.set(channel.getId(), channel);
-        redisTemplate.expire(channel.getId(), channelTTL, TimeUnit.SECONDS);
+        redisTemplate.expire(channel.getId(), CREATE_TTL.getTtl(), TimeUnit.SECONDS);
     }
 
 

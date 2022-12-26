@@ -6,10 +6,12 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
 
+import static webrtc.v1.channel.enums.ChannelInfo.EXPIRE;
+
 
 @Service
 @RequiredArgsConstructor
-public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
+public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService {
 
     private final ChannelRedisRepository channelRedisRepository;
 
@@ -23,13 +25,13 @@ public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService{
 
     public long findTtl(String id) {
         long ttl = channelRedisRepository.findTtl(id);
-        if(isRedisTTLExpire(ttl)) {
+        if (isExpire(ttl)) {
             throw new NotExistChannelException();
         }
         return ttl;
     }
 
-    boolean isRedisTTLExpire(long ttl) {
-        return ttl == -2;
+    private boolean isExpire(long ttl) {
+        return ttl == EXPIRE.getTtl();
     }
 }

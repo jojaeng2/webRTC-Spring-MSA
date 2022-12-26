@@ -4,30 +4,30 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.channel.entity.ChannelUser;
-import webrtc.v1.chat.entity.ChatLog;
-import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
-import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.chat.service.ChatLogService;
-import webrtc.v1.point.exception.PointException.InsufficientPointException;
-import webrtc.v1.point.repository.PointRepository;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
-import webrtc.v1.channel.repository.ChannelRedisRepository;
-import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.channel.repository.ChannelHashTagRepository;
+import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.chat.entity.ChatLog;
+import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
+import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.point.entity.Point;
+import webrtc.v1.point.exception.PointException.InsufficientPointException;
+import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 
-import java.util.UUID;
+import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
+import static webrtc.v1.point.enums.PointUnit.EXTENSION_CHANNEL;
 
 
 @Slf4j
@@ -46,10 +46,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
 
-    private final long pointUnit = 1L;
-    private final long channelCreatePoint = 2L;
-    private final long channelExtensionMinute = 30L;
-
     @Transactional
     public Channel create(CreateChannelRequest request, String userId) {
         Channel channel = createChannelIfNotExist(request);
@@ -65,10 +61,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     public void delete(String channelId) {
         Channel channel = findChannelById(channelId);
-        channelCrudRepository.delete(channel);
-        channelRedisRepository.delete(channelId);
-        voiceRoomRepository.delete(channelId);
-        chatLogRedisRepositoryImpl.delete(channelId);
+        deleteChannel(channel);
     }
 
     @Transactional
@@ -77,48 +70,55 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Users user = findUserById(userId);
         int sum = getPointSumByUser(user);
         // 포인트 부족
-        if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
+        if (sum < requestTTL) throw new InsufficientPointException();
         Point point = Point.extensionChannelTTL(user.getEmail(), requestTTL);
         user.addPoint(point);
-        channelRedisRepository.extensionTtl(channel, requestTTL * channelExtensionMinute * 60L);
+        channelRedisRepository.extensionTtl(channel, requestTTL * EXTENSION_CHANNEL.getUnit());
         return channel;
     }
 
 
+    private void deleteChannel(Channel channel) {
+        channelCrudRepository.delete(channel);
+        channelRedisRepository.delete(channel.getId());
+        voiceRoomRepository.delete(channel.getId());
+        chatLogRedisRepositoryImpl.delete(channel.getId());
+    }
+
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        channelCrudRepository
-                .findByChannelName(request.getChannelName())
-                .ifPresent(
-                        channel -> {
-                            throw new AlreadyExistChannelException();
-                        }
-                );
+        isValidChannelName(request.getChannelName());
         Channel channel = Channel.builder()
                 .channelName(request.getChannelName())
                 .channelType(request.getChannelType())
                 .build();
-        channelCrudRepository.save(channel);
-        channelRedisRepository.save(channel);
+        saveChannel(channel);
         return channel;
     }
 
-    private Users userPointDecrease(String userId) {
-
-        Users user = findUserById(userId);
-
-        int sum = pointRepository.findByUser(user).stream()
-                .map(Point::getAmount)
-                .reduce(0, Integer::sum);
-
-        // 포인트 부족
-        if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();
-
-        Point point = Point.createChannel(user.getEmail());
-        user.addPoint(point);
-        usersRepository.save(user);
-        return user;
+    private void saveChannel(Channel channel) {
+        channelCrudRepository.save(channel);
+        channelRedisRepository.save(channel);
     }
 
+    private void isValidChannelName(String name) {
+        channelCrudRepository
+                .findByChannelName(name)
+                .ifPresent(it -> {
+                    throw new AlreadyExistChannelException();
+                });
+    }
+
+    private Users userPointDecrease(String userId) {
+        Users user = findUserById(userId);
+        int sumOfPoint = getPointSumByUser(user);
+        if (sumOfPoint >= CREATE_CHANNEL.getUnit()) {
+            Point point = Point.createChannel(user.getEmail());
+            user.addPoint(point);
+            usersRepository.save(user);
+            return user;
+        }
+        throw new InsufficientPointException();
+    }
 
 
     private HashTag hashTagBuilder(String name) {
