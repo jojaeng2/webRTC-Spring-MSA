@@ -61,10 +61,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
     public void delete(String channelId) {
         Channel channel = findChannelById(channelId);
-        channelCrudRepository.delete(channel);
-        channelRedisRepository.delete(channelId);
-        voiceRoomRepository.delete(channelId);
-        chatLogRedisRepositoryImpl.delete(channelId);
+        deleteChannel(channel);
     }
 
     @Transactional
@@ -81,38 +78,46 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     }
 
 
+    private void deleteChannel(Channel channel) {
+        channelCrudRepository.delete(channel);
+        channelRedisRepository.delete(channel.getId());
+        voiceRoomRepository.delete(channel.getId());
+        chatLogRedisRepositoryImpl.delete(channel.getId());
+    }
+
     private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        channelCrudRepository
-                .findByChannelName(request.getChannelName())
-                .ifPresent(
-                        channel -> {
-                            throw new AlreadyExistChannelException();
-                        }
-                );
+        isValidChannelName(request.getChannelName());
         Channel channel = Channel.builder()
                 .channelName(request.getChannelName())
                 .channelType(request.getChannelType())
                 .build();
-        channelCrudRepository.save(channel);
-        channelRedisRepository.save(channel);
+        saveChannel(channel);
         return channel;
     }
 
+    private void saveChannel(Channel channel) {
+        channelCrudRepository.save(channel);
+        channelRedisRepository.save(channel);
+    }
+
+    private void isValidChannelName(String name) {
+        channelCrudRepository
+                .findByChannelName(name)
+                .ifPresent(it -> {
+                    throw new AlreadyExistChannelException();
+                });
+    }
+
     private Users userPointDecrease(String userId) {
-
         Users user = findUserById(userId);
-
-        int sum = pointRepository.findByUser(user).stream()
-                .map(Point::getAmount)
-                .reduce(0, Integer::sum);
-
-        // 포인트 부족
-        if (sum < CREATE_CHANNEL.getUnit()) throw new InsufficientPointException();
-
-        Point point = Point.createChannel(user.getEmail());
-        user.addPoint(point);
-        usersRepository.save(user);
-        return user;
+        int sumOfPoint = getPointSumByUser(user);
+        if (sumOfPoint >= CREATE_CHANNEL.getUnit()) {
+            Point point = Point.createChannel(user.getEmail());
+            user.addPoint(point);
+            usersRepository.save(user);
+            return user;
+        }
+        throw new InsufficientPointException();
     }
 
 
