@@ -26,6 +26,9 @@ import webrtc.v1.user.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
 
+import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
+import static webrtc.v1.point.enums.PointUnit.EXTENSION_CHANNEL;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,10 +45,6 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
     private final PointRepository pointRepository;
     private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
-
-    private final long pointUnit = 1L;
-    private final long channelCreatePoint = 2L;
-    private final long channelExtensionMinute = 30L;
 
     @Transactional
     public Channel create(CreateChannelRequest request, String userId) {
@@ -74,10 +73,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
         Users user = findUserById(userId);
         int sum = getPointSumByUser(user);
         // 포인트 부족
-        if (sum < requestTTL * pointUnit) throw new InsufficientPointException();
+        if (sum < requestTTL) throw new InsufficientPointException();
         Point point = Point.extensionChannelTTL(user.getEmail(), requestTTL);
         user.addPoint(point);
-        channelRedisRepository.extensionTtl(channel, requestTTL * channelExtensionMinute * 60L);
+        channelRedisRepository.extensionTtl(channel, requestTTL * EXTENSION_CHANNEL.getUnit());
         return channel;
     }
 
@@ -108,7 +107,7 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
                 .reduce(0, Integer::sum);
 
         // 포인트 부족
-        if (sum < channelCreatePoint * pointUnit) throw new InsufficientPointException();
+        if (sum < CREATE_CHANNEL.getUnit()) throw new InsufficientPointException();
 
         Point point = Point.createChannel(user.getEmail());
         user.addPoint(point);
