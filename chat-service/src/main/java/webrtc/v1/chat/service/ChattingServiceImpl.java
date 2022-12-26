@@ -59,11 +59,8 @@ public class ChattingServiceImpl implements ChattingService {
         }
     }
 
-    @Transactional
-    public void closeChannel(ClientMessageType type, String channelId) {
-        Channel channel = findChannelById(channelId);
+    public void closeChannel(Channel channel) {
         ChattingMessage chattingMessage = chattingMessageFactory.closeMessage(channel);
-        channelLifeService.delete(channelId);
         sendToRedis(chattingMessage);
     }
 

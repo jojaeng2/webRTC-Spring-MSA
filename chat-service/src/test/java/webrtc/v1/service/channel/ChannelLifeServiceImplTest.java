@@ -16,6 +16,7 @@ import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
+import webrtc.v1.chat.service.ChattingService;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
@@ -56,6 +57,8 @@ public class ChannelLifeServiceImplTest {
     private ChannelListRepository channelListRepository;
     @Mock
     private VoiceRoomRepository voiceRoomRepository;
+    @Mock
+    private ChattingService chattingService;
     @Spy
     private ChannelRedisRepository channelRedisRepository;
 
