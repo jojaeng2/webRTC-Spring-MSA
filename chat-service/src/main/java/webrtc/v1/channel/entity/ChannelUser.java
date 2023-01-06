@@ -17,17 +17,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ChannelUser implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "channel_user_id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "channel_user_id")
+  private Long id;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "channel_id")
-    private Channel channel;
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "channel_id")
+  private Channel channel;
 
-    @ManyToOne
-    @JoinColumn(name = "USERS_ID")
-    private Users user;
+  @ManyToOne
+  @JoinColumn(name = "USERS_ID")
+  private Users user;
 }

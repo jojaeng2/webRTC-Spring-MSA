@@ -7,55 +7,56 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import webrtc.v1.chat.enums.SocketInterceptorErrorType;
 
-public class ChannelException extends RuntimeException{
+public class ChannelException extends RuntimeException {
 
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ChannelExceptionDto {
+  @Getter
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class ChannelExceptionDto {
 
-        private SocketInterceptorErrorType type;
-        private String exception;
-        private int idx;
+    private SocketInterceptorErrorType type;
+    private String exception;
+    private int idx;
 
-        public void setField(SocketInterceptorErrorType type, String exception, int idx) {
-            this.type = type;
-            this.exception = exception;
-            this.idx = idx;
-        }
-
-        public ChannelExceptionDto(SocketInterceptorErrorType type, String exception) {
-            this.type = type;
-            this.exception = exception;
-        }
+    public void setField(SocketInterceptorErrorType type, String exception, int idx) {
+      this.type = type;
+      this.exception = exception;
+      this.idx = idx;
     }
 
-    @ResponseStatus(code = HttpStatus.CONFLICT)
-    public static class AlreadyExistChannelException extends ChannelException {
-
+    public ChannelExceptionDto(SocketInterceptorErrorType type, String exception) {
+      this.type = type;
+      this.exception = exception;
     }
+  }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public static class NotExistChannelException extends ChannelException {
+  @ResponseStatus(code = HttpStatus.CONFLICT)
+  public static class AlreadyExistChannelException extends ChannelException {
 
+  }
+
+  @ResponseStatus(code = HttpStatus.NOT_FOUND)
+  public static class NotExistChannelException extends ChannelException {
+
+  }
+
+  @ResponseStatus(code = HttpStatus.ALREADY_REPORTED)
+  public static class AlreadyExistUserInChannelException extends ChannelException {
+
+    private Long idx;
+
+    public void setIdx(Long idx) {
+      this.idx = idx;
     }
+  }
 
-    @ResponseStatus(code = HttpStatus.ALREADY_REPORTED)
-    public static class AlreadyExistUserInChannelException extends ChannelException {
-        private Long idx;
+  @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
+  public static class ChannelParticipantsFullException extends ChannelException {
 
-        public void setIdx(Long idx) {
-            this.idx = idx;
-        }
-    }
+  }
 
-    @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE)
-    public static class ChannelParticipantsFullException extends ChannelException {
+  @ResponseStatus(code = HttpStatus.NOT_FOUND)
+  public static class NotExistEnterChannelException extends ChannelException {
 
-    }
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public static class NotExistEnterChannelException extends ChannelException {
-
-    }
+  }
 }

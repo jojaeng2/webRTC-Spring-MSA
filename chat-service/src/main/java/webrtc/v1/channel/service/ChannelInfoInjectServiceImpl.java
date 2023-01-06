@@ -13,25 +13,25 @@ import static webrtc.v1.channel.enums.ChannelInfo.EXPIRE;
 @RequiredArgsConstructor
 public class ChannelInfoInjectServiceImpl implements ChannelInfoInjectService {
 
-    private final ChannelRedisRepository channelRedisRepository;
+  private final ChannelRedisRepository channelRedisRepository;
 
-    /**
-     * redis 저장소에 접근해 채널의 남은 수명 반환
-     */
-    public Channel setTtl(Channel channel) {
-        channel.setTimeToLive(findTtl(channel.getId()));
-        return channel;
-    }
+  /**
+   * redis 저장소에 접근해 채널의 남은 수명 반환
+   */
+  public Channel setTtl(Channel channel) {
+    channel.setTimeToLive(findTtl(channel.getId()));
+    return channel;
+  }
 
-    public long findTtl(String id) {
-        long ttl = channelRedisRepository.findTtl(id);
-        if (isExpire(ttl)) {
-            throw new NotExistChannelException();
-        }
-        return ttl;
+  public long findTtl(String id) {
+    long ttl = channelRedisRepository.findTtl(id);
+    if (isExpire(ttl)) {
+      throw new NotExistChannelException();
     }
+    return ttl;
+  }
 
-    private boolean isExpire(long ttl) {
-        return ttl == EXPIRE.getTtl();
-    }
+  private boolean isExpire(long ttl) {
+    return ttl == EXPIRE.getTtl();
+  }
 }

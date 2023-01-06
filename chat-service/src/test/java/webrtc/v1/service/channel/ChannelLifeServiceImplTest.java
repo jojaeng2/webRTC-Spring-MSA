@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelListRepository;
@@ -96,7 +97,7 @@ public class ChannelLifeServiceImplTest {
                 .when(pointRepository).findByUser(any(Users.class));
 
         // when
-        Channel channel = channelService.create(createChannelRequest(), "");
+        Channel channel = channelService.create(createChannelRequest());
 
         //then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -119,7 +120,7 @@ public class ChannelLifeServiceImplTest {
                 .when(pointRepository).findByUser(any(Users.class));
         // when
 
-        Channel channel = channelService.create(createChannelRequest(), "1");
+        Channel channel = channelService.create(createChannelRequest());
 
         // then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
@@ -142,7 +143,7 @@ public class ChannelLifeServiceImplTest {
                 .when(pointRepository).findByUser(any(Users.class));
 
         // when
-        Channel channel = channelService.create(createChannelRequest(), "1");
+        Channel channel = channelService.create(createChannelRequest());
 
         // then
         assertThat(channel.getChannelName()).isEqualTo(channelName1);
@@ -160,7 +161,7 @@ public class ChannelLifeServiceImplTest {
 
         // then
         assertThrows(AlreadyExistChannelException.class, () -> {
-            channelService.create(createChannelRequest(), "1");
+            channelService.create(createChannelRequest());
         });
     }
 
@@ -174,7 +175,7 @@ public class ChannelLifeServiceImplTest {
                 .when(usersRepository).findById(any(String.class));
 
         // then
-        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest(), "1"));
+        assertThrows(InsufficientPointException.class, () -> channelService.create(createChannelRequest()));
 
     }
 
@@ -185,7 +186,7 @@ public class ChannelLifeServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest(), "1"));
+        assertThrows(NotExistUserException.class, () -> channelService.create(createChannelRequest()));
     }
 
     @Test
@@ -278,13 +279,13 @@ public class ChannelLifeServiceImplTest {
         assertThrows(NotExistUserException.class, () -> channelService.extension(channel.getId(), "1", requestTTL));
     }
 
-    private CreateChannelRequest createChannelRequest() {
+    private CreateChannelDto createChannelRequest() {
         List<String> hashTags = new ArrayList<>();
         hashTags.add(tag1);
         hashTags.add(tag2);
         hashTags.add(tag3);
 
-        return new CreateChannelRequest(channelName1, hashTags, text);
+        return new CreateChannelDto(new CreateChannelRequest(channelName1, hashTags, text), "id");
     }
 
     private Users createUser() {

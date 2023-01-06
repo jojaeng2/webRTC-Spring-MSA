@@ -13,32 +13,33 @@ import static webrtc.v1.channel.enums.ChannelInfo.CREATE_TTL;
 
 @RequiredArgsConstructor
 @Repository
-public class ChannelRedisRepositoryImpl implements ChannelRedisRepository{
+public class ChannelRedisRepositoryImpl implements ChannelRedisRepository {
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> opsValueOperation;
-    @PostConstruct
-    private void init() {
-        opsValueOperation = redisTemplate.opsForValue();
-    }
+  private final RedisTemplate<String, Object> redisTemplate;
+  private ValueOperations<String, Object> opsValueOperation;
 
-    public void save(Channel channel) {
-        opsValueOperation.set(channel.getId(), channel);
-        redisTemplate.expire(channel.getId(), CREATE_TTL.getTtl(), TimeUnit.SECONDS);
-    }
+  @PostConstruct
+  private void init() {
+    opsValueOperation = redisTemplate.opsForValue();
+  }
+
+  public void save(Channel channel) {
+    opsValueOperation.set(channel.getId(), channel);
+    redisTemplate.expire(channel.getId(), CREATE_TTL.getTtl(), TimeUnit.SECONDS);
+  }
 
 
-    public Long findTtl(String channelId) {
-        return redisTemplate.getExpire(channelId);
-    }
+  public Long findTtl(String channelId) {
+    return redisTemplate.getExpire(channelId);
+  }
 
-    public void extensionTtl(Channel channel, Long requestTTL) {
-        long newTTL = findTtl(channel.getId()) + requestTTL;
-        channel.setTimeToLive(newTTL);
-        redisTemplate.expire(channel.getId(), newTTL, TimeUnit.SECONDS);
-    }
+  public void extensionTtl(Channel channel, Long requestTTL) {
+    long newTTL = findTtl(channel.getId()) + requestTTL;
+    channel.setTimeToLive(newTTL);
+    redisTemplate.expire(channel.getId(), newTTL, TimeUnit.SECONDS);
+  }
 
-    public void delete(String channelId) {
-        redisTemplate.delete(channelId);
-    }
+  public void delete(String channelId) {
+    redisTemplate.delete(channelId);
+  }
 }

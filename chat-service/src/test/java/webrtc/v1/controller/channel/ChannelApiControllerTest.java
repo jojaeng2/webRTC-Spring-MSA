@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.v1.channel.controller.ChannelApiController;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.entity.HashTag;
@@ -132,7 +135,7 @@ public class ChannelApiControllerTest {
                 .channelName(channelName1)
                 .channelType(text)
                 .build())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelDto.class));
 
         // when
 
@@ -185,7 +188,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new AlreadyExistChannelException())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelDto.class));
 
         // when
 
@@ -228,7 +231,7 @@ public class ChannelApiControllerTest {
                 .when(jwtTokenUtil).getUserIdFromToken(any());
 
         doThrow(new JwtException.JwtAccessTokenNotValid())
-                .when(channelLifeService).create(any(CreateChannelRequest.class), any(String.class));
+                .when(channelLifeService).create(any(CreateChannelDto.class));
 
         // when
 
@@ -383,7 +386,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channels)
-                .when(channelFindService).findAnyChannel(any(String.class), any(Integer.class));
+                .when(channelFindService).findAnyChannel(any(FindChannelDto.class));
 
         // when
 
@@ -445,7 +448,7 @@ public class ChannelApiControllerTest {
         }
 
         doReturn(channels)
-                .when(channelFindService).findMyChannel(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findMyChannel(any(FindMyChannelDto.class));
 
         // when
 

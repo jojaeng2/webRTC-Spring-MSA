@@ -5,6 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import webrtc.v1.channel.dto.ChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelFindServiceImpl;
 import webrtc.v1.channel.service.ChannelInfoInjectService;
@@ -165,7 +167,7 @@ public class ChannelFindServiceTest {
 
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel("partiASC", "1", 0));
+        assertThrows(NotExistUserException.class, () -> channelFindService.findMyChannel(new FindMyChannelDto("partiASC", "1", 0)));
     }
 
 //    @Test

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
@@ -36,149 +37,151 @@ import static webrtc.v1.point.enums.PointUnit.EXTENSION_CHANNEL;
 @Service
 public class ChannelLifeServiceImpl implements ChannelLifeService {
 
-    private final ChannelCrudRepository channelCrudRepository;
-    private final ChannelHashTagRepository channelHashTagRepository;
-    private final ChannelRedisRepository channelRedisRepository;
-    private final ChannelUserRepository channelUserRepository;
-    private final UsersRepository usersRepository;
-    private final HashTagRepository hashTagRepository;
-    private final VoiceRoomRepository voiceRoomRepository;
-    private final PointRepository pointRepository;
-    private final ChattingService chattingService;
-    private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
+  private final ChannelCrudRepository channelCrudRepository;
+  private final ChannelHashTagRepository channelHashTagRepository;
+  private final ChannelRedisRepository channelRedisRepository;
+  private final ChannelUserRepository channelUserRepository;
+  private final UsersRepository usersRepository;
+  private final HashTagRepository hashTagRepository;
+  private final VoiceRoomRepository voiceRoomRepository;
+  private final PointRepository pointRepository;
+  private final ChattingService chattingService;
+  private final ChatLogRedisRepositoryImpl chatLogRedisRepositoryImpl;
 
 
-    @Transactional
-    public Channel create(CreateChannelRequest request, String userId) {
-        Channel channel = createChannelIfNotExist(request);
-        request.getHashTags().forEach(tagName -> {
-            createChannelHashTag(channel, tagName);
+  @Transactional
+  public Channel create(CreateChannelDto request) {
+    Channel channel = createChannelIfNotExist(request);
+    request.getHashTags().forEach(tagName -> {
+      createChannelHashTag(channel, tagName);
+    });
+    Users user = userPointDecrease(request.getUserId());
+    createChannelUser(user, channel);
+    createChatLog(channel, user);
+    channelCrudRepository.save(channel);
+    return channel;
+  }
+
+  @Transactional
+  public void delete(String channelId) {
+    Channel channel = findChannelById(channelId);
+    deleteChannel(channel);
+    chattingService.closeChannel(channel);
+  }
+
+  @Transactional
+  public Channel extension(String channelId, String userId, Long requestTTL) {
+    Channel channel = findChannelById(channelId);
+    Users user = findUserById(userId);
+    int sum = getPointSumByUser(user);
+    // 포인트 부족
+    if (sum < requestTTL) {
+      throw new InsufficientPointException();
+    }
+    Point point = Point.extensionChannelTTL(user.getEmail(), requestTTL);
+    user.addPoint(point);
+    channelRedisRepository.extensionTtl(channel, requestTTL * EXTENSION_CHANNEL.getUnit());
+    return channel;
+  }
+
+
+  private void deleteChannel(Channel channel) {
+    channelCrudRepository.delete(channel);
+    channelRedisRepository.delete(channel.getId());
+    voiceRoomRepository.delete(channel.getId());
+    chatLogRedisRepositoryImpl.delete(channel.getId());
+  }
+
+  private Channel createChannelIfNotExist(CreateChannelDto request) {
+    isValidChannelName(request.getChannelName());
+    Channel channel = Channel.builder()
+        .channelName(request.getChannelName())
+        .channelType(request.getType())
+        .build();
+    saveChannel(channel);
+    return channel;
+  }
+
+  private void saveChannel(Channel channel) {
+    channelCrudRepository.save(channel);
+    channelRedisRepository.save(channel);
+  }
+
+  private void isValidChannelName(String name) {
+    channelCrudRepository
+        .findByChannelName(name)
+        .ifPresent(it -> {
+          throw new AlreadyExistChannelException();
         });
-        Users user = userPointDecrease(userId);
-        createChannelUser(user, channel);
-        createChatLog(channel, user);
-        channelCrudRepository.save(channel);
-        return channel;
+  }
+
+  private Users userPointDecrease(String userId) {
+    Users user = findUserById(userId);
+    int sumOfPoint = getPointSumByUser(user);
+    if (sumOfPoint >= CREATE_CHANNEL.getUnit()) {
+      Point point = Point.createChannel(user.getEmail());
+      user.addPoint(point);
+      usersRepository.save(user);
+      return user;
     }
-
-    @Transactional
-    public void delete(String channelId) {
-        Channel channel = findChannelById(channelId);
-        deleteChannel(channel);
-        chattingService.closeChannel(channel);
-    }
-
-    @Transactional
-    public Channel extension(String channelId, String userId, Long requestTTL) {
-        Channel channel = findChannelById(channelId);
-        Users user = findUserById(userId);
-        int sum = getPointSumByUser(user);
-        // 포인트 부족
-        if (sum < requestTTL) throw new InsufficientPointException();
-        Point point = Point.extensionChannelTTL(user.getEmail(), requestTTL);
-        user.addPoint(point);
-        channelRedisRepository.extensionTtl(channel, requestTTL * EXTENSION_CHANNEL.getUnit());
-        return channel;
-    }
+    throw new InsufficientPointException();
+  }
 
 
-    private void deleteChannel(Channel channel) {
-        channelCrudRepository.delete(channel);
-        channelRedisRepository.delete(channel.getId());
-        voiceRoomRepository.delete(channel.getId());
-        chatLogRedisRepositoryImpl.delete(channel.getId());
-    }
+  private HashTag hashTagBuilder(String name) {
+    HashTag hashTag = HashTag.builder()
+        .name(name)
+        .build();
+    hashTagRepository.save(hashTag);
+    return hashTag;
+  }
 
-    private Channel createChannelIfNotExist(CreateChannelRequest request) {
-        isValidChannelName(request.getChannelName());
-        Channel channel = Channel.builder()
-                .channelName(request.getChannelName())
-                .channelType(request.getChannelType())
-                .build();
-        saveChannel(channel);
-        return channel;
-    }
-
-    private void saveChannel(Channel channel) {
-        channelCrudRepository.save(channel);
-        channelRedisRepository.save(channel);
-    }
-
-    private void isValidChannelName(String name) {
-        channelCrudRepository
-                .findByChannelName(name)
-                .ifPresent(it -> {
-                    throw new AlreadyExistChannelException();
-                });
-    }
-
-    private Users userPointDecrease(String userId) {
-        Users user = findUserById(userId);
-        int sumOfPoint = getPointSumByUser(user);
-        if (sumOfPoint >= CREATE_CHANNEL.getUnit()) {
-            Point point = Point.createChannel(user.getEmail());
-            user.addPoint(point);
-            usersRepository.save(user);
-            return user;
-        }
-        throw new InsufficientPointException();
-    }
+  private void createChannelUser(Users user, Channel channel) {
+    ChannelUser channelUser = ChannelUser.builder()
+        .user(user)
+        .channel(channel)
+        .build();
+    channel.enterChannelUser(channelUser);
+    channelUserRepository.save(channelUser);
+  }
 
 
-    private HashTag hashTagBuilder(String name) {
-        HashTag hashTag = HashTag.builder()
-                .name(name)
-                .build();
-        hashTagRepository.save(hashTag);
-        return hashTag;
-    }
+  private void createChatLog(Channel channel, Users user) {
+    ChatLog chatLog = ChatLog.createChannelLog(user);
+    chatLogRedisRepositoryImpl.save(channel.getId(), chatLog);
+    chatLogRedisRepositoryImpl.addLastIndex(channel.getId());
+    channel.addChatLog(chatLog);
+  }
 
-    private void createChannelUser(Users user, Channel channel) {
-        ChannelUser channelUser = ChannelUser.builder()
-                .user(user)
-                .channel(channel)
-                .build();
-        channel.enterChannelUser(channelUser);
-        channelUserRepository.save(channelUser);
-    }
+  private void createChannelHashTag(Channel channel, String tagName) {
+    HashTag hashTag = findHashTag(tagName);
+    ChannelHashTag channelHashTag = ChannelHashTag.builder()
+        .channel(channel)
+        .hashTag(hashTag)
+        .build();
+    channel.addChannelHashTag(channelHashTag);
+    hashTag.addChannelHashTag(channelHashTag);
+    channelHashTagRepository.save(channelHashTag);
+  }
 
+  private Users findUserById(String id) {
+    return usersRepository.findById(id)
+        .orElseThrow(NotExistUserException::new);
+  }
 
-    private void createChatLog(Channel channel, Users user) {
-        ChatLog chatLog = ChatLog.createChannelLog(user);
-        chatLogRedisRepositoryImpl.save(channel.getId(), chatLog);
-        chatLogRedisRepositoryImpl.addLastIndex(channel.getId());
-        channel.addChatLog(chatLog);
-    }
+  private Channel findChannelById(String id) {
+    return channelCrudRepository.findById(id)
+        .orElseThrow(NotExistChannelException::new);
+  }
 
-    private void createChannelHashTag(Channel channel, String tagName) {
-        HashTag hashTag = findHashTag(tagName);
-        ChannelHashTag channelHashTag = ChannelHashTag.builder()
-                .channel(channel)
-                .hashTag(hashTag)
-                .build();
-        channel.addChannelHashTag(channelHashTag);
-        hashTag.addChannelHashTag(channelHashTag);
-        channelHashTagRepository.save(channelHashTag);
-    }
+  private HashTag findHashTag(String name) {
+    return hashTagRepository.findByName(name)
+        .orElse(hashTagBuilder(name));
+  }
 
-    private Users findUserById(String id) {
-        return usersRepository.findById(id)
-                .orElseThrow(NotExistUserException::new);
-    }
-
-    private Channel findChannelById(String id) {
-        return channelCrudRepository.findById(id)
-                .orElseThrow(NotExistChannelException::new);
-    }
-
-    private HashTag findHashTag(String name) {
-        return hashTagRepository.findByName(name)
-                .orElse(hashTagBuilder(name));
-    }
-
-    private int getPointSumByUser(Users user) {
-        return pointRepository.findByUser(user).stream()
-                .map(Point::getAmount)
-                .reduce(0, Integer::sum);
-    }
+  private int getPointSumByUser(Users user) {
+    return pointRepository.findByUser(user).stream()
+        .map(Point::getAmount)
+        .reduce(0, Integer::sum);
+  }
 }
