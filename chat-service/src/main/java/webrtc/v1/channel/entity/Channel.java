@@ -19,69 +19,69 @@ import java.util.*;
 @NoArgsConstructor
 public class Channel implements Serializable {
 
-    @Id
-    @Column(name = "channel_id")
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
-    private String channelName;
-    @Builder.Default
-    private int limitParticipants = 15;
-    @Builder.Default
-    private int currentParticipants = 0;
-    @Builder.Default
-    private long timeToLive = 60L*60L;
-    private ChannelType channelType;
-    private Timestamp latestLog;
+  @Id
+  @Column(name = "channel_id")
+  @Builder.Default
+  private String id = UUID.randomUUID().toString();
+  private String channelName;
+  @Builder.Default
+  private int limitParticipants = 15;
+  @Builder.Default
+  private int currentParticipants = 0;
+  @Builder.Default
+  private long timeToLive = 60L * 60L;
+  private ChannelType channelType;
+  private Timestamp latestLog;
 
 
-    @Builder.Default
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
-    private List<ChannelUser> channelUsers = new ArrayList<>();
+  @Builder.Default
+  @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
+  private List<ChannelUser> channelUsers = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
-    private List<ChannelHashTag> channelHashTags = new ArrayList<>();
-
-
-    @Builder.Default
-    @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChatLog> chatLogs = new ArrayList<>();
-
-    private static final long serialVersionUID = 1L;
-
-    public void enterChannelUser(ChannelUser channelUser) {
-        this.currentParticipants++;
-        this.channelUsers.add(channelUser);
-        channelUser.getUser().addChannelUser(channelUser);
-    }
+  @Builder.Default
+  @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
+  private List<ChannelHashTag> channelHashTags = new ArrayList<>();
 
 
-    public void setTimeToLive(long timeToLive) {
-        this.timeToLive = timeToLive;
-    }
+  @Builder.Default
+  @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<ChatLog> chatLogs = new ArrayList<>();
 
-    public void addChannelHashTag(ChannelHashTag channelHashTag) {
-        this.channelHashTags.add(channelHashTag);
-    }
+  private static final long serialVersionUID = 1L;
 
-    public void exitChannelUser(ChannelUser channelUser) {
-        this.currentParticipants--;
-        this.channelUsers.remove(channelUser);
-        channelUser.getUser().exitChannelUser(channelUser);
-    }
+  public void enterChannelUser(ChannelUser channelUser) {
+    this.currentParticipants++;
+    this.channelUsers.add(channelUser);
+    channelUser.getUser().addChannelUser(channelUser);
+  }
 
 
-    public void addChatLog(ChatLog chatLog) {
-        chatLog.setChannel(this);
-        this.chatLogs.add(chatLog);
-        this.latestLog = chatLog.getSendTime();
-    }
+  public void setTimeToLive(long timeToLive) {
+    this.timeToLive = timeToLive;
+  }
 
-    public void setCurrentParticipants(int newone) {
-        this.currentParticipants = newone;
-    }
+  public void addChannelHashTag(ChannelHashTag channelHashTag) {
+    this.channelHashTags.add(channelHashTag);
+  }
 
-    public boolean isFull() {
-        return this.limitParticipants == this.currentParticipants;
-    }
+  public void exitChannelUser(ChannelUser channelUser) {
+    this.currentParticipants--;
+    this.channelUsers.remove(channelUser);
+    channelUser.getUser().exitChannelUser(channelUser);
+  }
+
+
+  public void addChatLog(ChatLog chatLog) {
+    chatLog.setChannel(this);
+    this.chatLogs.add(chatLog);
+    this.latestLog = chatLog.getSendTime();
+  }
+
+  public void setCurrentParticipants(int newone) {
+    this.currentParticipants = newone;
+  }
+
+  public boolean isFull() {
+    return this.limitParticipants == this.currentParticipants;
+  }
 }

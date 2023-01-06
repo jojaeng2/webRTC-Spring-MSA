@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ChannelCrudRepository extends JpaRepository<Channel, String> {
 
-    Optional<Channel> findByChannelName(String channelName);
+  Optional<Channel> findByChannelName(String channelName);
 }

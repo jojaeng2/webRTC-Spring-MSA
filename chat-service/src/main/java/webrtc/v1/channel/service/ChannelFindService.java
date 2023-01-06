@@ -1,20 +1,21 @@
 package webrtc.v1.channel.service;
 
+import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ChannelFindService {
 
-    List<Channel> findAnyChannel(String orderType, int idx);
+  List<Channel> findAnyChannel(FindChannelDto request);
 
-    List<Channel> findMyChannel(String orderType, String userId, int idx);
+  List<Channel> findMyChannel(FindMyChannelDto request);
 
 
-    Channel findById(String id);
+  Channel findById(String id);
 
-    List<Channel> findByName(String tagName, String orderType, int idx);
+  List<Channel> findByName(String tagName, String orderType, int idx);
 
-    List<Channel> findChannelsRecentlyTalk(String orderType, int idx);
+  List<Channel> findChannelsRecentlyTalk(FindChannelDto request);
 }

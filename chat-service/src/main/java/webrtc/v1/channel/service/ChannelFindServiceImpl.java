@@ -3,6 +3,8 @@ package webrtc.v1.channel.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
@@ -27,72 +29,76 @@ import static webrtc.v1.channel.enums.OrderType.DESC;
 @RequiredArgsConstructor
 public class ChannelFindServiceImpl implements ChannelFindService {
 
-    private final ChannelListRepository channelListRepository;
-    private final ChannelCrudRepository channelCrudRepository;
-    private final UsersRepository usersRepository;
-    private final HashTagRepository hashTagRepository;
-    private final ChannelInfoInjectService channelInfoInjectService;
-    private final Map<String, String> orderMap = new HashMap<>();
+  private final ChannelListRepository channelListRepository;
+  private final ChannelCrudRepository channelCrudRepository;
+  private final UsersRepository usersRepository;
+  private final HashTagRepository hashTagRepository;
+  private final ChannelInfoInjectService channelInfoInjectService;
+  private final Map<String, String> orderMap = new HashMap<>();
 
-    @PostConstruct
-    private void createMapping() {
-        orderMap.put("partiASC", ASC.getType());
-        orderMap.put("partiDESC", DESC.getType());
-    }
+  @PostConstruct
+  private void createMapping() {
+    orderMap.put("partiASC", ASC.getType());
+    orderMap.put("partiDESC", DESC.getType());
+  }
 
-    @Transactional(readOnly = true)
-    public Channel findById(String id) {
-        Channel channel = channelCrudRepository.findById(id)
-                .orElseThrow(NotExistChannelException::new);
-        return channelInfoInjectService.setTtl(channel);
-    }
+  @Transactional(readOnly = true)
+  public Channel findById(String id) {
+    Channel channel = channelCrudRepository.findById(id)
+        .orElseThrow(NotExistChannelException::new);
+    return channelInfoInjectService.setTtl(channel);
+  }
 
-    @Transactional(readOnly = true)
-    public List<Channel> findAnyChannel(String orderType, int idx) {
-        return channelListRepository.findAnyChannels(idx, findOrderType(orderType))
-                .stream()
-                .map(channelInfoInjectService::setTtl)
-                .collect(toList());
-    }
+  @Transactional(readOnly = true)
+  public List<Channel> findAnyChannel(FindChannelDto request) {
+    return channelListRepository.findAnyChannels(request.getIdx(), findOrderType(request.getType()))
+        .stream()
+        .map(channelInfoInjectService::setTtl)
+        .collect(toList());
+  }
 
-    @Transactional(readOnly = true)
-    public List<Channel> findMyChannel(String orderType, String userId, int idx) {
-        Users user = findUserById(userId);
-        return channelListRepository.findMyChannels(user.getId(), idx, findOrderType(orderType))
-                .stream()
-                .map(channelInfoInjectService::setTtl)
-                .collect(toList());
-    }
+  @Transactional(readOnly = true)
+  public List<Channel> findMyChannel(FindMyChannelDto request) {
+    final Users user = findUserById(request.getUserId());
+    return channelListRepository.findMyChannels(user.getId(), request.getIdx(),
+            findOrderType(request.getType()))
+        .stream()
+        .map(channelInfoInjectService::setTtl)
+        .collect(toList());
+  }
 
-    @Transactional(readOnly = true)
-    public List<Channel> findByName(String tagName, String orderType, int idx) {
-        HashTag hashTag = findHashTagByName(tagName);
-        return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))
-                .stream()
-                .map(channelInfoInjectService::setTtl)
-                .collect(toList());
-    }
+  @Transactional(readOnly = true)
+  public List<Channel> findByName(String tagName, String orderType, int idx) {
+    HashTag hashTag = findHashTagByName(tagName);
+    return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))
+        .stream()
+        .map(channelInfoInjectService::setTtl)
+        .collect(toList());
+  }
 
-    @Transactional(readOnly = true)
-    public List<Channel> findChannelsRecentlyTalk(String orderType, int idx) {
-        return channelListRepository.findChannelsRecentlyTalk(idx, findOrderType(orderType))
-                .stream()
-                .map(channelInfoInjectService::setTtl)
-                .collect(toList());
-    }
+  @Transactional(readOnly = true)
+  public List<Channel> findChannelsRecentlyTalk(FindChannelDto request) {
+    return channelListRepository.findChannelsRecentlyTalk(request.getIdx(),
+            findOrderType(request.getType()))
+        .stream()
+        .map(channelInfoInjectService::setTtl)
+        .collect(toList());
+  }
 
-    private String findOrderType(String type) {
-        if (orderMap.containsKey(type)) return orderMap.get(type);
-        return ASC.getType();
+  private String findOrderType(String type) {
+    if (orderMap.containsKey(type)) {
+      return orderMap.get(type);
     }
+    return ASC.getType();
+  }
 
-    private HashTag findHashTagByName(String name) {
-        return hashTagRepository.findByName(name)
-                .orElseThrow(NotExistHashTagException::new);
-    }
+  private HashTag findHashTagByName(String name) {
+    return hashTagRepository.findByName(name)
+        .orElseThrow(NotExistHashTagException::new);
+  }
 
-    private Users findUserById(String id) {
-        return usersRepository.findById(id)
-                .orElseThrow(NotExistUserException::new);
-    }
+  private Users findUserById(String id) {
+    return usersRepository.findById(id)
+        .orElseThrow(NotExistUserException::new);
+  }
 }

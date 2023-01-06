@@ -7,9 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import webrtc.v1.channel.dto.ChannelDto.ChannelResponse;
+import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelResponse;
 import webrtc.v1.channel.dto.ChannelDto.FindAllChannelResponse;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelLifeService;
@@ -36,8 +39,8 @@ public class ChannelApiController {
       @RequestBody CreateChannelRequest request,
       @RequestHeader("Authorization") String jwtAccessToken
   ) {
-    String userId = getUserId(jwtAccessToken.substring(4));
-    Channel channel = channelLifeService.create(request, userId);
+    final String userId = getUserId(jwtAccessToken.substring(4));
+    final Channel channel = channelLifeService.create(new CreateChannelDto(request, userId));
     return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
   }
 
@@ -46,7 +49,8 @@ public class ChannelApiController {
       @NotNull @PathVariable("orderType") String orderType,
       @NotNull @PathVariable("idx") String idx
   ) {
-    List<Channel> channels = channelFindService.findAnyChannel(orderType, Integer.parseInt(idx));
+    final List<Channel> channels = channelFindService.findAnyChannel(
+        new FindChannelDto(orderType, Integer.parseInt(idx)));
     return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
   }
 
@@ -56,9 +60,9 @@ public class ChannelApiController {
       @NotNull @RequestHeader("Authorization") String jwtAccessToken,
       @NotNull @PathVariable("idx") String idx
   ) {
-    String userId = getUserId(jwtAccessToken.substring(4));
-    List<Channel> channels = channelFindService.findMyChannel(orderType, userId,
-        Integer.parseInt(idx));
+    final String userId = getUserId(jwtAccessToken.substring(4));
+    final List<Channel> channels = channelFindService.findMyChannel(
+        new FindMyChannelDto(orderType, userId, Integer.parseInt(idx)));
     return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
   }
 
@@ -67,8 +71,8 @@ public class ChannelApiController {
       @NotNull @PathVariable("orderType") String orderType,
       @NotNull @PathVariable("idx") String idx
   ) {
-    List<Channel> channels = channelFindService.findChannelsRecentlyTalk(orderType,
-        Integer.parseInt(idx));
+    List<Channel> channels = channelFindService.findChannelsRecentlyTalk(
+        new FindChannelDto(orderType, Integer.parseInt(idx)));
     return new ResponseEntity<>(new FindAllChannelResponse(channels), OK);
   }
 
@@ -77,7 +81,7 @@ public class ChannelApiController {
   public ResponseEntity<ChannelResponse> findOneChannel(
       @PathVariable("id") String channelId
   ) {
-    Channel channel = channelFindService.findById(channelId);
+    final Channel channel = channelFindService.findById(channelId);
     return new ResponseEntity<>(new ChannelResponse(channel), OK);
   }
 

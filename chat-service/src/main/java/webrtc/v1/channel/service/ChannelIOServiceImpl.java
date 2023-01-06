@@ -19,68 +19,68 @@ import webrtc.v1.user.repository.UsersRepository;
 @RequiredArgsConstructor
 public class ChannelIOServiceImpl implements ChannelIOService {
 
-    private final ChannelCrudRepository channelCrudRepository;
-    private final UsersRepository usersRepository;
-    private final ChannelUserRepository channelUserRepository;
+  private final ChannelCrudRepository channelCrudRepository;
+  private final UsersRepository usersRepository;
+  private final ChannelUserRepository channelUserRepository;
 
-    @Override
-    @Transactional
-    public void enterChannel(String channelId, String userId) {
-        Users user = findUserById(userId);
-        Channel channel = findChannelById(channelId);
-        createChannelUser(user, channel);
-    }
+  @Override
+  @Transactional
+  public void enterChannel(String channelId, String userId) {
+    Users user = findUserById(userId);
+    Channel channel = findChannelById(channelId);
+    createChannelUser(user, channel);
+  }
 
-    @Override
-    @Transactional
-    public void exitChannel(String channelId, String userId) {
-        Users user = findUserById(userId);
-        Channel channel = findChannelById(channelId);
-        deleteChannelUser(user, channel);
-    }
+  @Override
+  @Transactional
+  public void exitChannel(String channelId, String userId) {
+    Users user = findUserById(userId);
+    Channel channel = findChannelById(channelId);
+    deleteChannelUser(user, channel);
+  }
 
-    private void createChannelUser(Users user, Channel channel) {
-        isAlreadyExistChannelUser(user, channel);
-        if (channel.isFull()) {
-            throw new ChannelParticipantsFullException();
-        }
-        ChannelUser channelUser = channelUserBuilder(user, channel);
-        channel.enterChannelUser(channelUser);
-        channelUserRepository.save(channelUser);
+  private void createChannelUser(Users user, Channel channel) {
+    isAlreadyExistChannelUser(user, channel);
+    if (channel.isFull()) {
+      throw new ChannelParticipantsFullException();
     }
+    ChannelUser channelUser = channelUserBuilder(user, channel);
+    channel.enterChannelUser(channelUser);
+    channelUserRepository.save(channelUser);
+  }
 
-    private void isAlreadyExistChannelUser(Users user, Channel channel) {
-        channelUserRepository.findByChannelAndUser(channel, user)
-                .ifPresent(it -> {
-                    throw new AlreadyExistUserInChannelException();
-                });
-    }
+  private void isAlreadyExistChannelUser(Users user, Channel channel) {
+    channelUserRepository.findByChannelAndUser(channel, user)
+        .ifPresent(it -> {
+          throw new AlreadyExistUserInChannelException();
+        });
+  }
 
-    private void deleteChannelUser(Users user, Channel channel) {
-        ChannelUser channelUser = findChannelUserByChannelAndUser(channel, user);
-        channel.exitChannelUser(channelUser);
-        channelUserRepository.delete(channelUser);
-    }
+  private void deleteChannelUser(Users user, Channel channel) {
+    ChannelUser channelUser = findChannelUserByChannelAndUser(channel, user);
+    channel.exitChannelUser(channelUser);
+    channelUserRepository.delete(channelUser);
+  }
 
-    private ChannelUser channelUserBuilder(Users user, Channel channel) {
-        return ChannelUser.builder()
-                .user(user)
-                .channel(channel)
-                .build();
-    }
+  private ChannelUser channelUserBuilder(Users user, Channel channel) {
+    return ChannelUser.builder()
+        .user(user)
+        .channel(channel)
+        .build();
+  }
 
-    private Users findUserById(String id) {
-        return usersRepository.findById(id)
-                .orElseThrow(NotExistUserException::new);
-    }
+  private Users findUserById(String id) {
+    return usersRepository.findById(id)
+        .orElseThrow(NotExistUserException::new);
+  }
 
-    private Channel findChannelById(String id) {
-        return channelCrudRepository.findById(id)
-                .orElseThrow(NotExistChannelException::new);
-    }
+  private Channel findChannelById(String id) {
+    return channelCrudRepository.findById(id)
+        .orElseThrow(NotExistChannelException::new);
+  }
 
-    private ChannelUser findChannelUserByChannelAndUser(Channel channel, Users user) {
-        return channelUserRepository.findByChannelAndUser(channel, user)
-                .orElseThrow(NotExistChannelUserException::new);
-    }
+  private ChannelUser findChannelUserByChannelAndUser(Channel channel, Users user) {
+    return channelUserRepository.findByChannelAndUser(channel, user)
+        .orElseThrow(NotExistChannelUserException::new);
+  }
 }

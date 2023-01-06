@@ -18,20 +18,20 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChannelHashTag implements Serializable {
 
-    @Id
-    @Column(name = "channel_hashtag_id")
-    @JsonIgnore
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
+  @Id
+  @Column(name = "channel_hashtag_id")
+  @JsonIgnore
+  @Builder.Default
+  private String id = UUID.randomUUID().toString();
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
-    private Channel channel;
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "channel_id")
+  private Channel channel;
 
-    @ManyToOne
-    @JoinColumn(name = "hashtag_id")
-    private HashTag hashTag;
+  @ManyToOne
+  @JoinColumn(name = "hashtag_id")
+  private HashTag hashTag;
 
 }
 

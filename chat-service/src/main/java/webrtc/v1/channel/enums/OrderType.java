@@ -1,16 +1,16 @@
 package webrtc.v1.channel.enums;
 
 public enum OrderType {
-    DESC("desc"),
-    ASC("asc");
+  DESC("desc"),
+  ASC("asc");
 
-    private final String type;
+  private final String type;
 
-    OrderType(String type) {
-        this.type = type;
-    }
+  OrderType(String type) {
+    this.type = type;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public String getType() {
+    return type;
+  }
 }
