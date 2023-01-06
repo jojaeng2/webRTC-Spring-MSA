@@ -1,5 +1,7 @@
 .travis.yml
 appspec.yml
+.idea
+.vscode
 
 /auth-service/target
 
