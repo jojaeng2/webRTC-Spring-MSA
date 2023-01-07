@@ -5,7 +5,6 @@ import static webrtc.v1.channel.enums.ChannelType.TEXT;
 
 import java.sql.Timestamp;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.entity.ChatLog;
@@ -73,7 +72,7 @@ public class ChannelTest {
     long ttl = channel.getTimeToLive();
 
     // then
-    assertThat(ttl).isEqualTo(60L*60L);
+    assertThat(ttl).isEqualTo(60L * 60L);
   }
 
   @Test
