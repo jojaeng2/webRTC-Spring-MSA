@@ -29,4 +29,7 @@ public class ChannelGenerator {
         .build();
   }
 
+  public static String getName() {
+    return name;
+  }
 }
