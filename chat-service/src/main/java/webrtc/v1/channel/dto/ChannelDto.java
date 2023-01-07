@@ -58,6 +58,14 @@ public class ChannelDto {
   }
 
   @Getter
+  @AllArgsConstructor
+  public static class FindChannelByHashTagDto {
+    private final String tagName;
+    private final String type;
+    private final Integer idx;
+  }
+
+  @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class ExtensionChannelTTLRequest {
