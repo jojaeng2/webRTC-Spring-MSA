@@ -1,4 +1,4 @@
-package webrtc.v1.repository.point;
+package webrtc.v1.point.repository;
 
 
 import org.junit.jupiter.api.Test;
