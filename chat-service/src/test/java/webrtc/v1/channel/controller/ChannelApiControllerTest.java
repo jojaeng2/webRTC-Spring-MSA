@@ -1,4 +1,4 @@
-package webrtc.v1.controller.channel;
+package webrtc.v1.channel.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import webrtc.v1.channel.controller.ChannelApiController;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.staticgenarator.ChannelGenerator;
+import webrtc.v1.staticgenarator.ChannelHashTagGenerator;
+import webrtc.v1.staticgenarator.HashTagGenerator;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.enums.ChannelType;
@@ -419,6 +423,60 @@ public class ChannelApiControllerTest {
                                 fieldWithPath("channels[].channelType").type(STRING).description("채널 타입")
                         )
                 ));
+    }
+
+    @Test
+    @Transactional
+    public void 최근대화를기준으로채팅방불러오기() throws Exception {
+        // given
+        List<Channel> channels = new ArrayList<>();
+        int channelsSize = 2;
+        for(int i=1; i<=channelsSize; i++) {
+            Channel channel = ChannelGenerator.createTextChannel();
+            for(String tagName : hashTagList) {
+                HashTag hashTag = HashTagGenerator.createHashTag();
+                ChannelHashTag channelHashTag = ChannelHashTagGenerator.createChannelHashTag();
+
+                hashTag.addChannelHashTag(channelHashTag);
+                channel.addChannelHashTag(channelHashTag);
+            }
+            channels.add(channel);
+        }
+
+        doReturn(channels)
+            .when(channelFindService).findChannelsRecentlyTalk(any(FindChannelDto.class));
+
+        // when
+
+        // then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/webrtc/chat/recent/{orderType}/{idx}", "partiDESC", "0")
+                .header(HttpHeaders.AUTHORIZATION, "jwt " + jwtAccessToken)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON))
+            .andExpect(status().is(200))
+            .andDo(document("return-recently-channels-success",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                pathParameters(
+                    parameterWithName("orderType").description("채널 목록을 불러올 정렬 기준입니다."),
+                    parameterWithName("idx").description("몇번째 채널 목록을 불러올지 알려주는 index 값입니다.")
+                ),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("Jwt Access 토큰")
+                ),
+                responseFields(
+                    fieldWithPath("channels").type(ARRAY).description("채널 정보를 담고있는 배열"),
+                    fieldWithPath("channels[].id").type(STRING).description("채널 이름"),
+                    fieldWithPath("channels[].channelName").type(STRING).description("채널 이름"),
+                    fieldWithPath("channels[].limitParticipants").type(NUMBER).description("채널에 참여할 수있는 제한인원"),
+                    fieldWithPath("channels[].currentParticipants").type(NUMBER).description("채널에 현재 참여중인 인원"),
+                    fieldWithPath("channels[].timeToLive").type(NUMBER).description("채널이 삭제되기까지 남은 시간"),
+                    fieldWithPath("channels[].channelHashTags").type(ARRAY).description("채널에 사용된 해시태그들"),
+                    fieldWithPath("channels[].channelHashTags[].hashTag").type(OBJECT).description("채널에 사용된 해시태그"),
+                    fieldWithPath("channels[].channelHashTags[].hashTag.tagName").type(STRING).description("해시태그 이름"),
+                    fieldWithPath("channels[].channelType").type(STRING).description("채널 타입")
+                )
+            ));
     }
 
     @Test

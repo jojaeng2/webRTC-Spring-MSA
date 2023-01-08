@@ -1,4 +1,4 @@
-package webrtc.v1.controller.point;
+package webrtc.v1.point.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpHeaders;

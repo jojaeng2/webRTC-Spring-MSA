@@ -1,8 +1,10 @@
 package webrtc.v1.channel.service;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
@@ -36,11 +38,6 @@ public class ChannelFindServiceImpl implements ChannelFindService {
   private final ChannelInfoInjectService channelInfoInjectService;
   private final Map<String, String> orderMap = new HashMap<>();
 
-  @PostConstruct
-  private void createMapping() {
-    orderMap.put("partiASC", ASC.getType());
-    orderMap.put("partiDESC", DESC.getType());
-  }
 
   @Transactional(readOnly = true)
   public Channel findById(String id) {
@@ -68,9 +65,9 @@ public class ChannelFindServiceImpl implements ChannelFindService {
   }
 
   @Transactional(readOnly = true)
-  public List<Channel> findByName(String tagName, String orderType, int idx) {
-    HashTag hashTag = findHashTagByName(tagName);
-    return channelListRepository.findChannelsByHashName(hashTag, idx, findOrderType(orderType))
+  public List<Channel> findByHashName(FindChannelByHashTagDto request) {
+    HashTag hashTag = findHashTagByName(request.getTagName());
+    return channelListRepository.findChannelsByHashName(hashTag, request.getIdx(), findOrderType(request.getType()))
         .stream()
         .map(channelInfoInjectService::setTtl)
         .collect(toList());
@@ -86,8 +83,8 @@ public class ChannelFindServiceImpl implements ChannelFindService {
   }
 
   private String findOrderType(String type) {
-    if (orderMap.containsKey(type)) {
-      return orderMap.get(type);
+    if (Objects.equals(type, "partiDESC")) {
+      return DESC.getType();
     }
     return ASC.getType();
   }

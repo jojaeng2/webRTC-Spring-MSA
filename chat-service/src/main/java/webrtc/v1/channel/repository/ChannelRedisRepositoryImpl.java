@@ -1,27 +1,20 @@
 package webrtc.v1.channel.repository;
 
+import static webrtc.v1.channel.enums.ChannelInfo.CREATE_TTL;
+
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 import webrtc.v1.channel.entity.Channel;
 
-import javax.annotation.PostConstruct;
-import java.util.concurrent.TimeUnit;
-
-import static webrtc.v1.channel.enums.ChannelInfo.CREATE_TTL;
-
 @RequiredArgsConstructor
 @Repository
 public class ChannelRedisRepositoryImpl implements ChannelRedisRepository {
 
   private final RedisTemplate<String, Object> redisTemplate;
-  private ValueOperations<String, Object> opsValueOperation;
-
-  @PostConstruct
-  private void init() {
-    opsValueOperation = redisTemplate.opsForValue();
-  }
+  private final ValueOperations<String, Object> opsValueOperation;
 
   public void save(Channel channel) {
     opsValueOperation.set(channel.getId(), channel);

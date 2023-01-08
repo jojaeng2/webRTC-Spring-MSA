@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import webrtc.v1.channel.dto.ChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindAllChannelResponse;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelFindService;
 
@@ -26,7 +28,7 @@ public class HashTagApiController {
             @NotNull @PathVariable("orderType") String type,
             @PathVariable String tagName, @PathVariable("idx") String idx
     ) {
-        List<Channel> channels = channelFindService.findByName(tagName, type, Integer.parseInt(idx));
+        List<Channel> channels = channelFindService.findByHashName(new FindChannelByHashTagDto(tagName, type, Integer.parseInt(idx)));
         return new ResponseEntity<>(new FindAllChannelResponse(channels), HttpStatus.OK);
     }
 }

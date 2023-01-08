@@ -1,4 +1,4 @@
-package webrtc.v1.repository.channel;
+package webrtc.v1.channel.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

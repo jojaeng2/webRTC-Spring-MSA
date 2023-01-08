@@ -1,4 +1,4 @@
-package webrtc.v1.repository.channel;
+package webrtc.v1.channel.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,11 @@ import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelListRepositoryImpl;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.hashtag.entity.HashTag;
+import webrtc.v1.staticgenarator.ChannelGenerator;
+import webrtc.v1.staticgenarator.ChannelHashTagGenerator;
+import webrtc.v1.staticgenarator.ChannelUserGenerator;
+import webrtc.v1.staticgenarator.HashTagGenerator;
+import webrtc.v1.staticgenarator.UserGenerator;
 import webrtc.v1.user.entity.Users;
 
 import java.util.List;
@@ -30,26 +35,26 @@ public class ChannelListRepositoryImplTest {
     private TestEntityManager em;
     @Autowired
     private ChannelListRepository repository;
-
     String nickname1 = "nickname1";
     String password = "password";
     String email1 = "email1";
     String desc = "DESC";
-    String channelName1 = "channelName1";
     String tag1 = "tag1";
     ChannelType text = TEXT;
+
+    private static final int idx = 0;
 
     @Test
     void 전채채널목록불러오기_20개미만() {
         // given
         int testcase = 19;
         for(int i=1; i<=testcase; i++) {
-            Channel channel = createChannel("channel" + i, text);
+            Channel channel = ChannelGenerator.createTextChannel();
             em.persist(channel);
         }
 
         // when
-        List<Channel> anyChannels = repository.findAnyChannels(0, desc);
+        List<Channel> anyChannels = repository.findAnyChannels(idx, desc);
 
         // then
         assertThat(anyChannels.size()).isEqualTo(testcase);
@@ -60,13 +65,13 @@ public class ChannelListRepositoryImplTest {
         // given
         int testcase = 30;
         for(int i=1; i<=testcase; i++) {
-            Channel channel = createChannel("channel" + i, text);
+            Channel channel = ChannelGenerator.createTextChannel();
             em.persist(channel);
         }
 
 
         // when
-        List<Channel> anyChannels = repository.findAnyChannels(0, desc);
+        List<Channel> anyChannels = repository.findAnyChannels(idx, desc);
 
         // then
         assertThat(anyChannels.size()).isEqualTo(20);
@@ -76,10 +81,10 @@ public class ChannelListRepositoryImplTest {
     void 나의채널목록불러오기_20개미만() {
         // given
         Users user = Users.builder()
-                .nickname(nickname1)
-                .password(password)
-                .email(email1)
-                .build();
+            .nickname(nickname1)
+            .password(password)
+            .email(email1)
+            .build();
 
         int testcase = 19;
         for(int i=1; i<=testcase; i++) {
@@ -104,10 +109,10 @@ public class ChannelListRepositoryImplTest {
     void 나의채널목록불러오기_20개초과() {
         // given
         Users user = Users.builder()
-                .nickname(nickname1)
-                .password(password)
-                .email(email1)
-                .build();
+            .nickname(nickname1)
+            .password(password)
+            .email(email1)
+            .build();
 
         int testcase = 30;
         for(int i=1; i<=testcase; i++) {
@@ -169,25 +174,62 @@ public class ChannelListRepositoryImplTest {
         assertThat(channels.size()).isEqualTo(20);
     }
 
+    @Test
+    void 최근대화방불러오기20개미만() {
+        // given
+        int testcase = 10;
+
+        for(int i=1; i<=testcase; i++) {
+            Channel channel = ChannelGenerator.createTextChannel();
+            em.persist(channel);
+        }
+
+        // when
+        List<Channel> channels = repository.findChannelsRecentlyTalk(idx, desc);
+
+        // then
+        assertThat(channels.size()).isEqualTo(testcase);
+        // then
+
+    }
+
+    @Test
+    void 최근대화방불러오기20개초과() {
+        // given
+        int testcase = 30;
+
+        for(int i=1; i<=testcase; i++) {
+            Channel channel = ChannelGenerator.createTextChannel();
+            em.persist(channel);
+        }
+
+        // when
+        List<Channel> channels = repository.findChannelsRecentlyTalk(idx, desc);
+
+        // then
+        assertThat(channels.size()).isEqualTo(20);
+
+    }
+
 
     private Channel createChannel(String name, ChannelType type) {
         return Channel.builder()
-                .channelName(name)
-                .channelType(type)
-                .build();
+            .channelName(name)
+            .channelType(type)
+            .build();
     }
 
     private HashTag createHashTag(String name) {
         return HashTag.builder()
-                .name(name)
-                .build();
+            .name(name)
+            .build();
     }
 
     private ChannelHashTag createChannelHashTag(Channel channel, HashTag tag) {
         ChannelHashTag channelHashTag = ChannelHashTag.builder()
-                .channel(channel)
-                .hashTag(tag)
-                .build();
+            .channel(channel)
+            .hashTag(tag)
+            .build();
 
         channel.addChannelHashTag(channelHashTag);
         tag.addChannelHashTag(channelHashTag);
@@ -196,20 +238,18 @@ public class ChannelListRepositoryImplTest {
 
     private Users createUsers(String name, String password, String email) {
         return Users.builder()
-                .nickname(nickname1)
-                .password(password)
-                .email(email1)
-                .build();
+            .nickname(nickname1)
+            .password(password)
+            .email(email1)
+            .build();
     }
 
     private ChannelUser createChannelUser(Users user, Channel channel) {
         ChannelUser channelUser = ChannelUser.builder()
-                .user(user)
-                .channel(channel)
-                .build();
+            .user(user)
+            .channel(channel)
+            .build();
         channel.enterChannelUser(channelUser);
         return channelUser;
     }
-
-
 }

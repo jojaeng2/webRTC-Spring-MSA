@@ -1,4 +1,4 @@
-package webrtc.v1.service.channel;
+package webrtc.v1.channel.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

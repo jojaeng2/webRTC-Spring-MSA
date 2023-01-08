@@ -19,6 +19,8 @@ import java.util.*;
 @NoArgsConstructor
 public class Channel implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+
   @Id
   @Column(name = "channel_id")
   @Builder.Default
@@ -47,7 +49,6 @@ public class Channel implements Serializable {
   @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<ChatLog> chatLogs = new ArrayList<>();
 
-  private static final long serialVersionUID = 1L;
 
   public void enterChannelUser(ChannelUser channelUser) {
     this.currentParticipants++;
@@ -77,8 +78,8 @@ public class Channel implements Serializable {
     this.latestLog = chatLog.getSendTime();
   }
 
-  public void setCurrentParticipants(int newone) {
-    this.currentParticipants = newone;
+  public void setCurrentParticipants(int participants) {
+    this.currentParticipants = participants;
   }
 
   public boolean isFull() {

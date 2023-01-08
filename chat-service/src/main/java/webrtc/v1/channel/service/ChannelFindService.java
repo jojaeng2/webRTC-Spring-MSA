@@ -1,5 +1,6 @@
 package webrtc.v1.channel.service;
 
+import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
@@ -15,7 +16,7 @@ public interface ChannelFindService {
 
   Channel findById(String id);
 
-  List<Channel> findByName(String tagName, String orderType, int idx);
+  List<Channel> findByHashName(FindChannelByHashTagDto request);
 
   List<Channel> findChannelsRecentlyTalk(FindChannelDto request);
 }

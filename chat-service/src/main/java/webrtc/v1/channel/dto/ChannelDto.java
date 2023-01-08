@@ -58,6 +58,14 @@ public class ChannelDto {
   }
 
   @Getter
+  @AllArgsConstructor
+  public static class FindChannelByHashTagDto {
+    private final String tagName;
+    private final String type;
+    private final Integer idx;
+  }
+
+  @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class ExtensionChannelTTLRequest {
@@ -94,7 +102,6 @@ public class ChannelDto {
 
 
   @Getter
-  @NoArgsConstructor
   public static class FindAllChannelResponse {
 
     private List<ChannelResponse> channels;
@@ -105,7 +112,6 @@ public class ChannelDto {
   }
 
   @Getter
-  @NoArgsConstructor
   public static class ChannelResponse {
 
     private String id;
@@ -132,18 +138,7 @@ public class ChannelDto {
   @Getter
   @AllArgsConstructor
   public static class ExtensionChannelTTLResponse {
-
     private long channelTTL;
   }
-
-  @Getter
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static class ChannelTTLWithUserPointResponse {
-
-    private long channelTTL;
-    private int point;
-  }
-
 }
 
