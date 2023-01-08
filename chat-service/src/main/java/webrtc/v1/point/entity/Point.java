@@ -27,42 +27,42 @@ import static webrtc.v1.point.enums.WelcomePoint.JOIN;
 @NoArgsConstructor
 public class Point implements Serializable {
 
-    @Id
-    @Builder.Default
-    private String id = ULID.random();
+  @Id
+  @Builder.Default
+  private String id = ULID.random();
 
-    private String message;
-    private int amount;
+  private String message;
+  private int amount;
 
-    @Builder.Default
-    private Timestamp created_at = new Timestamp(System.currentTimeMillis());
+  @Builder.Default
+  private Timestamp created_at = new Timestamp(System.currentTimeMillis());
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private Users user;
+  @ManyToOne
+  @JoinColumn(name = "USER_ID")
+  private Users user;
 
-    public static Point extensionChannelTTL(final String email, final Long ttl) {
-        return Point.builder()
-                .message(email + EXTENSION.getMessage())
-                .amount(-(int) (ttl * EXTENSION_CHANNEL_POINT.getUnit()))
-                .build();
-    }
+  public static Point extensionChannelTTL(final String email, final Long ttl) {
+    return Point.builder()
+        .message(email + EXTENSION.getMessage())
+        .amount(-(int) (ttl * EXTENSION_CHANNEL_POINT.getUnit()))
+        .build();
+  }
 
-    public static Point createChannel(final String email) {
-        return Point.builder()
-                .message(email + CREATE.getMessage())
-                .amount(-CREATE_CHANNEL.getUnit())
-                .build();
-    }
+  public static Point createChannel(final String email) {
+    return Point.builder()
+        .message(email + CREATE.getMessage())
+        .amount(-CREATE_CHANNEL.getUnit())
+        .build();
+  }
 
-    public static Point welcomePoint() {
-        return Point.builder()
-                .message(JOIN.getMessage())
-                .amount(JOIN.getPoint())
-                .build();
-    }
+  public static Point welcomePoint() {
+    return Point.builder()
+        .message(JOIN.getMessage())
+        .amount(JOIN.getPoint())
+        .build();
+  }
 
-    public void setUser(Users user) {
-        this.user = user;
-    }
+  public void setUser(Users user) {
+    this.user = user;
+  }
 }
