@@ -9,22 +9,22 @@ import webrtc.v1.chat.enums.SocketInterceptorErrorType;
 
 public class UserException {
 
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class NotExistUserExceptionDto {
+  @Getter
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class NotExistUserExceptionDto {
 
-        private SocketInterceptorErrorType type;
-        private String exception;
+    private SocketInterceptorErrorType type;
+    private String exception;
 
-        public void setField(SocketInterceptorErrorType type, String exception) {
-            this.type = type;
-            this.exception = exception;
-        }
+    public void setField(SocketInterceptorErrorType type, String exception) {
+      this.type = type;
+      this.exception = exception;
     }
+  }
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public static class NotExistUserException extends RuntimeException {
+  @ResponseStatus(code = HttpStatus.NOT_FOUND)
+  public static class NotExistUserException extends RuntimeException {
 
-    }
+  }
 }

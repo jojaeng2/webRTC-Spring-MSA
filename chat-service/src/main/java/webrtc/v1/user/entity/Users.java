@@ -71,12 +71,6 @@ public class Users implements Serializable {
     point.setUser(this);
   }
 
-  public int sumOfPoint() {
-    return points.stream()
-        .map(Point::getAmount)
-        .reduce(0, Integer::sum);
-  }
-
   public void addChannelUser(ChannelUser channelUser) {
     this.channelUsers.add(channelUser);
   }
