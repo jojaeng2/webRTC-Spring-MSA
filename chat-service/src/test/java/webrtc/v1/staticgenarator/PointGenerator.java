@@ -12,11 +12,9 @@ public class PointGenerator {
   }
 
   public static Point createPoint() {
-    Users user = UserGenerator.createUsers();
     return Point.builder()
         .message(message)
         .amount(amount)
-        .user(user)
         .build();
   }
 

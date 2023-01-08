@@ -13,23 +13,23 @@ import webrtc.v1.user.repository.UsersRepository;
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
 
-    private final PointRepository pointRepository;
-    private final UsersRepository userRepository;
+  private final PointRepository pointRepository;
+  private final UsersRepository userRepository;
 
-    @Transactional(readOnly = true)
-    public int findPointSum(String userId) {
-        Users user = findUsersById(userId);
-        return getPointSumByUser(user);
-    }
+  @Transactional(readOnly = true)
+  public int findPointSum(String userId) {
+    Users user = findUsersById(userId);
+    return getPointSumByUser(user);
+  }
 
-    private Users findUsersById(String id) {
-        return userRepository.findById(id)
-                .orElseThrow(NotExistUserException::new);
-    }
+  private Users findUsersById(String id) {
+    return userRepository.findById(id)
+        .orElseThrow(NotExistUserException::new);
+  }
 
-    private int getPointSumByUser(Users user) {
-        return pointRepository.findByUser(user).stream()
-                .map(Point::getAmount)
-                .reduce(0, Integer::sum);
-    }
+  private int getPointSumByUser(Users user) {
+    return pointRepository.findByUser(user).stream()
+        .map(Point::getAmount)
+        .reduce(0, Integer::sum);
+  }
 }

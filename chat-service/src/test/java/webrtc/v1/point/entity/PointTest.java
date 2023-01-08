@@ -12,12 +12,12 @@ public class PointTest {
   @Test
   void getUser성공() {
     // given
-    Point point = PointGenerator.createPoint();
     Users user = UserGenerator.createUsers();
+
     // when
 
     // then
-    assertThat(point.getUser().getEmail()).isEqualTo(user.getEmail());
+    assertThat(user.getPoints().get(0).getUser().getEmail()).isEqualTo(user.getEmail());
   }
 
   @Test
