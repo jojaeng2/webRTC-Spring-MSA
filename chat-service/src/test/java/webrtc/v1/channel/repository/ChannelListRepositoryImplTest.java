@@ -39,7 +39,6 @@ public class ChannelListRepositoryImplTest {
     String password = "password";
     String email1 = "email1";
     String desc = "DESC";
-    String channelName1 = "channelName1";
     String tag1 = "tag1";
     ChannelType text = TEXT;
 
