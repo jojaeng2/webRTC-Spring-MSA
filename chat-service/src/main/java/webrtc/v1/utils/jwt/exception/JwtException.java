@@ -9,21 +9,22 @@ import webrtc.v1.chat.enums.SocketInterceptorErrorType;
 
 public class JwtException {
 
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class CustomJwtExceptionDto {
-        private SocketInterceptorErrorType type;
-        private String exception;
+  @Getter
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class CustomJwtExceptionDto {
 
-        public void setField(SocketInterceptorErrorType type, String exception) {
-            this.type = type;
-            this.exception = exception;
-        }
+    private SocketInterceptorErrorType type;
+    private String exception;
+
+    public void setField(SocketInterceptorErrorType type, String exception) {
+      this.type = type;
+      this.exception = exception;
     }
+  }
 
-    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public static class JwtAccessTokenNotValid extends RuntimeException {
+  @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+  public static class JwtAccessTokenNotValid extends RuntimeException {
 
-    }
+  }
 }
