@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelHashTag;
 import webrtc.v1.hashtag.controller.HashTagApiController;
@@ -125,7 +126,7 @@ public class HashTagApiControllerTest {
         }
 
         doReturn(channels)
-                .when(channelFindService).findByName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findByHashName(any(FindChannelByHashTagDto.class));
 
         // when
 
@@ -192,7 +193,7 @@ public class HashTagApiControllerTest {
         }
 
         doThrow(new NotExistHashTagException())
-                .when(channelFindService).findByName(any(String.class), any(String.class), any(Integer.class));
+                .when(channelFindService).findByHashName(any(FindChannelByHashTagDto.class));
 
         // when
 
