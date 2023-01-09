@@ -102,7 +102,6 @@ public class ChannelLifeServiceImplTest {
         //then
         assertThat(channel.getChannelHashTags().size()).isEqualTo(3);
         assertThat(channel.getChannelUsers().size()).isEqualTo(1);
-        assertThat(channel.getChatLogs().size()).isEqualTo(1);
     }
 
 

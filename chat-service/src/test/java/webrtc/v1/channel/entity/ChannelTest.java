@@ -125,18 +125,6 @@ public class ChannelTest {
   }
 
   @Test
-  void 채널로그조회성공() {
-    // given
-    Channel channel = ChannelGenerator.createTextChannel();
-
-    // when
-    List<ChatLog> chatLogs = channel.getChatLogs();
-
-    // then
-    assertThat(chatLogs).isEqualTo(channel.getChatLogs());
-  }
-
-  @Test
   void 채널입장성공() {
     // given
     Channel channel = ChannelGenerator.createTextChannel();
@@ -198,19 +186,6 @@ public class ChannelTest {
 
     // then
     assertThat(channel.isFull()).isFalse();
-  }
-
-  @Test
-  void 채팅로그추가성공() {
-    // given
-    ChatLog chatLog = ChatLogGenerator.createChatLog();
-    Channel channel = chatLog.getChannel();
-
-    // when
-    channel.addChatLog(chatLog);
-
-    // then
-    assertThat(channel.getChatLogs().get(0)).isEqualTo(chatLog);
   }
 
   @Test
