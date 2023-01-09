@@ -23,7 +23,7 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
   }
 
   public void save(String id, VoiceRoom voiceRoom) {
-    opsValueOperation.set("OpenVidu " + id, voiceRoom);
+    opsValueOperation.set(openVidu + id, voiceRoom);
   }
 
   public Optional<VoiceRoom> findById(String id) {
