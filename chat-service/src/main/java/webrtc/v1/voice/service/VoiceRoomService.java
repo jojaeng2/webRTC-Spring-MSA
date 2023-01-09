@@ -7,7 +7,7 @@ import webrtc.v1.voice.dto.VoiceRoomDto.RemoveUserInSessionRequest;
 
 public interface VoiceRoomService {
 
-  String getToken(GetTokenRequest request, Users user);
+  String getToken(GetTokenRequest request, String userId);
 
   void removeUserInVoiceRoom(RemoveUserInSessionRequest request, String userId);
 

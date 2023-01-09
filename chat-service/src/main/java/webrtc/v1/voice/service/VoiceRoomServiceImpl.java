@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.user.entity.Users;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
+import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenRequest;
 import webrtc.v1.voice.dto.VoiceRoomDto.RemoveUserInSessionRequest;
 import webrtc.v1.voice.entity.VoiceRoom;
@@ -43,20 +45,23 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
   }
 
   private final VoiceRoomRepository voiceRoomRepository;
+  private final UsersRepository usersRepository;
 
 
   @Transactional
-  public String getToken(GetTokenRequest request, Users user) {
-    String id = request.getChannelId();
+  public String getToken(GetTokenRequest request, String userId) {
+    String channelId = request.getChannelId();
     OpenViduRole role = OpenViduRole.PUBLISHER;
-    String data = createServerDate(user.getEmail());
+    Users user = usersRepository.findById(userId)
+        .orElseThrow(NotExistUserException::new);
+    String data = createServerDate(user.getId());
 
     ConnectionProperties properties = createConnectionProperties(data, role);
-    Optional<VoiceRoom> voiceRoom = voiceRoomRepository.findById(id);
+    Optional<VoiceRoom> voiceRoom = voiceRoomRepository.findById(channelId);
     if (voiceRoom.isPresent()) {
       String token = getExistToken(properties, voiceRoom.get());
       voiceRoom.get().addUser(user, token);
-      voiceRoomRepository.update(id, voiceRoom.get());
+      voiceRoomRepository.update(channelId, voiceRoom.get());
       return token;
     }
     Session session = createSession();
@@ -92,10 +97,10 @@ public class VoiceRoomServiceImpl implements VoiceRoomService {
     voiceRoomRepository.save(channelId, voiceRoom);
   }
 
-  private String createServerDate(String email) {
+  private String createServerDate(String userId) {
     return "{\"serverData\": " +
         "\"" +
-        email +
+        userId +
         "\"}";
   }
 

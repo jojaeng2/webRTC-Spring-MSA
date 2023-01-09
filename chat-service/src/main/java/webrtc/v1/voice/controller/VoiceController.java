@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import webrtc.v1.user.entity.Users;
-import webrtc.v1.user.service.UsersService;
 import webrtc.v1.utils.jwt.JwtTokenUtil;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenRequest;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenResponse;
@@ -24,7 +22,6 @@ import webrtc.v1.voice.service.VoiceRoomService;
 public class VoiceController {
 
   private final VoiceRoomService voiceRoomService;
-  private final UsersService userService;
   private final JwtTokenUtil jwtTokenUtil;
 
   @PostMapping("/get-token")
@@ -33,8 +30,7 @@ public class VoiceController {
       @RequestBody GetTokenRequest request
   ) {
     String userId = jwtTokenUtil.getUserIdFromToken(jwtAccessToken.substring(4));
-    Users user = userService.findOneById(userId);
-    String token = voiceRoomService.getToken(request, user);
+    String token = voiceRoomService.getToken(request, userId);
     return new ResponseEntity(new GetTokenResponse(token), HttpStatus.OK);
   }
 
