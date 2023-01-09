@@ -1,4 +1,4 @@
-package webrtc.v1.controller.voice;
+package webrtc.v1.voice.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,11 +98,8 @@ public class VoiceControllerTest {
         GetTokenRequest ObjRequest = new GetTokenRequest(sessionName1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(createUsers())
-                .when(usersService).findOneById(any(String.class));
-
         doReturn(token)
-                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
+                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(String.class));
 
         // when
 
@@ -133,9 +130,8 @@ public class VoiceControllerTest {
         GetTokenRequest ObjRequest = new GetTokenRequest(sessionName1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doThrow(new NotExistUserException())
-                .when(usersService).findOneById(any(String.class));
-
+        doThrow(NotExistUserException.class)
+            .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(String.class));
         // when
 
 
@@ -165,11 +161,8 @@ public class VoiceControllerTest {
         GetTokenRequest ObjRequest = new GetTokenRequest(sessionName1);
         String StrRequest = objectMapper.writeValueAsString(ObjRequest);
 
-        doReturn(createUsers())
-                .when(usersService).findOneById(any(String.class));
-
         doThrow(new OpenViduClientException())
-                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(Users.class));
+                .when(voiceRoomService).getToken(any(GetTokenRequest.class), any(String.class));
 
         // when
 

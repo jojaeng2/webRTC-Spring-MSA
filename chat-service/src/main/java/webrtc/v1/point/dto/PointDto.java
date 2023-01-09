@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 public class PointDto {
   @Getter
-  @NoArgsConstructor
   @AllArgsConstructor
   public static class ChannelTTLWithUserPointResponse {
 

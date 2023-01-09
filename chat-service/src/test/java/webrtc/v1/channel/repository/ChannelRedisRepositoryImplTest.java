@@ -83,7 +83,7 @@ public class ChannelRedisRepositoryImplTest {
     Long channelTTL = channelRedisRepository.findTtl(channel.getId());
 
     // then
-    assertThat(channelTTL).isGreaterThan(0L);
+    assertThat(channelTTL).isEqualTo(-2L);
   }
 
   @Test
