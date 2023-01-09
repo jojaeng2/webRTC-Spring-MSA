@@ -16,7 +16,6 @@ public class VoiceRoomDto {
 
   @Getter
   @AllArgsConstructor
-  @NoArgsConstructor
   public static class GetTokenResponse {
 
     private String token;
