@@ -1,4 +1,4 @@
-package webrtc.v1.service.chat;
+package webrtc.v1.chat.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +13,7 @@ import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.service.ChannelIOService;
-import webrtc.v1.chat.service.factory.SocketMessageFactoryImpl;
-
-import java.util.UUID;
+import webrtc.v1.chat.factory.SocketMessageFactoryImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
