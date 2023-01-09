@@ -1,8 +1,7 @@
-package webrtc.v1.service.chat;
+package webrtc.v1.chat.factory;
 
 import static webrtc.v1.channel.enums.ChannelType.TEXT;
 import static webrtc.v1.chat.enums.ClientMessageType.CHAT;
-import static webrtc.v1.chat.enums.ClientMessageType.CLOSE;
 import static webrtc.v1.chat.enums.ClientMessageType.CREATE;
 import static webrtc.v1.chat.enums.ClientMessageType.ENTER;
 import static webrtc.v1.chat.enums.ClientMessageType.EXIT;
@@ -17,7 +16,7 @@ import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.chat.dto.ChattingMessage;
 import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.chat.enums.SocketServerMessageType;
-import webrtc.v1.chat.service.factory.ChattingMessageFactoryImpl;
+import webrtc.v1.staticgenarator.ChannelGenerator;
 import webrtc.v1.user.entity.Users;
 
 @Import(ChattingMessageFactoryImpl.class)
@@ -28,7 +27,7 @@ public class ChattingMessageFactoryTest {
   ClientMessageType chat = CHAT;
   ClientMessageType enter = ENTER;
   ClientMessageType exit = EXIT;
-  ClientMessageType close = CLOSE;
+  ClientMessageType close = ClientMessageType.CLOSE;
   ClientMessageType reenter = REENTER;
   ClientMessageType create = CREATE;
 
@@ -107,6 +106,18 @@ public class ChattingMessageFactoryTest {
 
     // then
     Assertions.assertThat(message.getType()).isLessThanOrEqualTo(SocketServerMessageType.CREATE);
+  }
+
+  @Test
+  void closeMessage성공() {
+    // given
+    Channel channel = ChannelGenerator.createTextChannel();
+
+    // when
+    ChattingMessage chattingMessage = chattingMessageFactory.closeMessage(channel);
+
+    // then
+    Assertions.assertThat(chattingMessage.getType()).isEqualTo(SocketServerMessageType.CLOSE);
   }
 
   private Channel createChannel(String name, ChannelType type) {
