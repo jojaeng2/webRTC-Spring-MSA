@@ -1,4 +1,4 @@
-package webrtc.v1.chat.service.factory;
+package webrtc.v1.chat.factory;
 
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.user.entity.Users;

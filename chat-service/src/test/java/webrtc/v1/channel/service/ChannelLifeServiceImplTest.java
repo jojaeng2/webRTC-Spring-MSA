@@ -11,7 +11,6 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
-import webrtc.v1.channel.service.ChannelLifeServiceImpl;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.chat.repository.ChatLogRedisRepositoryImpl;
 import webrtc.v1.channel.enums.ChannelType;
@@ -29,7 +28,7 @@ import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.repository.ChannelUserRepository;
 import webrtc.v1.user.repository.UsersRepository;
 import webrtc.v1.voice.repository.VoiceRoomRepository;
-import webrtc.v1.chat.service.factory.ChattingMessageFactory;
+import webrtc.v1.chat.factory.ChattingMessageFactory;
 
 import java.util.ArrayList;
 import java.util.List;

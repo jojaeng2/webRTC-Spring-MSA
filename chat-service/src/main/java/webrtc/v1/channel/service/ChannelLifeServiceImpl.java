@@ -147,10 +147,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
 
   private void createChatLog(Channel channel, Users user) {
-    ChatLog chatLog = ChatLog.createChannelLog(user);
+    ChatLog chatLog = ChatLog.createChannelLog(channel, user);
     chatLogRedisRepositoryImpl.save(channel.getId(), chatLog);
     chatLogRedisRepositoryImpl.addLastIndex(channel.getId());
-    channel.addChatLog(chatLog);
   }
 
   private void createChannelHashTag(Channel channel, String tagName) {

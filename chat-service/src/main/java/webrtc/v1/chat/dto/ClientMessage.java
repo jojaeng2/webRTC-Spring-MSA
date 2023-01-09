@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 public class ClientMessage {
 
-    private String senderName;
-    private String message;
-
-
+  private String senderName;
+  private String message;
 }

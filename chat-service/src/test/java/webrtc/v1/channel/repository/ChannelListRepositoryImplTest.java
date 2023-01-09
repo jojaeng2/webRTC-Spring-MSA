@@ -236,14 +236,6 @@ public class ChannelListRepositoryImplTest {
         return channelHashTag;
     }
 
-    private Users createUsers(String name, String password, String email) {
-        return Users.builder()
-            .nickname(nickname1)
-            .password(password)
-            .email(email1)
-            .build();
-    }
-
     private ChannelUser createChannelUser(Users user, Channel channel) {
         ChannelUser channelUser = ChannelUser.builder()
             .user(user)

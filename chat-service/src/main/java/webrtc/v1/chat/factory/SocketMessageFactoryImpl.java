@@ -1,12 +1,12 @@
-package webrtc.v1.chat.service.factory;
+package webrtc.v1.chat.factory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import webrtc.v1.chat.dto.ClientMessage;
+import webrtc.v1.chat.template.MessageInsertTemplate;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.enums.ClientMessageType;
 import webrtc.v1.channel.service.ChannelIOService;
-import webrtc.v1.chat.service.template.MessageInsertTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;

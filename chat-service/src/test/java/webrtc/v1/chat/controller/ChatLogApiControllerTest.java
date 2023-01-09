@@ -1,4 +1,4 @@
-package webrtc.v1.controller.chat;
+package webrtc.v1.chat.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
