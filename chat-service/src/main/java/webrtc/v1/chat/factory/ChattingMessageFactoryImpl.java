@@ -1,4 +1,4 @@
-package webrtc.v1.chat.service.factory;
+package webrtc.v1.chat.factory;
 
 import static webrtc.v1.chat.enums.SocketServerMessageType.CHAT;
 import static webrtc.v1.chat.enums.SocketServerMessageType.CLOSE;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.chat.dto.ChattingMessage;
 import webrtc.v1.chat.enums.ClientMessageType;
-import webrtc.v1.chat.service.template.MessageTypeTemplate;
+import webrtc.v1.chat.template.MessageTypeTemplate;
 import webrtc.v1.user.entity.Users;
 
 @Component

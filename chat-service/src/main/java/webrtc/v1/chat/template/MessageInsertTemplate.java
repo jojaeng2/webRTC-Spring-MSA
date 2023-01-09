@@ -1,4 +1,4 @@
-package webrtc.v1.chat.service.template;
+package webrtc.v1.chat.template;
 
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.chat.dto.ClientMessage;
