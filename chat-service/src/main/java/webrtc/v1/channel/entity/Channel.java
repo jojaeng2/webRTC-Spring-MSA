@@ -35,7 +35,6 @@ public class Channel implements Serializable {
   private ChannelType channelType;
   private Timestamp latestLog;
 
-
   @Builder.Default
   @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
   private List<ChannelUser> channelUsers = new ArrayList<>();
@@ -43,11 +42,6 @@ public class Channel implements Serializable {
   @Builder.Default
   @OneToMany(mappedBy = "channel", cascade = CascadeType.REMOVE)
   private List<ChannelHashTag> channelHashTags = new ArrayList<>();
-
-
-  @Builder.Default
-  @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private List<ChatLog> chatLogs = new ArrayList<>();
 
 
   public void enterChannelUser(ChannelUser channelUser) {
@@ -72,9 +66,7 @@ public class Channel implements Serializable {
   }
 
 
-  public void addChatLog(ChatLog chatLog) {
-    chatLog.setChannel(this);
-    this.chatLogs.add(chatLog);
+  public void setLatestLog(ChatLog chatLog) {
     this.latestLog = chatLog.getSendTime();
   }
 
