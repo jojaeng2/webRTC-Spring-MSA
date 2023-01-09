@@ -4,17 +4,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.voice.exception.VoiceException.InvalidAccessToOpenViduServerException;
 
 @Getter
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
 public class VoiceRoom implements Serializable {
 
   private static final Long serialVersionUID = -32831239123123123L;
@@ -25,7 +21,7 @@ public class VoiceRoom implements Serializable {
   private Map<String, String> users = new HashMap<>();
 
   public void addUser(Users user, String token) {
-    this.users.put(user.getEmail(), token);
+    this.users.put(user.getId(), token);
   }
 
   public boolean isValidToken(String userId, String token) {
