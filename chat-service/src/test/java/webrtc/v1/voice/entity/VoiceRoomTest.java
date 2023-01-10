@@ -1,18 +1,15 @@
 package webrtc.v1.voice.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import webrtc.v1.staticgenarator.UserGenerator;
 import webrtc.v1.staticgenarator.VoiceRoomGenerator;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.voice.exception.VoiceException.InvalidAccessToOpenViduServerException;
 
 public class VoiceRoomTest {
 
   private static final String token = "VoiceRoom-Token#1";
-  private static final String invalidToken = "Not Exist Token #1";
 
   @Test
   void VoiceRoom에유저추가성공() {
@@ -75,21 +72,6 @@ public class VoiceRoomTest {
     // then
     assertThat(isValid).isTrue();
   }
-
-  @Test
-  void inValid토큰() {
-    // given
-    VoiceRoom voiceRoom = VoiceRoomGenerator.createVoiceRoom();
-    Users user = UserGenerator.createUsers();
-    voiceRoom.addUser(user, token);
-
-    // when
-
-    // then
-    assertThrows(InvalidAccessToOpenViduServerException.class,
-        () -> voiceRoom.isValidToken(user.getId(), invalidToken));
-  }
-
   @Test
   void 유저목록공백() {
     // given

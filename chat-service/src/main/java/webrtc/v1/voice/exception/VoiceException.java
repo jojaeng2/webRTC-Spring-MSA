@@ -19,8 +19,4 @@ public class VoiceException {
   }
 
 
-  @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-  public static class InvalidAccessToOpenViduServerException extends RuntimeException {
-
-  }
 }
