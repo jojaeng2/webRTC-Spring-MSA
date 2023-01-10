@@ -1,4 +1,4 @@
-package webrtc.v1.voice.Controller;
+package webrtc.v1.voice.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,9 +42,8 @@ import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.staticgenarator.ChannelGenerator;
 import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.service.UsersService;
-import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
-import webrtc.v1.utils.jwt.JwtUserDetailsService;
-import webrtc.v1.voice.controller.VoiceController;
+import webrtc.v1.utils.jwt.service.JwtTokenUtilImpl;
+import webrtc.v1.utils.jwt.service.JwtUserDetailsService;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenRequest;
 import webrtc.v1.voice.dto.VoiceRoomDto.RemoveUserInSessionRequest;
 import webrtc.v1.voice.exception.VoiceException.AlreadyRemovedSessionInOpenViduServer;

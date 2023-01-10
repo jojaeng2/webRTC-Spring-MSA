@@ -48,8 +48,8 @@ import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.hashtag.entity.HashTag;
 import webrtc.v1.hashtag.exception.HashTagException.NotExistHashTagException;
-import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
-import webrtc.v1.utils.jwt.JwtUserDetailsService;
+import webrtc.v1.utils.jwt.service.JwtTokenUtilImpl;
+import webrtc.v1.utils.jwt.service.JwtUserDetailsService;
 
 @AutoConfigureRestDocs
 @ExtendWith(RestDocumentationExtension.class)

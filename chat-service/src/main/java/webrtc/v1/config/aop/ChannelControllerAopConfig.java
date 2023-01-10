@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelResponse;
 import webrtc.v1.utils.logstash.LogForCreateChannel;
-import webrtc.v1.utils.log.LogStashService;
+import webrtc.v1.utils.logstash.LogStashService;
 
 import javax.servlet.http.HttpServletRequest;
 

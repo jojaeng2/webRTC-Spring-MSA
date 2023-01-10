@@ -1,4 +1,4 @@
-package webrtc.v1.utils.jwt;
+package webrtc.v1.utils.jwt.service;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;

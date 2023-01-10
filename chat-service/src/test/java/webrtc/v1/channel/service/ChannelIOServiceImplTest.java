@@ -15,11 +15,10 @@ import webrtc.v1.channel.exception.ChannelUserException.NotExistChannelUserExcep
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
-import webrtc.v1.channel.service.ChannelIOServiceImpl;
 import webrtc.v1.hashtag.repository.HashTagRepository;
 import webrtc.v1.user.entity.Users;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelUserRepository;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.Optional;
@@ -87,7 +86,8 @@ public class ChannelIOServiceImplTest {
         // when
 
         // then
-        assertThrows(NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
+        assertThrows(
+            NotExistUserException.class, () -> channelIOService.enterChannel(channel.getId(), user.getId()));
     }
 
     @Test

@@ -11,7 +11,7 @@ import webrtc.v1.channel.service.ChannelInfoInjectService;
 import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.point.dto.PointDto.ChannelTTLWithUserPointResponse;
 import webrtc.v1.point.service.PointService;
-import webrtc.v1.utils.jwt.JwtTokenUtil;
+import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 
 import static org.springframework.http.HttpStatus.OK;
 

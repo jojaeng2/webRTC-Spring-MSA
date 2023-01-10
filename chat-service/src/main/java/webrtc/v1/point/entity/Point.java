@@ -1,24 +1,22 @@
 package webrtc.v1.point.entity;
 
+import static webrtc.v1.point.enums.PointMessage.CREATE;
+import static webrtc.v1.point.enums.PointMessage.EXTENSION;
+import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
+import static webrtc.v1.point.enums.PointUnit.EXTENSION_CHANNEL_POINT;
+
 import io.azam.ulidj.ULID;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import webrtc.v1.user.entity.Users;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-import static webrtc.v1.point.enums.PointMessage.CREATE;
-import static webrtc.v1.point.enums.PointMessage.EXTENSION;
-import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
-import static webrtc.v1.point.enums.PointUnit.EXTENSION_CHANNEL_POINT;
-import static webrtc.v1.point.enums.WelcomePoint.JOIN;
 
 @Entity
 @Getter
@@ -52,13 +50,6 @@ public class Point implements Serializable {
     return Point.builder()
         .message(email + CREATE.getMessage())
         .amount(-CREATE_CHANNEL.getUnit())
-        .build();
-  }
-
-  public static Point welcomePoint() {
-    return Point.builder()
-        .message(JOIN.getMessage())
-        .amount(JOIN.getPoint())
         .build();
   }
 

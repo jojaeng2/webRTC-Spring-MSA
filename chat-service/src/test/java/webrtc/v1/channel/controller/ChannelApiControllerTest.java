@@ -17,9 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import webrtc.v1.channel.controller.ChannelApiController;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelDto;
-import webrtc.v1.channel.dto.ChannelDto.FindChannelByHashTagDto;
 import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
@@ -33,12 +31,11 @@ import webrtc.v1.channel.dto.ChannelDto.CreateChannelRequest;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.AlreadyExistChannelException;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
-import webrtc.v1.utils.jwt.exception.JwtException;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelLifeService;
-import webrtc.v1.utils.jwt.JwtUserDetailsService;
-import webrtc.v1.utils.jwt.JwtTokenUtilImpl;
-import webrtc.v1.utils.log.trace.ThreadLocalLogTrace;
+import webrtc.v1.utils.jwt.service.JwtUserDetailsService;
+import webrtc.v1.utils.jwt.service.JwtTokenUtilImpl;
+import webrtc.v1.utils.jwt.exception.JwtException.JwtAccessTokenNotValid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +73,6 @@ public class ChannelApiControllerTest {
     private ChannelApiController channelApiController;
     @Spy
     private JwtTokenUtilImpl jwtTokenUtil;
-    @Spy
-    private ThreadLocalLogTrace logTrace;
     @Mock
     private JwtUserDetailsService jwtUserDetailsService;
     @Mock
@@ -234,7 +229,7 @@ public class ChannelApiControllerTest {
         doReturn(users2.getId().toString())
                 .when(jwtTokenUtil).getUserIdFromToken(any());
 
-        doThrow(new JwtException.JwtAccessTokenNotValid())
+        doThrow(new JwtAccessTokenNotValid())
                 .when(channelLifeService).create(any(CreateChannelDto.class));
 
         // when
