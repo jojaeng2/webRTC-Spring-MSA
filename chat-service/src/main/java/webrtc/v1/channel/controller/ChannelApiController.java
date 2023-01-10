@@ -16,7 +16,7 @@ import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelLifeService;
-import webrtc.v1.utils.jwt.JwtTokenUtil;
+import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 
 import java.util.List;
 
