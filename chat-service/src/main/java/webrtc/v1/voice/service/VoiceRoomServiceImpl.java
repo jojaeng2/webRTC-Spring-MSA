@@ -12,9 +12,7 @@ import io.openvidu.java.client.RecordingProperties;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.user.entity.Users;
@@ -31,18 +29,12 @@ import webrtc.v1.voice.repository.VoiceRoomRepository;
 @RequiredArgsConstructor
 public class VoiceRoomServiceImpl implements VoiceRoomService {
 
-  @Value("${openvidu.url}")
-  private String openViduUrl;
+  private final String openViduUrl = "https://sagang3.duckdns.org:8481/";
 
-  @Value("${openvidu.secret}")
-  private String secret;
+  private final String secret = "MY_SECRET";
 
-  private OpenVidu openVidu;
+  private final OpenVidu openVidu = new OpenVidu(openViduUrl, secret);;
 
-  @PostConstruct
-  public OpenVidu openVidu() {
-    return openVidu = new OpenVidu(openViduUrl, secret);
-  }
 
   private final VoiceRoomRepository voiceRoomRepository;
   private final UsersRepository usersRepository;

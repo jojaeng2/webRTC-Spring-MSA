@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import webrtc.v1.utils.jwt.JwtTokenUtil;
+import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenRequest;
 import webrtc.v1.voice.dto.VoiceRoomDto.GetTokenResponse;
 import webrtc.v1.voice.dto.VoiceRoomDto.RemoveUserInSessionRequest;
