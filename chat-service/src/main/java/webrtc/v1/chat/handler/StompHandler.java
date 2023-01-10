@@ -12,11 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelIOService;
-import webrtc.v1.utils.jwt.JwtUserDetailsService;
-import webrtc.v1.utils.jwt.JwtTokenUtil;
+import webrtc.v1.utils.jwt.service.JwtUserDetailsService;
+import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.springframework.messaging.simp.stomp.StompCommand.CONNECT;
 import static org.springframework.messaging.simp.stomp.StompCommand.SEND;

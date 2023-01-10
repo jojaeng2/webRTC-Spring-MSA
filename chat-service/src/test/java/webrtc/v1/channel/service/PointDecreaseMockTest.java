@@ -7,22 +7,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.channel.service.ChannelLifeServiceImpl;
 import webrtc.v1.point.entity.Point;
 import webrtc.v1.point.repository.PointRepository;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.point.exception.PointException.InsufficientPointException;
-import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelListRepository;
 import webrtc.v1.channel.repository.ChannelRedisRepository;
+import webrtc.v1.user.exception.UserException.NotExistUserException;
 import webrtc.v1.user.repository.UsersRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

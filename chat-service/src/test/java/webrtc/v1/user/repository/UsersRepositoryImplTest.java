@@ -1,4 +1,4 @@
-package webrtc.v1.repository.users;
+package webrtc.v1.user.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

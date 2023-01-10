@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import webrtc.v1.utils.jwt.JwtRequestFilter;
+import webrtc.v1.utils.jwt.service.JwtRequestFilter;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package webrtc.v1.utils.log;
+package webrtc.v1.utils.logstash;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

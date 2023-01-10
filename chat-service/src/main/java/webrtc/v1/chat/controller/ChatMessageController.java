@@ -5,7 +5,6 @@ import static webrtc.v1.chat.enums.ClientMessageType.ENTER;
 import static webrtc.v1.chat.enums.ClientMessageType.EXIT;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -13,14 +12,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import webrtc.v1.chat.dto.ChatDto.SendChatDto;
 import webrtc.v1.chat.dto.ClientMessage;
 import webrtc.v1.chat.enums.ClientMessageType;
-import webrtc.v1.chat.service.ChattingService;
 import webrtc.v1.chat.factory.SocketMessageFactory;
+import webrtc.v1.chat.service.ChattingService;
 import webrtc.v1.user.entity.Users;
 import webrtc.v1.user.service.UsersService;
-import webrtc.v1.utils.jwt.JwtTokenUtil;
+import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 
 
-@Slf4j
 @RequiredArgsConstructor
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -45,15 +43,15 @@ public class ChatMessageController {
     chattingService.send(new SendChatDto(type, channelId, message.getMessage(), userId));
   }
 
-  boolean isEnter(ClientMessageType type) {
+  private boolean isEnter(ClientMessageType type) {
     return type == ENTER;
   }
 
-  boolean isExit(ClientMessageType type) {
+  private boolean isExit(ClientMessageType type) {
     return type == EXIT;
   }
 
-  boolean isChat(ClientMessageType type) {
+  private boolean isChat(ClientMessageType type) {
     return type == CHAT;
   }
 }
