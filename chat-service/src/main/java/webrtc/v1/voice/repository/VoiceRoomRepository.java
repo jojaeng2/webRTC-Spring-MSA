@@ -14,4 +14,6 @@ public interface VoiceRoomRepository {
   void update(String id, VoiceRoom openViduSession);
 
   void delete(String id);
+
+  void deleteAll();
 }
