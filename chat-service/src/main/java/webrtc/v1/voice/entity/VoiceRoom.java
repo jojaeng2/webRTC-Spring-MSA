@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.redis.core.RedisHash;
 import webrtc.v1.user.entity.Users;
 
 @Getter

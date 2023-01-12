@@ -1,5 +1,6 @@
 package webrtc.v1.voice.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
@@ -12,22 +13,18 @@ import webrtc.v1.voice.entity.VoiceRoom;
 @RequiredArgsConstructor
 @Repository
 public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
-
-  private final RedisTemplate<String, Object> redisTemplate;
-  private ValueOperations<String, Object> opsValueOperation;
+  private final ValueOperations<String, Object> opsValueOperation;
+  private final ObjectMapper objectMapper;
   private static final String openVidu = "OpenVidu ";
-
-  @PostConstruct
-  private void init() {
-    opsValueOperation = redisTemplate.opsForValue();
-  }
 
   public void save(String id, VoiceRoom voiceRoom) {
     opsValueOperation.set(openVidu + id, voiceRoom);
   }
 
   public Optional<VoiceRoom> findById(String id) {
-    return Optional.ofNullable((VoiceRoom) opsValueOperation.get(openVidu + id));
+    VoiceRoom voiceRoom = objectMapper.convertValue(opsValueOperation.get(openVidu + id),
+        VoiceRoom.class);
+    return Optional.ofNullable(voiceRoom);
   }
 
   public void update(String id, VoiceRoom voiceRoom) {
@@ -38,4 +35,7 @@ public class VoiceRoomRepositoryImpl implements VoiceRoomRepository {
     opsValueOperation.set(openVidu + id, "", 1, TimeUnit.MILLISECONDS);
   }
 
+  public void deleteAll() {
+
+  }
 }

@@ -1,16 +1,21 @@
 package webrtc.v1.channel.entity;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import webrtc.v1.chat.entity.ChatLog;
 import webrtc.v1.channel.enums.ChannelType;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.*;
+import webrtc.v1.chat.entity.ChatLog;
 
 @Getter
 @Entity
