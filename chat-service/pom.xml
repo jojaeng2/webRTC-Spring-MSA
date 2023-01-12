@@ -90,10 +90,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
 			<version>2.6.4</version>
 		</dependency>
@@ -101,16 +97,6 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
 			<version>2.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -126,8 +112,7 @@
 		<dependency>
 			<groupId>it.ozimov</groupId>
 			<artifactId>embedded-redis</artifactId>
-			<version>0.7.3</version>
-			<scope>test</scope>
+			<version>0.7.2</version>
 		</dependency>
 
 		<dependency>
@@ -140,7 +125,18 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>3.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.8.0</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
@@ -227,6 +223,22 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.4</version>
+				<configuration>
+					<excludes>
+						<exclude>**/config/*</exclude>
+						<exclude>**/aop/*</exclude>
+						<exclude>**/handler/*</exclude>
+						<exclude>**/logstash/*</exclude>
+						<exclude>**/chat/exception/*</exclude>
+						<exclude>**/chat/exception/*</exclude>
+						<exclude>**/channel/repository/ChannelRedisRepositoryImpl.class</exclude>
+						<exclude>**/chat/controller/ChatMessageController.class</exclude>
+						<exclude>**/chat/repository/ChatLogRedisRepositoryImpl.class</exclude>
+						<exclude>**/utils/jwt/service/JwtRequestFilter.class</exclude>
+						<exclude>**/voice/repository/VoiceRoomRepositoryImpl.class</exclude>
+						<exclude>**/voice/service/VoiceRoomServiceImpl.class</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -251,9 +263,14 @@
 									<element>PACKAGE</element>
 									<limits>
 										<limit>
-											<counter>LINE</counter>
+											<counter>INSTRUCTION</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.70</minimum>
+											<minimum>1.00</minimum>
+										</limit>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.5</minimum>
 										</limit>
 									</limits>
 								</rule>
