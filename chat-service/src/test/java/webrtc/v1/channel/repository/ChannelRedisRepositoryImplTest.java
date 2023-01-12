@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
-import webrtc.config.TestRedisConfig;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.config.RedisConfig;
 import webrtc.v1.staticgenarator.ChannelGenerator;
@@ -30,7 +29,6 @@ import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 @DataRedisTest
 @Import({
     RedisConfig.class,
-    TestRedisConfig.class,
     ChannelRedisRepositoryImpl.class
 })
 @ExtendWith(MockitoExtension.class)
