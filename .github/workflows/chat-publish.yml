@@ -1,7 +1,7 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: Java CI with Maven
+name: Chat CI with Maven
 
 on:
   push: 
@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,6 +20,19 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
+    
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{secrets.DOCKERHUB_USERNAME}}
+        password: ${{secrets.DOCKERHUB_TOKEN}}
+        
     - name: Build with Maven
       run: mvn -B package --file chat-service/pom.xml
+    
+    - name: Build the Docker image
+      run: docker build chat-service/. --tag honeybees/chat
+    
+    - name: Docker Push
+      run: docker push ${{secrets.DOCKER_USER}}/chat
+
