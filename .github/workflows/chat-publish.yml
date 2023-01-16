@@ -31,7 +31,7 @@ jobs:
       run: mvn -B package --file chat-service/pom.xml
     
     - name: Build the Docker image
-      run: docker build chat-service/. --tag honeybees-chat
+      run: docker build chat-service/. --tag ds4ouj/honeybees-chat
     
     - name: Docker Push
       run: docker push ${{secrets.DOCKERHUB_USERNAME}}/honeybees-chat
