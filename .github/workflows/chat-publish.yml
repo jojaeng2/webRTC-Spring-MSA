@@ -34,5 +34,5 @@ jobs:
       run: docker build chat-service/. --tag honeybees/chat
     
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/chat
+      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/chat
 
