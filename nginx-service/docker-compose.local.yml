@@ -9,10 +9,8 @@ networks:
 
 services: 
   nginx-service:
-    image: nginx
+    image: ds4ouj/nginx
     networks:
       - spring-network
     ports:
       - 8080:80
-    volumes:
-      - ./nginx-local.conf:/etc/nginx/nginx.conf
