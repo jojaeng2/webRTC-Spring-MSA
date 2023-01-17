@@ -1,11 +1,4 @@
-.travis.yml
 appspec.yml
 .idea/
 .vscode/
-
-/auth-service/target
-
-/chat-service/target
-
-/voice-service/target
 
