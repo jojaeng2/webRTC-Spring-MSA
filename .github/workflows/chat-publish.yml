@@ -31,7 +31,7 @@ jobs:
         password: ${{secrets.DOCKERHUB_TOKEN}}
       
     - name: Build the Docker image
-      run: docker build --platform amd64 --build-arg DEPENDENCY=build/dependency -t ${{secrets.DOCKERHUB_USERNAME}}/honeybees-chat --platform linux/amd64 .
+      run: docker build --platform amd64 --build-arg DEPENDENCY=build/dependency -t ${{secrets.DOCKERHUB_USERNAME}}/honeybees-chat --platform linux/amd64 chat-service/.
     
     - name: Docker Push
       run: docker push ${{secrets.DOCKERHUB_USERNAME}}/honeybees-chat
