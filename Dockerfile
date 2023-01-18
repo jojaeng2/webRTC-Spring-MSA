@@ -1,5 +1,5 @@
 FROM redis
 
-COPY /config/redis.conf /usr/local/etc/redis/redis.conf
+COPY /config/redis-sentinel.conf /usr/local/etc/redis/redis-sentinel.conf
 
-CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+CMD [ "redis-sentinel", "/usr/local/etc/redis/redis-sentinel.conf" ]
