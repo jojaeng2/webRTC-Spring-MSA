@@ -1,11 +1,11 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: redis-master CI
+name: redis-slave CI
 
 on:
   push: 
-    branches: [ redis-master ]
+    branches: [ redis-slave ]
 
 jobs:
   build:
@@ -21,8 +21,8 @@ jobs:
         password: ${{secrets.DOCKERHUB_TOKEN}}
         
     - name: Build the Docker image
-      run: docker build . --tag ds4ouj/redis-master
+      run: docker build . --tag ds4ouj/redis-slave
     
     - name: Docker Push
-      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/redis-master
+      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/redis-slave
 
