@@ -10,3 +10,4 @@ appspec.yml
 /voice-service/target
 
 ./dump.rdb
+./appendonly.aof
