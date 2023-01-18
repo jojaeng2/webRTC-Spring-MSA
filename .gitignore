@@ -9,3 +9,4 @@ appspec.yml
 
 /voice-service/target
 
+./dump.rdb

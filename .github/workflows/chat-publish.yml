@@ -21,7 +21,7 @@ jobs:
         password: ${{secrets.DOCKERHUB_TOKEN}}
         
     - name: Build the Docker image
-      run: docker build conf/. --tag ds4ouj/redis-master
+      run: docker build . --tag ds4ouj/redis-master
     
     - name: Docker Push
       run: docker push ${{secrets.DOCKERHUB_USERNAME}}/redis-master
