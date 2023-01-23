@@ -3,6 +3,7 @@ package webrtc.v1.channel.controller;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,10 @@ import webrtc.v1.channel.dto.ChannelDto.FindAllChannelResponse;
 import webrtc.v1.channel.dto.ChannelDto.FindChannelDto;
 import webrtc.v1.channel.dto.ChannelDto.FindMyChannelDto;
 import webrtc.v1.channel.entity.Channel;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.service.ChannelFindService;
 import webrtc.v1.channel.service.ChannelLifeService;
+import webrtc.v1.user.entity.Users;
 import webrtc.v1.utils.jwt.service.JwtTokenUtil;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class ChannelApiController {
   ) {
     final String userId = getUserId(jwtAccessToken.substring(4));
     final Channel channel = channelLifeService.create(new CreateChannelDto(request, userId));
+    createLog(userId, channel);
     return new ResponseEntity<>(new CreateChannelResponse(channel), HttpStatus.OK);
   }
 
@@ -87,5 +91,17 @@ public class ChannelApiController {
 
   private String getUserId(String token) {
     return jwtTokenUtil.getUserIdFromToken(token);
+  }
+
+  private void createLog(String userId, Channel channel) {
+    MDC.put("user_id", userId);
+    MDC.put("channel_id", channel.getId());
+    MDC.put("channel_name", channel.getChannelName());
+    MDC.put("Method", "GET");
+    if (channel.getChannelType().equals(ChannelType.TEXT)) {
+      MDC.put("type", "TEXT");
+    } else {
+      MDC.put("type", "VOIP");
+    }
   }
 }

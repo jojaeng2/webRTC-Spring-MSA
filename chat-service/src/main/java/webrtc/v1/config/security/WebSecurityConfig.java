@@ -29,7 +29,6 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final UserDetailsService jwtUserDetailsService;
@@ -39,9 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        // configure AuthenticationManager so that it knows from where to load
-        // user for matching credentials
-        // Use BCryptPasswordEncoder
         CustomPasswordEncoder encoder = new CustomPasswordEncoder();
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder.passwordEncoder());
     }
