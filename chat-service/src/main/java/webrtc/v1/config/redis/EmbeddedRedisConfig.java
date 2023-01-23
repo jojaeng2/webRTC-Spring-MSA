@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.redis;
 
 import java.io.IOException;
 import javax.annotation.PostConstruct;

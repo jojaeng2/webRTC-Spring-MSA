@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import webrtc.v1.channel.dto.ChannelDto.CreateChannelResponse;
-import webrtc.v1.utils.logstash.LogForCreateChannel;
 import webrtc.v1.utils.logstash.LogStashService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,15 +24,15 @@ public class ChannelControllerAopConfig {
 //            pointcut = "webrtc.chatservice.config.aop.Pointcuts.createChannel()",
 //            returning = "response"
 //    )
-    public void setLogInfoIfCreateChannelSuccess(JoinPoint joinPoint, CreateChannelResponse response) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = findIP(request.getHeader("X-Forwarded-For"), request);
-        String browser = findBrowser(request.getHeader("User-Agent"));
-        LogForCreateChannel log = new LogForCreateChannel(ip, "123", "POST", browser,
-                response.getChannelUsers().get(0).getUser().getId(),
-                response.getId(), response.getChannelName(), response.getChannelType());
-        logStashService.execute(log);
-    }
+//    public void setLogInfoIfCreateChannelSuccess(JoinPoint joinPoint, CreateChannelResponse response) {
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//        String ip = findIP(request.getHeader("X-Forwarded-For"), request);
+//        String browser = findBrowser(request.getHeader("User-Agent"));
+//        LogForCreateChannel log = new LogForCreateChannel(ip, "123", "POST", browser,
+//                response.getChannelUsers().get(0).getUser().getId(),
+//                response.getId(), response.getChannelName(), response.getChannelType());
+//        logStashService.execute(log);
+//    }
 
     private String findBrowser(String info) {
         String browser = "Unknown";

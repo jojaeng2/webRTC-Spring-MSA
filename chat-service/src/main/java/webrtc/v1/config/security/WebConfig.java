@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.jwt;
 
 import java.io.IOException;
 import java.io.Serializable;
