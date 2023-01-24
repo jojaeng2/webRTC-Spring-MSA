@@ -129,11 +129,9 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
 
 
   private HashTag hashTagBuilder(String name) {
-    HashTag hashTag = HashTag.builder()
+    return HashTag.builder()
         .name(name)
         .build();
-    hashTagRepository.save(hashTag);
-    return hashTag;
   }
 
   private void createChannelUser(Users user, Channel channel) {
@@ -174,8 +172,10 @@ public class ChannelLifeServiceImpl implements ChannelLifeService {
   }
 
   private HashTag findHashTag(String name) {
-    return hashTagRepository.findByName(name)
+    HashTag hashTag = hashTagRepository.findByName(name)
         .orElse(hashTagBuilder(name));
+    hashTagRepository.save(hashTag);
+    return hashTag;
   }
 
   private int getPointSumByUser(Users user) {
