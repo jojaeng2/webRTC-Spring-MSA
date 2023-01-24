@@ -143,7 +143,11 @@
 			<version>${restdocs-api-spec.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>it.ozimov</groupId>
+			<artifactId>embedded-redis</artifactId>
+			<version>0.7.2</version>
+		</dependency>
 		<dependency>
 			<groupId>com.epages</groupId>
 			<artifactId>restdocs-api-spec-mockmvc</artifactId>
