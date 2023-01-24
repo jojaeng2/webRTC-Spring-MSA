@@ -225,6 +225,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/config/**</exclude>
+						<exclude>**/interceptor/**</exclude>
 						<exclude>**/handler/*</exclude>
 						<exclude>**/logstash/*</exclude>
 						<exclude>**/chat/exception/*</exclude>
