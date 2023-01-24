@@ -54,6 +54,12 @@ public class Point implements Serializable {
         .build();
   }
 
+  public static Point welcomePoint() {
+    return Point.builder()
+        .message("1234")
+        .amount(10000000)
+        .build();
+  }
   public void setUser(Users user) {
     this.user = user;
   }

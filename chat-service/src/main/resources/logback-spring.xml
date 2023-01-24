@@ -1,21 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds">
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
 
-    <!-- Console -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{10} - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %boldBlue(%msg%n)</pattern>
         </encoder>
     </appender>
 
-    <!-- Logstash -->
+
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>honeybees.community:5044</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"></encoder>
+        <destination>host.docker.internal:4560</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeMdcKeyName>user_id</includeMdcKeyName>
+            <includeMdcKeyName>channel_id</includeMdcKeyName>
+            <includeMdcKeyName>channel_name</includeMdcKeyName>
+            <includeMdcKeyName>Method</includeMdcKeyName>
+            <includeMdcKeyName>type</includeMdcKeyName>
+        </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="LOGSTASH" />
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
+
 </configuration>

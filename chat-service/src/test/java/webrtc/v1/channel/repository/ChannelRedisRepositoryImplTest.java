@@ -21,7 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 import webrtc.v1.channel.entity.Channel;
-import webrtc.v1.config.RedisConfig;
+import webrtc.v1.config.redis.RedisConfig;
 import webrtc.v1.staticgenarator.ChannelGenerator;
 import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 

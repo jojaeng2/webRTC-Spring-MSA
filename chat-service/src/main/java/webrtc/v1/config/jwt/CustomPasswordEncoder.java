@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.jwt;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

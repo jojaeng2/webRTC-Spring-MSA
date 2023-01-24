@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Order(2)
 public class JwtRequestFilter extends OncePerRequestFilter {
 
   private final JwtUserDetailsService jwtUserDetailsService;
@@ -39,15 +41,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       try {
         userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
       } catch (IllegalArgumentException e) {
-        log.info("Unable to get JWT Token");
+        log.error("Unable to get JWT Token");
       } catch (ExpiredJwtException e) {
-        log.info("JwtToken Expired");
+        log.error("JwtToken Expired");
       }
     } else {
-      log.info("JWT Token does not begin with jwt String");
+      log.error("JWT Token does not begin with jwt String");
     }
 
-    log.info(userId);
     // Once we get the token validate it.
     if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

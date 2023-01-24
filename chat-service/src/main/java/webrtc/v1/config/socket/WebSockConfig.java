@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.socket;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

@@ -109,11 +109,6 @@
 			<version>0.9.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>it.ozimov</groupId>
-			<artifactId>embedded-redis</artifactId>
-			<version>0.7.2</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -140,7 +135,7 @@
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
-			<version>6.6</version>
+			<version>7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.epages</groupId>
@@ -148,7 +143,11 @@
 			<version>${restdocs-api-spec.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>it.ozimov</groupId>
+			<artifactId>embedded-redis</artifactId>
+			<version>0.7.2</version>
+		</dependency>
 		<dependency>
 			<groupId>com.epages</groupId>
 			<artifactId>restdocs-api-spec-mockmvc</artifactId>
@@ -237,6 +236,13 @@
 						<exclude>**/utils/jwt/service/JwtRequestFilter.class</exclude>
 						<exclude>**/voice/repository/VoiceRoomRepositoryImpl.class</exclude>
 						<exclude>**/voice/service/VoiceRoomServiceImpl.class</exclude>
+
+
+						<exclude>**/channel/interceptor/*</exclude>
+						<exclude>**/user/*</exclude>
+						<exclude>**/utils/client/*</exclude>
+						<exclude>**/utils/filter/*</exclude>
+
 					</excludes>
 				</configuration>
 				<executions>

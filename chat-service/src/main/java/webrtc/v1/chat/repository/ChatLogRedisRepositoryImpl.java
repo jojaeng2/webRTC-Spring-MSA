@@ -3,7 +3,6 @@ package webrtc.v1.chat.repository;
 import static webrtc.v1.chat.enums.RedisKeys.BLANK;
 import static webrtc.v1.chat.enums.RedisKeys.CHAT_LOG;
 import static webrtc.v1.chat.enums.RedisKeys.LAST_INDEX;
-import static webrtc.v1.point.enums.PointUnit.CREATE_CHANNEL;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
@@ -34,10 +33,14 @@ public class ChatLogRedisRepositoryImpl {
     opsValueOperation.set(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + chatLog.getIdx(),
         chatLog);
     redisTemplate.expire(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + chatLog.getIdx(),
-        CREATE_CHANNEL.getUnit(), TimeUnit.SECONDS);
+        30 * 60, TimeUnit.SECONDS);
   }
 
   public Optional<ChatLog> findByChannelIdAndIndex(String channelId, Integer index) {
+    if (opsValueOperation.get(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + index)
+        == null) {
+      return Optional.empty();
+    }
     return Optional.of(objectMapper.convertValue(
         opsValueOperation.get(CHAT_LOG.getPrefix() + channelId + BLANK.getPrefix() + index),
         ChatLog.class));
@@ -45,6 +48,9 @@ public class ChatLogRedisRepositoryImpl {
 
 
   public Optional<Integer> findLastIndex(String id) {
+    if (opsValueOperation.get(LAST_INDEX.getPrefix() + id) == null) {
+      return Optional.empty();
+    }
     return Optional.of(objectMapper.convertValue(opsValueOperation.get(LAST_INDEX.getPrefix() + id),
         Integer.class));
   }

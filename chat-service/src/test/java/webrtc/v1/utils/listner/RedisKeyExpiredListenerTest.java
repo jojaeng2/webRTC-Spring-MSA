@@ -18,6 +18,7 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import webrtc.v1.channel.service.ChannelLifeService;
 import webrtc.v1.channel.service.ChannelLifeServiceImpl;
+import webrtc.v1.chat.repository.ChatLogRedisRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class RedisKeyExpiredListenerTest {
@@ -27,6 +28,8 @@ public class RedisKeyExpiredListenerTest {
 
   @Mock
   private ChannelLifeService channelLifeService;
+  @Mock
+  private ChatLogRedisRepository chatLogRedisRepository;
   @Mock
   private RedisMessageListenerContainer redisMessageListener;
 

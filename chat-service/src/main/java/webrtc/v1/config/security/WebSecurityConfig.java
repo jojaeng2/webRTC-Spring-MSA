@@ -1,4 +1,4 @@
-package webrtc.v1.config;
+package webrtc.v1.config.security;
 
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import webrtc.v1.config.jwt.CustomPasswordEncoder;
+import webrtc.v1.config.jwt.JwtAuthenticationEntryPoint;
 import webrtc.v1.utils.jwt.service.JwtRequestFilter;
 
 import java.util.List;
@@ -27,7 +29,6 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final UserDetailsService jwtUserDetailsService;
@@ -37,9 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        // configure AuthenticationManager so that it knows from where to load
-        // user for matching credentials
-        // Use BCryptPasswordEncoder
         CustomPasswordEncoder encoder = new CustomPasswordEncoder();
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(encoder.passwordEncoder());
     }
