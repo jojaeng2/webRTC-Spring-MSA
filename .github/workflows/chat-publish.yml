@@ -22,7 +22,7 @@ jobs:
         distribution: 'temurin'
         
     - name: Build with Maven
-      run: mvn -B package --file chat-service/pom.xml        
+      run: mvn clean package --file chat-service/pom.xml        
     
     - name: Login to DockerHub
       uses: docker/login-action@v1
