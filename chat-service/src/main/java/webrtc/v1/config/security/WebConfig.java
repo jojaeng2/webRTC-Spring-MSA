@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import webrtc.v1.channel.interceptor.ChannelInterceptor;
+import webrtc.v1.chat.interceptor.ChatInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -14,11 +15,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private ChannelInterceptor channelInterceptor;
+    @Autowired
+    private ChatInterceptor chatInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(channelInterceptor)
-            .addPathPatterns("/api/v1/webrtc/chat/channel");
+                .addPathPatterns("/api/v1/webrtc/chat/channel");
+        registry.addInterceptor(chatInterceptor)
+                .addPathPatterns("/chat/room");
     }
 
     @Override
