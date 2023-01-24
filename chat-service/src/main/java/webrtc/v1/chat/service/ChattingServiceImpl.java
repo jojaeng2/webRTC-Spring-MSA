@@ -6,12 +6,14 @@ import static webrtc.v1.chat.enums.ClientMessageType.REENTER;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webrtc.v1.channel.entity.Channel;
 import webrtc.v1.channel.entity.ChannelUser;
+import webrtc.v1.channel.enums.ChannelType;
 import webrtc.v1.channel.exception.ChannelException.NotExistChannelException;
 import webrtc.v1.channel.repository.ChannelCrudRepository;
 import webrtc.v1.channel.repository.ChannelUserRepository;
@@ -74,8 +76,14 @@ public class ChattingServiceImpl implements ChattingService {
   }
 
   private Channel findChannelById(String id) {
-    return channelCrudRepository.findById(id)
+    Channel channel = channelCrudRepository.findById(id)
         .orElseThrow(NotExistChannelException::new);
+    if (channel.getChannelType().equals(ChannelType.TEXT)) {
+      MDC.put("logger_name", "TEXT-LOG");
+    } else {
+      MDC.put("logger_name", "VOIP-LOG");
+    }
+    return channel;
   }
 
   private Users findUsersById(String id) {

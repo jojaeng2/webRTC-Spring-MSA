@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(channelInterceptor)
-                .addPathPatterns("/api/v1/webrtc/chat/channel");
+            .addPathPatterns("/api/v1/webrtc/chat/channel");
         registry.addInterceptor(chatInterceptor)
                 .addPathPatterns("/chat/room");
     }
