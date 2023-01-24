@@ -99,8 +99,10 @@ public class ChannelApiController {
     MDC.put("channel_name", channel.getChannelName());
     MDC.put("Method", "GET");
     if (channel.getChannelType().equals(ChannelType.TEXT)) {
+      MDC.put("logger_name", "TEXT-LOG");
       MDC.put("type", "TEXT");
     } else {
+      MDC.put("logger_name", "VOIP-LOG");
       MDC.put("type", "VOIP");
     }
   }

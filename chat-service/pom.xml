@@ -109,11 +109,6 @@
 			<version>0.9.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>it.ozimov</groupId>
-			<artifactId>embedded-redis</artifactId>
-			<version>0.7.2</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -237,6 +232,13 @@
 						<exclude>**/utils/jwt/service/JwtRequestFilter.class</exclude>
 						<exclude>**/voice/repository/VoiceRoomRepositoryImpl.class</exclude>
 						<exclude>**/voice/service/VoiceRoomServiceImpl.class</exclude>
+
+
+						<exclude>**/channel/interceptor/*</exclude>
+						<exclude>**/user/*</exclude>
+						<exclude>**/utils/client/*</exclude>
+						<exclude>**/utils/filter/*</exclude>
+
 					</excludes>
 				</configuration>
 				<executions>

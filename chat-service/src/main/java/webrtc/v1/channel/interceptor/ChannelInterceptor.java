@@ -25,12 +25,17 @@ public class ChannelInterceptor implements HandlerInterceptor {
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     if (request.getClass().getName().contains("SecurityContextHolderAwareRequestWrapper")) return;
+    final ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
     final ContentCachingResponseWrapper cachingResponse = (ContentCachingResponseWrapper) response;
+
+    String client_ip = ipParser.getIp(cachingRequest);
+    String user_agent = browserParser.getBrowser(cachingRequest);
+    MDC.put("client_ip", client_ip);
+    MDC.put("client_agent", user_agent);
 
     if (cachingResponse.getContentType() != null && cachingResponse.getContentType().contains("application/json")) {
       if (cachingResponse.getContentAsByteArray() != null && cachingResponse.getContentAsByteArray().length != 0) {
-//        log.info("Response Body : {}", objectMapper.readTree(cachingResponse.getContentAsByteArray()));
-        log.info("CHAT-Channel Create");
+        log.info("Channel Create");
       }
     }
   }
