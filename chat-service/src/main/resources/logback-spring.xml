@@ -16,6 +16,10 @@
             <includeMdcKeyName>channel_name</includeMdcKeyName>
             <includeMdcKeyName>Method</includeMdcKeyName>
             <includeMdcKeyName>type</includeMdcKeyName>
+            <includeMdcKeyName>send_message</includeMdcKeyName>
+            <includeMdcKeyName>client_ip</includeMdcKeyName>
+            <includeMdcKeyName>client_agent</includeMdcKeyName>
+            <includeMdcKeyName>logger_name</includeMdcKeyName>
         </encoder>
     </appender>
 

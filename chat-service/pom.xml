@@ -240,7 +240,7 @@
 						<exclude>**/voice/service/VoiceRoomServiceImpl.class</exclude>
 
 
-						<exclude>**/channel/interceptor/*</exclude>
+						<exclude>**/interceptor/**</exclude>
 						<exclude>**/user/*</exclude>
 						<exclude>**/utils/client/*</exclude>
 						<exclude>**/utils/filter/*</exclude>
