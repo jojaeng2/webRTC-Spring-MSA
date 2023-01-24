@@ -6,5 +6,6 @@ public interface ChatLogRedisRepository {
 
     void save(String channelId, ChatLog chatLog);
 
+    void delete(String id);
 
 }

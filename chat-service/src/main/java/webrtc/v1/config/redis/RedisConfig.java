@@ -31,8 +31,6 @@ import webrtc.v1.utils.pubsub.RedisSubscriberImpl;
 @EnableRedisRepositories
 public class RedisConfig {
 
-  @Autowired
-  private RedisConnectionFactory redisConnectionFactory;
   @Value("${spring.redis.port}")
   private int port;
 
@@ -88,17 +86,5 @@ public class RedisConfig {
   @Bean
   public ValueOperations<String, Object> opsValueOperation(RedisTemplate<String, Object> redisTemplate) {
       return redisTemplate.opsForValue();
-  }
-
-
-
-  @Bean
-  public CacheManager redisCacheManager() {
-    RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-        .entryTtl(Duration.ofSeconds(30 * 60));
-
-    return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory).cacheDefaults(redisCacheConfiguration).build();
   }
 }
